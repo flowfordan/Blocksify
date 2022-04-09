@@ -1,0 +1,7 @@
+.header {
+    display: grid;
+    background-color: var(--black);
+    color: var(--white);
+    grid-area: header;
+    padding: 20px;
+}
