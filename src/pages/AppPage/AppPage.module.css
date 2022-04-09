@@ -1,0 +1,18 @@
+.page {
+    display: grid;
+    grid-template-areas: 
+    "menuC canvas menuI";
+    grid-template-columns: minmax(200px, auto) minmax(500px, 1fr) minmax(200px, auto);
+}
+
+.menuCreate{
+    background-color: var(--white);
+    padding: 20px;
+    border-right: 0.5px solid var(--grey-light);
+}
+
+.menuInspect{
+    background-color: var(--white);
+    padding: 20px;
+    border-left: 0.5px solid var(--grey-light);
+}

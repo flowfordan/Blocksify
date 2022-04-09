@@ -3,7 +3,7 @@ body {
 	margin: 0;
 	padding: 0;
 	color: var(--black);
-	background: #F5F6F8;
+	background: var(--grey-lightest);
 
 	font-family: 'Noto Sans KR', sans-serif;
 }
@@ -20,7 +20,9 @@ a {
 
 :root {
 	--black: #3B434E;
-	--grey-light:#EBEBEB;
+    --grey-lightest:#EBEBEB;
+	--grey-light:#e0e0e0;
+    --grey-main:#b1b1b1;
 	--white: white;
 	--primary: #1790FF;
 	--primary-hover: #167cdb;
