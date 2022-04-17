@@ -4,21 +4,21 @@ import {ThreeView} from '../../three/ThreeView'
 
 export const Desk = (props:any): JSX.Element => {
   
-  const canvasRef = useRef(null)
+  const canvasRef = useRef()
+  const canvas = canvasRef.current;
 
   let threeView: any;
+  
 
   //on Mount
   useEffect(() => {
-    const canvas = canvasRef.current;
-    threeView = new ThreeView(canvas);
 
-    window.addEventListener('mousemove', mouseMove);
-    window.addEventListener('resize', handleResize);
+    const innerTreeRef = canvasRef.current
+    threeView = new ThreeView(innerTreeRef);
+    handleResize()
 
-
-
-    
+    //window.addEventListener('mousemove', mouseMove);
+    window.addEventListener('resize', handleResize, false);  
   }
   ,[])
 
@@ -49,7 +49,7 @@ export const Desk = (props:any): JSX.Element => {
   return (
 
       <div className={styles.desk}>
-        <canvas ref={canvasRef} />
+        <canvas ref={canvasRef} {...props}/>
       </div>
 
   );

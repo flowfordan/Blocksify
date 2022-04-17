@@ -12,10 +12,6 @@ const App= (): JSX.Element => {
 
      
           <Header />
-
-          
-     
-
         
           <Routes>
             <Route path='/*' element={<AppPage />} />

@@ -1,7 +1,12 @@
-.header {
-    display: grid;
-    background-color: var(--black);
+.desk {
+    display: block;
+    /* background-color: var(--primary); */
     color: var(--white);
     grid-area: header;
-    padding: 20px;
+    padding: 10px;
 }
+
+/* .desk canvas{
+    max-width: 400px;
+    max-height: 400px;
+} */
