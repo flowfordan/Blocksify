@@ -1,20 +1,25 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Desk.module.css';
 import {ThreeView} from '../../three/ThreeView'
 
 export const Desk = (props:any): JSX.Element => {
   
+  console.log(props)
   const canvasRef = useRef()
   const canvas = canvasRef.current;
 
   let threeView: any;
   
 
+  const [view, setView] = useState(threeView);
+
   //on Mount
   useEffect(() => {
 
-    const innerTreeRef = canvasRef.current
+    const innerTreeRef = canvasRef.current;
     threeView = new ThreeView(innerTreeRef);
+    setView(threeView)
+    
     handleResize()
 
     //window.addEventListener('mousemove', mouseMove);
@@ -22,10 +27,21 @@ export const Desk = (props:any): JSX.Element => {
   }
   ,[])
 
+
+  useEffect(
+    
+    () => {
+      if(view){
+      const createGeom = props.toggleCrGeom;
+      view.createGeom(createGeom)
+    }
+      
+    }
+    , [props.toggleCrGeom])
   
 //   componentDidUpdate(prevProps, prevState) {
 //     // Pass updated props to 
-//     const newValue = this.props.whateverProperty;
+//     const createGeom = props.toggleCrGeom;
 //     this.viewGL.updateValue(newValue);
 // }
 

@@ -29,6 +29,7 @@ export class ThreeView {
             canvas: canvasRef,
             antialias: true,
         });
+        this.renderer.shadowMap.enabled = true;
         
 
         this.renderer.setClearColor(0xEEEEEE);
@@ -64,6 +65,17 @@ export class ThreeView {
     //updateValue(value) {
       // Whatever you need to do with React props
     //}
+
+    createGeom(value: boolean) {
+        if(value){
+            this.scene.background = new THREE.Color( 0xffffff );
+        }
+        else {
+            this.scene.background = new THREE.Color( 0x759FC6 );
+        }
+        console.log('create geom', value)
+    };
+
 
     onMouseMove() {
       // Mouse moves
