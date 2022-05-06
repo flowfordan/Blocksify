@@ -1,6 +1,7 @@
 import React from 'react';
 import { Desk } from '../../components/Desk/Desk';
 import styles from './AppPage.module.css';
+import { CreateMenu } from '../../components/menus/CreateMenu/CreateMenu';
 
 export const AppPage= (): JSX.Element => {
   return (
@@ -9,7 +10,7 @@ export const AppPage= (): JSX.Element => {
 
 
         <div className={styles.menuCreate}>
-          Menu Create
+          <CreateMenu />
         </div>
 
         <div className={styles.canvas}>
