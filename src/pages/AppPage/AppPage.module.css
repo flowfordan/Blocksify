@@ -3,7 +3,7 @@
     grid-template-areas: 
     "menuC canvas menuI";
     grid-template-columns: minmax(200px, auto) minmax(500px, 1fr) minmax(200px, auto);
-    grid-template-rows: auto;
+    grid-template-rows: 600px;
 }
 
 .menuCreate{

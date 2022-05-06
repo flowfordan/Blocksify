@@ -5,8 +5,17 @@ import {ThreeView} from '../../three/ThreeView'
 export const Desk = (props:any): JSX.Element => {
   
   console.log(props)
-  const canvasRef = useRef()
-  const canvas = canvasRef.current;
+  const canvasRef = useRef<null | HTMLCanvasElement>(null)
+  
+  const resizeObserver = new ResizeObserver(entries => {
+    entries.forEach(entry => {
+      console.log('width', entry.contentRect.width);
+      console.log('height', entry.contentRect.height);
+
+      threeView.onWindowResize(entry.contentRect.width, entry.contentRect.height)
+
+    });
+  });
 
   let threeView: any;
   
@@ -16,17 +25,18 @@ export const Desk = (props:any): JSX.Element => {
   //on Mount
   useEffect(() => {
 
-    const innerTreeRef = canvasRef.current;
+    const innerTreeRef = canvasRef.current!;
     threeView = new ThreeView(innerTreeRef);
-    setView(threeView)
+    setView(threeView);
     
-    handleResize()
+    resizeObserver.observe(innerTreeRef)
+    
+    handleResize();  
 
     //window.addEventListener('mousemove', mouseMove);
     window.addEventListener('resize', handleResize, false);  
   }
   ,[])
-
 
   useEffect(
     
@@ -59,13 +69,13 @@ export const Desk = (props:any): JSX.Element => {
 
   const handleResize = () => {
     threeView.onWindowResize(window.innerWidth, window.innerHeight);
+    // console.log(window.innerWidth, window.innerHeight)
   };
-
 
   return (
 
       <div className={styles.desk}>
-        <canvas ref={canvasRef} {...props}/>
+        <canvas ref={canvasRef} {...props} className={styles.board} id='mainCanvas'/>
       </div>
 
   );

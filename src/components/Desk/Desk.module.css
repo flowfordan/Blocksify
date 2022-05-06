@@ -4,6 +4,12 @@
     color: var(--white);
     grid-area: header;
     padding: 10px;
+    max-height: 100%;
+}
+
+.board{
+    max-width: 100%;
+    max-height: auto;
 }
 
 /* .desk canvas{
