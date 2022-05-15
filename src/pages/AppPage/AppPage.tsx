@@ -7,6 +7,7 @@ export const AppPage= (): JSX.Element => {
 
 
   const [toggleCrGeom, setToggle] = useState(false)
+  const [worldCoords, setWorldCoords] = useState(null)
 
 
   const onCrtBtn = () => {
@@ -20,11 +21,11 @@ export const AppPage= (): JSX.Element => {
 
 
         <div className={styles.menuCreate}>
-          <CreateMenu onCrtBtn={onCrtBtn}/>
+          <CreateMenu onCrtBtn={onCrtBtn} worldCoords={worldCoords}/>
         </div>
 
         <div className={styles.canvas}>
-          <Desk toggleCrGeom={toggleCrGeom}/>
+          <Desk toggleCrGeom={toggleCrGeom} setWorldCoords={setWorldCoords}/>
         </div>
 
         <div className={styles.menuInspect}>

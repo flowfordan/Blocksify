@@ -1,3 +1,4 @@
+import { defCoords } from './actions/defCurrentCoords';
 import { createPoint } from './actions/createPoint';
 import { camera } from './camera/camera';
 import { gridHelper } from './planeHelper';
@@ -7,6 +8,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import {cube} from './geometry/geometry';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import {worldPlane} from './geometry/worldPlane';
+import { Vector3 } from 'three';
 
 
 
@@ -22,10 +24,21 @@ export class ThreeView {
     camera: any;
     light: any;
     controls: any;
-    stats: any
+    stats: any;
+    state: any;
+    activeElement: any
+    
+    
+
+    
 
     constructor(canvasRef: any) {
         
+        this.state = {
+            getCoords: true,
+            globalCoords: 0,
+        };
+
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color( 0xffffff );
         
@@ -35,6 +48,7 @@ export class ThreeView {
         });
         this.renderer.shadowMap.enabled = true;
         this.renderer.setClearColor(0xEEEEEE);
+        this.activeElement = this.renderer.domElement;
 
         this.camera = camera;
 
@@ -54,6 +68,7 @@ export class ThreeView {
         this.stats.update()
 
         this.update();
+        this.threeGetCoords();
     }
 
     // ******************* PUBLIC EVENTS ******************* //
@@ -62,6 +77,8 @@ export class ThreeView {
     //}
 
     //testbtn
+    
+
     createGeom(value: boolean) {
         if(value){
             this.scene.background = new THREE.Color( 0xffffff );
@@ -73,9 +90,53 @@ export class ThreeView {
         console.log('create geom', value)
     };
 
+    getWorldCoords(toggle: boolean){
+        if(!toggle){
+            return
+        }
+        console.log('getWorldCoords')
+        return this.state.globalCoords;
+    }
 
-    onMouseMove() {
-      // Mouse moves
+    //define global Coords
+    
+    threeGetCoords(){
+        //on/off coords show
+        //add event listener
+        this.activeElement.addEventListener( 'pointermove', this.onMouseMove );
+    }
+
+    
+
+    onMouseMove = (event: any) => {
+        event.preventDefault();
+        //if true start func
+        console.log(this.state.globalCoords)
+        if(this.state.getCoords){
+            //...
+            let mouse = new THREE.Vector2();
+            let raycaster = new THREE.Raycaster();
+
+            let rect = this.renderer.domElement.getBoundingClientRect();
+
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            mouse.x = ( x / this.activeElement.width ) * 2 - 1;
+            mouse.y = - ( y / this.activeElement.height ) * 2 + 1;
+            raycaster.setFromCamera( mouse, camera );
+
+            const intersects = raycaster.intersectObjects( this.scene.children );
+
+            for (let i = 0; i < intersects.length; i++){
+                if(intersects[i].object.name === 'ground'){
+                   let currentCoords = intersects[i].point;
+                   this.state.globalCoords = currentCoords;
+                }
+            }
+        }
+
+      
     }
 
     onWindowResize(vpW:any, vpH:any) {

@@ -1,39 +1,48 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Desk.module.css';
 import {ThreeView} from '../../three/ThreeView'
+import { defCoords } from '../../three/actions/defCurrentCoords';
 
 export const Desk = (props:any): JSX.Element => {
   
-  console.log(props)
-  const canvasRef = useRef<null | HTMLCanvasElement>(null)
+  console.log(props);
+  let threeView: any;
+  const canvasRef = useRef<null | HTMLCanvasElement>(null);
+  
+  //let threeView = useRef<ThreeView>(null)
   
   const resizeObserver = new ResizeObserver(entries => {
     entries.forEach(entry => {
-      console.log('width', entry.contentRect.width);
-      console.log('height', entry.contentRect.height);
-
-      threeView.onWindowResize(entry.contentRect.width, entry.contentRect.height)
-
+      //on view params change
+      if(threeView){
+        threeView.onWindowResize(entry.contentRect.width, entry.contentRect.height)
+      }
+      
     });
   });
 
-  let threeView: any;
   
-
+  
   const [view, setView] = useState(threeView);
+  const [worldCoords, setGlobalCoords] = useState(null);
+
+
+
 
   //on Mount
   useEffect(() => {
-
+    
     const innerTreeRef = canvasRef.current!;
     threeView = new ThreeView(innerTreeRef);
+
     setView(threeView);
     
     resizeObserver.observe(innerTreeRef)
     
-    handleResize();  
+    handleResize();
 
-    //window.addEventListener('mousemove', mouseMove);
+
+    window.addEventListener('mousemove', mouseMove);
     window.addEventListener('resize', handleResize, false);  
   }
   ,[])
@@ -48,6 +57,7 @@ export const Desk = (props:any): JSX.Element => {
       
     }
     , [props.toggleCrGeom])
+   
   
 //   componentDidUpdate(prevProps, prevState) {
 //     // Pass updated props to 
@@ -62,9 +72,18 @@ export const Desk = (props:any): JSX.Element => {
 // }
 
 
-
   const mouseMove = () => {
-    threeView.onMouseMove();
+    console.log(threeView)
+    console.log(view)
+    //threeView.onMouseMove();
+    if(threeView){
+      setGlobalCoords(threeView.state.globalCoords)
+      console.log('setState', worldCoords)
+      console.log(threeView.state.globalCoords)
+      props.setWorldCoords(threeView.state.globalCoords)
+    }
+      
+    
   }
 
   const handleResize = () => {

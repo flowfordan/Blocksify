@@ -17,16 +17,13 @@ let PointService = {
 
 
 export const createPoint = (scene: THREE.Scene, renderer: THREE.WebGLRenderer ) => {
+    
     activeElement = renderer.domElement;
-    console.log(activeElement)
     activeScene = scene;
-    console.log('start func');
     rect = renderer.domElement.getBoundingClientRect();
     
     activeElement.addEventListener( 'pointermove', onMouseMove );
     activeElement.addEventListener( 'pointerdown', onMouseDown );
-    // window.addEventListener( 'pointermove', onMouseMove );
-    // window.addEventListener( 'pointerdown', onMouseDown );
     
 }
 
@@ -48,13 +45,13 @@ const onMouseMove = (event: any) => {
     raycaster.setFromCamera( mouse, camera );
     
 
-    // calculate objects intersecting the picking ray
-    
+    // calculate objects intersecting the picking ray 
     const intersects = raycaster.intersectObjects( activeScene.children );
 
     for (let i = 0; i < intersects.length; i++){
         if(intersects[i].object.name === 'ground'){
             //renderer.domElement.style.cursor = 'crosshair'
+            //get coords on plane
            console.log('GROUND coord', intersects[i].point)
            PointService.coords = intersects[i].point;
         }

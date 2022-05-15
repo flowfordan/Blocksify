@@ -3,10 +3,13 @@ import styles from './CreateMenu.module.css';
 
 export const CreateMenu = (props:any): JSX.Element => {
 
+  const {worldCoords} = props
 
   const onCreateGeom = () => {
     props.onCrtBtn()  
-  }
+  };
+
+  
 
   return (
 
@@ -14,7 +17,13 @@ export const CreateMenu = (props:any): JSX.Element => {
 
         Creation Menu
         <div>
-          <button onClick={onCreateGeom}>Create Geom</button>
+          <button onClick={onCreateGeom}>Create Point</button>
+          <div>
+            Coordinates
+            <div>{`X: ${worldCoords.x.toFixed(2)}`}</div>
+            <div>{`Y: ${worldCoords.z.toFixed(2)}`}</div>
+            <div>{`Z: ${worldCoords.y.toFixed(2)}`}</div>
+          </div>
         </div>
         
 
