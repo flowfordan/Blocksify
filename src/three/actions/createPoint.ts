@@ -17,14 +17,14 @@ let PointService = {
 
 
 export const createPoint = (scene: THREE.Scene, renderer: THREE.WebGLRenderer ) => {
-    
+    PointService.status = 0;
     activeElement = renderer.domElement;
     activeScene = scene;
     rect = renderer.domElement.getBoundingClientRect();
     
     activeElement.addEventListener( 'pointermove', onMouseMove );
-    activeElement.addEventListener( 'pointerdown', onMouseDown );
-    
+    activeElement.addEventListener( 'pointerdown', onMouseDown )
+    return 'create was made'
 }
 
 
@@ -32,8 +32,6 @@ const onMouseMove = (event: any) => {
 
     event.preventDefault();
 
-
-    
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
@@ -84,13 +82,11 @@ const onMouseDown = () => {
     const myPoint = new THREE.Points(pointGeometry, material)
 
     activeScene.add(myPoint)
-    PointService.status = 0;
-
-
+    PointService.status = 2;
     activeElement.removeEventListener( 'pointermove', onMouseMove );
     activeElement.removeEventListener( 'pointerdown', onMouseDown );
     // window.removeEventListener( 'pointermove', onMouseMove );
     // window.removeEventListener( 'pointerdown', onMouseDown );
-    return
+    return 'success'
 }
 

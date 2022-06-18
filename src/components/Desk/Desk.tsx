@@ -52,7 +52,7 @@ export const Desk = (props:any): JSX.Element => {
     () => {
       if(view){
       const createGeom = props.toggleCrGeom;
-      view.createGeom(createGeom)
+      console.log(view.createGeom(createGeom))
     }
       
     }

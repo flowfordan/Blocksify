@@ -82,7 +82,7 @@ export class ThreeView {
     createGeom(value: boolean) {
         if(value){
             this.scene.background = new THREE.Color( 0xffffff );
-            createPoint(this.scene, this.renderer)
+            return createPoint(this.scene, this.renderer)
         }
         else {
             this.scene.background = new THREE.Color( 0x759FC6 );

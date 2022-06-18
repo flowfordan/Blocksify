@@ -21,11 +21,15 @@ export const AppPage= (): JSX.Element => {
 
 
         <div className={styles.menuCreate}>
-          <CreateMenu onCrtBtn={onCrtBtn} worldCoords={worldCoords}/>
+          <CreateMenu 
+          onCrtBtn={onCrtBtn} worldCoords={worldCoords} 
+          toggleCrGeom={toggleCrGeom}/>
         </div>
 
         <div className={styles.canvas}>
-          <Desk toggleCrGeom={toggleCrGeom} setWorldCoords={setWorldCoords}/>
+          <Desk 
+          toggleCrGeom={toggleCrGeom} setWorldCoords={setWorldCoords} 
+          onCrtBtn={onCrtBtn}/>
         </div>
 
         <div className={styles.menuInspect}>

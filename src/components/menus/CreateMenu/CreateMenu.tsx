@@ -11,7 +11,7 @@ interface Coords {
 
 export const CreateMenu = (props:any): JSX.Element => {
 
-  const {worldCoords} = props;
+  const {worldCoords, toggleCrGeom} = props;
   
   //initial values
   let coords: Coords = {
@@ -39,7 +39,7 @@ export const CreateMenu = (props:any): JSX.Element => {
 
         <h4>Creation Menu</h4>
         <div>
-          <button onClick={onCreateGeom}>Create Point</button>
+          <button onClick={onCreateGeom} disabled={toggleCrGeom}>Create Point</button>
           <div>
             Coordinates
             <div>{`X: ${coords.x}`}</div>
