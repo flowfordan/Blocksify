@@ -1,4 +1,8 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { sidebarSlice } from '../../../store/reducers/SidebarSlice';
+import { envSlice } from '../../../store/reducers/envSlice';
 import styles from './CreateMenu.module.css';
 
 
@@ -10,6 +14,19 @@ interface Coords {
 
 
 export const CreateMenu = (props:any): JSX.Element => {
+
+  const {count} = useAppSelector(state => state.sidebarReducer);
+  const {color, toggleColor} = useAppSelector(state => state.envReducer);
+
+  const {inc} = sidebarSlice.actions;
+  const {changeCubeColor} = envSlice.actions;
+
+  const dispatch = useAppDispatch();
+
+  const handleColorChange = () => {
+    console.log('color change')
+    dispatch(changeCubeColor(color === 0xffffff? 0xff00ff : 0xffffff))
+  }
 
   const {worldCoords, toggleCrGeom} = props;
   
@@ -45,6 +62,18 @@ export const CreateMenu = (props:any): JSX.Element => {
             <div>{`X: ${coords.x}`}</div>
             <div>{`Y: ${coords.y}`}</div>
             <div>{`Z: ${coords.z}`}</div>
+          </div>
+          <hr/>
+          <div>
+            <div>Count</div>
+            <div>{count}</div>
+            <button onClick={() => dispatch(inc(1))}>Count</button>
+          </div>
+
+          <div>
+            <div>Change Color</div>
+            <div>{count}</div>
+            <button onClick={() => handleColorChange()}>Change Color</button>
           </div>
         </div>
         

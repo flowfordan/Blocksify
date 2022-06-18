@@ -9,6 +9,7 @@ import {cube} from './geometry/geometry';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import {worldPlane} from './geometry/worldPlane';
 import { Vector3 } from 'three';
+import { AppStore } from '../store/store';
 
 
 
@@ -54,6 +55,11 @@ export class ThreeView {
 
         // Create meshes, materials, etc.
         this.scene.add(cube, worldPlane, gridHelper);
+        //if change color, then toggle false
+        //cube.material.color.setHex(0x67b543)
+        // cube.material.color.setHex(store.getState().envReducer.color)
+        // console.log(store.getState().envReducer.color)
+
 
         //lights
         this.scene.add(dirLight, dirLightHelper, hemiLight)
@@ -77,7 +83,12 @@ export class ThreeView {
     //}
 
     //testbtn
-    
+    //const {color, toggleColor} = useAppSelector(state => state.envReducer);
+
+
+    changeCubeColor(color: number){
+        cube.material.color.setHex(color)
+    }
 
     createGeom(value: boolean) {
         if(value){

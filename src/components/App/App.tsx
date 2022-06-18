@@ -4,10 +4,14 @@ import {BrowserRouter, Routes, Route,} from "react-router-dom";
 import {AppPage} from '../../pages/AppPage/AppPage';
 import {StartPage} from '../../pages/StartPage/StartPage';
 import {Header} from '../Header/Header';
+import { Provider } from 'react-redux';
+import { setupStore } from '../../store/store';
+
 
 const App= (): JSX.Element => {
   return (
     <BrowserRouter>
+    <Provider store={setupStore()}>
       <div className={styles.wrapper}>
 
      
@@ -21,6 +25,7 @@ const App= (): JSX.Element => {
 
 
       </div>
+      </Provider>
     </BrowserRouter>
   );
 }

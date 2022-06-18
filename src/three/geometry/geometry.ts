@@ -1,18 +1,23 @@
 import * as THREE from 'three';
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
+//TEST CUBE
 const geometry = new THREE.BoxGeometry(10,10,10)
 const material = new THREE.MeshStandardMaterial({
-    color: 0x0000ff,
+    color: 0x898f8c,
     wireframe: false,
 })
 
 const cube = new THREE.Mesh(geometry, material)
-cube.receiveShadow = true;
+//cube.receiveShadow = true;
 cube.castShadow = true;
 cube.position.set(0, 5, 0)
 
-
+// wireframe
+var geo = new THREE.EdgesGeometry( cube.geometry ); // or WireframeGeometry
+var mat = new THREE.LineBasicMaterial( { color: 0x0000000 } );
+var wireframe = new THREE.LineSegments( geo, mat );
+cube.add( wireframe );
 
 let coord = [10, 0.02, 10, 10, 0.02, 25];
 let coord2 = [5, 0.02, 10, 5, 0.02, 45, 20, 0.02, 20];

@@ -9,8 +9,8 @@ dirLight.position.set( - 1, 5, 5 );
 dirLight.position.multiplyScalar( 30 )
 dirLight.castShadow = true;
 dirLight.shadow.bias = 0.0001;
-dirLight.shadow.mapSize.width = 2048;
-dirLight.shadow.mapSize.height = 2048;
+dirLight.shadow.mapSize.width = 4096;
+dirLight.shadow.mapSize.height = 4096;
 
 //area where shadows are working
 var side = 100;
@@ -29,13 +29,13 @@ mainLight.castShadow = true
 mainLight.shadow.mapSize.width = 4096
 mainLight.shadow.mapSize.height = 4096
 mainLight.shadow.radius = 1;
-mainLight.intensity = 0.8;
+mainLight.intensity = 1;
 
 export const mainLightHelper = new THREE.SpotLightHelper( mainLight, 5 ); 
 
 
 //third
-export const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
-hemiLight.color.setHSL( 0.6, 1, 0.6 );
-hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+export const hemiLight = new THREE.HemisphereLight(0x85bfde, 0xffffff, 0.8);
+//hemiLight.color.setHSL( 0.6, 1, 0.1 );
+//hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
 hemiLight.position.set( 0, 50, 0 );

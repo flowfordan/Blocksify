@@ -2,10 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './Desk.module.css';
 import {ThreeView} from '../../three/ThreeView'
 import { defCoords } from '../../three/actions/defCurrentCoords';
+import { setupStore as store } from '../../store/store';
+import { useAppSelector } from '../../hooks/redux';
 
 export const Desk = (props:any): JSX.Element => {
   
-  console.log(props);
+  //console.log(props, store().getState());
+  const {color} = useAppSelector(state => state.envReducer);
+  console.log(color)
   let threeView: any;
   const canvasRef = useRef<null | HTMLCanvasElement>(null);
   
@@ -15,7 +19,9 @@ export const Desk = (props:any): JSX.Element => {
     entries.forEach(entry => {
       //on view params change
       if(threeView){
-        threeView.onWindowResize(entry.contentRect.width, entry.contentRect.height)
+        threeView.onWindowResize(
+          entry.contentRect.width, entry.contentRect.height
+        )
       }
       
     });
@@ -52,13 +58,20 @@ export const Desk = (props:any): JSX.Element => {
     () => {
       if(view){
       const createGeom = props.toggleCrGeom;
-      console.log(view.createGeom(createGeom))
     }
       
     }
     , [props.toggleCrGeom])
    
-  
+  useEffect(() => {
+    console.log('use effect color', threeView, view)
+    if(view){
+      view.changeCubeColor(color)
+      console.log('use effect color', color)
+    }
+    
+  },
+   [color])
 //   componentDidUpdate(prevProps, prevState) {
 //     // Pass updated props to 
 //     const createGeom = props.toggleCrGeom;
@@ -73,13 +86,13 @@ export const Desk = (props:any): JSX.Element => {
 
 
   const mouseMove = () => {
-    console.log(threeView)
-    console.log(view)
+    // console.log(threeView)
+    // console.log(view)
     //threeView.onMouseMove();
     if(threeView){
       setGlobalCoords(threeView.state.globalCoords)
-      console.log('setState', worldCoords)
-      console.log(threeView.state.globalCoords)
+      // console.log('setState', worldCoords)
+      // console.log(threeView.state.globalCoords)
       props.setWorldCoords(threeView.state.globalCoords)
     }
       
