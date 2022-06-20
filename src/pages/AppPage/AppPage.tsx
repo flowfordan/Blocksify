@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Desk } from '../../components/Desk/Desk';
 import styles from './AppPage.module.css';
 import { CreateMenu } from '../../components/menus/CreateMenu/CreateMenu';
+import { ThreeWrapper } from '../../components/Desk/ThreeWrapper';
 
 export const AppPage= (): JSX.Element => {
 
@@ -27,6 +28,7 @@ export const AppPage= (): JSX.Element => {
         </div>
 
         <div className={styles.canvas}>
+          {/* <ThreeWrapper /> */}
           <Desk 
           toggleCrGeom={toggleCrGeom} setWorldCoords={setWorldCoords} 
           onCrtBtn={onCrtBtn}/>

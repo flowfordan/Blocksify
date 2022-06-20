@@ -5,15 +5,13 @@ import { defCoords } from '../../three/actions/defCurrentCoords';
 import { setupStore as store } from '../../store/store';
 import { useAppSelector } from '../../hooks/redux';
 
+
+
+
 export const Desk = (props:any): JSX.Element => {
   
-  //console.log(props, store().getState());
-  const {color} = useAppSelector(state => state.envReducer);
-  console.log(color)
   let threeView: any;
   const canvasRef = useRef<null | HTMLCanvasElement>(null);
-  
-  //let threeView = useRef<ThreeView>(null)
   
   const resizeObserver = new ResizeObserver(entries => {
     entries.forEach(entry => {
@@ -63,15 +61,15 @@ export const Desk = (props:any): JSX.Element => {
     }
     , [props.toggleCrGeom])
    
-  useEffect(() => {
-    console.log('use effect color', threeView, view)
-    if(view){
-      view.changeCubeColor(color)
-      console.log('use effect color', color)
-    }
+  // useEffect(() => {
+  //   console.log('use effect color', threeView, view)
+  //   if(view){
+  //     view.changeCubeColor(color)
+  //     console.log('use effect color', color)
+  //   }
     
-  },
-   [color])
+  // },
+  //  [color])
 //   componentDidUpdate(prevProps, prevState) {
 //     // Pass updated props to 
 //     const createGeom = props.toggleCrGeom;

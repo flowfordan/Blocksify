@@ -10,6 +10,8 @@ import Stats from 'three/examples/jsm/libs/stats.module';
 import {worldPlane} from './geometry/worldPlane';
 import { Vector3 } from 'three';
 import { AppStore } from '../store/store';
+import { sidebarSlice } from '../store/reducers/SidebarSlice';
+import { setupStore as store } from '../store/store';
 
 
 
@@ -20,6 +22,7 @@ interface ThreeViewIf<T> {
 
 export class ThreeView {
 
+    store: AppStore;
     scene: any;
     renderer: any;
     camera: any;
@@ -35,6 +38,8 @@ export class ThreeView {
 
     constructor(canvasRef: any) {
         
+        this.store = store
+
         this.state = {
             getCoords: true,
             globalCoords: 0,
@@ -75,6 +80,9 @@ export class ThreeView {
 
         this.update();
         this.threeGetCoords();
+
+        this.subscribe()
+        
     }
 
     // ******************* PUBLIC EVENTS ******************* //
@@ -86,9 +94,11 @@ export class ThreeView {
     //const {color, toggleColor} = useAppSelector(state => state.envReducer);
 
 
-    changeCubeColor(color: number){
-        cube.material.color.setHex(color)
+    changeCubeColor(){
+        cube.material.color.setHex(store.getState().envReducer.color) 
     }
+
+    
 
     createGeom(value: boolean) {
         if(value){
@@ -122,7 +132,7 @@ export class ThreeView {
     onMouseMove = (event: any) => {
         event.preventDefault();
         //if true start func
-        console.log(this.state.globalCoords)
+        //console.log(this.state.globalCoords)
         if(this.state.getCoords){
             //...
             let mouse = new THREE.Vector2();
@@ -143,6 +153,7 @@ export class ThreeView {
                 if(intersects[i].object.name === 'ground'){
                    let currentCoords = intersects[i].point;
                    this.state.globalCoords = currentCoords;
+                   console.log('COUNTER FROM THREE',this.store.getState().sidebarReducer.count)
                 }
             }
         }
@@ -157,8 +168,10 @@ export class ThreeView {
         
     }
 
-
-
+    subscribe(){
+        this.store.subscribe(this.changeCubeColor)
+        this.store.subscribe(() => console.log('STORE UPD OK INSIDE THREE'))
+    }
 
     // ******************* RENDER LOOP ******************* //
     update() {
@@ -168,8 +181,6 @@ export class ThreeView {
 
         this.controls.update()
         this.stats.update()
-
-        
         
     }
 

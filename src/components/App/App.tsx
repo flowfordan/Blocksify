@@ -11,7 +11,7 @@ import { setupStore } from '../../store/store';
 const App= (): JSX.Element => {
   return (
     <BrowserRouter>
-    <Provider store={setupStore()}>
+    <Provider store={setupStore}>
       <div className={styles.wrapper}>
 
      
