@@ -80,8 +80,6 @@ export class ThreeView {
 
         this.update();
         this.threeGetCoords();
-
-        this.subscribe()
         
     }
 
@@ -153,7 +151,6 @@ export class ThreeView {
                 if(intersects[i].object.name === 'ground'){
                    let currentCoords = intersects[i].point;
                    this.state.globalCoords = currentCoords;
-                   console.log('COUNTER FROM THREE',this.store.getState().sidebarReducer.count)
                 }
             }
         }
@@ -168,20 +165,15 @@ export class ThreeView {
         
     }
 
-    subscribe(){
-        this.store.subscribe(this.changeCubeColor)
-        this.store.subscribe(() => console.log('STORE UPD OK INSIDE THREE'))
-    }
-
     // ******************* RENDER LOOP ******************* //
     update() {
+        this.changeCubeColor()
         this.renderer.render(this.scene, this.camera);
 
         requestAnimationFrame(this.update.bind(this));
 
         this.controls.update()
-        this.stats.update()
-        
+        this.stats.update() 
     }
 
  
