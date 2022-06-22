@@ -15,17 +15,20 @@ interface Coords {
 
 export const CreateMenu = (props:any): JSX.Element => {
 
-  const {count} = useAppSelector(state => state.sidebarReducer);
+  const {count, isBtnActive} = useAppSelector(state => state.sidebarReducer);
   const {color, toggleColor} = useAppSelector(state => state.envReducer);
 
-  const {inc} = sidebarSlice.actions;
+  const {inc, toggleActive} = sidebarSlice.actions;
   const {changeCubeColor} = envSlice.actions;
 
   const dispatch = useAppDispatch();
 
   const handleColorChange = () => {
-    console.log('color change')
     dispatch(changeCubeColor(color === 0xffffff? 0xff00ff : 0xffffff))
+  }
+
+  const handleBtnClick = () => {
+    dispatch(toggleActive(!isBtnActive))
   }
 
   const {worldCoords, toggleCrGeom} = props;
@@ -37,18 +40,12 @@ export const CreateMenu = (props:any): JSX.Element => {
     z: 0
   };
 
-
-  const onCreateGeom = () => {
-    props.onCrtBtn()  
-  };
-
   if(worldCoords){
     coords.x = worldCoords.x.toFixed(2);
     coords.y = worldCoords.z.toFixed(2);
     coords.z = worldCoords.y.toFixed(2);
   }
-  
-  
+   
 
   return (
 
@@ -56,7 +53,10 @@ export const CreateMenu = (props:any): JSX.Element => {
 
         <h4>Creation Menu</h4>
         <div>
-          <button onClick={onCreateGeom} disabled={toggleCrGeom}>Create Point</button>
+          <div className={isBtnActive? styles.buttonActive : styles.button} 
+          onClick={handleBtnClick}>
+            Draw Mode
+          </div>
           <div>
             Coordinates
             <div>{`X: ${coords.x}`}</div>

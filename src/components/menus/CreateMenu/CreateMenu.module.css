@@ -1,0 +1,23 @@
+.button, .buttonActive{
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    padding: 4px;
+    border: 1px solid rgb(134, 196, 255);
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    transition: all 0.2s;
+}
+
+.button:hover{
+    background-color: rgb(236, 236, 236);
+}
+
+.button:active{
+    background-color: rgb(134, 196, 255);
+}
+
+.buttonActive{
+    color: white;
+    background-color: rgb(134, 196, 255);
+}

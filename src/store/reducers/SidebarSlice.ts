@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface SidebarState {
     count: number;
     error: string;
+    isBtnActive: boolean
 }
 
 const initialState: SidebarState = {
     count: 0,
-    error: ''
+    error: '',
+    isBtnActive: false
 }
 
 export const sidebarSlice = createSlice({
@@ -16,6 +18,9 @@ export const sidebarSlice = createSlice({
     reducers: {
         inc(state, action: PayloadAction<number>){
             state.count += action.payload
+        },
+        toggleActive(state, action: PayloadAction<boolean>){
+            state.isBtnActive = action.payload
         }
     }
 })
