@@ -31,10 +31,6 @@ export class ThreeView {
     stats: any;
     state: any;
     activeElement: any
-    
-    
-
-    
 
     constructor(canvasRef: any) {
         
@@ -60,11 +56,7 @@ export class ThreeView {
 
         // Create meshes, materials, etc.
         this.scene.add(cube, worldPlane, gridHelper);
-        //if change color, then toggle false
-        //cube.material.color.setHex(0x67b543)
-        // cube.material.color.setHex(store.getState().envReducer.color)
-        // console.log(store.getState().envReducer.color)
-
+        cube.material.color.setHex(store.getState().envReducer.color)
 
         //lights
         this.scene.add(dirLight, dirLightHelper, hemiLight)
@@ -80,34 +72,15 @@ export class ThreeView {
 
         this.update();
         this.threeGetCoords();
+        this.store.subscribe(this.changeCubeColor)
         
     }
 
-    // ******************* PUBLIC EVENTS ******************* //
-    //updateValue(value) {
-      // Whatever you need to do with React props
-    //}
-
-    //testbtn
-    //const {color, toggleColor} = useAppSelector(state => state.envReducer);
-
-
     changeCubeColor(){
+        //console.log('цвет не поменялся')
         cube.material.color.setHex(store.getState().envReducer.color) 
     }
 
-    
-
-    createGeom(value: boolean) {
-        if(value){
-            this.scene.background = new THREE.Color( 0xffffff );
-            return createPoint(this.scene, this.renderer)
-        }
-        else {
-            this.scene.background = new THREE.Color( 0x759FC6 );
-        }
-        console.log('create geom', value)
-    };
 
     getWorldCoords(toggle: boolean){
         if(!toggle){
@@ -124,8 +97,6 @@ export class ThreeView {
         //add event listener
         this.activeElement.addEventListener( 'pointermove', this.onMouseMove );
     }
-
-    
 
     onMouseMove = (event: any) => {
         event.preventDefault();
@@ -167,7 +138,7 @@ export class ThreeView {
 
     // ******************* RENDER LOOP ******************* //
     update() {
-        this.changeCubeColor()
+        //this.changeCubeColor()
         this.renderer.render(this.scene, this.camera);
 
         requestAnimationFrame(this.update.bind(this));
