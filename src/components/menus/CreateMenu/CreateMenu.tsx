@@ -2,24 +2,24 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { drawingSlice } from '../../../store/reducers/drawingSlice';
-import { envSlice } from '../../../store/reducers/envSlice';
+import { uiSlice } from '../../../store/reducers/uiSlice';
 import styles from './CreateMenu.module.css';
 
 
-interface Coords {
-    x: number;
-    y: number;
-    z: number;
+interface UICoords {
+    x: string;
+    y: string;
+    z: string;
 };
 
 
 export const CreateMenu = (props:any): JSX.Element => {
 
-  const {count, isDrawLine} = useAppSelector(state => state.sidebarReducer);
-  const {color, toggleColor} = useAppSelector(state => state.envReducer);
+  const {count, isDrawLine} = useAppSelector(state => state.drawReducer);
+  const {color, globalCoords} = useAppSelector(state => state.uiReducer);
 
   const {inc, toggleDrawLine} = drawingSlice.actions;
-  const {changeCubeColor} = envSlice.actions;
+  const {changeCubeColor} = uiSlice.actions;
 
   const dispatch = useAppDispatch();
 
@@ -30,20 +30,18 @@ export const CreateMenu = (props:any): JSX.Element => {
   const handleBtnClick = () => {
     dispatch(toggleDrawLine(!isDrawLine))
   }
-
-  const {worldCoords, toggleCrGeom} = props;
   
   //initial values
-  let coords: Coords = {
-    x: 0,
-    y: 0,
-    z: 0
+  let coords: UICoords = {
+    x: '0',
+    y: '0',
+    z: '0'
   };
 
-  if(worldCoords){
-    coords.x = worldCoords.x.toFixed(2);
-    coords.y = worldCoords.z.toFixed(2);
-    coords.z = worldCoords.y.toFixed(2);
+  if(globalCoords){
+    coords.x = globalCoords.x.toFixed(2);
+    coords.y = globalCoords.z.toFixed(2);
+    coords.z = globalCoords.y.toFixed(2);
   }
    
 

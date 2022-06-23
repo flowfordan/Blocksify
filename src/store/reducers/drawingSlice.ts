@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface EditState {
+interface DrawState {
     count: number;
     error: string;
     isDrawLine: boolean
 }
 
-const initialState: EditState = {
+const initialState: DrawState = {
     count: 0,
     error: '',
     isDrawLine: false

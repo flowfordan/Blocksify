@@ -10,6 +10,7 @@ import Stats from 'three/examples/jsm/libs/stats.module';
 import {worldPlane} from './geometry/worldPlane';
 import { AppStore } from '../store/store';
 import { setupStore as store } from '../store/store';
+import { updateCoords } from '../store/reducers/uiSlice';
 
 
 
@@ -32,12 +33,13 @@ export class ThreeView {
 
     constructor(canvasRef: any) {
         
-        this.store = store
+        this.store = store;
+        this.state = store.getState()
 
-        this.state = {
-            getCoords: true,
-            globalCoords: 0,
-        };
+        // this.state = {
+        //     getCoords: true,
+        //     globalCoords: 0,
+        // };
 
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color( 0xb3deff );
@@ -53,7 +55,7 @@ export class ThreeView {
         this.camera = camera;
 
         this.scene.add(cube, worldPlane, gridHelper);
-        cube.material.color.setHex(store.getState().envReducer.color)
+        cube.material.color.setHex(store.getState().uiReducer.color)
 
         //lights
         this.scene.add(dirLight, dirLightHelper, hemiLight)
@@ -68,37 +70,41 @@ export class ThreeView {
         this.stats.update()
 
         this.update();
-        this.threeGetCoords();
+        
+
         this.store.subscribe(this.changeCubeColor)
+        this.updGlobalCoords()
         
     }
 
-    changeCubeColor(){
-        cube.material.color.setHex(store.getState().envReducer.color) 
+    changeCubeColor = () => {
+        cube.material.color.setHex(this.store.getState().uiReducer.color) 
     }
 
 
-    getWorldCoords(toggle: boolean){
-        if(!toggle){
-            return
+    // getWorldCoords(toggle: boolean){
+    //     if(!toggle){
+    //         return
+    //     }
+    //     console.log('getWorldCoords')
+    //     return this.state.globalCoords;
+    // }
+
+    updGlobalCoords = () => {
+        //console.log(this)
+        if(this.state.uiReducer.fetchGlobalCoords){
+            this.activeElement.addEventListener( 'pointermove', (e:any) => this.onGetMouseLoc(e) );
         }
-        console.log('getWorldCoords')
-        return this.state.globalCoords;
+        this.activeElement.removeEventListener( 'pointermove', this.onGetMouseLoc );
+        //console.log(this)
+        //getMouseLoc()
+        //this.store.dispatch(updateCoords({x: 1, y: 2, z: 3}))
     }
 
-    //define global Coords
-    
-    threeGetCoords(){
-        //on/off coords show
-        //add event listener
-        this.activeElement.addEventListener( 'pointermove', this.onMouseMove );
-    }
-
-    onMouseMove = (event: any) => {
+    onGetMouseLoc = (event: any) => {
         event.preventDefault();
         //if true start func
         //console.log(this.state.globalCoords)
-        if(this.state.getCoords){
             //...
             let mouse = new THREE.Vector2();
             let raycaster = new THREE.Raycaster();
@@ -117,12 +123,10 @@ export class ThreeView {
             for (let i = 0; i < intersects.length; i++){
                 if(intersects[i].object.name === 'ground'){
                    let currentCoords = intersects[i].point;
-                   this.state.globalCoords = currentCoords;
+                   console.log(currentCoords.x)
+                   this.store.dispatch(updateCoords({x: currentCoords.x, y: currentCoords.y, z: currentCoords.z}))
                 }
             }
-        }
-
-      
     }
 
     onWindowResize(vpW:any, vpH:any) {
@@ -137,6 +141,7 @@ export class ThreeView {
         this.renderer.render(this.scene, this.camera);
 
         requestAnimationFrame(this.update.bind(this));
+        //requestAnimationFrame(() => this.updGlobalCoords())
 
         this.controls.update()
         this.stats.update() 

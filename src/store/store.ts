@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import sidebarReducer from './reducers/drawingSlice';
-import envReducer from './reducers/envSlice';
+import drawReducer from './reducers/drawingSlice';
+import uiReducer from './reducers/uiSlice';
 import logger from 'redux-logger'
 
 
 
 const rootReducer = combineReducers({
-    sidebarReducer, envReducer
+    drawReducer, uiReducer
 })
 
 
