@@ -8,9 +8,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import {cube} from './geometry/geometry';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import {worldPlane} from './geometry/worldPlane';
-import { Vector3 } from 'three';
 import { AppStore } from '../store/store';
-import { sidebarSlice } from '../store/reducers/SidebarSlice';
 import { setupStore as store } from '../store/store';
 
 
@@ -42,7 +40,7 @@ export class ThreeView {
         };
 
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color( 0xffffff );
+        this.scene.background = new THREE.Color( 0xb3deff );
         
         this.renderer = new THREE.WebGLRenderer({
             canvas: canvasRef,
@@ -54,7 +52,6 @@ export class ThreeView {
 
         this.camera = camera;
 
-        // Create meshes, materials, etc.
         this.scene.add(cube, worldPlane, gridHelper);
         cube.material.color.setHex(store.getState().envReducer.color)
 
@@ -77,7 +74,6 @@ export class ThreeView {
     }
 
     changeCubeColor(){
-        //console.log('цвет не поменялся')
         cube.material.color.setHex(store.getState().envReducer.color) 
     }
 
@@ -138,7 +134,6 @@ export class ThreeView {
 
     // ******************* RENDER LOOP ******************* //
     update() {
-        //this.changeCubeColor()
         this.renderer.render(this.scene, this.camera);
 
         requestAnimationFrame(this.update.bind(this));

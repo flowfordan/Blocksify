@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { sidebarSlice } from '../../../store/reducers/SidebarSlice';
+import { drawingSlice } from '../../../store/reducers/drawingSlice';
 import { envSlice } from '../../../store/reducers/envSlice';
 import styles from './CreateMenu.module.css';
 
@@ -15,10 +15,10 @@ interface Coords {
 
 export const CreateMenu = (props:any): JSX.Element => {
 
-  const {count, isBtnActive} = useAppSelector(state => state.sidebarReducer);
+  const {count, isDrawLine} = useAppSelector(state => state.sidebarReducer);
   const {color, toggleColor} = useAppSelector(state => state.envReducer);
 
-  const {inc, toggleActive} = sidebarSlice.actions;
+  const {inc, toggleDrawLine} = drawingSlice.actions;
   const {changeCubeColor} = envSlice.actions;
 
   const dispatch = useAppDispatch();
@@ -28,7 +28,7 @@ export const CreateMenu = (props:any): JSX.Element => {
   }
 
   const handleBtnClick = () => {
-    dispatch(toggleActive(!isBtnActive))
+    dispatch(toggleDrawLine(!isDrawLine))
   }
 
   const {worldCoords, toggleCrGeom} = props;
@@ -53,7 +53,7 @@ export const CreateMenu = (props:any): JSX.Element => {
 
         <h4>Creation Menu</h4>
         <div>
-          <div className={isBtnActive? styles.buttonActive : styles.button} 
+          <div className={isDrawLine? styles.buttonActive : styles.button} 
           onClick={handleBtnClick}>
             Draw Mode
           </div>

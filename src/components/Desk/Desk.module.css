@@ -7,9 +7,16 @@
     max-height: 100%;
 }
 
-.board{
+.canvasScene{
     max-width: 100%;
     max-height: auto;
+    z-index: 0;
+}
+
+.canvasScene{
+    max-width: 100%;
+    max-height: auto;
+    z-index: 1;
 }
 
 /* .desk canvas{

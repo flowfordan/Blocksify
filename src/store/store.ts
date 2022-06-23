@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import sidebarReducer from './reducers/SidebarSlice';
+import sidebarReducer from './reducers/drawingSlice';
 import envReducer from './reducers/envSlice';
 import logger from 'redux-logger'
 
