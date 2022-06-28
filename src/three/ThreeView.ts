@@ -17,10 +17,10 @@ import { _vec3, _vec2, raycaster } from './common';
 export class ThreeView {
 
     store: AppStore;
-    state: CombinedState<{
-        drawReducer: DrawState;
-        uiReducer: UIState;
-    }>;
+    // state: CombinedState<{
+    //     drawReducer: DrawState;
+    //     uiReducer: UIState;
+    // }>;
     scene: THREE.Scene;
     renderer: THREE.WebGLRenderer;
     activeElement: HTMLCanvasElement;
@@ -30,12 +30,13 @@ export class ThreeView {
     light: any;
     controls: OrbitControls;
     stats: any;
+    listeningStatus: boolean;
     
 
     constructor(canvasRef: HTMLCanvasElement) {
         
         this.store = store;
-        this.state = store.getState()
+        // this.state = () => store.getState()
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color( 0xb3deff );
         
@@ -52,6 +53,8 @@ export class ThreeView {
         this.camera = camera;
 
         this.groundPlane = worldPlane;
+
+        this.listeningStatus = store.getState().uiReducer.isFetchingGlobalCoords
 
 
         //3dobjects
@@ -74,62 +77,51 @@ export class ThreeView {
         
 
         this.store.subscribe(this.changeCubeColor)
-        this.updGlobalCoords()
-        
+        this.store.subscribe(this.updGlobalCoords)
     }
+
+    getState = () => store.getState()
 
     changeCubeColor = () => {
-        cube.material.color.setHex(this.store.getState().uiReducer.color) 
+        cube.material.color.setHex(this.getState().uiReducer.color) 
     }
 
-
     updGlobalCoords = () => {
-        console.log(this)
-        if(this.state.uiReducer.isFetchingGlobalCoords){
-            console.log('pointer move')
+        if(this.getState().uiReducer.isFetchingGlobalCoords && !this.listeningStatus){
+            this.listeningStatus = true
             this.activeElement.addEventListener( 'pointermove', this.onGetMouseLoc );
-        } else if(!this.state.uiReducer.isFetchingGlobalCoords){
+        } else if(!this.getState().uiReducer.isFetchingGlobalCoords){
+            this.listeningStatus = false
             this.activeElement.removeEventListener( 'pointermove', this.onGetMouseLoc );
-        }
+        }   
+    }
+
+    getMouseLocation = (event: PointerEvent) => {
+        event.preventDefault();
+
+        const x = event.clientX - this.rect.left;
+        const y = event.clientY - this.rect.top;
+
+        _vec2.x = ( x / this.activeElement.width ) * 2 - 1;
+        _vec2.y = - ( y / this.activeElement.height ) * 2 + 1;
+        raycaster.setFromCamera( _vec2, this.camera );
+
+        raycaster.ray.intersectPlane(this.groundPlane, _vec3);
+
+        return _vec3
     }
 
     //get mouse coords on "ground" plane
-    onGetMouseLoc = (event: any) => {
-        event.preventDefault();
-            let _vec2 = new THREE.Vector2();
-
-            const x = event.clientX - this.rect.left;
-            const y = event.clientY - this.rect.top;
-
-            _vec2.x = ( x / this.activeElement.width ) * 2 - 1;
-            _vec2.y = - ( y / this.activeElement.height ) * 2 + 1;
-            raycaster.setFromCamera( _vec2, this.camera );
-
-            raycaster.ray.intersectPlane(this.groundPlane, _vec3);
-
-            this.store.dispatch(updateCoords({
-                x: _vec3.x, y:_vec3.y ,z:_vec3.z
-            }))
-
-
-            //const intersects = raycaster.intersectObjects( this.scene.children );
-
-            // for (let i = 0; i < intersects.length; i++){
-            //     if(intersects[i].object.name === 'ground'){
-            //        let currentCoords = intersects[i].point;
-            //        this.store.dispatch(updateCoords({
-            //         x: currentCoords.x, y:currentCoords.y ,z:currentCoords.z
-            //     }))
-            //        console.log(currentCoords)
-            //     }
-            // }
+    onGetMouseLoc = (event: PointerEvent) => {
+            let mouseLoc = this.getMouseLocation(event)
+            console.log(mouseLoc)
+            this.store.dispatch(updateCoords({x: mouseLoc.x, y: mouseLoc.y, z:mouseLoc.z}))
     }
 
     onWindowResize(vpW:any, vpH:any) {
         this.renderer.setSize(vpW, vpH);
         this.camera.aspect = vpW / vpH
         this.camera.updateProjectionMatrix()
-        
     }
 
     // ******************* RENDER LOOP ******************* //
@@ -137,7 +129,7 @@ export class ThreeView {
         this.renderer.render(this.scene, this.camera);
 
         requestAnimationFrame(this.update.bind(this));
-        //requestAnimationFrame(() => this.updGlobalCoords())
+
 
         this.controls.update()
         this.stats.update() 

@@ -14,7 +14,7 @@ export interface UIState {
 
 const initialState: UIState = {
     color: 0xffffff,
-    isFetchingGlobalCoords: true,
+    isFetchingGlobalCoords: false,
     globalCoords: {
         x: 1,
         y: 1,
