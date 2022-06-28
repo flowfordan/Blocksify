@@ -10,7 +10,9 @@ import Stats from 'three/examples/jsm/libs/stats.module';
 import {worldPlane} from './geometry/worldPlane';
 import { AppStore } from '../store/store';
 import { setupStore as store } from '../store/store';
-import { updateCoords } from '../store/reducers/uiSlice';
+import { UIState, updateCoords } from '../store/reducers/uiSlice';
+import { CombinedState } from '@reduxjs/toolkit';
+import { DrawState } from '../store/reducers/drawingSlice';
 
 
 
@@ -22,13 +24,16 @@ interface ThreeViewIf<T> {
 export class ThreeView {
 
     store: AppStore;
+    state: CombinedState<{
+        drawReducer: DrawState;
+        uiReducer: UIState;
+    }>;
     scene: any;
     renderer: any;
     camera: any;
     light: any;
     controls: any;
     stats: any;
-    state: any;
     activeElement: any
 
     constructor(canvasRef: any) {
@@ -91,14 +96,13 @@ export class ThreeView {
     // }
 
     updGlobalCoords = () => {
-        //console.log(this)
-        if(this.state.uiReducer.fetchGlobalCoords){
-            this.activeElement.addEventListener( 'pointermove', (e:any) => this.onGetMouseLoc(e) );
+        console.log(this)
+        if(this.state.uiReducer.isFetchingGlobalCoords){
+            console.log('pointer move')
+            this.activeElement.addEventListener( 'pointermove', this.onGetMouseLoc );
+        } else if(!this.state.uiReducer.isFetchingGlobalCoords){
+            this.activeElement.removeEventListener( 'pointermove', this.onGetMouseLoc );
         }
-        this.activeElement.removeEventListener( 'pointermove', this.onGetMouseLoc );
-        //console.log(this)
-        //getMouseLoc()
-        //this.store.dispatch(updateCoords({x: 1, y: 2, z: 3}))
     }
 
     onGetMouseLoc = (event: any) => {
@@ -123,8 +127,11 @@ export class ThreeView {
             for (let i = 0; i < intersects.length; i++){
                 if(intersects[i].object.name === 'ground'){
                    let currentCoords = intersects[i].point;
-                   console.log(currentCoords.x)
-                   this.store.dispatch(updateCoords({x: currentCoords.x, y: currentCoords.y, z: currentCoords.z}))
+                   //this.state.uiReducer.globalCoords = currentCoords;
+                   this.store.dispatch(updateCoords({
+                    x: currentCoords.x, y:currentCoords.y ,z:currentCoords.z
+                }))
+                   console.log(currentCoords)
                 }
             }
     }

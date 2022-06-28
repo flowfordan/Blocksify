@@ -6,15 +6,15 @@ type Coords = {
     z: number
 }
 
-interface UIState {
+export interface UIState {
     color: number;
-    fetchGlobalCoords: boolean;
+    isFetchingGlobalCoords: boolean;
     globalCoords: Coords
 }
 
 const initialState: UIState = {
     color: 0xffffff,
-    fetchGlobalCoords: true,
+    isFetchingGlobalCoords: true,
     globalCoords: {
         x: 1,
         y: 1,
@@ -29,6 +29,9 @@ export const uiSlice = createSlice({
         changeCubeColor(state, action: PayloadAction<number>){
             state.color = action.payload
         },
+        toggleUpdCoords(state, action: PayloadAction<boolean>){
+            state.isFetchingGlobalCoords = action.payload
+        },
         updateCoords(state, action: PayloadAction<Coords>){
             state.globalCoords = action.payload
         }
@@ -37,6 +40,6 @@ export const uiSlice = createSlice({
 
 
 const {actions, reducer} = uiSlice
-export const { changeCubeColor, updateCoords } = actions
+export const { changeCubeColor, updateCoords, toggleUpdCoords } = actions
 export default reducer
 

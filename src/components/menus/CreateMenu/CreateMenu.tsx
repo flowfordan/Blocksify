@@ -16,10 +16,10 @@ interface UICoords {
 export const CreateMenu = (props:any): JSX.Element => {
 
   const {count, isDrawLine} = useAppSelector(state => state.drawReducer);
-  const {color, globalCoords} = useAppSelector(state => state.uiReducer);
+  const {color, globalCoords, isFetchingGlobalCoords} = useAppSelector(state => state.uiReducer);
 
   const {inc, toggleDrawLine} = drawingSlice.actions;
-  const {changeCubeColor} = uiSlice.actions;
+  const {changeCubeColor, toggleUpdCoords} = uiSlice.actions;
 
   const dispatch = useAppDispatch();
 

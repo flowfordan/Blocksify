@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface DrawState {
+export interface DrawState {
     count: number;
     error: string;
     isDrawLine: boolean
