@@ -1,25 +1,18 @@
-import { defCoords } from './actions/defCurrentCoords';
-import { createPoint } from './actions/createPoint';
+import * as THREE from 'three';
 import { camera } from './camera/camera';
 import { gridHelper } from './planeHelper';
 import { dirLight, dirLightHelper, hemiLight } from './lights';
-import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import {cube} from './geometry/geometry';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import {worldPlane} from './geometry/worldPlane';
+import {worldPlaneMesh, worldPlane, worldPlaneHelper} from './geometry/worldPlane';
 import { AppStore } from '../store/store';
 import { setupStore as store } from '../store/store';
 import { UIState, updateCoords } from '../store/reducers/uiSlice';
 import { CombinedState } from '@reduxjs/toolkit';
 import { DrawState } from '../store/reducers/drawingSlice';
+import { _vec3, _vec2, raycaster } from './common';
 
-
-
-
-interface ThreeViewIf<T> {
-    new(...args: any[]): T;
-  }
 
 export class ThreeView {
 
@@ -28,24 +21,21 @@ export class ThreeView {
         drawReducer: DrawState;
         uiReducer: UIState;
     }>;
-    scene: any;
-    renderer: any;
+    scene: THREE.Scene;
+    renderer: THREE.WebGLRenderer;
+    activeElement: HTMLCanvasElement;
+    rect: DOMRect;
     camera: any;
+    groundPlane: typeof worldPlane;
     light: any;
-    controls: any;
+    controls: OrbitControls;
     stats: any;
-    activeElement: any
+    
 
-    constructor(canvasRef: any) {
+    constructor(canvasRef: HTMLCanvasElement) {
         
         this.store = store;
         this.state = store.getState()
-
-        // this.state = {
-        //     getCoords: true,
-        //     globalCoords: 0,
-        // };
-
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color( 0xb3deff );
         
@@ -57,16 +47,22 @@ export class ThreeView {
         this.renderer.setClearColor(0xEEEEEE);
         this.activeElement = this.renderer.domElement;
 
+        this.rect = canvasRef.getBoundingClientRect();
+
         this.camera = camera;
 
-        this.scene.add(cube, worldPlane, gridHelper);
+        this.groundPlane = worldPlane;
+
+
+        //3dobjects
+        this.scene.add(cube, worldPlaneMesh, worldPlaneHelper, gridHelper);
         cube.material.color.setHex(store.getState().uiReducer.color)
 
         //lights
         this.scene.add(dirLight, dirLightHelper, hemiLight)
 
 
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+        this.controls = new OrbitControls(this.camera,  this.activeElement)
         this.controls.enableDamping = true
 
         //STATS
@@ -87,14 +83,6 @@ export class ThreeView {
     }
 
 
-    // getWorldCoords(toggle: boolean){
-    //     if(!toggle){
-    //         return
-    //     }
-    //     console.log('getWorldCoords')
-    //     return this.state.globalCoords;
-    // }
-
     updGlobalCoords = () => {
         console.log(this)
         if(this.state.uiReducer.isFetchingGlobalCoords){
@@ -105,35 +93,36 @@ export class ThreeView {
         }
     }
 
+    //get mouse coords on "ground" plane
     onGetMouseLoc = (event: any) => {
         event.preventDefault();
-        //if true start func
-        //console.log(this.state.globalCoords)
-            //...
-            let mouse = new THREE.Vector2();
-            let raycaster = new THREE.Raycaster();
+            let _vec2 = new THREE.Vector2();
 
-            let rect = this.renderer.domElement.getBoundingClientRect();
+            const x = event.clientX - this.rect.left;
+            const y = event.clientY - this.rect.top;
 
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
+            _vec2.x = ( x / this.activeElement.width ) * 2 - 1;
+            _vec2.y = - ( y / this.activeElement.height ) * 2 + 1;
+            raycaster.setFromCamera( _vec2, this.camera );
 
-            mouse.x = ( x / this.activeElement.width ) * 2 - 1;
-            mouse.y = - ( y / this.activeElement.height ) * 2 + 1;
-            raycaster.setFromCamera( mouse, camera );
+            raycaster.ray.intersectPlane(this.groundPlane, _vec3);
 
-            const intersects = raycaster.intersectObjects( this.scene.children );
+            this.store.dispatch(updateCoords({
+                x: _vec3.x, y:_vec3.y ,z:_vec3.z
+            }))
 
-            for (let i = 0; i < intersects.length; i++){
-                if(intersects[i].object.name === 'ground'){
-                   let currentCoords = intersects[i].point;
-                   //this.state.uiReducer.globalCoords = currentCoords;
-                   this.store.dispatch(updateCoords({
-                    x: currentCoords.x, y:currentCoords.y ,z:currentCoords.z
-                }))
-                   console.log(currentCoords)
-                }
-            }
+
+            //const intersects = raycaster.intersectObjects( this.scene.children );
+
+            // for (let i = 0; i < intersects.length; i++){
+            //     if(intersects[i].object.name === 'ground'){
+            //        let currentCoords = intersects[i].point;
+            //        this.store.dispatch(updateCoords({
+            //         x: currentCoords.x, y:currentCoords.y ,z:currentCoords.z
+            //     }))
+            //        console.log(currentCoords)
+            //     }
+            // }
     }
 
     onWindowResize(vpW:any, vpH:any) {

@@ -1,11 +1,16 @@
 import * as THREE from 'three'
+import { Plane } from 'three';
 
 //base world plane
-var worldPlaneGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 8, 8);
-var worldPlaneMaterial = new THREE.MeshStandardMaterial({ color: 0xcbcbcb, side: THREE.DoubleSide });
-var worldPlane = new THREE.Mesh(worldPlaneGeometry, worldPlaneMaterial);
-worldPlane.rotateX( - Math.PI / 2);
-worldPlane.receiveShadow = true;
-worldPlane.name = 'ground';
+const worldPlaneGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 8, 8);
+const worldPlaneMaterial = new THREE.MeshStandardMaterial({ color: 0xcbcbcb, side: THREE.DoubleSide });
 
-export {worldPlane};
+const worldPlaneMesh = new THREE.Mesh(worldPlaneGeometry, worldPlaneMaterial);
+worldPlaneMesh.rotateX( - Math.PI / 2);
+worldPlaneMesh.receiveShadow = true;
+worldPlaneMesh.name = 'ground';
+
+const worldPlane = new Plane(new THREE.Vector3( 0, 1, 0 ))
+const worldPlaneHelper = new THREE.PlaneHelper( worldPlane, 1, 0xffff00 );
+
+export {worldPlaneMesh, worldPlane, worldPlaneHelper};

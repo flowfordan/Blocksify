@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { drawingSlice } from '../../../store/reducers/drawingSlice';
 import { uiSlice } from '../../../store/reducers/uiSlice';
@@ -30,6 +29,10 @@ export const CreateMenu = (props:any): JSX.Element => {
   const handleBtnClick = () => {
     dispatch(toggleDrawLine(!isDrawLine))
   }
+
+  const handleFetchingCoordsToggle = () => {
+    dispatch(toggleUpdCoords(!isFetchingGlobalCoords))
+  }
   
   //initial values
   let coords: UICoords = {
@@ -55,6 +58,7 @@ export const CreateMenu = (props:any): JSX.Element => {
           onClick={handleBtnClick}>
             Draw Mode
           </div>
+          <hr/>
           <div>
             Coordinates
             <div>{`X: ${coords.x}`}</div>
@@ -63,11 +67,13 @@ export const CreateMenu = (props:any): JSX.Element => {
           </div>
           <hr/>
           <div>
-            <div>Count</div>
+            <div>Update coordinates</div>
+            <input type="checkbox" 
+            checked={isFetchingGlobalCoords}
+            onChange={() => handleFetchingCoordsToggle()}/><span>Update coordinates</span>
             <div>{count}</div>
-            <button onClick={() => dispatch(inc(1))}>Count</button>
           </div>
-
+          <hr/>
           <div>
             <div>Change Color</div>
             <div>{count}</div>

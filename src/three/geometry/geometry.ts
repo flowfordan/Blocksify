@@ -11,7 +11,7 @@ const material = new THREE.MeshStandardMaterial({
 const cube = new THREE.Mesh(geometry, material)
 //cube.receiveShadow = true;
 cube.castShadow = true;
-cube.position.set(0, 5, 0)
+cube.position.set(0, 5, 20)
 
 // wireframe
 var geo = new THREE.EdgesGeometry( cube.geometry ); // or WireframeGeometry
