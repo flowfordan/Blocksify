@@ -21,3 +21,8 @@
     color: white;
     background-color: rgb(134, 196, 255);
 }
+
+.drawingTools{
+    display: flex;
+    gap: 10px;
+}

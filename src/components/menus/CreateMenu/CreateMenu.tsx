@@ -14,10 +14,10 @@ interface UICoords {
 
 export const CreateMenu = (props:any): JSX.Element => {
 
-  const {count, isDrawLine} = useAppSelector(state => state.drawReducer);
+  const {isDrawLine, isDrawPLine} = useAppSelector(state => state.drawReducer);
   const {color, globalCoords, isFetchingGlobalCoords} = useAppSelector(state => state.uiReducer);
 
-  const {inc, toggleDrawLine} = drawingSlice.actions;
+  const {toggleDrawLine, toggleDrawPLine} = drawingSlice.actions;
   const {changeCubeColor, toggleUpdCoords} = uiSlice.actions;
 
   const dispatch = useAppDispatch();
@@ -26,8 +26,12 @@ export const CreateMenu = (props:any): JSX.Element => {
     dispatch(changeCubeColor(color === 0xffffff? 0xff00ff : 0xffffff))
   }
 
-  const handleBtnClick = () => {
+  const handleOnDrawLine = () => {
     dispatch(toggleDrawLine(!isDrawLine))
+  }
+
+  const handleOnDrawPLine = () => {
+    dispatch(toggleDrawPLine(!isDrawPLine))
   }
 
   const handleFetchingCoordsToggle = () => {
@@ -51,12 +55,21 @@ export const CreateMenu = (props:any): JSX.Element => {
       <div className={styles.header}>
 
         <h4>Creation Menu</h4>
-        <div>
-          <div className={isDrawLine? styles.buttonActive : styles.button} 
-          onClick={handleBtnClick}>
-            Draw Mode
+
+        <div >
+          <div className={styles.drawingTools}>
+            <div className={isDrawLine? styles.buttonActive : styles.button} 
+            onClick={handleOnDrawLine}>
+              Draw Line
+            </div>
+            <div className={isDrawPLine? styles.buttonActive : styles.button} 
+            onClick={handleOnDrawPLine}>
+              Draw Polyline
+            </div>
           </div>
+
           <hr/>
+
           <div>
             Coordinates
             <div>{`X: ${coords.x}`}</div>
