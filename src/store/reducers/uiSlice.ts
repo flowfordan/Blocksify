@@ -14,7 +14,7 @@ export interface UIState {
 
 const initialState: UIState = {
     color: 0xffffff,
-    isFetchingGlobalCoords: false,
+    isFetchingGlobalCoords: true,
     globalCoords: {
         x: 1,
         y: 1,
@@ -39,7 +39,7 @@ export const uiSlice = createSlice({
 })
 
 
-const {actions, reducer} = uiSlice
-export const { changeCubeColor, updateCoords, toggleUpdCoords } = actions
-export default reducer
+const {actions, reducer} = uiSlice;
+export const { changeCubeColor, updateCoords, toggleUpdCoords } = actions;
+export default reducer;
 

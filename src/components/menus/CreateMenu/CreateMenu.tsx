@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { drawingSlice } from '../../../store/reducers/drawingSlice';
 import { uiSlice } from '../../../store/reducers/uiSlice';
@@ -41,15 +41,13 @@ export const CreateMenu = (props:any): JSX.Element => {
     z: '0'
   };
 
-  if(globalCoords){
+  if(globalCoords && isFetchingGlobalCoords){
     coords.x = globalCoords.x.toFixed(2);
     coords.y = globalCoords.z.toFixed(2);
     coords.z = globalCoords.y.toFixed(2);
   }
-   
 
   return (
-
       <div className={styles.header}>
 
         <h4>Creation Menu</h4>
@@ -71,12 +69,10 @@ export const CreateMenu = (props:any): JSX.Element => {
             <input type="checkbox" 
             checked={isFetchingGlobalCoords}
             onChange={() => handleFetchingCoordsToggle()}/><span>Update coordinates</span>
-            <div>{count}</div>
           </div>
           <hr/>
           <div>
             <div>Change Color</div>
-            <div>{count}</div>
             <button onClick={() => handleColorChange()}>Change Color</button>
           </div>
         </div>

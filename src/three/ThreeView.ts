@@ -30,13 +30,12 @@ export class ThreeView {
     light: any;
     controls: OrbitControls;
     stats: any;
-    listeningStatus: boolean;
+    //listeningStatus: boolean;
     
 
     constructor(canvasRef: HTMLCanvasElement) {
         
         this.store = store;
-        // this.state = () => store.getState()
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color( 0xb3deff );
         
@@ -54,7 +53,8 @@ export class ThreeView {
 
         this.groundPlane = worldPlane;
 
-        this.listeningStatus = store.getState().uiReducer.isFetchingGlobalCoords
+        //set default listeningStatus
+       // this.listeningStatus = store.getState().uiReducer.isFetchingGlobalCoords
 
 
         //3dobjects
@@ -73,29 +73,37 @@ export class ThreeView {
         document.body.appendChild(this.stats.dom)
         this.stats.update()
 
+
         this.update();
         
 
         this.store.subscribe(this.changeCubeColor)
         this.store.subscribe(this.updGlobalCoords)
+
+        this.updGlobalCoords();
+        console.log(store.getState())
     }
 
-    getState = () => store.getState()
+
+    rdxState = () => store.getState();
+    //TODO: methods for getting different reducers
 
     changeCubeColor = () => {
-        cube.material.color.setHex(this.getState().uiReducer.color) 
+        cube.material.color.setHex(this.rdxState().uiReducer.color) 
     }
 
+    //to show coords on ground under mouse
     updGlobalCoords = () => {
-        if(this.getState().uiReducer.isFetchingGlobalCoords && !this.listeningStatus){
-            this.listeningStatus = true
+        if(this.rdxState().uiReducer.isFetchingGlobalCoords){
+            //this.listeningStatus = true;
             this.activeElement.addEventListener( 'pointermove', this.onGetMouseLoc );
-        } else if(!this.getState().uiReducer.isFetchingGlobalCoords){
-            this.listeningStatus = false
+        } else if(!this.rdxState().uiReducer.isFetchingGlobalCoords){
+            //this.listeningStatus = false;
             this.activeElement.removeEventListener( 'pointermove', this.onGetMouseLoc );
         }   
     }
 
+    //TODO:take to dif module
     getMouseLocation = (event: PointerEvent) => {
         event.preventDefault();
 
@@ -108,7 +116,7 @@ export class ThreeView {
 
         raycaster.ray.intersectPlane(this.groundPlane, _vec3);
 
-        return _vec3
+        return _vec3;
     }
 
     //get mouse coords on "ground" plane
@@ -129,7 +137,6 @@ export class ThreeView {
         this.renderer.render(this.scene, this.camera);
 
         requestAnimationFrame(this.update.bind(this));
-
 
         this.controls.update()
         this.stats.update() 
