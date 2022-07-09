@@ -27,5 +27,6 @@ export const drawingSlice = createSlice({
     }
 })
 
-
-export default drawingSlice.reducer;
+const {actions, reducer} = drawingSlice;
+export const { toggleDrawLine, toggleDrawPLine } = actions;
+export default reducer;
