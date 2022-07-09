@@ -15,6 +15,7 @@ import { toggleDrawLine } from '../store/reducers/drawingSlice';
 import { _vec3, _vec2, raycaster } from './common';
 
 import { drawClick, drawingLine, startDrawingLine } from './actions/drawLine';
+import { getMouseLocation } from './utils';
 
 interface ItoolsState {
     line: {
@@ -28,7 +29,6 @@ interface ItoolsState {
 }
 
 export class ThreeView {
-
     store: AppStore;
     scene: THREE.Scene;
     renderer: THREE.WebGLRenderer;
@@ -39,9 +39,7 @@ export class ThreeView {
     light: any;
     controls: OrbitControls;
     stats: any;
-    toolsState: ItoolsState;
-    //listeningStatus: boolean;
-    
+    toolsState: ItoolsState;   
 
     constructor(canvasRef: HTMLCanvasElement) {
         
@@ -55,8 +53,8 @@ export class ThreeView {
         });
         this.renderer.shadowMap.enabled = true;
         this.renderer.setClearColor(0xEEEEEE);
-        this.activeElement = this.renderer.domElement;
 
+        this.activeElement = this.renderer.domElement;
         this.rect = canvasRef.getBoundingClientRect();
 
         this.camera = camera;
@@ -121,7 +119,10 @@ export class ThreeView {
 
     //get mouse coords on "ground" plane
     onUpdMouseLoc = (event: PointerEvent) => {
-        let mouseLoc = this.getMouseLocation(event);
+        let mouseLoc = getMouseLocation(
+            event, this.rect, this.activeElement,
+            this.camera, this.groundPlane);
+        
         this.store.dispatch(updateCoords({
             x: mouseLoc.x, 
             y: mouseLoc.y,
