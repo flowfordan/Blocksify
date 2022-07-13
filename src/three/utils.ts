@@ -2,11 +2,11 @@ import * as THREE from 'three'
 import { _vec3, _vec2, raycaster } from './common';
 
 function getMouseLocation (
-    event: PointerEvent, 
+    event: MouseEvent, 
     rect: DOMRect, 
     canvas: HTMLCanvasElement, 
     camera: THREE.PerspectiveCamera | THREE.OrthographicCamera,
-    plane: THREE.Plane) {
+    plane: THREE.Plane): THREE.Vector3 {
     event.preventDefault();
 
     const x = event.clientX - rect.left;

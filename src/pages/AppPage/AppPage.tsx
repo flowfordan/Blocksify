@@ -17,7 +17,7 @@ export const AppPage= (): JSX.Element => {
           <Desk />
         </div>
 
-        <div className={styles.menuInspect}>
+        <div className={styles.menuInspect} id="inspect">
           Menu Inspect
         </div>
 

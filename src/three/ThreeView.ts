@@ -1,3 +1,4 @@
+import { Line } from './tools/Line';
 import * as THREE from 'three';
 import { camera } from './camera/camera';
 import { gridHelper } from './planeHelper';
@@ -12,21 +13,8 @@ import { setupStore as store } from '../store/store';
 import { updateCoords } from '../store/reducers/uiSlice';
 import { toggleDrawLine } from '../store/reducers/drawingSlice';
 
-import { _vec3, _vec2, raycaster } from './common';
-
-import { drawClick, drawingLine, startDrawingLine } from './actions/drawLine';
 import { getMouseLocation } from './utils';
 
-interface ItoolsState {
-    line: {
-        status: number 
-        coords: Array<THREE.Vector3>
-    }, 
-    polyline: {
-        status: number,
-        coords: Array<THREE.Vector3>
-    }
-}
 
 export class ThreeView {
     store: AppStore;
@@ -38,8 +26,10 @@ export class ThreeView {
     groundPlane: typeof worldPlane;
     light: any;
     controls: OrbitControls;
-    stats: any;
-    toolsState: ItoolsState;   
+    stats: any; 
+    tools: {
+        line: Line
+    }
 
     constructor(canvasRef: HTMLCanvasElement) {
         
@@ -72,16 +62,10 @@ export class ThreeView {
         this.controls = new OrbitControls(this.camera,  this.activeElement)
         this.controls.enableDamping = true;
 
-        //TEMP TOOLS STATE
-        this.toolsState = {
-            line: {
-                status: 0,//0 - off, 1 -activated, 2 - betw 1 & 2 click, 3 - after 2 click 
-                coords: []
-            }, 
-            polyline: {
-                status: 0,
-                coords: []
-            }
+        //TOOLS STATE
+        this.tools = {
+            line: new Line(this.activeElement, this.rect, this.scene, 0),
+            //pLine: new pLine()
         }
 
         //STATS
@@ -89,10 +73,12 @@ export class ThreeView {
         document.body.appendChild(this.stats.dom);
         this.stats.update();
         this.update();
+
         //subscriptions
         this.store.subscribe(this.changeCubeColor);
         this.store.subscribe(this.updGlobalCoords);
-        this.store.subscribe(this.onStartDrawingLine);
+
+        this.store.subscribe(this.setActiveDrawingTool);
 
         this.updGlobalCoords();
     }
@@ -100,9 +86,18 @@ export class ThreeView {
     rdxState = () => store.getState();
     //TODO: methods for getting different reducers
 
-    onDrawingLine = drawingLine.bind(this);
-    onStartDrawingLine = startDrawingLine.bind(this);
-    onDrawClick = drawClick.bind(this);
+    setActiveDrawingTool = () => {
+        if(this.rdxState().drawReducer.isDrawLine 
+            && this.tools.line.toolState === 0){
+                this.tools.line.startDrawing(this.camera, this.groundPlane);
+                
+        } else if (!this.rdxState().drawReducer.isDrawLine 
+        && this.tools.line.toolState !== 0) {
+            this.tools.line.stopDrawing()
+        }
+
+        //TODO:else if for POLYLINE
+    }
 
     changeCubeColor = () => {
         cube.material.color.setHex(this.rdxState().uiReducer.color) 
@@ -118,7 +113,7 @@ export class ThreeView {
     }
 
     //get mouse coords on "ground" plane
-    onUpdMouseLoc = (event: PointerEvent) => {
+    onUpdMouseLoc = (event: MouseEvent) => {
         let mouseLoc = getMouseLocation(
             event, this.rect, this.activeElement,
             this.camera, this.groundPlane);
@@ -128,36 +123,7 @@ export class ThreeView {
             y: mouseLoc.y,
             z:mouseLoc.z
         })) //send mouseloc to UI
-
-        //check active tool and trigger drawing
-        if(this.rdxState().drawReducer.isDrawLine){
-            this.onDrawingLine(mouseLoc);
-        }
     };
-
-    //TODO:take to dif module
-    getMouseLocation = (event: PointerEvent) => {
-        event.preventDefault();
-
-        const x = event.clientX - this.rect.left;
-        const y = event.clientY - this.rect.top;
-
-        _vec2.x = ( x / this.activeElement.width ) * 2 - 1;
-        _vec2.y = - ( y / this.activeElement.height ) * 2 + 1;
-        raycaster.setFromCamera( _vec2, this.camera );
-
-        raycaster.ray.intersectPlane(this.groundPlane, _vec3);
-
-        return _vec3;
-    }
-
-    //abort drawing by esc
-    //TODO: delete parts of not-finished-line
-    onDrawKeyDown = (event: any ) => {
-        if(event.key === "Escape"){
-            this.store.dispatch(toggleDrawLine(false))
-        }
-    }
 
     onWindowResize(vpW:any, vpH:any) {
         this.renderer.setSize(vpW, vpH);
