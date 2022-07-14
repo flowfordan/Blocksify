@@ -142,7 +142,6 @@ export class Line{
 
         //remove 1 point of began line
         if(this.toolState === 2){
-            console.log('rmv p1')
             this.scene.remove(this.form.p1)
         };
 

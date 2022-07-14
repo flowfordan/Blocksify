@@ -110,7 +110,6 @@ export class ThreeView {
 
     onAbort = (event: KeyboardEvent) => {
         if(event.key === "Escape"){
-            console.log('Escape')
             this.store.dispatch(toggleDrawLine(false));
             this.setActiveDrawingTool();
         }
