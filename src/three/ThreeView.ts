@@ -90,14 +90,30 @@ export class ThreeView {
         if(this.rdxState().drawReducer.isDrawLine 
             && this.tools.line.toolState === 0){
                 this.tools.line.startDrawing(this.camera, this.groundPlane);
+                this.listenToAbort();
                 
         } else if (!this.rdxState().drawReducer.isDrawLine 
         && this.tools.line.toolState !== 0) {
             this.tools.line.stopDrawing();
-            this.tools.line.toolState = 0
+            this.tools.line.toolState = 0;
+
+            window.removeEventListener('keydown', this.onAbort)
         }
 
         //TODO:else if for POLYLINE
+    }
+
+    listenToAbort = () => {
+        //handle escape
+        window.addEventListener('keydown', this.onAbort)
+    }
+
+    onAbort = (event: KeyboardEvent) => {
+        if(event.key === "Escape"){
+            console.log('Escape')
+            this.store.dispatch(toggleDrawLine(false));
+            this.setActiveDrawingTool();
+        }
     }
 
     changeCubeColor = () => {

@@ -20,8 +20,14 @@ export class Line{
         lGeom: LineGeometry,
         lMat: LineMaterial
     }
+    form: {
+        p1: THREE.Points,
+        p2: THREE.Points
+    }
 
-    constructor(canvas: HTMLCanvasElement, rect: DOMRect, scene: THREE.Scene, initToolState: number){
+    //TODO: active layer to constructor to adjust settings? like color and width
+    constructor(canvas: HTMLCanvasElement, rect: DOMRect, 
+        scene: THREE.Scene, initToolState: number){
         
         this.canvas = canvas;
         this.rect = rect;
@@ -39,31 +45,26 @@ export class Line{
             lGeom: lGeom,
             lMat: lMat
         };
+
+        this.form = {
+            p1: new THREE.Points(),
+            p2: new THREE.Points()
+        }
         
         this.toolState = initToolState; //state from 1 to 3
     }
 
     startDrawing = (camera: typeof this.currentCamera, plane: typeof this.currentPlane) => {
+        console.log('NEW START')
         this.toolState = 1;
 
         this.currentCamera = camera;
         this.currentPlane = plane;
         
-
         this.canvas.addEventListener('mousemove', this._onMouseMove);
 
         this.canvas.addEventListener('click', this._onDrawClick);
-
-        //TODO: keyDown(Esc or Right Mouse) - AFFECT PARENT CLASS
-        //abort drawing by esc
-        //TODO: delete parts of not-finished-line
-        // onDrawKeyDown = (event: any ) => {
-        //     if(event.key === "Escape"){
-        //         this.store.dispatch(toggleDrawLine(false))
-        //     }
-        // }
     }
-
 
     private _onMouseMove = (e: MouseEvent) => {
         //get coords
@@ -82,8 +83,6 @@ export class Line{
             this.currentLineCoords.length = 3
             let coords: Array<number> = Object.values(this.currentCoord!)
             this.currentLineCoords.push.apply(this.currentLineCoords, coords);
-
-            // let guideLine = new FatGuideLineObj(this.currentLineCoords).init();
             
             this.scene.add(this.guideLine.line);
             this.guideLine.lGeom.setPositions(this.currentLineCoords);
@@ -100,9 +99,10 @@ export class Line{
             let coords: Array<number> = Object.values(this.currentCoord!)
             this.currentLineCoords.push.apply(this.currentLineCoords, coords);
 
-            let point = pointObj(this.currentLineCoordsV3[0]);
+            this.form.p1 = pointObj(this.currentLineCoordsV3[0]);
+            //let p1 = pointObj(this.currentLineCoordsV3[0]);
             //adding
-            this.scene.add(point);
+            this.scene.add(this.form.p1);
 
             //GUIDE
             this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat)
@@ -118,26 +118,34 @@ export class Line{
             let coords: Array<number> = Object.values(this.currentCoord!)
             this.currentLineCoords.push.apply(this.currentLineCoords, coords);
 
-            let point = pointObj(this.currentLineCoordsV3[1]);
-            // let line = lineObj(this.currentLineCoordsV3)
+            this.form.p2 = pointObj(this.currentLineCoordsV3[1]);
             let line = fatLineObj(this.currentLineCoords)
 
             //adding
-            this.scene.add(point, line);
+            this.scene.add(this.form.p2, line);
+            this.scene.remove(this.guideLine.line)
             //push to scene
             this.toolState = 1;
             //clear
             this.currentLineCoords = []
         }
-
     }
 
     stopDrawing = () => {
-        //delete guide from scene
+        console.log('Drawing stopped')
+        //delete guide and point from scene
         this.scene.remove(this.guideLine.line)
+        
+        //rmv EL
         this.canvas.removeEventListener('mousemove', this._onMouseMove);
         this.canvas.removeEventListener('click', this._onDrawClick);
-        console.log(this.guideLine.line)
-        console.log(this.scene.children)
+
+        //remove 1 point of began line
+        if(this.toolState === 2){
+            console.log('rmv p1')
+            this.scene.remove(this.form.p1)
+        };
+
+        this.currentLineCoords = []; 
     }
 }
