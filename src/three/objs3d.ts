@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 const pointObj = (coords: any) => {
     let position = Float32Array.from(coords)
@@ -22,5 +23,51 @@ const lineObj = (coords: any) => {
     return line
 };
 
+const fatLineObj = (coords: Array<number>) => {
+    const lGeom = new LineGeometry();
+    lGeom.setPositions(coords);
 
-export {pointObj, lineObj}
+    const lMat = new LineMaterial({
+        color: 0x000000,
+        linewidth: 3,
+        resolution: new THREE.Vector2(1920, 1080)
+    });
+
+    const line = new Line2(lGeom, lMat);
+    line.computeLineDistances();
+
+    return line;
+} 
+
+const fatGuideLineObj = (coords: Array<number>) => {
+    
+    lGeom.setPositions(coords);
+
+    const lMat = new LineMaterial({
+        color: 0x000000,
+        linewidth: 3,
+        resolution: new THREE.Vector2(1920, 1080),
+        dashed: true,
+
+    });
+
+    const line = new Line2(lGeom, lMat);
+    line.computeLineDistances();
+
+
+    return line;
+}
+
+
+const lMat = new LineMaterial({
+    color: 0x7A7A7A,
+    linewidth: 3,
+    resolution: new THREE.Vector2(1920, 1080),
+    dashed: true,
+
+});
+
+const lGeom = new LineGeometry();
+
+
+export {pointObj, lineObj, fatLineObj, fatGuideLineObj, lMat, lGeom}

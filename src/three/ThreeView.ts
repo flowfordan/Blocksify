@@ -93,7 +93,8 @@ export class ThreeView {
                 
         } else if (!this.rdxState().drawReducer.isDrawLine 
         && this.tools.line.toolState !== 0) {
-            this.tools.line.stopDrawing()
+            this.tools.line.stopDrawing();
+            this.tools.line.toolState = 0
         }
 
         //TODO:else if for POLYLINE
