@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import { observer } from "mobx-react-lite"
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { sceneState } from '../../../state/sceneState';
 import { drawingSlice } from '../../../store/reducers/drawingSlice';
-import { uiSlice } from '../../../store/reducers/uiSlice';
 import styles from './CreateMenu.module.css';
 
 
@@ -12,19 +13,14 @@ interface UICoords {
 };
 
 
-export const CreateMenu = (props:any): JSX.Element => {
+export const CreateMenu = observer((props:any): JSX.Element => {
 
   const {isDrawLine, isDrawPLine} = useAppSelector(state => state.drawReducer);
-  const {color, globalCoords, isFetchingGlobalCoords} = useAppSelector(state => state.uiReducer);
 
   const {toggleDrawLine, toggleDrawPLine} = drawingSlice.actions;
-  const {changeCubeColor, toggleUpdCoords} = uiSlice.actions;
+
 
   const dispatch = useAppDispatch();
-
-  const handleColorChange = () => {
-    dispatch(changeCubeColor(color === 0xffffff? 0xff00ff : 0xffffff))
-  }
 
   const handleOnDrawLine = () => {
     dispatch(toggleDrawLine(!isDrawLine))
@@ -34,22 +30,16 @@ export const CreateMenu = (props:any): JSX.Element => {
     dispatch(toggleDrawPLine(!isDrawPLine))
   }
 
-  const handleFetchingCoordsToggle = () => {
-    dispatch(toggleUpdCoords(!isFetchingGlobalCoords))
+  const toggleFetchingCoords = () => {
+    sceneState.toggleCoordsFetching(!sceneState.isFetchingGlobalCoords)
   }
   
   //initial values
   let coords: UICoords = {
-    x: '0',
-    y: '0',
-    z: '0'
+    x: `${sceneState.globalCoords.x.toFixed(2)}`,
+    y: `${sceneState.globalCoords.z.toFixed(2)}`,
+    z: `${sceneState.globalCoords.y.toFixed(2)}`
   };
-
-  if(globalCoords && isFetchingGlobalCoords){
-    coords.x = globalCoords.x.toFixed(2);
-    coords.y = globalCoords.z.toFixed(2);
-    coords.z = globalCoords.y.toFixed(2);
-  }
 
   return (
       <div className={styles.header}>
@@ -80,18 +70,14 @@ export const CreateMenu = (props:any): JSX.Element => {
           <div>
             <div>Update coordinates</div>
             <input type="checkbox" 
-            checked={isFetchingGlobalCoords}
-            onChange={() => handleFetchingCoordsToggle()}/><span>Update coordinates</span>
+            checked={sceneState.isFetchingGlobalCoords}
+            onChange={() => toggleFetchingCoords()}/><span>Update coordinates</span>
           </div>
           <hr/>
-          <div>
-            <div>Change Color</div>
-            <button onClick={() => handleColorChange()}>Change Color</button>
-          </div>
         </div>
         
 
       </div>
 
   );
-}
+})

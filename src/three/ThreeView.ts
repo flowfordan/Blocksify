@@ -15,6 +15,10 @@ import { toggleDrawLine } from '../store/reducers/drawingSlice';
 
 import { getMouseLocation } from './utils';
 
+import { cubeState } from '../state/cubeState';
+
+import { makeAutoObservable, autorun } from "mobx"
+import { sceneState } from '../state/sceneState';
 
 export class ThreeView {
     store: AppStore;
@@ -74,13 +78,20 @@ export class ThreeView {
         this.stats.update();
         this.update();
 
-        //subscriptions
-        this.store.subscribe(this.changeCubeColor);
-        this.store.subscribe(this.updGlobalCoords);
-
+        //subscription to observe App State
         this.store.subscribe(this.setActiveDrawingTool);
 
-        this.updGlobalCoords();
+        this.updState()
+    }
+
+    updState = () => {
+        autorun(() => {
+            this.changeCubeColor()
+        });
+
+        autorun(() => {
+            this.updGlobalCoords()
+        })
     }
 
     rdxState = () => store.getState();
@@ -116,29 +127,32 @@ export class ThreeView {
     }
 
     changeCubeColor = () => {
-        cube.material.color.setHex(this.rdxState().uiReducer.color) 
+        cube.material.color.setHex(cubeState.cubeColor)
     }
 
     //to show coords on ground under mouse
     updGlobalCoords = () => {
-        if(this.rdxState().uiReducer.isFetchingGlobalCoords){
+        if(sceneState.isFetchingGlobalCoords){
             this.activeElement.addEventListener( 'pointermove', this.onUpdMouseLoc );
-        } else if(!this.rdxState().uiReducer.isFetchingGlobalCoords){
+        } else {
             this.activeElement.removeEventListener( 'pointermove', this.onUpdMouseLoc );
         }   
     }
+
 
     //get mouse coords on "ground" plane
     onUpdMouseLoc = (event: MouseEvent) => {
         let mouseLoc = getMouseLocation(
             event, this.rect, this.activeElement,
             this.camera, this.groundPlane);
-        
-        this.store.dispatch(updateCoords({
+
+        //send mouseloc to State
+        //TODO:not send new obj every time
+        sceneState.setGlobalCoords({
             x: mouseLoc.x, 
             y: mouseLoc.y,
             z:mouseLoc.z
-        })) //send mouseloc to UI
+        })
     };
 
     onWindowResize(vpW:any, vpH:any) {
