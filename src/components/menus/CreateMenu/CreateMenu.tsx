@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { observer } from "mobx-react-lite"
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { sceneState } from '../../../state/sceneState';
-import { drawingSlice } from '../../../store/reducers/drawingSlice';
+
 import styles from './CreateMenu.module.css';
+import { sceneState, toolsState } from '../../../state';
 
 
 interface UICoords {
@@ -15,19 +14,12 @@ interface UICoords {
 
 export const CreateMenu = observer((props:any): JSX.Element => {
 
-  const {isDrawLine, isDrawPLine} = useAppSelector(state => state.drawReducer);
-
-  const {toggleDrawLine, toggleDrawPLine} = drawingSlice.actions;
-
-
-  const dispatch = useAppDispatch();
-
   const handleOnDrawLine = () => {
-    dispatch(toggleDrawLine(!isDrawLine))
+    toolsState.toggleDrawLine(!toolsState.isDrawLine);
   }
 
   const handleOnDrawPLine = () => {
-    dispatch(toggleDrawPLine(!isDrawPLine))
+    toolsState.toggleDrawPLine(!toolsState.isDrawPLine);
   }
 
   const toggleFetchingCoords = () => {
@@ -48,11 +40,11 @@ export const CreateMenu = observer((props:any): JSX.Element => {
 
         <div >
           <div className={styles.drawingTools}>
-            <div className={isDrawLine? styles.buttonActive : styles.button} 
+            <div className={toolsState.isDrawLine? styles.buttonActive : styles.button} 
             onClick={handleOnDrawLine}>
               Draw Line
             </div>
-            <div className={isDrawPLine? styles.buttonActive : styles.button} 
+            <div className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
             onClick={handleOnDrawPLine}>
               Draw Polyline
             </div>

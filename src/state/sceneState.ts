@@ -36,9 +36,8 @@ class SceneState{
         this.globalCoords.z = coords.z;
     }
 
-
 }
 
-const sceneState = new SceneState()
+const sceneState = new SceneState();
 
 export {sceneState}

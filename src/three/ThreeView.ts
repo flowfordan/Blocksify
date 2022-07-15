@@ -8,20 +8,13 @@ import {cube} from './geometry/geometry';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import {worldPlaneMesh, worldPlane, worldPlaneHelper} from './geometry/worldPlane';
 
-import { AppStore } from '../store/store';
-import { setupStore as store } from '../store/store';
-import { updateCoords } from '../store/reducers/uiSlice';
-import { toggleDrawLine } from '../store/reducers/drawingSlice';
-
 import { getMouseLocation } from './utils';
 
-import { cubeState } from '../state/cubeState';
+import { autorun } from "mobx";
+import { sceneState, toolsState } from '../state';
 
-import { makeAutoObservable, autorun } from "mobx"
-import { sceneState } from '../state/sceneState';
 
 export class ThreeView {
-    store: AppStore;
     scene: THREE.Scene;
     renderer: THREE.WebGLRenderer;
     activeElement: HTMLCanvasElement;
@@ -37,7 +30,6 @@ export class ThreeView {
 
     constructor(canvasRef: HTMLCanvasElement) {
         
-        this.store = store;
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color( 0xb3deff );
         
@@ -57,7 +49,7 @@ export class ThreeView {
 
         //3dobjects
         this.scene.add(cube, worldPlaneMesh, worldPlaneHelper, gridHelper);
-        cube.material.color.setHex(store.getState().uiReducer.color)
+        cube.material.color.setHex(0x0fda54)
 
         //lights
         this.scene.add(dirLight, dirLightHelper, hemiLight)
@@ -79,31 +71,26 @@ export class ThreeView {
         this.update();
 
         //subscription to observe App State
-        this.store.subscribe(this.setActiveDrawingTool);
-
         this.updState()
     }
 
     updState = () => {
         autorun(() => {
-            this.changeCubeColor()
+            this.updGlobalCoords()
         });
 
         autorun(() => {
-            this.updGlobalCoords()
+            this.setActiveDrawingTool()
         })
     }
 
-    rdxState = () => store.getState();
-    //TODO: methods for getting different reducers
-
     setActiveDrawingTool = () => {
-        if(this.rdxState().drawReducer.isDrawLine 
+        if(toolsState.isDrawLine 
             && this.tools.line.toolState === 0){
                 this.tools.line.startDrawing(this.camera, this.groundPlane);
                 this.listenToAbort();
                 
-        } else if (!this.rdxState().drawReducer.isDrawLine 
+        } else if (!toolsState.isDrawLine 
         && this.tools.line.toolState !== 0) {
             this.tools.line.stopDrawing();
             this.tools.line.toolState = 0;
@@ -121,13 +108,9 @@ export class ThreeView {
 
     onAbort = (event: KeyboardEvent) => {
         if(event.key === "Escape"){
-            this.store.dispatch(toggleDrawLine(false));
+            toolsState.toggleDrawLine(false);
             this.setActiveDrawingTool();
         }
-    }
-
-    changeCubeColor = () => {
-        cube.material.color.setHex(cubeState.cubeColor)
     }
 
     //to show coords on ground under mouse
