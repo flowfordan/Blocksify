@@ -11,7 +11,7 @@ import {worldPlaneMesh, worldPlane, worldPlaneHelper} from './geometry/worldPlan
 import { getMouseLocation } from './utils';
 
 import { autorun } from "mobx";
-import { sceneState, toolsState } from '../state';
+import { Layer, layersState, sceneState, toolsState } from '../state';
 
 
 export class ThreeView {
@@ -19,14 +19,15 @@ export class ThreeView {
     renderer: THREE.WebGLRenderer;
     activeElement: HTMLCanvasElement;
     rect: DOMRect;
-    camera: any;
+    camera: THREE.PerspectiveCamera;
     groundPlane: typeof worldPlane;
     light: any;
     controls: OrbitControls;
     stats: any; 
     tools: {
         line: Line
-    }
+    };
+    currentLayer: Layer|null;
 
     constructor(canvasRef: HTMLCanvasElement) {
         
@@ -44,6 +45,8 @@ export class ThreeView {
         this.rect = canvasRef.getBoundingClientRect();
 
         this.camera = camera;
+
+        this.currentLayer = null
 
         this.groundPlane = worldPlane;
 
@@ -81,13 +84,26 @@ export class ThreeView {
 
         autorun(() => {
             this.setActiveDrawingTool()
+        });
+
+        autorun(() => {
+            this.setLayer()
         })
+    }
+
+    setLayer = () => {
+        let current = layersState.layers.find(l => l.active)
+        if(current){
+            this.currentLayer = current;
+            this.camera.layers.enable(current.id)
+        }
+        
     }
 
     setActiveDrawingTool = () => {
         if(toolsState.isDrawLine 
             && this.tools.line.toolState === 0){
-                this.tools.line.startDrawing(this.camera, this.groundPlane);
+                this.tools.line.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
                 this.listenToAbort();
                 
         } else if (!toolsState.isDrawLine 
@@ -115,6 +131,7 @@ export class ThreeView {
 
     //to show coords on ground under mouse
     updGlobalCoords = () => {
+        let a = cube.layers
         if(sceneState.isFetchingGlobalCoords){
             this.activeElement.addEventListener( 'pointermove', this.onUpdMouseLoc );
         } else {

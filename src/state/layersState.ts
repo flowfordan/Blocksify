@@ -3,7 +3,7 @@ import { makeAutoObservable } from "mobx";
 const defaultPreset = [
     {
             name: 'Border',
-            numThree: 2,
+            id: 2,
             active: true,
             empty: true,
             editable: true,
@@ -15,7 +15,7 @@ const defaultPreset = [
           },
           {
             name: 'Streets',
-            numThree: 3,
+            id: 3,
             active: false,
             empty: false,
             editable: true,
@@ -27,7 +27,7 @@ const defaultPreset = [
           },
           {
             name: 'Blocks',
-            numThree: 4,
+            id: 4,
             active: false,
             empty: true,
             editable: false,
@@ -39,7 +39,7 @@ const defaultPreset = [
           },
           {
             name: 'Buildings',
-            numThree: 5,
+            id: 5,
             active: false,
             empty: true,
             editable: false,
@@ -51,9 +51,9 @@ const defaultPreset = [
           }
 ]
 
-type Layer = {
+export type Layer = {
     name: string;
-    numThree: number;
+    id: number; //three layers from 0 to 32
     active: boolean;
     empty: boolean;
     editable: boolean;
@@ -83,7 +83,7 @@ class LayersState{
 
     setActiveLayer = (num: number) => {
         //set new active
-        let newActive = this.layers.find(item => item.numThree === num);
+        let newActive = this.layers.find(item => item.id === num);
 
         if(newActive){
             

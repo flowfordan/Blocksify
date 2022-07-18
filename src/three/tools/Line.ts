@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { getMouseLocation } from "../utils";
 import { pointObj, lineObj, fatLineObj, fatGuideLineObj, lMat, lGeom } from "../objs3d";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
+import { Layer } from "../../state";
 
 
 export class Line{
@@ -19,11 +20,12 @@ export class Line{
         line: Line2,
         lGeom: LineGeometry,
         lMat: LineMaterial
-    }
+    };
     form: {
         p1: THREE.Points,
         p2: THREE.Points
-    }
+    };
+    layer: Layer|null;
 
     //TODO: active layer to constructor to adjust settings? like color and width
     constructor(canvas: HTMLCanvasElement, rect: DOMRect, 
@@ -32,6 +34,7 @@ export class Line{
         this.canvas = canvas;
         this.rect = rect;
         this.scene = scene;
+        this.layer = null;
 
         this.currentCamera = null;
         this.currentPlane = null;
@@ -54,9 +57,11 @@ export class Line{
         this.toolState = initToolState; //state from 1 to 3
     }
 
-    startDrawing = (camera: typeof this.currentCamera, plane: typeof this.currentPlane) => {
+    startDrawing = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer:Layer) => {
         console.log('NEW START')
         this.toolState = 1;
+
+        this.layer = layer
 
         this.currentCamera = camera;
         this.currentPlane = plane;
@@ -119,7 +124,12 @@ export class Line{
             this.currentLineCoords.push.apply(this.currentLineCoords, coords);
 
             this.form.p2 = pointObj(this.currentLineCoordsV3[1]);
-            let line = fatLineObj(this.currentLineCoords)
+            let line = fatLineObj(this.currentLineCoords);
+
+            line.layers.set(this.layer!.id)
+            let color = this.layer?.appearance.colorLine
+            line.material.color.setHex(color!)
+            console.log(color, line)
 
             //adding
             this.scene.add(this.form.p2, line);
