@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react-lite";
+
+import cn from 'classnames';
 
 import styles from './LeftBar.module.css';
-import { sceneState, toolsState } from '../../state';
+import { sceneState, layersState } from '../../state';
+import classNames from 'classnames';
 
 
 interface UICoords {
@@ -11,16 +14,59 @@ interface UICoords {
     z: string;
 };
 
+const layers = [
+  {
+    name: 'Border',
+    numThree: 2,
+    active: true,
+    empty: true,
+    editable: true,
+    visible: true,
+    appearance: {
+        colorLine: 0xFF5E32,
+        colorArea: 0xFF5E32,
+    }
+  },
+  {
+    name: 'Streets',
+    numThree: 3,
+    active: false,
+    empty: false,
+    editable: true,
+    visible: true,
+    appearance: {
+        colorLine: 0x533931,
+        colorArea: 0x533931,
+    }
+  },
+  {
+    name: 'Blocks',
+    numThree: 4,
+    active: false,
+    empty: true,
+    editable: false,
+    visible: true,
+    appearance: {
+        colorLine: 0x533931,
+        colorArea: 0x533931,
+    }
+  },
+  {
+    name: 'Buildings',
+    numThree: 5,
+    active: false,
+    empty: true,
+    editable: false,
+    visible: false,
+    appearance: {
+        colorLine: 0x533931,
+        colorArea: 0x533931,
+    }
+  }
+]
+
 
 export const LeftBar = observer((props:any): JSX.Element => {
-
-  const handleOnDrawLine = () => {
-    toolsState.toggleDrawLine(!toolsState.isDrawLine);
-  }
-
-  const handleOnDrawPLine = () => {
-    toolsState.toggleDrawPLine(!toolsState.isDrawPLine);
-  }
 
   const toggleFetchingCoords = () => {
     sceneState.toggleCoordsFetching(!sceneState.isFetchingGlobalCoords)
@@ -33,11 +79,28 @@ export const LeftBar = observer((props:any): JSX.Element => {
     z: `${sceneState.globalCoords.y.toFixed(2)}`
   };
 
+  const constructLayersList = (layersArr: typeof layers) => {
+    return(
+      layersArr.map(l => {
+        return (
+          <li key={l.numThree} className={cn(styles.layerItem, {
+            [styles.layerItem_empty]: l.empty,
+            [styles.layerItem_active]: l.active,
+            [styles.layerItem_notEditable]: !l.editable,
+          })}>{l.name}</li>
+        )
+      })
+    )
+  }
+
   return (
       <div className={styles.leftBar}>
 
         <div className={styles.layersPanel}>
           <div>Layers</div>
+          <ul className={styles.layersList}>
+            {constructLayersList(layers)}
+          </ul>
         </div>
 
         <div className={styles.adjustmentsPanel}>
