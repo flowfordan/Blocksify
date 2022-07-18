@@ -4,14 +4,14 @@
     color: var(--white);
     grid-area: header;
     padding: 10px;
-    max-height: 100%;
+    /* max-height: 100%; */
 }
 
-.canvasScene{
-    max-width: 100%;
-    max-height: auto;
+/* .canvasScene{
+    width: 100%;
+    height: 100%;
     z-index: 0;
-}
+} */
 
 /* .canvasScene{
     max-width: 100%;
@@ -19,10 +19,10 @@
     z-index: 1;
 } */
 
-/* .desk canvas{
-    max-width: 400px;
-    max-height: 400px;
-} */
+canvas{
+    width: 100%;
+    height: 100%;
+}
 
 /* canvas{
     display: none;

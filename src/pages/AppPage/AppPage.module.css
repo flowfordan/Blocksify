@@ -1,9 +1,8 @@
 .page {
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
     "lBar canvas rBar";
     grid-template-columns: minmax(200px, auto) minmax(500px, 1fr) minmax(200px, auto);
-    /* grid-template-rows: 600px; */
 }
 
 .sideBar{
@@ -21,6 +20,7 @@
     background-color: var(--white);
     border-left: 0.5px solid var(--grey-light);
 }
+
 
 .canvas{
     grid-area: canvas;

@@ -8,11 +8,14 @@ export const Desk = (props:any): JSX.Element => {
   let threeView: any;
   const canvasScene = useRef<null | HTMLCanvasElement>(null);
   const canvasUI = useRef<null | HTMLCanvasElement>(null);
+  const canvasContainer = useRef<null | HTMLDivElement>(null)
   
   const resizeObserver = new ResizeObserver(entries => {
+    console.log('res')
     entries.forEach(entry => {
       //on view params change
       if(threeView){
+        console.log('resize observ trigger', entry.contentRect.width, entry.contentRect.height, window.innerWidth, window.innerHeight)
         threeView.onWindowResize(
           entry.contentRect.width, entry.contentRect.height
         )
@@ -29,12 +32,7 @@ export const Desk = (props:any): JSX.Element => {
     threeView = new ThreeView(innerTreeRef);
     
     resizeObserver.observe(innerTreeRef)
-    
-    handleResize();
 
-
-    //window.addEventListener('mousemove', mouseMove);
-    window.addEventListener('resize', handleResize, false);  
   }
   ,[])
   
@@ -45,7 +43,7 @@ export const Desk = (props:any): JSX.Element => {
   };
 
   return (
-      <canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>
+      <canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>    
 );
 
   // return (
