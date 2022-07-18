@@ -36,37 +36,34 @@ export const LeftBar = observer((props:any): JSX.Element => {
   return (
       <div className={styles.leftBar}>
 
-        <div>Layers</div>
+        <div className={styles.layersPanel}>
+          <div>Layers</div>
+        </div>
 
-        <div >
-          <div className={styles.drawingTools}>
-            <div className={toolsState.isDrawLine? styles.buttonActive : styles.button} 
-            onClick={handleOnDrawLine}>
-              Draw Line
-            </div>
-            <div className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
-            onClick={handleOnDrawPLine}>
-              Draw Polyline
-            </div>
-          </div>
+        <div className={styles.adjustmentsPanel}>
+          <span>Adjust</span>
+        </div>
 
-          <hr/>
+        <div className={styles.coordsPanel}>
+          
 
           <div>
-            Coordinates
-            <div>{`X: ${coords.x}`}</div>
-            <div>{`Y: ${coords.y}`}</div>
-            <div>{`Z: ${coords.z}`}</div>
-          </div>
-          <hr/>
-          <div>
-            <div>Update coordinates</div>
             <input type="checkbox" 
             checked={sceneState.isFetchingGlobalCoords}
-            onChange={() => toggleFetchingCoords()}/><span>Update coordinates</span>
+            onChange={() => toggleFetchingCoords()}/>
+            <span>Update coordinates</span>
           </div>
-          <hr/>
+
+          <div className={styles.coords}>
+            <span>{`X: ${coords.x}`}</span>
+            <span>{`Y: ${coords.y}`}</span>
+            <span>{`Z: ${coords.z}`}</span>
+          </div>
         </div>
+
+        
+
+
         
 
       </div>

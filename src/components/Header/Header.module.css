@@ -5,5 +5,12 @@
     background-color: var(--black);
     color: var(--white);
     grid-area: header;
-    padding: 20px;
+}
+
+.logo{
+    padding: 20px 0
+}
+
+.toolsWrap{
+    height: 100%;
 }

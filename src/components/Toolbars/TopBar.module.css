@@ -1,0 +1,33 @@
+.button, .buttonActive{
+    height: 100%;
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: all 0.2s;
+}
+
+.button:hover{
+    background-color: var(--black-dark);
+    color: var(--grey-main);
+}
+
+.button:active{
+    background-color: rgb(134, 196, 255);
+}
+
+.buttonActive{
+    color: white;
+    background-color: rgb(134, 196, 255);
+}
+
+.tools{
+    height: 100%;
+}
+
+.drawingTools{
+    height: 100%;
+    display: flex;
+    /* gap: 10px; */
+}

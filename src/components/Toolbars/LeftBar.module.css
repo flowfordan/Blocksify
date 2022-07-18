@@ -1,5 +1,24 @@
 .leftBar{
-    /* height: 100%; */
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr auto;
+}
+
+.layersPanel{
+
+}
+
+.adjustmentsPanel{
+
+}
+
+.coordsPanel{
+
+}
+
+.coords{
+    display: flex;
+    gap: 10px;
 }
 
 .button, .buttonActive{
