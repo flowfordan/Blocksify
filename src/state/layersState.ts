@@ -30,7 +30,7 @@ const defaultPreset = [
             numThree: 4,
             active: false,
             empty: true,
-            editable: true,
+            editable: false,
             visible: true,
             appearance: {
                 colorLine: 0x533931,

@@ -11,7 +11,6 @@ export const Desk = (props:any): JSX.Element => {
   const canvasContainer = useRef<null | HTMLDivElement>(null)
   
   const resizeObserver = new ResizeObserver(entries => {
-    console.log('res')
     entries.forEach(entry => {
       //on view params change
       if(threeView){

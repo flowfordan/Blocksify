@@ -12,14 +12,12 @@ import { CoordsDisplay } from '../Coords/CoordsDisplay';
 export const LeftBar = observer((props:any): JSX.Element => {
 
   const handleSelectLayer = (num: number) => {
-    console.log(num)
     layersState.setActiveLayer(num)
   }
 
   const constructLayersList = (layersArr: typeof layersState.layers) => {
     return(
       layersArr.map(l => {
-        console.log(l.name, l.active)
         return (
           <li key={l.numThree} className={cn(styles.layerItem, {
             [styles.layerItem_empty]: l.empty,
