@@ -45,11 +45,15 @@ export const Desk = (props:any): JSX.Element => {
   };
 
   return (
-      <div className={styles.desk}>
-        {/* <canvas ref={canvasUI} {...props} className={styles.canvasUI} id='canvasUI'/> */}
-        <canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>
-      </div>
-  );
+      <canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>
+);
+
+  // return (
+  //     <div className={styles.desk}>
+  //       {/* <canvas ref={canvasUI} {...props} className={styles.canvasUI} id='canvasUI'/> */}
+  //       <canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>
+  //     </div>
+  // );
 }
 
  

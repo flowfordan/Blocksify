@@ -13,13 +13,17 @@
     z-index: 0;
 }
 
-.canvasScene{
+/* .canvasScene{
     max-width: 100%;
     max-height: auto;
     z-index: 1;
-}
+} */
 
 /* .desk canvas{
     max-width: 400px;
     max-height: 400px;
+} */
+
+/* canvas{
+    display: none;
 } */

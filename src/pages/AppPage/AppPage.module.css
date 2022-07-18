@@ -1,19 +1,27 @@
 .page {
     display: grid;
     grid-template-areas: 
-    "menuC canvas menuI";
+    "lBar canvas rBar";
     grid-template-columns: minmax(200px, auto) minmax(500px, 1fr) minmax(200px, auto);
-    grid-template-rows: 600px;
+    /* grid-template-rows: 600px; */
 }
 
-.menuCreate{
+.sideBar{
+    padding: 10px;
+}
+
+.leftBar{
+    grid-area: lBar;
     background-color: var(--white);
-    padding: 20px;
     border-right: 0.5px solid var(--grey-light);
 }
 
-.menuInspect{
+.rightBar{
+    grid-area: rBar;
     background-color: var(--white);
-    padding: 20px;
     border-left: 0.5px solid var(--grey-light);
+}
+
+.canvas{
+    grid-area: canvas;
 }

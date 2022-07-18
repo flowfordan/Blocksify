@@ -1,5 +1,7 @@
 .header {
-    display: grid;
+    display: flex;
+    gap: 20px;
+
     background-color: var(--black);
     color: var(--white);
     grid-area: header;

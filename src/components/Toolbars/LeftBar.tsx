@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { observer } from "mobx-react-lite"
 
-import styles from './CreateMenu.module.css';
-import { sceneState, toolsState } from '../../../state';
+import styles from './LeftBar.module.css';
+import { sceneState, toolsState } from '../../state';
 
 
 interface UICoords {
@@ -12,7 +12,7 @@ interface UICoords {
 };
 
 
-export const CreateMenu = observer((props:any): JSX.Element => {
+export const LeftBar = observer((props:any): JSX.Element => {
 
   const handleOnDrawLine = () => {
     toolsState.toggleDrawLine(!toolsState.isDrawLine);
@@ -34,9 +34,9 @@ export const CreateMenu = observer((props:any): JSX.Element => {
   };
 
   return (
-      <div className={styles.header}>
+      <div className={styles.leftBar}>
 
-        <h4>Creation Menu</h4>
+        <div>Layers</div>
 
         <div >
           <div className={styles.drawingTools}>

@@ -1,3 +1,7 @@
+.leftBar{
+    /* height: 100%; */
+}
+
 .button, .buttonActive{
     font-size: 12px;
     text-align: center;

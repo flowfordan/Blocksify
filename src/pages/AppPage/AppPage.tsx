@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { Desk } from '../../components/Desk/Desk';
 import styles from './AppPage.module.css';
-import { CreateMenu } from '../../components/menus/CreateMenu/CreateMenu';
+import { LeftBar } from '../../components/Toolbars/LeftBar';
+import { RightBar } from '../../components/Toolbars';
 
 export const AppPage= (): JSX.Element => {
 
   return (
       <div className={styles.page}>
 
-        <div className={styles.menuCreate}>
-          <CreateMenu/>
+        <div className={`${styles.sideBar} ${styles.leftBar}`}>
+          <LeftBar/>
         </div>
 
         <div className={styles.canvas}>
           <Desk />
         </div>
 
-        <div className={styles.menuInspect} id="inspect">
-          Menu Inspect
+        <div className={`${styles.sideBar} ${styles.rightBar}`} id="right-bar">
+          <RightBar/>
         </div>
 
       </div>
