@@ -69,7 +69,7 @@ export class ThreeView {
 
         //STATS
         this.stats = Stats();
-        document.body.appendChild(this.stats.dom);
+        //document.body.appendChild(this.stats.dom);
         this.stats.update();
         this.update();
 
