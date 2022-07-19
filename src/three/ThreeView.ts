@@ -1,6 +1,6 @@
 import { Line } from './tools/Line';
 import * as THREE from 'three';
-import { camera, orhtoCamera } from './camera/camera';
+import { camera } from './camera/camera';
 import { gridHelper } from './planeHelper';
 import { dirLight, dirLightHelper, hemiLight } from './lights';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -44,8 +44,8 @@ export class ThreeView {
         this.activeElement = this.renderer.domElement;
         this.rect = canvasRef.getBoundingClientRect();
 
-        //this.camera = camera;
-        this.camera = orhtoCamera;
+        this.camera = camera();
+        //this.camera = orhtoCamera;
 
 
 
@@ -62,7 +62,7 @@ export class ThreeView {
 
 
         this.controls = new OrbitControls(this.camera,  this.activeElement)
-        this.controls.enableDamping = true;
+        //this.controls.enableDamping = true;
 
         //TOOLS STATE
         this.tools = {
@@ -91,11 +91,30 @@ export class ThreeView {
 
         autorun(() => {
             this.setLayer()
+        });
+
+        autorun(() => {
+            this.setCamera()
         })
     }
 
     setCamera = () => {
         //scenestate
+        let curCamId = sceneState.currentCamera
+        if(curCamId === 0){
+            this.camera = camera(this.renderer, curCamId);
+            this.controls = new OrbitControls(this.camera,  this.activeElement)
+            //this.controls.enableDamping = true;
+            this.controls.enableRotate = false
+            console.log(this.camera)
+        } else if(curCamId === 1){
+            this.camera = camera(this.renderer, curCamId)
+            this.controls = new OrbitControls(this.camera,  this.activeElement)
+            //this.controls.enableDamping = true;
+            console.log(this.camera)
+            
+
+        }
     }
 
     setLayer = () => {
@@ -167,6 +186,7 @@ export class ThreeView {
         let aspect = vpW / vpH
         let viewSize = 100
         //upd camera ratio depending on cam Type
+        console.log('resize')
         if(this.camera instanceof THREE.PerspectiveCamera){
            this.camera.aspect = aspect 
         } else {

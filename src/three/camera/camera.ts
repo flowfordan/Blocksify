@@ -1,23 +1,43 @@
 import * as THREE from 'three';
-import { renderer } from '../renderer/renderer';
+import { renderer as initRenderer } from '../renderer/renderer';
 
-const camera = new THREE.PerspectiveCamera(
-    75,
-    renderer.domElement.width / renderer.domElement.height, 
-    0.1, 
-    2000)
+const camera = (renderer = initRenderer, id = 1): THREE.PerspectiveCamera| THREE.OrthographicCamera => {
+    switch(id){
+        case 0: {
+            let width = renderer.domElement.width
+            let height = renderer.domElement.height
+            let aspect = width/height
+            let viewSize = 100
+            const orthoCam = new THREE.OrthographicCamera(
+                aspect*viewSize / -2, aspect*viewSize / 2, viewSize / 2, viewSize / -2, 0, 1000
+            )
 
-camera.position.set(15, 20, 20)
+            orthoCam.position.set(0, 15, 0)
+            orthoCam.lookAt(0,0,0)
 
-let width = renderer.domElement.width
-let height = renderer.domElement.height
-let aspect = width/height
-let viewSize = 100
-const orhtoCamera = new THREE.OrthographicCamera(
-    aspect*viewSize / -2, aspect*viewSize / 2, viewSize / 2, viewSize / -2, 0, 1000
-)
+            return orthoCam
+        }
+        
+        case 1:{
+           const perspCam = new THREE.PerspectiveCamera(
+            75,
+            renderer.domElement.width / renderer.domElement.height, 
+            0.1, 
+            2000)
 
-orhtoCamera.position.set(0, 15, 0)
-orhtoCamera.lookAt(0,0,0)
+            perspCam.position.set(15, 20, 20)
 
-export {camera, orhtoCamera}
+            return perspCam 
+        }
+
+        default: return new THREE.PerspectiveCamera()
+
+    }
+    
+} 
+
+
+
+
+
+export {camera}
