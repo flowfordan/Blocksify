@@ -8,20 +8,12 @@ export const TopBar = observer((props:any): JSX.Element => {
   const {isDrawLine, isDrawPLine, isDrawPolygon} = toolsState
 
   //TODO: wrap in array tools
-  const handleOnDrawLine = () => {
-    toolsState.toggleDrawLine(!isDrawLine);
-  }
-
-  const handleOnDrawPLine = () => {
-    toolsState.toggleDrawPLine(!isDrawPLine);
-  }
-
-  const handleOnDrawPolygon = () => {
-    toolsState.toggleDrawPolygon(!isDrawPolygon);
-  }
-
   const handleCameraChange = (id: number) => {
     sceneState.changeCamera(id)
+  }
+
+  const handleToolChange = (id: number) => {
+    toolsState.setActiveTool(id)
   }
 
 
@@ -44,15 +36,15 @@ export const TopBar = observer((props:any): JSX.Element => {
 
         <div className={styles.drawingTools}>
           <span className={isDrawLine? styles.buttonActive : styles.button} 
-          onClick={handleOnDrawLine}>
+          onClick={() => handleToolChange(0)}>
             Line
           </span>
           <span className={isDrawPLine? styles.buttonActive : styles.button} 
-          onClick={handleOnDrawPLine}>
+          onClick={() => handleToolChange(1)}>
             Polyline
           </span>
           <span className={isDrawPolygon? styles.buttonActive : styles.button} 
-          onClick={handleOnDrawPolygon}>
+          onClick={() => handleToolChange(2)}>
             Polygon
           </span>
 
