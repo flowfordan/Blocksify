@@ -29,6 +29,7 @@ export class ThreeView {
         pLine: Line,
         polygon: Line
     };
+    currentTool: number|undefined;
     currentLayer: Layer|null;
 
     constructor(canvasRef: HTMLCanvasElement) {
@@ -47,8 +48,7 @@ export class ThreeView {
         this.rect = canvasRef.getBoundingClientRect();
 
         this.camera = camera();
-
-        this.currentLayer = null
+        this.controls = new OrbitControls(this.camera,  this.activeElement)
 
         this.groundPlane = worldPlane;
 
@@ -59,14 +59,15 @@ export class ThreeView {
         //lights
         this.scene.add(dirLight, dirLightHelper, hemiLight)
 
-        this.controls = new OrbitControls(this.camera,  this.activeElement)
-
+        this.currentLayer = null;
         //TOOLS STATE
         this.tools = {
             line: new Line(this.activeElement, this.scene, 0, 0),
             pLine: new Line(this.activeElement, this.scene, 1, 0),
+            //TODO:polygon class
             polygon: new Line(this.activeElement, this.scene, 1, 0),
-        }
+        };
+        this.currentTool = undefined;
 
         //STATS
         this.stats = Stats();
@@ -124,14 +125,23 @@ export class ThreeView {
     setActiveDrawingTool = () => {
         let activeToolId = toolsState.drawingTools.find(i => i.active)?
         toolsState.drawingTools.find(i => i.active)!.id : undefined;
-
         if(typeof activeToolId === 'number'){
             let toolName = toolsState.drawingTools.find(i => i.active)!.name
             this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
+            this.currentTool = activeToolId
             
             window.addEventListener('keydown', this.onExit)
+        } else {
+            let prevToolId = this.currentTool;
+            if(typeof prevToolId === 'number'){
+                let toolName = toolsState.drawingTools.find(i => i.id === prevToolId)!.name
+                this.tools[toolName].stopDrawing();
+                this.tools[toolName].toolState = 0;
+
+               window.removeEventListener('keydown', this.onExit)
+            }
         }
-        
+    
         // if(activeToolId === 0
         //     && this.tools.line.toolState === 0){
         //         this.tools.line.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
@@ -153,6 +163,7 @@ export class ThreeView {
                 let toolName = toolsState.drawingTools.find(i => i.active)!.name
                 this.tools[toolName].stopDrawing();
                 this.tools[toolName].toolState = 0;
+                this.currentTool = undefined;
 
                toolsState.setActiveTool(activeToolId);
 
