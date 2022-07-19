@@ -16,6 +16,8 @@ export class Line{
     currentCoord: THREE.Vector3;
     currentLineCoords: Array<number>;
     currentLineCoordsV3: Array<THREE.Vector3>;
+    lineMode: number;
+    lineParts: number;
     guideLine: {
         line: Line2,
         lGeom: LineGeometry,
@@ -28,11 +30,11 @@ export class Line{
     layer: Layer|null;
 
     //TODO: active layer to constructor to adjust settings? like color and width
-    constructor(canvas: HTMLCanvasElement, rect: DOMRect, 
-        scene: THREE.Scene, initToolState: number){
+    constructor(canvas: HTMLCanvasElement, 
+        scene: THREE.Scene, drawMode: number, initToolState: number){
         
         this.canvas = canvas;
-        this.rect = rect;
+        this.rect = canvas.getBoundingClientRect();
         this.scene = scene;
         this.layer = null;
 
@@ -42,6 +44,9 @@ export class Line{
         this.currentCoord = new THREE.Vector3();
         this.currentLineCoordsV3 = [];
         this.currentLineCoords = [];
+
+        this.lineMode = drawMode; //0-2pt line, 1-polyline
+        this.lineParts = 1;
 
         this.guideLine = {
             line: new Line2(),
@@ -67,8 +72,8 @@ export class Line{
         this.currentPlane = plane;
         
         this.canvas.addEventListener('mousemove', this._onMouseMove);
-
         this.canvas.addEventListener('click', this._onDrawClick);
+        //TODO: if polyline - addEL for Right Mouse or Enter
     }
 
     private _onMouseMove = (e: MouseEvent) => {
@@ -84,13 +89,22 @@ export class Line{
             console.log('Line: upd')
             this.currentLineCoordsV3[1] = this.currentCoord;
 
-            //updating guide line
-            this.currentLineCoords.length = 3
+            //UPDATING LINE COORDS
+            //cut pushed to right amount - 1 chunk before new push
+            if(this.lineMode === 0){
+                this.currentLineCoords.length = 3               
+            } else if (this.lineMode === 1){
+                this.currentLineCoords.length = this.lineParts * 3
+            }
+
             let coords: Array<number> = Object.values(this.currentCoord!)
             this.currentLineCoords.push.apply(this.currentLineCoords, coords);
-            
+
             this.scene.add(this.guideLine.line);
-            this.guideLine.lGeom.setPositions(this.currentLineCoords);
+            this.lineMode === 0?this.guideLine.lGeom.setPositions(this.currentLineCoords)
+            :
+            this.guideLine.lGeom.setPositions(this.currentLineCoords.slice(this.lineParts * 3 - 3));
+
             this.guideLine.line.computeLineDistances();
         }
     }
@@ -104,17 +118,16 @@ export class Line{
             let coords: Array<number> = Object.values(this.currentCoord!)
             this.currentLineCoords.push.apply(this.currentLineCoords, coords);
 
+            console.log(this.currentLineCoords)
+
             this.form.p1 = pointObj(this.currentLineCoordsV3[0]);
 
             //adding
             this.scene.add(this.form.p1);
 
-            console.log(this.scene.children)
-
             //GUIDE
             this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat)
             
-
             this.toolState = 2;
         }
 
@@ -124,7 +137,10 @@ export class Line{
             this.currentLineCoordsV3[1] = new THREE.Vector3().copy(this.currentCoord!);
 
             let coords: Array<number> = Object.values(this.currentCoord!)
-            this.currentLineCoords.push.apply(this.currentLineCoords, coords);
+
+            console.log(coords)
+            console.log(this.currentLineCoords)
+
 
             this.form.p2 = pointObj(this.currentLineCoordsV3[1]);
             let line = fatLineObj(this.currentLineCoords);
@@ -139,11 +155,22 @@ export class Line{
             this.scene.add(this.form.p2, line);
             this.scene.remove(this.guideLine.line)
             //push to scene
-            this.toolState = 1;
+            
             //clear
-            this.currentLineCoords = []
+            if(this.lineMode === 0){
+                this.currentLineCoords = []
+                this.toolState = 1;
+            } else {
+                this.toolState = 2;
+                this.lineParts++
+            }
+
+            console.log(this.lineParts)
+            
         }
     }
+
+    //private _onPLDone
 
     stopDrawing = () => {
         console.log('Drawing stopped')
@@ -159,6 +186,10 @@ export class Line{
             this.scene.remove(this.form.p1)
         };
 
-        this.currentLineCoords = []; 
+        this.currentLineCoords = [];
+
+        if(this.lineMode === 1){
+            this.lineParts = 1
+        }
     }
 }

@@ -25,7 +25,8 @@ export class ThreeView {
     controls: OrbitControls;
     stats: any; 
     tools: {
-        line: Line
+        line: Line,
+        pLine: Line
     };
     currentLayer: Layer|null;
 
@@ -61,8 +62,9 @@ export class ThreeView {
 
         //TOOLS STATE
         this.tools = {
-            line: new Line(this.activeElement, this.rect, this.scene, 0),
-            //pLine: new pLine()
+            line: new Line(this.activeElement, this.scene, 0, 0),
+            pLine: new Line(this.activeElement, this.scene, 1, 0),
+            //polygon
         }
 
         //STATS
@@ -116,13 +118,12 @@ export class ThreeView {
         let current = layersState.layers.find(l => l.active)
         if(current){
             this.currentLayer = current;
-            //TODO: enabling layers?
-            this.camera.layers.enable(current.id)
         }
-        
     }
 
     setActiveDrawingTool = () => {
+        console.log('pline', toolsState.isDrawPLine )
+        //TODO: rewrite without if-else its ugly
         if(toolsState.isDrawLine 
             && this.tools.line.toolState === 0){
                 this.tools.line.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
@@ -134,9 +135,20 @@ export class ThreeView {
             this.tools.line.toolState = 0;
 
             window.removeEventListener('keydown', this.onAbort)
-        }
 
-        //TODO:else if for POLYLINE
+        } else if(toolsState.isDrawPLine 
+            && this.tools.pLine.toolState === 0){
+                
+                this.tools.pLine.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
+                this.listenToAbort();
+                
+        } else if (!toolsState.isDrawPLine 
+        && this.tools.pLine.toolState !== 0) {
+            this.tools.pLine.stopDrawing();
+            this.tools.pLine.toolState = 0;
+
+            window.removeEventListener('keydown', this.onAbort)
+        }
     }
 
     listenToAbort = () => {
@@ -147,6 +159,7 @@ export class ThreeView {
     onAbort = (event: KeyboardEvent) => {
         if(event.key === "Escape"){
             toolsState.toggleDrawLine(false);
+            toolsState.toggleDrawPLine(false);
             this.setActiveDrawingTool();
         }
     }
@@ -181,7 +194,6 @@ export class ThreeView {
         let aspect = vpW / vpH
         let viewSize = 200
         //upd camera ratio depending on cam Type
-        console.log('resize')
         if(this.camera instanceof THREE.PerspectiveCamera){
            this.camera.aspect = aspect 
         } else {
