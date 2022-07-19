@@ -9,16 +9,26 @@ type Coords = {
 class SceneState{
 
     isFetchingGlobalCoords: boolean;
-    globalCoords: Coords
+    globalCoords: Coords;
+    currentCamera: number;
+    // cameraOptions: {
+
+    // }
 
     constructor(){
-        makeAutoObservable(this);
+        
         this.isFetchingGlobalCoords = true;
         this.globalCoords = {
             x: 0.00,
             y: 0.00,
             z: 0.00
-        }
+        };
+        this.currentCamera = 1;
+        makeAutoObservable(this);
+    }
+
+    changeCamera = (id: number) => {
+        this.currentCamera = id;
     }
 
     toggleCoordsFetching = (status: boolean) => {

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { getMouseLocation } from "../utils";
-import { pointObj, lineObj, fatLineObj, fatGuideLineObj, lMat, lGeom } from "../objs3d";
+import { pointObj, fatLineObj, lMat, lGeom } from "../objs3d";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 import { Layer } from "../../state";
 
@@ -126,7 +126,8 @@ export class Line{
             this.form.p2 = pointObj(this.currentLineCoordsV3[1]);
             let line = fatLineObj(this.currentLineCoords);
 
-            line.layers.set(this.layer!.id)
+            line.layers.set(this.layer!.id);
+
             let color = this.layer?.appearance.colorLine
             line.material.color.setHex(color!)
             console.log(color, line)

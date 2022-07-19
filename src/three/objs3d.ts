@@ -39,24 +39,7 @@ const fatLineObj = (coords: Array<number>) => {
     return line;
 } 
 
-const fatGuideLineObj = (coords: Array<number>) => {
-    
-    lGeom.setPositions(coords);
 
-    const lMat = new LineMaterial({
-        color: 0x000000,
-        linewidth: 3,
-        resolution: new THREE.Vector2(1920, 1080),
-        dashed: true,
-
-    });
-
-    const line = new Line2(lGeom, lMat);
-    line.computeLineDistances();
-
-
-    return line;
-}
 
 
 const lMat = new LineMaterial({
@@ -70,4 +53,4 @@ const lMat = new LineMaterial({
 const lGeom = new LineGeometry();
 
 
-export {pointObj, lineObj, fatLineObj, fatGuideLineObj, lMat, lGeom}
+export {pointObj, lineObj, fatLineObj, lMat, lGeom}

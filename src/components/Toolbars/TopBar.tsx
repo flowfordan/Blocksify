@@ -1,14 +1,7 @@
-import React, { useEffect } from 'react';
 import { observer } from "mobx-react-lite"
 
 import styles from './TopBar.module.css';
 import { sceneState, toolsState } from '../../state';
-
-interface UICoords {
-  x: string;
-  y: string;
-  z: string;
-};
 
 export const TopBar = observer((props:any): JSX.Element => {
 
@@ -20,16 +13,11 @@ export const TopBar = observer((props:any): JSX.Element => {
     toolsState.toggleDrawPLine(!toolsState.isDrawPLine);
   }
 
-  const toggleFetchingCoords = () => {
-    sceneState.toggleCoordsFetching(!sceneState.isFetchingGlobalCoords)
+  const handleCameraChange = (id: number) => {
+    sceneState.changeCamera(id)
   }
 
-    //initial values
-    let coords: UICoords = {
-      x: `${sceneState.globalCoords.x.toFixed(2)}`,
-      y: `${sceneState.globalCoords.z.toFixed(2)}`,
-      z: `${sceneState.globalCoords.y.toFixed(2)}`
-    };
+
 
   return (
 
@@ -70,12 +58,12 @@ export const TopBar = observer((props:any): JSX.Element => {
         </div>              
         
         <div className={styles.cameraOptions}>
-            <span className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
-            onClick={() => {}}>
+            <span className={sceneState.currentCamera===0? styles.buttonActive : styles.button} 
+            onClick={() => {handleCameraChange(0)}}>
               Top
             </span>
-            <span className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
-            onClick={() => {}}>
+            <span className={sceneState.currentCamera===1? styles.buttonActive : styles.button} 
+            onClick={() => {handleCameraChange(1)}}>
               Perspective
             </span>
             <span className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 

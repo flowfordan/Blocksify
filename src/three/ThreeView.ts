@@ -1,6 +1,6 @@
 import { Line } from './tools/Line';
 import * as THREE from 'three';
-import { camera } from './camera/camera';
+import { camera, orhtoCamera } from './camera/camera';
 import { gridHelper } from './planeHelper';
 import { dirLight, dirLightHelper, hemiLight } from './lights';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -19,7 +19,7 @@ export class ThreeView {
     renderer: THREE.WebGLRenderer;
     activeElement: HTMLCanvasElement;
     rect: DOMRect;
-    camera: THREE.PerspectiveCamera;
+    camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
     groundPlane: typeof worldPlane;
     light: any;
     controls: OrbitControls;
@@ -44,7 +44,10 @@ export class ThreeView {
         this.activeElement = this.renderer.domElement;
         this.rect = canvasRef.getBoundingClientRect();
 
-        this.camera = camera;
+        //this.camera = camera;
+        this.camera = orhtoCamera;
+
+
 
         this.currentLayer = null
 
@@ -91,10 +94,15 @@ export class ThreeView {
         })
     }
 
+    setCamera = () => {
+        //scenestate
+    }
+
     setLayer = () => {
         let current = layersState.layers.find(l => l.active)
         if(current){
             this.currentLayer = current;
+            //TODO: enabling layers?
             this.camera.layers.enable(current.id)
         }
         
@@ -131,7 +139,6 @@ export class ThreeView {
 
     //to show coords on ground under mouse
     updGlobalCoords = () => {
-        let a = cube.layers
         if(sceneState.isFetchingGlobalCoords){
             this.activeElement.addEventListener( 'pointermove', this.onUpdMouseLoc );
         } else {
@@ -157,8 +164,19 @@ export class ThreeView {
 
     onWindowResize(vpW:any, vpH:any) {
         this.renderer.setSize(vpW, vpH);
-        this.camera.aspect = vpW / vpH
-        this.camera.updateProjectionMatrix()
+        let aspect = vpW / vpH
+        let viewSize = 100
+        //upd camera ratio depending on cam Type
+        if(this.camera instanceof THREE.PerspectiveCamera){
+           this.camera.aspect = aspect 
+        } else {
+            this.camera.left = aspect*viewSize / -2
+            this.camera.right = aspect*viewSize / 2
+            this.camera.top = viewSize / 2
+            this.camera.bottom =  viewSize / -2
+        }
+        
+        this.camera.updateProjectionMatrix();
     }
 
     // ******************* RENDER LOOP ******************* //
