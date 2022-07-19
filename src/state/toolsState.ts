@@ -2,13 +2,18 @@ import { makeAutoObservable } from "mobx";
 
 class ToolsState{
 
+    //TODO: wrap to array of objects propertie
+    //{id: 0, name: line, active: false}...
     isDrawLine: boolean;
     isDrawPLine: boolean;
+    isDrawPolygon: boolean;
 
     constructor(){
-        makeAutoObservable(this);
+        
         this.isDrawLine = false;
         this.isDrawPLine = false;
+        this.isDrawPolygon = false;
+        makeAutoObservable(this);
     }
 
     //TODO: when starts one tool, another stops or couldnt be active
@@ -18,6 +23,10 @@ class ToolsState{
 
     toggleDrawPLine = (status: boolean) => {
         this.isDrawPLine = status;
+    }
+
+    toggleDrawPolygon = (status: boolean) => {
+        this.isDrawPolygon = status;
     }
 }
 

@@ -5,12 +5,19 @@ import { sceneState, toolsState } from '../../state';
 
 export const TopBar = observer((props:any): JSX.Element => {
 
+  const {isDrawLine, isDrawPLine, isDrawPolygon} = toolsState
+
+  //TODO: wrap in array tools
   const handleOnDrawLine = () => {
-    toolsState.toggleDrawLine(!toolsState.isDrawLine);
+    toolsState.toggleDrawLine(!isDrawLine);
   }
 
   const handleOnDrawPLine = () => {
-    toolsState.toggleDrawPLine(!toolsState.isDrawPLine);
+    toolsState.toggleDrawPLine(!isDrawPLine);
+  }
+
+  const handleOnDrawPolygon = () => {
+    toolsState.toggleDrawPolygon(!isDrawPolygon);
   }
 
   const handleCameraChange = (id: number) => {
@@ -27,7 +34,7 @@ export const TopBar = observer((props:any): JSX.Element => {
         <span className={styles.logo}>
           BLOCKSIFY
         </span>
-        <span className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
+        <span className={''? styles.buttonActive : styles.button} 
           onClick={() => {}}>
             Import
           </span>
@@ -36,21 +43,21 @@ export const TopBar = observer((props:any): JSX.Element => {
       <div className={styles.tools}>
 
         <div className={styles.drawingTools}>
-          <span className={toolsState.isDrawLine? styles.buttonActive : styles.button} 
+          <span className={isDrawLine? styles.buttonActive : styles.button} 
           onClick={handleOnDrawLine}>
             Line
           </span>
-          <span className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
+          <span className={isDrawPLine? styles.buttonActive : styles.button} 
           onClick={handleOnDrawPLine}>
             Polyline
           </span>
-          <span className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
-          onClick={() => {}}>
-            Polygone
+          <span className={isDrawPolygon? styles.buttonActive : styles.button} 
+          onClick={handleOnDrawPolygon}>
+            Polygon
           </span>
 
           <div className={styles.toolsOptions}>
-            <span className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
+            <span className={''? styles.buttonActive : styles.button} 
             onClick={() => {}}>
               {`Snapping>`}
             </span>
@@ -66,7 +73,7 @@ export const TopBar = observer((props:any): JSX.Element => {
             onClick={() => {handleCameraChange(1)}}>
               Perspective
             </span>
-            <span className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
+            <span className={''? styles.buttonActive : styles.button} 
             onClick={() => {}}>
               ViewAll
             </span>
@@ -79,7 +86,7 @@ export const TopBar = observer((props:any): JSX.Element => {
       </div>
       
       <div>
-      <span className={toolsState.isDrawPLine? styles.buttonActive : styles.button} 
+      <span className={''? styles.buttonActive : styles.button} 
           onClick={() => {}}>
             Save
           </span>
