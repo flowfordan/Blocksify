@@ -45,9 +45,6 @@ export class ThreeView {
         this.rect = canvasRef.getBoundingClientRect();
 
         this.camera = camera();
-        //this.camera = orhtoCamera;
-
-
 
         this.currentLayer = null
 
@@ -60,9 +57,7 @@ export class ThreeView {
         //lights
         this.scene.add(dirLight, dirLightHelper, hemiLight)
 
-
         this.controls = new OrbitControls(this.camera,  this.activeElement)
-        //this.controls.enableDamping = true;
 
         //TOOLS STATE
         this.tools = {
@@ -99,20 +94,20 @@ export class ThreeView {
     }
 
     setCamera = () => {
-        //scenestate
+        //0 - top camera, 1 - perspective
         let curCamId = sceneState.currentCamera
         if(curCamId === 0){
             this.camera = camera(this.renderer, curCamId);
             this.controls = new OrbitControls(this.camera,  this.activeElement)
             //this.controls.enableDamping = true;
-            //this.controls.enableRotate = false
-            console.log(this.rect)
+            this.controls.enableRotate = false;
+            //enable all existing layers
             layersState.layers.forEach(i => this.camera.layers.enable(i.id))
         } else if(curCamId === 1){
             this.camera = camera(this.renderer, curCamId)
             this.controls = new OrbitControls(this.camera,  this.activeElement)
             //this.controls.enableDamping = true;
-            console.log(this.rect)
+            //enable all existing layers
             layersState.layers.forEach(i => this.camera.layers.enable(i.id))
         }
     }
@@ -184,7 +179,7 @@ export class ThreeView {
     onWindowResize(vpW:any, vpH:any) {
         this.renderer.setSize(vpW, vpH);
         let aspect = vpW / vpH
-        let viewSize = 100
+        let viewSize = 200
         //upd camera ratio depending on cam Type
         console.log('resize')
         if(this.camera instanceof THREE.PerspectiveCamera){

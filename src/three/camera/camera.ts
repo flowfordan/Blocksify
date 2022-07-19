@@ -7,7 +7,7 @@ const camera = (renderer = initRenderer, id = 1): THREE.PerspectiveCamera| THREE
             let width = renderer.domElement.width
             let height = renderer.domElement.height
             let aspect = width/height
-            let viewSize = 100
+            let viewSize = 200
             const orthoCam = new THREE.OrthographicCamera(
                 aspect*viewSize / -2, 
                 aspect*viewSize / 2, 
