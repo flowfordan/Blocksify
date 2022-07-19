@@ -5,7 +5,10 @@ import { sceneState, toolsState } from '../../state';
 
 export const TopBar = observer((props:any): JSX.Element => {
 
-  const {isDrawLine, isDrawPLine, isDrawPolygon} = toolsState
+  const { drawingTools } = toolsState;
+
+  let activeToolId = drawingTools.find(i => i.active)? 
+    drawingTools.find(i => i.active)!.id : undefined
 
   //TODO: wrap in array tools
   const handleCameraChange = (id: number) => {
@@ -15,8 +18,6 @@ export const TopBar = observer((props:any): JSX.Element => {
   const handleToolChange = (id: number) => {
     toolsState.setActiveTool(id)
   }
-
-
 
   return (
 
@@ -35,15 +36,15 @@ export const TopBar = observer((props:any): JSX.Element => {
       <div className={styles.tools}>
 
         <div className={styles.drawingTools}>
-          <span className={isDrawLine? styles.buttonActive : styles.button} 
+          <span className={activeToolId === 0? styles.buttonActive : styles.button} 
           onClick={() => handleToolChange(0)}>
             Line
           </span>
-          <span className={isDrawPLine? styles.buttonActive : styles.button} 
+          <span className={activeToolId === 1? styles.buttonActive : styles.button} 
           onClick={() => handleToolChange(1)}>
             Polyline
           </span>
-          <span className={isDrawPolygon? styles.buttonActive : styles.button} 
+          <span className={activeToolId === 2? styles.buttonActive : styles.button} 
           onClick={() => handleToolChange(2)}>
             Polygon
           </span>
