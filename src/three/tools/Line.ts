@@ -105,12 +105,13 @@ export class Line{
             this.currentLineCoords.push.apply(this.currentLineCoords, coords);
 
             this.form.p1 = pointObj(this.currentLineCoordsV3[0]);
-            //let p1 = pointObj(this.currentLineCoordsV3[0]);
+
             //adding
             this.scene.add(this.form.p1);
 
             //GUIDE
             this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat)
+            
 
             this.toolState = 2;
         }

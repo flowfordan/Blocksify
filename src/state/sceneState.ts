@@ -23,7 +23,7 @@ class SceneState{
             y: 0.00,
             z: 0.00
         };
-        this.currentCamera = 1;
+        this.currentCamera = 0;
         makeAutoObservable(this);
     }
 

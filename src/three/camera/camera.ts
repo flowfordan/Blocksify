@@ -9,10 +9,13 @@ const camera = (renderer = initRenderer, id = 1): THREE.PerspectiveCamera| THREE
             let aspect = width/height
             let viewSize = 100
             const orthoCam = new THREE.OrthographicCamera(
-                aspect*viewSize / -2, aspect*viewSize / 2, viewSize / 2, viewSize / -2, 0, 1000
+                aspect*viewSize / -2, 
+                aspect*viewSize / 2, 
+                viewSize / 2, 
+                viewSize / -2, 1, 10000
             )
 
-            orthoCam.position.set(0, 15, 0)
+            orthoCam.position.set(0, 100, 0)
             orthoCam.lookAt(0,0,0)
 
             return orthoCam
