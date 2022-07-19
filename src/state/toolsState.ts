@@ -2,7 +2,7 @@ import { makeAutoObservable, toJS} from "mobx";
 
 enum EToolName {
     Line = 'line',
-    PLine = 'polyline',
+    PLine = 'pLine',
     Polygon = 'polygon'
 }
 

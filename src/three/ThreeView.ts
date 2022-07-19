@@ -26,7 +26,8 @@ export class ThreeView {
     stats: any; 
     tools: {
         line: Line,
-        pLine: Line
+        pLine: Line,
+        polygon: Line
     };
     currentLayer: Layer|null;
 
@@ -64,7 +65,7 @@ export class ThreeView {
         this.tools = {
             line: new Line(this.activeElement, this.scene, 0, 0),
             pLine: new Line(this.activeElement, this.scene, 1, 0),
-            //polygon
+            polygon: new Line(this.activeElement, this.scene, 1, 0),
         }
 
         //STATS
@@ -108,7 +109,6 @@ export class ThreeView {
         } else if(curCamId === 1){
             this.camera = camera(this.renderer, curCamId)
             this.controls = new OrbitControls(this.camera,  this.activeElement)
-            //this.controls.enableDamping = true;
             //enable all existing layers
             layersState.layers.forEach(i => this.camera.layers.enable(i.id))
         }
@@ -123,50 +123,41 @@ export class ThreeView {
 
     setActiveDrawingTool = () => {
         let activeToolId = toolsState.drawingTools.find(i => i.active)?
-        toolsState.drawingTools.find(i => i.active)!.id : undefined
+        toolsState.drawingTools.find(i => i.active)!.id : undefined;
 
-        //TODO: rewrite without if-else its ugly
-        if(activeToolId === 0
-            && this.tools.line.toolState === 0){
-                this.tools.line.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
-                this.listenToAbort();
-                
-        } else if (activeToolId !== 0 
-        && this.tools.line.toolState !== 0) {
-            this.tools.line.stopDrawing();
-            this.tools.line.toolState = 0;
-
-            window.removeEventListener('keydown', this.onAbort)
-
-        } else if(activeToolId === 1 
-            && this.tools.pLine.toolState === 0){
-                
-                this.tools.pLine.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
-                this.listenToAbort();
-                
-        } else if (activeToolId !== 1 
-        && this.tools.pLine.toolState !== 0) {
-            this.tools.pLine.stopDrawing();
-            this.tools.pLine.toolState = 0;
-
-            window.removeEventListener('keydown', this.onAbort)
+        if(typeof activeToolId === 'number'){
+            let toolName = toolsState.drawingTools.find(i => i.active)!.name
+            this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
+            
+            window.addEventListener('keydown', this.onExit)
         }
+        
+        // if(activeToolId === 0
+        //     && this.tools.line.toolState === 0){
+        //         this.tools.line.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
+        //         this.listenForExit();  
+        // } else if (activeToolId !== 0 
+        // && this.tools.line.toolState !== 0) {
+        //     this.tools.line.stopDrawing();
+        //     this.tools.line.toolState = 0;
+        //     window.removeEventListener('keydown', this.onExit)
+        // } 
     }
 
-    listenToAbort = () => {
-        //handle escape
-        window.addEventListener('keydown', this.onAbort)
-    }
-
-    onAbort = (event: KeyboardEvent) => {
+    onExit = (event: KeyboardEvent) => {
         if(event.key === "Escape"){
             let activeToolId = toolsState.drawingTools.find(i => i.active)?
                 toolsState.drawingTools.find(i => i.active)!.id : undefined;
             
             if(typeof activeToolId === 'number'){
-               toolsState.setActiveTool(activeToolId); 
+                let toolName = toolsState.drawingTools.find(i => i.active)!.name
+                this.tools[toolName].stopDrawing();
+                this.tools[toolName].toolState = 0;
+
+               toolsState.setActiveTool(activeToolId);
+
+               window.removeEventListener('keydown', this.onExit)
             }
-            this.setActiveDrawingTool();
         }
     }
 
