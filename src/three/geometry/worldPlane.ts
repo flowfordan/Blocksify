@@ -11,7 +11,8 @@ const worldPlaneMesh = new THREE.Mesh(worldPlaneGeometry, worldPlaneMaterial);
 worldPlaneMesh.rotateX( - Math.PI / 2);
 worldPlaneMesh.receiveShadow = true;
 worldPlaneMesh.name = 'ground';
-worldPlaneMesh.position.y = -0.01
+//lower ground mesh to avoid clipping wt lines (sen on top ortho view)
+worldPlaneMesh.position.y = -0.01 
 
 const worldPlane = new Plane(new THREE.Vector3( 0, 1, 0 ))
 const worldPlaneHelper = new THREE.PlaneHelper( worldPlane, 1, 0xffff00 );

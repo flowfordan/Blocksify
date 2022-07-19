@@ -106,13 +106,13 @@ export class ThreeView {
             this.controls = new OrbitControls(this.camera,  this.activeElement)
             //this.controls.enableDamping = true;
             //this.controls.enableRotate = false
-            console.log(this.camera)
+            console.log(this.rect)
             layersState.layers.forEach(i => this.camera.layers.enable(i.id))
         } else if(curCamId === 1){
             this.camera = camera(this.renderer, curCamId)
             this.controls = new OrbitControls(this.camera,  this.activeElement)
             //this.controls.enableDamping = true;
-            console.log(this.camera)
+            console.log(this.rect)
             layersState.layers.forEach(i => this.camera.layers.enable(i.id))
         }
     }

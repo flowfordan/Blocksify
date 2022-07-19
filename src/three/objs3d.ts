@@ -5,8 +5,9 @@ const pointObj = (coords: any) => {
     let position = Float32Array.from(coords)
     let pGeom = new THREE.BufferGeometry();
     pGeom.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
-    let pMat = new THREE.PointsMaterial( { color: 0x888888 } );
+    let pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false} );
     let point = new THREE.Points(pGeom, pMat);
+    
     return point
 };
 

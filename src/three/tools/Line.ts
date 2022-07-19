@@ -109,6 +109,8 @@ export class Line{
             //adding
             this.scene.add(this.form.p1);
 
+            console.log(this.scene.children)
+
             //GUIDE
             this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat)
             
