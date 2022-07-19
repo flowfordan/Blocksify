@@ -10,7 +10,7 @@ import {worldPlaneMesh, worldPlane, worldPlaneHelper} from './geometry/worldPlan
 
 import { getMouseLocation } from './utils';
 
-import { autorun } from "mobx";
+import { autorun, toJS } from "mobx";
 import { Layer, layersState, sceneState, toolsState } from '../state';
 
 
@@ -122,27 +122,29 @@ export class ThreeView {
     }
 
     setActiveDrawingTool = () => {
-        console.log('pline', toolsState.isDrawPLine )
+        let activeToolId = toolsState.drawingTools.find(i => i.active)?
+        toolsState.drawingTools.find(i => i.active)!.id : undefined
+
         //TODO: rewrite without if-else its ugly
-        if(toolsState.isDrawLine 
+        if(activeToolId === 0
             && this.tools.line.toolState === 0){
                 this.tools.line.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
                 this.listenToAbort();
                 
-        } else if (!toolsState.isDrawLine 
+        } else if (activeToolId !== 0 
         && this.tools.line.toolState !== 0) {
             this.tools.line.stopDrawing();
             this.tools.line.toolState = 0;
 
             window.removeEventListener('keydown', this.onAbort)
 
-        } else if(toolsState.isDrawPLine 
+        } else if(activeToolId === 1 
             && this.tools.pLine.toolState === 0){
                 
                 this.tools.pLine.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
                 this.listenToAbort();
                 
-        } else if (!toolsState.isDrawPLine 
+        } else if (activeToolId !== 1 
         && this.tools.pLine.toolState !== 0) {
             this.tools.pLine.stopDrawing();
             this.tools.pLine.toolState = 0;
@@ -158,8 +160,12 @@ export class ThreeView {
 
     onAbort = (event: KeyboardEvent) => {
         if(event.key === "Escape"){
-            toolsState.toggleDrawLine(false);
-            toolsState.toggleDrawPLine(false);
+            let activeToolId = toolsState.drawingTools.find(i => i.active)?
+                toolsState.drawingTools.find(i => i.active)!.id : undefined;
+            
+            if(typeof activeToolId === 'number'){
+               toolsState.setActiveTool(activeToolId); 
+            }
             this.setActiveDrawingTool();
         }
     }

@@ -1,4 +1,4 @@
-import { makeAutoObservable, toJS } from "mobx";
+import { makeAutoObservable, toJS} from "mobx";
 
 enum EToolName {
     Line = 'line',
@@ -17,9 +17,6 @@ class ToolsState{
     //TODO: wrap to array of objects propertie
     //{id: 0, name: line, active: false}...
     drawingTools:Array<ITool>;
-    isDrawLine: boolean;
-    isDrawPLine: boolean;
-    isDrawPolygon: boolean;
 
     constructor(){
         this.drawingTools = [
@@ -27,9 +24,6 @@ class ToolsState{
             {id: 1, name: EToolName.PLine, active: false},
             {id: 2, name: EToolName.Polygon, active: false}
         ]
-        this.isDrawLine = false;
-        this.isDrawPLine = false;
-        this.isDrawPolygon = false;
         makeAutoObservable(this);
     }
 
@@ -42,18 +36,6 @@ class ToolsState{
                 arr[idx].active = true;
             }
         })
-    }
-
-    toggleDrawLine = (status: boolean) => {
-        this.isDrawLine = status;
-    }
-
-    toggleDrawPLine = (status: boolean) => {
-        this.isDrawPLine = status;
-    }
-
-    toggleDrawPolygon = (status: boolean) => {
-        this.isDrawPolygon = status;
     }
 }
 
