@@ -125,6 +125,14 @@ export class ThreeView {
     setActiveDrawingTool = () => {
         let activeToolId = toolsState.drawingTools.find(i => i.active)?
         toolsState.drawingTools.find(i => i.active)!.id : undefined;
+
+        let prevToolId = this.currentTool;
+        let prevToolName;
+        if(typeof prevToolId === 'number'){
+           prevToolName = toolsState.drawingTools.find(i => i.id === prevToolId)!.name
+           this.tools[prevToolName].stopDrawing();
+        }
+        
         if(typeof activeToolId === 'number'){
             let toolName = toolsState.drawingTools.find(i => i.active)!.name
             this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
@@ -132,26 +140,11 @@ export class ThreeView {
             
             window.addEventListener('keydown', this.onExit)
         } else {
-            let prevToolId = this.currentTool;
             if(typeof prevToolId === 'number'){
-                let toolName = toolsState.drawingTools.find(i => i.id === prevToolId)!.name
-                this.tools[toolName].stopDrawing();
-                this.tools[toolName].toolState = 0;
-
-               window.removeEventListener('keydown', this.onExit)
+                this.currentTool = undefined;
+                window.removeEventListener('keydown', this.onExit)
             }
         }
-    
-        // if(activeToolId === 0
-        //     && this.tools.line.toolState === 0){
-        //         this.tools.line.startDrawing(this.camera, this.groundPlane, this.currentLayer!);
-        //         this.listenForExit();  
-        // } else if (activeToolId !== 0 
-        // && this.tools.line.toolState !== 0) {
-        //     this.tools.line.stopDrawing();
-        //     this.tools.line.toolState = 0;
-        //     window.removeEventListener('keydown', this.onExit)
-        // } 
     }
 
     onExit = (event: KeyboardEvent) => {

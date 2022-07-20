@@ -126,17 +126,13 @@ export class Line{
 
     private _onDrawClick = () => {
         if(this.toolState === 1){
-            console.log('Line: first pt')
-            console.log(this.line, this.currentLineCoords)
+            console.log('Line: first pt');
 
-            let coords: Array<number> = Object.values(this.currentCoord!)
+            let coords: Array<number> = Object.values(this.currentCoord!);
             this.currentLineCoords.push.apply(this.currentLineCoords, coords);
 
             this.points.points = pointObj(this.currentLineCoords)
             this.scene.add(this.points.points)
-
-
-            //adding
 
             //GUIDELINE
             this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat)
@@ -145,22 +141,7 @@ export class Line{
         }
 
         else if(this.toolState === 2){
-            console.log('Line: second pt')
-
-            //handle same-spot-click
-            //for mode = 0
-            if(this.currentLineCoords.length === 3){
-
-                return
-            }
-            //for mode = 1
-
-            //check if this is the same (1) point
-            console.log('THIS', this.currentLineCoords)
-            // if(){
-                
-            // }
-                        
+            console.log('Line: second pt')                        
             //LINES HANDLE
             if(this.lineMode === 0 || this.lineParts === 1){
                 this.line.line = new Line2(this.line.lGeom, this.line.lMat)
@@ -187,7 +168,7 @@ export class Line{
             //clear and begin new item if LINE
             //begin new segment if PLINE
             if(this.lineMode === 0){
-                this._reset();
+                this._resetLoop();
             } else {
                 this.toolState = 2;
                 this.lineParts++
@@ -197,14 +178,13 @@ export class Line{
 
     //private _onPLDone
     private _onDBClick = (e: MouseEvent) => {
-        console.log(this.currentLineCoords)
-        console.log('PLine created')
-        //if dbclick before first point - ignore it
-        // if(this.toolState === 1){
-        //     return
-        // }
+        //HANDLE SAME SPOT DBCLICK
+        //mode 0 AND 1
+        if(this.currentLineCoords.length === 3){
+            this.scene.remove(this.points.points)
+        }
 
-        this._reset()
+        this._resetLoop()
         console.log(this.scene.children)
     }
 
@@ -215,7 +195,8 @@ export class Line{
         this.scene.remove(this.line.line);
         this.scene.remove(this.points.points);
 
-        this._reset()
+        this._resetLoop();
+        this.toolState = 0;
         
         //rmv EL
         this.canvas.removeEventListener('mousemove', this._onMouseMove);
@@ -223,7 +204,10 @@ export class Line{
         this.canvas.removeEventListener('dblclick', this._onDBClick);
     }
 
-    private _reset = () => {
+    private _resetLoop = () => {
+        console.log('THIS', this)
+        this.scene.remove(this.guideLine.line);
+
         this.line.line = new Line2();
         this.line.lGeom = new LineGeometry();
 
