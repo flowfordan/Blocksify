@@ -54,7 +54,7 @@ export class ThreeView {
 
         //3dobjects
         this.scene.add(cube, worldPlaneMesh, worldPlaneHelper, gridHelper);
-        cube.material.color.setHex(0x0fda54)
+        cube.material.color.setHex(0x84CBFF)
 
         //lights
         this.scene.add(dirLight, dirLightHelper, hemiLight)
