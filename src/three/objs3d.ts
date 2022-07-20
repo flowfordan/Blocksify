@@ -11,6 +11,18 @@ const pointObj = (coords: any) => {
     return point
 };
 
+// const pointObj2 = (coords: any) => {
+//     let positions = Float32Array.from(coords)
+//     let pGeom = new THREE.BufferGeometry();
+//     pGeom.setFromPoints(positions);
+//     let pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false} );
+//     let point = new THREE.Points(pGeom, pMat);
+    
+//     return point
+// };
+
+const pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false} );
+
 const lineObj = (coords: any) => {
     const lGeom = new THREE.BufferGeometry()
     .setFromPoints(coords)
@@ -60,4 +72,4 @@ const lMat2 = new LineMaterial({
 const lGeom = new LineGeometry();
 
 
-export {pointObj, lineObj, fatLineObj, lMat, lMat2, lGeom}
+export {pointObj, lineObj, fatLineObj, lMat, lMat2, lGeom, pMat}
