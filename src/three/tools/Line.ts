@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { getMouseLocation } from "../utils";
-import { pointObj, fatLineObj, lMat, lGeom } from "../objs3d";
+import { pointObj, fatLineObj, lMat, lMat2, lGeom } from "../objs3d";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 import { Layer } from "../../state";
 
@@ -18,6 +18,11 @@ export class Line{
     currentLineCoordsV3: Array<THREE.Vector3>;
     lineMode: number;
     lineParts: number;
+    line: {
+        line: Line2,
+        lGeom: LineGeometry,
+        lMat: LineMaterial
+    };
     guideLine: {
         line: Line2,
         lGeom: LineGeometry,
@@ -48,9 +53,15 @@ export class Line{
         this.lineMode = drawMode; //0-2pt line, 1-polyline
         this.lineParts = 1;
 
+        this.line = {
+            line: new Line2(),
+            lGeom: new LineGeometry(),
+            lMat: lMat2
+        }
+
         this.guideLine = {
             line: new Line2(),
-            lGeom: lGeom,
+            lGeom: new LineGeometry(),
             lMat: lMat
         };
 
@@ -74,6 +85,8 @@ export class Line{
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
         //TODO: if polyline - addEL for Right Mouse or Enter
+        this.canvas.addEventListener('dblclick', this._onDBClick); 
+
     }
 
     private _onMouseMove = (e: MouseEvent) => {
@@ -112,6 +125,7 @@ export class Line{
     private _onDrawClick = () => {
         if(this.toolState === 1){
             console.log('Line: first pt')
+            console.log(this.line, this.currentLineCoords)
 
             this.currentLineCoordsV3[0] = new THREE.Vector3().copy(this.currentCoord!);
 
@@ -134,43 +148,73 @@ export class Line{
         else if(this.toolState === 2){
             console.log('Line: second pt')
 
+            //handle same-spot-click
+            //for mode = 0
+            if(this.currentLineCoords.length === 3){
+                this.scene.remove(this.form.p1)
+                return
+            }
+            //for mode = 1
+
             this.currentLineCoordsV3[1] = new THREE.Vector3().copy(this.currentCoord!);
+            //check if this is the same (1) point
+            console.log('THIS', this.currentLineCoords)
+            if(this.currentLineCoordsV3[0] == this.currentCoord){
+                console.log('THIS IS ERROR', this.currentLineCoordsV3)
+            }
+            
 
             let coords: Array<number> = Object.values(this.currentCoord!)
 
-            console.log(coords)
-            console.log(this.currentLineCoords)
-
-
             this.form.p2 = pointObj(this.currentLineCoordsV3[1]);
-            let line = fatLineObj(this.currentLineCoords);
 
-            line.layers.set(this.layer!.id);
-
+            if(this.lineMode === 0 || this.lineParts === 1){
+                this.line.line = new Line2(this.line.lGeom, this.line.lMat)
+                this.line.lGeom.setPositions(this.currentLineCoords);
+                this.scene.remove(this.guideLine.line)
+                //adding   
+            } else {
+                this.scene.remove(this.line.line)
+                this.line.lGeom = new LineGeometry()
+                this.line.lGeom.setPositions(this.currentLineCoords)
+                this.line.line = new Line2(this.line.lGeom, this.line.lMat);
+            }
+            //if this is PL mode and segment after 1
+            //modify existing polyline geometry
+            this.line.line.layers.set(this.layer!.id);
             let color = this.layer?.appearance.colorLine
-            line.material.color.setHex(color!)
-            console.log(color, line)
-
-            //adding
-            this.scene.add(this.form.p2, line);
-            this.scene.remove(this.guideLine.line)
-            //push to scene
+            this.line.line.material.color.setHex(color!)
+            this.scene.add(this.form.p2, this.line.line);
             
-            //clear
+            console.log('SCENE', this.scene.children)
+            console.log(this.line.lGeom, this.line.line.geometry)
+            
+            
+            //clear and begin neww item if line
+            //begin new segment if PLine
             if(this.lineMode === 0){
-                this.currentLineCoords = []
-                this.toolState = 1;
+                this._reset();
             } else {
                 this.toolState = 2;
                 this.lineParts++
-            }
-
-            console.log(this.lineParts)
-            
+            }            
         }
     }
 
     //private _onPLDone
+    private _onDBClick = (e: MouseEvent) => {
+        console.log(this.currentLineCoords)
+        console.log('PLine created')
+        //if dbclick before first point - ignore it
+        // if(this.toolState === 1){
+        //     return
+        // }
+
+        this._reset()
+        console.log(this.scene.children)
+        
+
+    }
 
     stopDrawing = () => {
         console.log('Drawing stopped')
@@ -180,6 +224,7 @@ export class Line{
         //rmv EL
         this.canvas.removeEventListener('mousemove', this._onMouseMove);
         this.canvas.removeEventListener('click', this._onDrawClick);
+        this.canvas.removeEventListener('dblclick', this._onDBClick);
 
         //remove 1 point of began line
         if(this.toolState === 2){
@@ -189,7 +234,16 @@ export class Line{
         this.currentLineCoords = [];
 
         if(this.lineMode === 1){
+            this.scene.remove(this.line.line)
             this.lineParts = 1
         }
     }
+
+    private _reset = () => {
+        this.line.line = new Line2()
+        this.line.lGeom = new LineGeometry()
+        this.currentLineCoords = []
+        this.toolState = 1;
+        this.lineParts = 1
+    } 
 }

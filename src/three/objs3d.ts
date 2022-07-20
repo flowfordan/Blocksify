@@ -51,7 +51,13 @@ const lMat = new LineMaterial({
 
 });
 
+const lMat2 = new LineMaterial({
+    color: 0x000000,
+    linewidth: 3,
+    resolution: new THREE.Vector2(1920, 1080)
+});
+
 const lGeom = new LineGeometry();
 
 
-export {pointObj, lineObj, fatLineObj, lMat, lGeom}
+export {pointObj, lineObj, fatLineObj, lMat, lMat2, lGeom}
