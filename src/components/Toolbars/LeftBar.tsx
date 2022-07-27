@@ -5,7 +5,6 @@ import cn from 'classnames';
 
 import styles from './LeftBar.module.css';
 import { sceneState, layersState } from '../../state';
-import classNames from 'classnames';
 import { CoordsDisplay } from '../Coords/CoordsDisplay';
 
 

@@ -4,6 +4,7 @@ import { pointObj, fatLineObj, lMat, lMat2, lGeom, pMat } from "../objs3d";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 import { Layer } from "../../state";
 import { BufferGeometry } from "three";
+import { toJS } from "mobx";
 
 
 export class Line{
@@ -58,7 +59,7 @@ export class Line{
         this.line = {
             line: new Line2(),
             lGeom: new LineGeometry(),
-            lMat: lMat2
+            lMat: new LineMaterial(),
         };
 
         this.points = {
@@ -70,7 +71,7 @@ export class Line{
         this.guideLine = {
             line: new Line2(),
             lGeom: new LineGeometry(),
-            lMat: lMat
+            lMat: new LineMaterial(),
         };
         
         this.toolState = initToolState; //state from 1 to 3
@@ -84,6 +85,18 @@ export class Line{
 
         this.currentCamera = camera;
         this.currentPlane = plane;
+
+		//setting forms properties from layer
+		this.guideLine.lMat = new LineMaterial({
+			color: 0x0E89E1,
+			linewidth: 2,
+			resolution: new THREE.Vector2(1920, 1080),
+			dashed: true,
+			opacity: 0.8
+		
+		});
+
+		this.line.lMat = layer.material.line;
         
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
@@ -131,11 +144,11 @@ export class Line{
             let coords: Array<number> = Object.values(this.currentCoord!);
             this.currentLineCoords.push.apply(this.currentLineCoords, coords);
 
-            this.points.points = pointObj(this.currentLineCoords)
-            this.scene.add(this.points.points)
+            this.points.points = pointObj(this.currentLineCoords);
+            this.scene.add(this.points.points);
 
             //GUIDELINE
-            this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat)
+            this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat);
             
             this.toolState = 2;
         }
@@ -156,8 +169,6 @@ export class Line{
             //if this is PL mode and segment after 1
             //modify existing polyline geometry
             this.line.line.layers.set(this.layer!.id);
-            let color = this.layer?.appearance.colorLine
-            this.line.line.material.color.setHex(color!)
             this.scene.add(this.line.line);
 
             //POINTS HANDLE
@@ -205,7 +216,7 @@ export class Line{
     }
 
     private _resetLoop = () => {
-        console.log('THIS', this)
+        console.log('THIS LAYER', toJS(this.scene.children))
         this.scene.remove(this.guideLine.line);
 
         this.line.line = new Line2();

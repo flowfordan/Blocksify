@@ -1,4 +1,6 @@
 import { makeAutoObservable } from "mobx";
+import { LineMaterial } from "three-fatline";
+import { getLineMat } from "../three/objs3d";
 
 const defaultPreset = [
     {
@@ -8,9 +10,9 @@ const defaultPreset = [
             empty: true,
             editable: true,
             visible: true,
-            appearance: {
-                colorLine: 0xFF5E32,
-                colorArea: 0xFF5E32,
+            material: {
+                line: getLineMat(0xFF5E32),
+                mesh: 0xFF5E32,
             }
           },
           {
@@ -20,9 +22,9 @@ const defaultPreset = [
             empty: false,
             editable: true,
             visible: true,
-            appearance: {
-                colorLine: 0x533931,
-                colorArea: 0x533931,
+            material: {
+                line: getLineMat(0x533931),
+                mesh: 0x533931,
             }
           },
           {
@@ -32,9 +34,9 @@ const defaultPreset = [
             empty: true,
             editable: false,
             visible: true,
-            appearance: {
-                colorLine: 0x533931,
-                colorArea: 0x533931,
+            material: {
+                line: getLineMat(0x533931),
+                mesh: 0x533931,
             }
           },
           {
@@ -44,9 +46,9 @@ const defaultPreset = [
             empty: true,
             editable: false,
             visible: false,
-            appearance: {
-                colorLine: 0x533931,
-                colorArea: 0x533931,
+            material: {
+                line: getLineMat(0x533931),
+                mesh: 0x533931,
             }
           }
 ]
@@ -58,9 +60,9 @@ export type Layer = {
     empty: boolean;
     editable: boolean;
     visible: boolean;
-    appearance: {
-        colorLine: number;
-        colorArea: number;
+    material: {
+        line: LineMaterial;
+        mesh: number;
     }
 }
 

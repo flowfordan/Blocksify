@@ -117,33 +117,38 @@ export class ThreeView {
 
     setLayer = () => {
         let current = layersState.layers.find(l => l.active)
+		console.log('set current layer', toJS(current))
         if(current){
             this.currentLayer = current;
+			this.setActiveDrawingTool();
         }
     }
 
+	//TODO: rewrite without many ifs elses
     setActiveDrawingTool = () => {
         let activeToolId = toolsState.drawingTools.find(i => i.active)?
         toolsState.drawingTools.find(i => i.active)!.id : undefined;
 
         let prevToolId = this.currentTool;
         let prevToolName;
+		//if there was tool in use - stop it
         if(typeof prevToolId === 'number'){
            prevToolName = toolsState.drawingTools.find(i => i.id === prevToolId)!.name
            this.tools[prevToolName].stopDrawing();
         }
         
+		//activate new tool
         if(typeof activeToolId === 'number'){
             let toolName = toolsState.drawingTools.find(i => i.active)!.name
+
             this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
             this.currentTool = activeToolId
             
             window.addEventListener('keydown', this.onExit)
         } else {
-            if(typeof prevToolId === 'number'){
+            // if(typeof prevToolId === 'number'){
                 this.currentTool = undefined;
                 window.removeEventListener('keydown', this.onExit)
-            }
         }
     }
 

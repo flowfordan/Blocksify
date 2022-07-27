@@ -40,7 +40,21 @@ const fatLineObj = (coords: Array<number>) => {
     line.computeLineDistances();
 
     return line;
-} 
+}
+
+//function returning fatline material with given atributes
+const getLineMat = (color = 0xffffff, lineWidth = 2, dash = false, opacity = 1) => {
+	const lineMaterial = new LineMaterial({
+		color: color,
+		linewidth: lineWidth,
+		resolution: new THREE.Vector2(1920, 1080),
+		dashed: dash,
+		opacity: opacity
+	
+	});
+
+	return lineMaterial;
+}
 
 
 const lMat = new LineMaterial({
@@ -61,4 +75,4 @@ const lMat2 = new LineMaterial({
 const lGeom = new LineGeometry();
 
 
-export {pointObj, lineObj, fatLineObj, lMat, lMat2, lGeom, pMat}
+export {pointObj, lineObj, fatLineObj, lMat, lMat2, lGeom, pMat, getLineMat}
