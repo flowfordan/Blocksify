@@ -1,5 +1,13 @@
 import * as THREE from "three";
+import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
+
 import { Layer } from "../../state";
+
+interface I3dObj {
+	obj: Line2 | THREE.Mesh| THREE.Points,
+    geom: LineGeometry | THREE.ShapeGeometry | THREE.BufferGeometry,
+    mat: LineMaterial | THREE.MeshBasicMaterial | THREE.PointsMaterial
+}
 
 //SUPERCLASS FOR TOOLS
 export class Tool {
@@ -14,6 +22,25 @@ export class Tool {
     currentPlane: THREE.Plane|null;
     currentPointerCoord: THREE.Vector3;
 
+	//objects being created
+	obj:{
+		line: I3dObj | null,
+		points: I3dObj | null,
+		polygon: I3dObj | null
+	};
+
+	objCoords:{
+		line: [],
+		polygon: []
+	}
+
+	// helper objects to show future lines/shapes
+	// while drawing
+	guideObj: {
+		line: I3dObj | null,
+		polygon: I3dObj | null
+	};
+
 	constructor(canvas: HTMLCanvasElement, scene: THREE.Scene){
 		this.canvas = canvas;
 		this.rect = canvas.getBoundingClientRect();
@@ -25,31 +52,42 @@ export class Tool {
 		this.currentPlane = null;
 
 		this.currentPointerCoord = new THREE.Vector3();
+
+		this.obj = {line: null, points: null, polygon: null};
+		this.objCoords = {line: [], polygon: []}
+
+		this.guideObj = {line: null, polygon: null};
 	}
 
 	//START METHOD
-	start = () => {
+	startDrawing(camera: typeof this.currentCamera, 
+		plane: typeof this.currentPlane, 
+		layer: typeof this.layer) {
+		console.log('TOOL START');
+
+		//set tool state
+		//assign layer, camera and plane
 		//activate EL
+		this.toolState = 1;
+        this.layer = layer;
+        this.currentCamera = camera;
+        this.currentPlane = plane;
 	}
 
-
-	//_MOVE MOUSE EV
-
-
-
-	//_CLICK EV
-
-
 	//REFRESH LOOP
-	endLoop = () => {
-
+	protected _resetLoop() {
+		this.toolState = 1;
 	}
 
 	//STOP METHOD
-	stop = () => {
-		//delete EL
+	stopDrawing() {
+		console.log('TOOL STOP');
 		//tool state to 0
 		//null objects
+		//remove guide and started objcs
+		this.toolState = 0;
+		this.obj = {line: null, points: null, polygon: null};
+		this.objCoords = {line: [], polygon: []}
 	}
 }
 

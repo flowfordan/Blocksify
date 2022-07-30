@@ -14,10 +14,11 @@ export class Line{
     rect: DOMRect|null;
     scene: THREE.Scene;
 	layer: Layer|null;
-	
+
     currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera|null;
     currentPlane: THREE.Plane|null;
     currentCoord: THREE.Vector3;
+	
     currentLineCoords: Array<number>;
     lineMode: number;
     lineParts: number;
@@ -221,9 +222,9 @@ export class Line{
 
         this.line.line = new Line2();
         this.line.lGeom = new LineGeometry();
-
         this.points.points = new THREE.Points();
         this.currentLineCoords = [];
+
         this.toolState = 1;
         this.lineParts = 1;
     } 

@@ -67,7 +67,7 @@ export class ThreeView {
             line: new Line(this.activeElement, this.scene, 0, 0),
             pLine: new Line(this.activeElement, this.scene, 1, 0),
             //TODO:polygon class
-            polygon: new Polygon(this.activeElement, this.scene, 0),
+            polygon: new Polygon(this.activeElement, this.scene),
         };
         this.currentTool = undefined;
 
