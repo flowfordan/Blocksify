@@ -4,10 +4,12 @@ import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 import { Layer } from "../../state";
 
 interface I3dObj {
-	obj: Line2 | THREE.Mesh| THREE.Points,
-    geom: LineGeometry | THREE.ShapeGeometry | THREE.BufferGeometry,
-    mat: LineMaterial | THREE.MeshBasicMaterial | THREE.PointsMaterial
+	form: Line2 | THREE.Mesh| THREE.Points | null,
+    geom: THREE.Shape | null,
+    mat: LineMaterial | THREE.MeshBasicMaterial | THREE.PointsMaterial | null
 }
+
+const null3dObj = {form: null, geom: null, mat: null}
 
 //SUPERCLASS FOR TOOLS
 export class Tool {
@@ -24,9 +26,9 @@ export class Tool {
 
 	//objects being created
 	obj:{
-		line: I3dObj | null,
-		points: I3dObj | null,
-		polygon: I3dObj | null
+		line: I3dObj,
+		points: I3dObj,
+		polygon: I3dObj
 	};
 
 	objCoords:{
@@ -53,7 +55,10 @@ export class Tool {
 
 		this.currentPointerCoord = new THREE.Vector3();
 
-		this.obj = {line: null, points: null, polygon: null};
+		this.obj = {
+			line: null3dObj, 
+			points: null3dObj, 
+			polygon: null3dObj};
 		this.objCoords = {line: [], polygon: []}
 
 		this.guideObj = {line: null, polygon: null};
@@ -86,7 +91,11 @@ export class Tool {
 		//null objects
 		//remove guide and started objcs
 		this.toolState = 0;
-		this.obj = {line: null, points: null, polygon: null};
+		
+		this.obj.line = null3dObj;
+		this.obj.points = null3dObj;
+		this.obj.polygon = null3dObj;
+
 		this.objCoords = {line: [], polygon: []}
 	}
 }

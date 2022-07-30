@@ -101,7 +101,6 @@ export class Line{
         
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
-        //TODO: if polyline - addEL for Right Mouse or Enter
         this.canvas.addEventListener('dblclick', this._onDBClick); 
 
     }
