@@ -17,7 +17,6 @@ export class Line{
     currentPlane: THREE.Plane|null;
     currentCoord: THREE.Vector3;
     currentLineCoords: Array<number>;
-    //currentLineCoordsV3: Array<THREE.Vector3>;
     lineMode: number;
     lineParts: number;
     line: {
@@ -50,7 +49,6 @@ export class Line{
         this.currentPlane = null;
 
         this.currentCoord = new THREE.Vector3();
-        //this.currentLineCoordsV3 = [];
         this.currentLineCoords = [];
 
         this.lineMode = drawMode; //0-2pt line, 1-polyline
@@ -190,11 +188,11 @@ export class Line{
     //private _onPLDone
     private _onDBClick = (e: MouseEvent) => {
         //HANDLE SAME SPOT DBCLICK
-        //mode 0 AND 1
         if(this.currentLineCoords.length === 3){
             this.scene.remove(this.points.points)
         }
 
+		//start new line
         this._resetLoop()
         console.log(this.scene.children)
     }

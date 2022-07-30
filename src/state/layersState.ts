@@ -1,57 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { LineMaterial } from "three-fatline";
-import { getLineMat } from "../three/objs3d";
+import { layersDefPreset } from "./layersDefPreset";
 
-const defaultPreset = [
-    {
-            name: 'Border',
-            id: 2,
-            active: true,
-            empty: true,
-            editable: true,
-            visible: true,
-            material: {
-                line: getLineMat(0xFF5E32),
-                mesh: 0xFF5E32,
-            }
-          },
-          {
-            name: 'Streets',
-            id: 3,
-            active: false,
-            empty: false,
-            editable: true,
-            visible: true,
-            material: {
-                line: getLineMat(0x533931),
-                mesh: 0x533931,
-            }
-          },
-          {
-            name: 'Blocks',
-            id: 4,
-            active: false,
-            empty: true,
-            editable: false,
-            visible: true,
-            material: {
-                line: getLineMat(0x533931),
-                mesh: 0x533931,
-            }
-          },
-          {
-            name: 'Buildings',
-            id: 5,
-            active: false,
-            empty: true,
-            editable: false,
-            visible: false,
-            material: {
-                line: getLineMat(0x533931),
-                mesh: 0x533931,
-            }
-          }
-]
 
 export type Layer = {
     name: string;
@@ -66,22 +16,14 @@ export type Layer = {
     }
 }
 
-
-
-
 class LayersState{
 
-    layers: Array<Layer>
+    layers: Array<Layer>;
 
     constructor(){
-        
-        this.layers = defaultPreset;
-            
+        this.layers = layersDefPreset;
         makeAutoObservable(this);
-
     }
-
-
 
     setActiveLayer = (num: number) => {
         //set new active
@@ -90,6 +32,7 @@ class LayersState{
         if(newActive){
             
             if(!newActive.editable){
+				//TODO popup window 'Layer is not editable'
                 console.log('exit')
                 return
             }
@@ -106,8 +49,6 @@ class LayersState{
         }     
         
     }
-
-
 }
 
 const layersState = new LayersState();

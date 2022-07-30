@@ -14,8 +14,6 @@ interface ITool {
 
 class ToolsState{
 
-    //TODO: wrap to array of objects propertie
-    //{id: 0, name: line, active: false}...
     drawingTools:Array<ITool>;
 
     constructor(){
