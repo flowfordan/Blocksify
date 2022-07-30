@@ -13,6 +13,8 @@ export class Line{
     canvas: HTMLCanvasElement;
     rect: DOMRect|null;
     scene: THREE.Scene;
+	layer: Layer|null;
+	
     currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera|null;
     currentPlane: THREE.Plane|null;
     currentCoord: THREE.Vector3;
@@ -34,7 +36,7 @@ export class Line{
         lGeom: LineGeometry,
         lMat: LineMaterial
     };
-    layer: Layer|null;
+    
 
     //TODO: active layer to constructor to adjust settings? like color and width
     constructor(canvas: HTMLCanvasElement, 
