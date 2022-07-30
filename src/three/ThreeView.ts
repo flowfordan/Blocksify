@@ -1,4 +1,5 @@
 import { Line } from './tools/Line';
+import { Polygon } from './tools/Polygon';
 import * as THREE from 'three';
 import { camera } from './camera/camera';
 import { gridHelper } from './planeHelper';
@@ -27,7 +28,7 @@ export class ThreeView {
     tools: {
         line: Line,
         pLine: Line,
-        polygon: Line
+        polygon: Polygon
     };
     currentTool: number|undefined;
     currentLayer: Layer|null;
@@ -60,12 +61,13 @@ export class ThreeView {
         this.scene.add(dirLight, dirLightHelper, hemiLight)
 
         this.currentLayer = null;
+
         //TOOLS STATE
         this.tools = {
             line: new Line(this.activeElement, this.scene, 0, 0),
             pLine: new Line(this.activeElement, this.scene, 1, 0),
             //TODO:polygon class
-            polygon: new Line(this.activeElement, this.scene, 1, 0),
+            polygon: new Polygon(this.activeElement, this.scene, 0),
         };
         this.currentTool = undefined;
 
@@ -76,7 +78,7 @@ export class ThreeView {
         this.update();
 
         //subscription to observe App State
-        this.updState()
+        this.updState();
     }
 
     updState = () => {
@@ -142,7 +144,7 @@ export class ThreeView {
             let toolName = toolsState.drawingTools.find(i => i.active)!.name
 
             this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
-            this.currentTool = activeToolId
+            this.currentTool = activeToolId;
             
             window.addEventListener('keydown', this.onExit)
         } else {
