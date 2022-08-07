@@ -34,7 +34,7 @@ export class Polygon extends Tool{
         this.canvas.addEventListener('click', this._onDrawClick);
         this.canvas.addEventListener('dblclick', this._onDBClick); 
 
-
+		//debugger
 
 		//do specific stuff
 		const x = -50, y = -50;
@@ -49,9 +49,11 @@ export class Polygon extends Tool{
 		
 
 		this.obj.polygon.form = new THREE.Mesh( geometry, this.obj.polygon.mat );
+		this.obj.polygon.form.name = 'new polygon'
 		this.obj.polygon.form.rotateX( Math.PI / 2);
 		//mesh.position.y = 0.01
 		this.scene.add( this.obj.polygon.form );
+		console.log(this.scene.children)
 	}
 
 	_onMouseMove = (e: MouseEvent) => {
@@ -64,18 +66,21 @@ export class Polygon extends Tool{
         this.currentPointerCoord = mouseLoc;
 
 		
-		if(this.obj.polygon.geom && this.toolState === 1){
-			this.obj.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z)
-			this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom )
-			console.log(this.obj.polygon.geom.getPoints())
-		}
+		// if(this.obj.polygon.geom && this.toolState === 1){
+			
+		// 	this.obj.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
+		// 	this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom );
+
+		// 	console.log(this.obj.polygon.geom.getPoints())
+		// }
 	};
 
 	_onDrawClick = () => {
 		if(this.obj.polygon.geom && this.toolState === 1){
-			this.obj.polygon.geom.lineTo(10, 30)
+			this.obj.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z)
+			//this.obj.polygon.geom.lineTo(10, 30)
 			this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom )
-			console.log(this.obj.polygon.geom.getPoints())
+			console.log(this.scene.children)
 		}
 		
 	};

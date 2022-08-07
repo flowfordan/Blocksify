@@ -11,7 +11,7 @@ import {worldPlaneMesh, worldPlane, worldPlaneHelper} from './geometry/worldPlan
 
 import { getMouseLocation } from './utils';
 
-import { autorun, toJS } from "mobx";
+import { autorun, reaction, toJS } from "mobx";
 import { Layer, layersState, sceneState, toolsState } from '../state';
 
 
@@ -90,9 +90,17 @@ export class ThreeView {
             this.setActiveDrawingTool()
         });
 
-        autorun(() => {
-            this.setLayer()
-        });
+        // autorun(() => {
+        //     this.setLayer()
+        // });
+
+		reaction(
+			() => layersState.layers.find(l => l.active), 
+			(value, previousValue, reaction) => { 
+				if(value?.id !== previousValue?.id){
+					console.log('new layer')
+					this.setLayer()
+			} })
 
         autorun(() => {
             this.setCamera()
@@ -119,7 +127,6 @@ export class ThreeView {
 
     setLayer = () => {
         let current = layersState.layers.find(l => l.active)
-		console.log('set current layer', toJS(current))
         if(current){
             this.currentLayer = current;
 			this.setActiveDrawingTool();
@@ -128,19 +135,24 @@ export class ThreeView {
 
 	//TODO: rewrite without many ifs elses
     setActiveDrawingTool = () => {
+		
         let activeToolId = toolsState.drawingTools.find(i => i.active)?
         toolsState.drawingTools.find(i => i.active)!.id : undefined;
 
         let prevToolId = this.currentTool;
         let prevToolName;
+		console.log('PREV TOOL', prevToolId, 'CURRENT', this.currentTool)
+
 		//if there was tool in use - stop it
         if(typeof prevToolId === 'number'){
+			console.log('error')
            prevToolName = toolsState.drawingTools.find(i => i.id === prevToolId)!.name
            this.tools[prevToolName].stopDrawing();
         }
         
 		//activate new tool
         if(typeof activeToolId === 'number'){
+			console.log(activeToolId)
             let toolName = toolsState.drawingTools.find(i => i.active)!.name
 
             this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
