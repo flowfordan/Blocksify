@@ -71,6 +71,8 @@ export class ThreeView {
         };
         this.currentTool = undefined;
 
+		this.currentLayer = layersState.layers.find(l => l.active)!
+
         //STATS
         this.stats = Stats();
         //document.body.appendChild(this.stats.dom);
@@ -151,7 +153,7 @@ export class ThreeView {
         
 		//activate new tool
         if(typeof activeToolId === 'number'){
-			console.log(activeToolId)
+			console.log(activeToolId, 'LAYER', this.currentLayer)
             let toolName = toolsState.drawingTools.find(i => i.active)!.name
 
             this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);

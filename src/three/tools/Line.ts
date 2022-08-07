@@ -97,6 +97,7 @@ export class Line{
 		
 		});
 
+		console.log(layer)
 		this.line.lMat = layer.material.line;
         
         this.canvas.addEventListener('mousemove', this._onMouseMove);
