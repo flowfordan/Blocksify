@@ -34,25 +34,16 @@ export class Polygon extends Tool{
         this.canvas.addEventListener('click', this._onDrawClick);
         this.canvas.addEventListener('dblclick', this._onDBClick); 
 
-		//debugger
-
-		//do specific stuff
-		const x = -50, y = -50;
+		//do specific stuff	
+		this.obj.polygon.geom.moveTo(0, 0);
+		//this.obj.polygon.geom.lineTo(40, 10)
 		
-		this.obj.polygon.geom.moveTo(x, y);
-		this.obj.polygon.geom.lineTo(40, 10)
-		this.obj.polygon.geom.lineTo(40, 30)
-		//this.obj.polygon.geom.lineTo(20, 50)
+		const geometry = new THREE.ShapeGeometry();
 		
-		
-		const geometry = new THREE.ShapeGeometry( this.obj.polygon.geom );
-		
-
 		this.obj.polygon.form = new THREE.Mesh( geometry, this.obj.polygon.mat );
-		this.obj.polygon.form.name = 'new polygon'
 		this.obj.polygon.form.rotateX( Math.PI / 2);
-		//mesh.position.y = 0.01
 		this.scene.add( this.obj.polygon.form );
+
 		console.log(this.scene.children)
 	}
 
@@ -64,22 +55,19 @@ export class Polygon extends Tool{
         
         //upd coords
         this.currentPointerCoord = mouseLoc;
-
-		
-		// if(this.obj.polygon.geom && this.toolState === 1){
-			
-		// 	this.obj.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
-		// 	this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom );
-
-		// 	console.log(this.obj.polygon.geom.getPoints())
-		// }
 	};
 
 	_onDrawClick = () => {
 		if(this.obj.polygon.geom && this.toolState === 1){
-			this.obj.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z)
-			//this.obj.polygon.geom.lineTo(10, 30)
-			this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom )
+			console.log('CLICK 1')
+			this.obj.polygon.geom.moveTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
+
+			this.toolState = 2
+
+		} else if (this.obj.polygon.geom && this.toolState === 2) {
+			console.log('CLOCK 2')
+			this.obj.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
+			this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom );
 			console.log(this.scene.children)
 		}
 		

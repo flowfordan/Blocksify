@@ -98,7 +98,6 @@ export class ThreeView {
 			() => layersState.layers.find(l => l.active), 
 			(value, previousValue, reaction) => { 
 				if(value?.id !== previousValue?.id){
-					console.log('new layer')
 					this.setLayer()
 			} })
 
