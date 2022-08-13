@@ -24,13 +24,15 @@ export class ThreeView {
     groundPlane: typeof worldPlane;
     light: any;
     controls: OrbitControls;
-    stats: any; 
+    stats: any;
+	
     tools: {
         line: Line,
         pLine: Line,
         polygon: Polygon
     };
     currentTool: number|undefined;
+
     currentLayer: Layer|null;
 
     constructor(canvasRef: HTMLCanvasElement) {

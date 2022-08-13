@@ -62,8 +62,8 @@ export class Tool {
 	// helper objects to show future lines/shapes
 	// while drawing
 	guideObj: {
-		line: I3dObjLine | null,
-		polygon: I3dObjPolygon | null
+		line: I3dObjLine,
+		polygon: I3dObjPolygon
 	};
 
 	constructor(canvas: HTMLCanvasElement, scene: THREE.Scene){
@@ -81,13 +81,23 @@ export class Tool {
 
 
 		this.obj = {
-			line: empty3dObjLine, 
-			points: empty3dObjPoint, 
-			polygon: empty3dObjPolygon};
+			line: {
+				form: new Line2(), geom: new LineGeometry(), mat: new LineMaterial()
+			}, 
+			points: {
+				form: new THREE.Points(), geom: new THREE.BufferGeometry(), mat: pMat
+			}, 
+			polygon: {
+				form: new THREE.Mesh(), geom: new THREE.Shape(), mat: new THREE.MeshBasicMaterial()
+			}};
 		
 		this.objCoords = {line: [], polygon: []}
 
-		this.guideObj = {line: null, polygon: null};
+		this.guideObj = {line: {
+			form: new Line2(), geom: new LineGeometry(), mat: new LineMaterial()
+		}, polygon: {
+			form: new THREE.Mesh(), geom: new THREE.Shape(), mat: new THREE.MeshBasicMaterial()
+		}};
 	}
 
 	//START METHOD

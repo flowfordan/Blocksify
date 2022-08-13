@@ -9,88 +9,48 @@ import { toJS } from "mobx";
 
 
 export class Line extends Tool{
-
-    // toolState: number;
-    // canvas: HTMLCanvasElement;
-    // rect: DOMRect|null;
-    // scene: THREE.Scene;
-	// layer: Layer|null;
-
-    // currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera|null;
-    // currentPlane: THREE.Plane|null;
-    // currentCoord: THREE.Vector3;
-	
     lineMode: number;
     lineParts: number;
-    // line: {
-    //     line: Line2,
-    //     lGeom: LineGeometry,
-    //     lMat: LineMaterial
-    // };
-    // points: {
-    //     points: THREE.Points,
-    //     geom: BufferGeometry,
-    //     mat: THREE.PointsMaterial
-    // }
-    // guideLine: {
-    //     line: Line2,
-    //     lGeom: LineGeometry,
-    //     lMat: LineMaterial
-    // };
-    
-
+   
     //TODO: active layer to constructor to adjust settings? like color and width
     constructor(canvas: HTMLCanvasElement, 
         scene: THREE.Scene, drawMode: number){
 		super(canvas, scene)
-        
-        // this.currentPointerCoord = new THREE.Vector3();
-        // this.objCoords.line = [];
 
         this.lineMode = drawMode; //0-2pt line, 1-polyline
         this.lineParts = 1;
 
-		// = {
-        //     line: ,
-        //     lGeom: new LineGeometry(),
-        //     lMat: new LineMaterial(),
-        // };
-
-        // this.points = {
-        //    points: new THREE.Points(),
-        //    geom: new BufferGeometry(),
-        //    mat: pMat
-        // }
-
-        // this.guideLine = {
-        //     line: new Line2(),
-        //     lGeom: new LineGeometry(),
-        //     lMat: new LineMaterial(),
-        // };
+		console.log(this.obj.line)
     }
 
     startDrawing = (camera: typeof this.currentCamera, 
 		plane: typeof this.currentPlane, layer: typeof this.layer) => {
         console.log('LINE START')
+		console.log(this.obj)
 		super.startDrawing(camera, plane, layer);
 
-
 		//setting forms properties from layer
-		// this.guideLine.lMat = new LineMaterial({
-		// 	color: 0x0E89E1,
-		// 	linewidth: 2,
-		// 	resolution: new THREE.Vector2(1920, 1080),
-		// 	dashed: true,
-		// 	opacity: 0.8
+		this.guideObj.line.mat = new LineMaterial({
+			color: 0x0E89E1,
+			linewidth: 2,
+			resolution: new THREE.Vector2(1920, 1080),
+			dashed: true,
+			opacity: 0.8
 		
-		// });
+		});
 
 		//TODO null layer fix?
 		this.obj.line.mat = this.layer!.material.line;
+
+		console.log(this.guideObj.line.mat)
+		console.log(this.obj.line.mat)
+
         
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
-        this.canvas.addEventListener('dblclick', this._onDBClick); 
+        this.canvas.addEventListener('dblclick', this._onDBClick);
+
+		console.log(this.obj.line)
 
     }
 
@@ -118,18 +78,19 @@ export class Line extends Tool{
             this.objCoords.line.push.apply(this.objCoords.line, coords);
 
 			//TODO GUIDE LINE
-            // this.scene.add(this.guideLine.line);
-            // this.lineMode === 0?this.guideLine.lGeom.setPositions(this.objCoords.line)
-            // :
-            // this.guideLine.lGeom.setPositions(this.objCoords.line.slice(this.lineParts * 3 - 3));
+            this.scene.add(this.guideObj.line.form);
+            this.lineMode === 0?this.guideObj.line.geom.setPositions(this.objCoords.line)
+            :
+            this.guideObj.line.geom.setPositions(this.objCoords.line.slice(this.lineParts * 3 - 3));
 
-            // this.guideLine.line.computeLineDistances();
+            this.guideObj.line.form.computeLineDistances();
         }
     }
 
     private _onDrawClick = () => {
         if(this.toolState === 1){
             console.log('Line: first pt');
+			console.log(this.obj.line)
 
             let coords: Array<number> = Object.values(this.currentPointerCoord!);
             this.objCoords.line.push.apply(this.objCoords.line, coords);
@@ -138,7 +99,8 @@ export class Line extends Tool{
             this.scene.add(this.obj.points.form);
 
             //GUIDELINE
-            //this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat);
+            this.guideObj.line.form = new Line2(
+				this.guideObj.line.geom, this.guideObj.line.mat);
             
             this.toolState = 2;
         }
@@ -148,8 +110,8 @@ export class Line extends Tool{
             //LINES HANDLE
             if(this.lineMode === 0 || this.lineParts === 1){
                 this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat)
-                this.obj.line.geom.setPositions(this.objCoords.line);
-                //this.scene.remove(this.guideLine.line)
+				this.obj.line.geom.setPositions(this.objCoords.line);
+                this.scene.remove(this.guideObj.line.form)
             } else {
                 this.scene.remove(this.obj.line.form)
                 this.obj.line.geom = new LineGeometry()
@@ -193,7 +155,7 @@ export class Line extends Tool{
         console.log('Line Drawing stopped')
 		super.stopDrawing();
         //delete began forms
-        //this.scene.remove(this.guideLine.line);
+        this.scene.remove(this.guideObj.line.form);
         this.scene.remove(this.obj.line.form);
         this.scene.remove(this.obj.points.form);
 
@@ -208,10 +170,11 @@ export class Line extends Tool{
     protected _resetLoop = () => {
 		super._resetLoop();
         console.log('THIS LAYER', toJS(this.scene.children))
-        //this.scene.remove(this.guideLine.line);
+        this.scene.remove(this.guideObj.line.form);
 
         this.obj.line.form = new Line2();
-        this.obj.line.geom = new LineGeometry();
+		this.obj.line.geom = new LineGeometry();
+
         this.obj.points.form = new THREE.Points();
         this.objCoords.line = [];
 
