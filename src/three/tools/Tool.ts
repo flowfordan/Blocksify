@@ -32,7 +32,7 @@ export class Tool {
 	};
 
 	objCoords:{
-		line: [],
+		line: Array<number>,
 		polygon: []
 	}
 
@@ -59,6 +59,7 @@ export class Tool {
 			line: null3dObj, 
 			points: null3dObj, 
 			polygon: null3dObj};
+		
 		this.objCoords = {line: [], polygon: []}
 
 		this.guideObj = {line: null, polygon: null};
@@ -72,7 +73,6 @@ export class Tool {
 
 		//set tool state
 		//assign layer, camera and plane
-		//activate EL
 		this.toolState = 1;
         this.layer = layer;
         this.currentCamera = camera;
