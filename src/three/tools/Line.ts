@@ -20,7 +20,6 @@ export class Line extends Tool{
     // currentPlane: THREE.Plane|null;
     // currentCoord: THREE.Vector3;
 	
-    currentLineCoords: Array<number>;
     lineMode: number;
     lineParts: number;
     // line: {
@@ -51,8 +50,8 @@ export class Line extends Tool{
         this.lineMode = drawMode; //0-2pt line, 1-polyline
         this.lineParts = 1;
 
-        // this.line = {
-        //     line: new Line2(),
+		// = {
+        //     line: ,
         //     lGeom: new LineGeometry(),
         //     lMat: new LineMaterial(),
         // };
@@ -74,6 +73,7 @@ export class Line extends Tool{
 		plane: typeof this.currentPlane, layer: typeof this.layer) => {
         console.log('LINE START')
 		super.startDrawing(camera, plane, layer);
+
 
 		//setting forms properties from layer
 		// this.guideLine.lMat = new LineMaterial({
@@ -138,7 +138,7 @@ export class Line extends Tool{
             this.scene.add(this.obj.points.form);
 
             //GUIDELINE
-            this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat);
+            //this.guideLine.line = new Line2(this.guideLine.lGeom, this.guideLine.lMat);
             
             this.toolState = 2;
         }
@@ -147,19 +147,19 @@ export class Line extends Tool{
             console.log('Line: second pt')                        
             //LINES HANDLE
             if(this.lineMode === 0 || this.lineParts === 1){
-                this.line.line = new Line2(this.line.lGeom, this.line.lMat)
-                this.line.lGeom.setPositions(this.objCoords.line);
-                this.scene.remove(this.guideLine.line)
+                this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat)
+                this.obj.line.geom.setPositions(this.objCoords.line);
+                //this.scene.remove(this.guideLine.line)
             } else {
-                this.scene.remove(this.line.line)
-                this.line.lGeom = new LineGeometry()
-                this.line.lGeom.setPositions(this.objCoords.line)
-                this.line.line = new Line2(this.line.lGeom, this.line.lMat);
+                this.scene.remove(this.obj.line.form)
+                this.obj.line.geom = new LineGeometry()
+                this.obj.line.geom.setPositions(this.objCoords.line)
+                this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
             }
             //if this is PL mode and segment after 1
             //modify existing polyline geometry
-            this.line.line.layers.set(this.layer!.id);
-            this.scene.add(this.line.line);
+            this.obj.line.form.layers.set(this.layer!.id);
+            this.scene.add(this.obj.line.form);
 
             //POINTS HANDLE
             this.scene.remove(this.obj.points.form)
@@ -193,8 +193,8 @@ export class Line extends Tool{
         console.log('Line Drawing stopped')
 		super.stopDrawing();
         //delete began forms
-        this.scene.remove(this.guideLine.line);
-        this.scene.remove(this.line.line);
+        //this.scene.remove(this.guideLine.line);
+        this.scene.remove(this.obj.line.form);
         this.scene.remove(this.obj.points.form);
 
         this._resetLoop();
@@ -208,10 +208,10 @@ export class Line extends Tool{
     protected _resetLoop = () => {
 		super._resetLoop();
         console.log('THIS LAYER', toJS(this.scene.children))
-        this.scene.remove(this.guideLine.line);
+        //this.scene.remove(this.guideLine.line);
 
-        this.line.line = new Line2();
-        this.line.lGeom = new LineGeometry();
+        this.obj.line.form = new Line2();
+        this.obj.line.geom = new LineGeometry();
         this.obj.points.form = new THREE.Points();
         this.objCoords.line = [];
 

@@ -2,14 +2,37 @@ import * as THREE from "three";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 import { Layer } from "../../state";
+import { pMat } from "../objs3d";
 
-interface I3dObj {
-	form: Line2 | THREE.Mesh| THREE.Points | null,
-    geom: THREE.Shape | null,
-    mat: LineMaterial | THREE.MeshBasicMaterial | THREE.PointsMaterial | null
+interface I3dObjPoint {
+	form: THREE.Points,
+    geom: THREE.BufferGeometry,
+    mat: THREE.PointsMaterial
+}
+
+interface I3dObjLine {
+	form: Line2,
+    geom: LineGeometry,
+    mat: LineMaterial
+}
+
+interface I3dObjPolygon {
+	form: THREE.Mesh,
+    geom: THREE.Shape,
+    mat: THREE.MeshBasicMaterial
 }
 
 const null3dObj = {form: null, geom: null, mat: null}
+
+const empty3dObjPoint = {
+	form: new THREE.Points(), geom: new THREE.BufferGeometry(), mat: pMat
+}
+const empty3dObjLine = {
+	form: new Line2(), geom: new LineGeometry(), mat: new LineMaterial()
+}
+const empty3dObjPolygon = {
+	form: new THREE.Mesh(), geom: new THREE.Shape(), mat: new THREE.MeshBasicMaterial()
+}
 
 //SUPERCLASS FOR TOOLS
 export class Tool {
@@ -26,9 +49,9 @@ export class Tool {
 
 	//objects being created
 	obj:{
-		line: I3dObj,
-		points: I3dObj,
-		polygon: I3dObj
+		line: I3dObjLine,
+		points: I3dObjPoint,
+		polygon: I3dObjPolygon
 	};
 
 	objCoords:{
@@ -39,8 +62,8 @@ export class Tool {
 	// helper objects to show future lines/shapes
 	// while drawing
 	guideObj: {
-		line: I3dObj | null,
-		polygon: I3dObj | null
+		line: I3dObjLine | null,
+		polygon: I3dObjPolygon | null
 	};
 
 	constructor(canvas: HTMLCanvasElement, scene: THREE.Scene){
@@ -55,10 +78,12 @@ export class Tool {
 
 		this.currentPointerCoord = new THREE.Vector3();
 
+
+
 		this.obj = {
-			line: null3dObj, 
-			points: null3dObj, 
-			polygon: null3dObj};
+			line: empty3dObjLine, 
+			points: empty3dObjPoint, 
+			polygon: empty3dObjPolygon};
 		
 		this.objCoords = {line: [], polygon: []}
 
@@ -92,9 +117,9 @@ export class Tool {
 		//remove guide and started objcs
 		this.toolState = 0;
 		
-		this.obj.line = null3dObj;
-		this.obj.points = null3dObj;
-		this.obj.polygon = null3dObj;
+		this.obj.line = empty3dObjLine;
+		this.obj.points = empty3dObjPoint;
+		this.obj.polygon = empty3dObjPolygon;
 
 		this.objCoords = {line: [], polygon: []}
 	}
