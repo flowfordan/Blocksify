@@ -26,7 +26,6 @@ export class Line extends Tool{
     startDrawing = (camera: typeof this.currentCamera, 
 		plane: typeof this.currentPlane, layer: typeof this.layer) => {
         console.log('LINE START')
-		console.log(this.obj)
 		super.startDrawing(camera, plane, layer);
 
 		//setting forms properties from layer
@@ -40,18 +39,11 @@ export class Line extends Tool{
 		});
 
 		//TODO null layer fix?
-		this.obj.line.mat = this.layer!.material.line;
-
-		console.log(this.guideObj.line.mat)
-		console.log(this.obj.line.mat)
-
+		this.obj.line.mat = this.layer!.content.main!.mat.line!;
         
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
         this.canvas.addEventListener('dblclick', this._onDBClick);
-
-		console.log(this.obj.line)
-
     }
 
     private _onMouseMove = (e: MouseEvent) => {

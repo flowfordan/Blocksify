@@ -1,13 +1,36 @@
 import * as THREE from 'three';
+import { Vector2 } from 'three';
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
-const pointObj = (coords: any) => {
-    let position = Float32Array.from(coords)
+
+const pointObj = (coords: Array<number>) => {
+	let position
+
+	position = Float32Array.from(coords);
+
     let pGeom = new THREE.BufferGeometry();
     pGeom.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
     let pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false} );
     let point = new THREE.Points(pGeom, pMat);
     
+    return point
+};
+
+const pointObjV2 = (coords: Array<Vector2>) => {
+	let position
+
+	position = Float32Array.from(coords.map(i => {
+		return(
+			[i.toArray()[0], 0, i.toArray()[1]]
+		)
+	}).flat());
+
+    let pGeom = new THREE.BufferGeometry();
+    pGeom.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
+    let pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false} );
+    let point = new THREE.Points(pGeom, pMat);
+    
+	console.log(pGeom)
     return point
 };
 
@@ -89,4 +112,4 @@ const lGeom = new LineGeometry();
 export {
 	pointObj, lineObj, fatLineObj,
 	lMat, lMat2, lGeom, pMat, getLineMat,
-	getPolygonMat}
+	getPolygonMat, pointObjV2}

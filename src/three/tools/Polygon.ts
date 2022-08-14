@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { Layer } from "../../state";
+import { pointObj, pointObjV2 } from "../objs3d";
 import { getMouseLocation } from "../utils";
 import { Tool } from "./Tool";
 
@@ -15,13 +16,9 @@ export class Polygon extends Tool{
 		layer: typeof this.layer) => {
 		super.startDrawing(camera, plane, layer);
 		
+		//POLYGON
 		//init form, geometry, material
-		this.obj.polygon.mat = new THREE.MeshBasicMaterial( { 
-			color: new THREE.Color('moccasin'), 
-			side: THREE.DoubleSide, 
-			transparent:true,
-			opacity: 0.5 
-		} );
+		this.obj.polygon.mat = this.layer?.content.main?.mat.polygon!
 
 		this.obj.polygon.geom = new THREE.Shape();
 
@@ -32,6 +29,10 @@ export class Polygon extends Tool{
 		//rotate(by def created on x-z plane)
 		this.obj.polygon.form.rotateX( Math.PI / 2);
 		this.scene.add( this.obj.polygon.form );
+
+		//POLYGON CONTOUR
+		//TODO if there is contour check
+		this.obj.line.mat = this.layer?.content.main?.mat.line!
 		
 		//init guide obj
 		
@@ -54,6 +55,11 @@ export class Polygon extends Tool{
 	_onDrawClick = () => {
 		if(this.obj.polygon.geom && this.toolState === 1){
 			this.obj.polygon.geom.moveTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
+			console.log(this.obj.polygon.geom.getPoints())
+			//add pts
+
+			this.obj.points.form = pointObj([this.currentPointerCoord.x, 0, this.currentPointerCoord.z]);
+            this.scene.add(this.obj.points.form);
 
 			this.toolState = 2
 
@@ -61,6 +67,11 @@ export class Polygon extends Tool{
 			this.obj.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
 			this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom );
 			console.log(this.scene.children)
+			console.log(this.obj.polygon.geom.getPoints())
+
+			this.scene.remove(this.obj.points.form);
+			this.obj.points.form = pointObjV2(this.obj.polygon.geom.getPoints());
+            this.scene.add(this.obj.points.form);
 		}
 		
 	};
