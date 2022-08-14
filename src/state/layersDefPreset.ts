@@ -7,7 +7,7 @@ const borderMainContent = {
 	id: 0, name: 'Border', 
 	descr: 'Border or/and Zone inside Border ', 
 	stage: 0, mat: {
-		line: getLineMat(0xFF5E32),
+		line: getLineMat(0x1d5e9a, 5, true),
 		polygon: getPolygonMat()
 	}
 }

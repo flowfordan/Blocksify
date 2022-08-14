@@ -80,6 +80,9 @@ const getLineMat = (color = 0xffffff, lineWidth = 2, dash = false, opacity = 1) 
 		linewidth: lineWidth,
 		resolution: new THREE.Vector2(1920, 1080),
 		dashed: dash,
+		dashSize: 8,
+		gapSize: 4,
+		//dashOffset: 25,
 		opacity: opacity
 	
 	});

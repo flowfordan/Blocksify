@@ -103,6 +103,7 @@ export class Polygon extends Tool{
 			this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
 			this.obj.line.form.layers.set(this.layer!.id);
             this.scene.add(this.obj.line.form);
+			this.obj.line.form.computeLineDistances();
 		}
 		
 	};
