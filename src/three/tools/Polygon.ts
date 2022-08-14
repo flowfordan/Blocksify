@@ -30,6 +30,7 @@ export class Polygon extends Tool{
 		//geometry creation
 		const geometry = new THREE.ShapeGeometry();
 		this.obj.polygon.form = new THREE.Mesh( geometry, this.obj.polygon.mat );
+		this.obj.polygon.form.name = 'border'
 
 		//rotate(by def created on x-z plane)
 		this.obj.polygon.form.rotateX( Math.PI / 2);
@@ -112,10 +113,18 @@ export class Polygon extends Tool{
 
 	protected _resetLoop = () => {
 		super._resetLoop();
+
+		this.obj.line.form = new Line2();
+		this.obj.line.geom = new LineGeometry();
+
+		this.obj.points.form = new THREE.Points();
+		this.objCoords.line = [];
 	}
 
 	stopDrawing() {
 		super.stopDrawing();
+
+		this._resetLoop();
 
 		this.canvas.removeEventListener('mousemove', this._onMouseMove);
         this.canvas.removeEventListener('click', this._onDrawClick);
