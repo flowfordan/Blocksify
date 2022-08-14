@@ -1,14 +1,19 @@
 import * as THREE from "three";
 import { Layer } from "../../state";
-import { pointObj, pointObjV2 } from "../objs3d";
+import { pointObj, V2ArrToNumArr } from "../objs3d";
 import { getMouseLocation } from "../utils";
 import { Tool } from "./Tool";
+import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 
 export class Polygon extends Tool{
 
+	polygonParts: number;
+
 	constructor(canvas: HTMLCanvasElement, scene: THREE.Scene){
 		super(canvas, scene);
+
+		this.polygonParts = 1;
 	}
 
 	startDrawing = (camera: typeof this.currentCamera, 
@@ -67,11 +72,36 @@ export class Polygon extends Tool{
 			this.obj.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
 			this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom );
 			console.log(this.scene.children)
-			console.log(this.obj.polygon.geom.getPoints())
+			
+			this.objCoords.line.length = 0
+			const currentLineCoords = V2ArrToNumArr(
+				this.obj.polygon.geom.getPoints(), 
+				this.currentPlane!.constant //WORLD PLANE LEVEL
+			)
+			this.objCoords.line.push
+			.apply(this.objCoords.line, currentLineCoords);
+			this.objCoords.line.push(
+				this.objCoords.line[0], this.objCoords.line[1], this.objCoords.line[2]
+			) //close line
 
+			console.log(this.obj.polygon.geom.getPoints())
+			console.log(this.objCoords.line)
+
+			//create points
 			this.scene.remove(this.obj.points.form);
-			this.obj.points.form = pointObjV2(this.obj.polygon.geom.getPoints());
+			this.obj.points.form = pointObj(currentLineCoords);
             this.scene.add(this.obj.points.form);
+
+			//create polyline
+			this.scene.remove(this.obj.line.form);
+
+			//this.objCoords.line
+
+			this.obj.line.geom = new LineGeometry();
+			this.obj.line.geom.setPositions(this.objCoords.line);
+			this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
+			this.obj.line.form.layers.set(this.layer!.id);
+            this.scene.add(this.obj.line.form);
 		}
 		
 	};

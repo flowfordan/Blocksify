@@ -31,10 +31,6 @@ export interface Layer {
     empty: boolean;
     editable: boolean;
     visible: boolean;
-    // material: {
-    //     line: LineMaterial;
-    //     mesh: number;
-    // }
 	content: LayerContent
 }
 

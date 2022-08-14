@@ -34,6 +34,14 @@ const pointObjV2 = (coords: Array<Vector2>) => {
     return point
 };
 
+const V2ArrToNumArr = (arr: Array<Vector2>, baseLevel: number) => {
+	return arr.map(i => {
+		return(
+			[i.toArray()[0], 0-baseLevel, i.toArray()[1]]
+		)
+	}).flat()
+}
+
 const pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false} );
 
 const lineObj = (coords: any) => {
@@ -112,4 +120,5 @@ const lGeom = new LineGeometry();
 export {
 	pointObj, lineObj, fatLineObj,
 	lMat, lMat2, lGeom, pMat, getLineMat,
-	getPolygonMat, pointObjV2}
+	getPolygonMat, pointObjV2,
+	V2ArrToNumArr}
