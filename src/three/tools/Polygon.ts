@@ -19,7 +19,7 @@ export class Polygon extends Tool{
 		this.obj.polygon.mat = new THREE.MeshBasicMaterial( { 
 			color: new THREE.Color('moccasin'), 
 			side: THREE.DoubleSide, 
-			transparent:true, 
+			transparent:true,
 			opacity: 0.5 
 		} );
 

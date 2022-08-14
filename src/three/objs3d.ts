@@ -56,6 +56,17 @@ const getLineMat = (color = 0xffffff, lineWidth = 2, dash = false, opacity = 1) 
 	return lineMaterial;
 }
 
+const getPolygonMat = () => {
+	const mat = new THREE.MeshBasicMaterial( { 
+		color: new THREE.Color('moccasin'), 
+		side: THREE.DoubleSide, 
+		transparent:true,
+		opacity: 0.5 
+	} );
+
+	return mat
+}
+
 
 const lMat = new LineMaterial({
     color: 0x0E89E1,
@@ -75,4 +86,7 @@ const lMat2 = new LineMaterial({
 const lGeom = new LineGeometry();
 
 
-export {pointObj, lineObj, fatLineObj, lMat, lMat2, lGeom, pMat, getLineMat}
+export {
+	pointObj, lineObj, fatLineObj,
+	lMat, lMat2, lGeom, pMat, getLineMat,
+	getPolygonMat}

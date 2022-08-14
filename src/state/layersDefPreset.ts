@@ -1,54 +1,134 @@
-import { getLineMat } from "../three/objs3d";
+import { getLineMat, getPolygonMat } from "../three/objs3d";
 
-const layersDefPreset = [
-    {
-            name: 'Border',
-            id: 2,
-            active: true,
-            empty: true,
-            editable: true,
-            visible: true,
-            material: {
-                line: getLineMat(0xFF5E32),
-                mesh: 0xFF5E32,
-            }
-          },
-          {
-            name: 'Streets',
-            id: 3,
-            active: false,
-            empty: false,
-            editable: true,
-            visible: true,
-            material: {
-                line: getLineMat(0x533931),
-                mesh: 0x533931,
-            }
-          },
-          {
-            name: 'Blocks',
-            id: 4,
-            active: false,
-            empty: true,
-            editable: false,
-            visible: true,
-            material: {
-                line: getLineMat(0x533931),
-                mesh: 0x533931,
-            }
-          },
-          {
-            name: 'Buildings',
-            id: 5,
-            active: false,
-            empty: true,
-            editable: false,
-            visible: false,
-            material: {
-                line: getLineMat(0x533931),
-                mesh: 0x533931,
-            }
-          }
+//objects 3d materials
+//LAYER 2 - BORDER
+//main
+const borderMainContent = {
+	id: 0, name: 'Border', 
+	descr: 'Border or/and Zone inside Border ', 
+	stage: 0, mat: {
+		line: getLineMat(0xFF5E32),
+		polygon: getPolygonMat()
+	}
+}
+
+//LAYER 3 - STREETS
+//main
+const streetsMainContent = {
+	id: 0, name: 'Street axis', 
+	descr: 'Street axis', 
+	stage: 0, 
+	mat: {
+		line: getLineMat(0x533931),
+		polygon: null
+	}
+}
+
+//add
+const streetsAddContent = {
+	rt: {
+		id: 0, name: 'Street sides', 
+		descr: 'Street sides', 
+		stage: 0, 
+		mat: {
+			line: getLineMat(0x533931),
+			polygon: null
+		}
+	},
+	auto: {
+		id: 1, name: 'Street area', 
+		descr: 'Street area - polygon (public territory)', 
+		stage: 1, 
+		mat: {
+			line: getLineMat(0x533931),
+			polygon: getPolygonMat()
+		}
+	}
+}
+
+//LAYER 4 - BLOCKS
+//main
+
+//add
+const blocksAddContent = {
+	rt: null,
+	auto: {
+		id: 1, name: 'Block area', 
+		descr: 'Block area territory', 
+		stage: 1, 
+		mat: {
+			line: getLineMat(0x533931),
+			polygon: getPolygonMat()
+		}
+	}
+}
+
+//LAYER 5 - BUILDINGS
+//add
+const buildingsAddContent = {
+	rt: null,
+	auto: {
+		id: 1, name: 'Building', 
+		descr: 'Building volume', 
+		stage: 1, 
+		mat: {
+			line: getLineMat(0x533931),
+			polygon: getPolygonMat()
+		}
+	}
+}
+
+const layersDefPreset = [{
+		name: 'Border',
+		id: 2,
+		active: true,
+		empty: true,
+		editable: true,
+		visible: true,
+		content: { 
+			main: borderMainContent,
+			add: {
+				rt: null,
+				auto: null
+			}
+		}
+	},
+	{
+		name: 'Streets',
+		id: 3,
+		active: false,
+		empty: false,
+		editable: true,
+		visible: true,
+		content: {
+			main: streetsMainContent,
+			add: streetsAddContent
+		}
+	},
+	{
+		name: 'Blocks',
+		id: 4,
+		active: false,
+		empty: true,
+		editable: false,
+		visible: true,
+		content: {
+			main: null,
+			add: blocksAddContent
+		}
+	},
+	{
+		name: 'Buildings',
+		id: 5,
+		active: false,
+		empty: true,
+		editable: false,
+		visible: false,
+		content: {
+			main: null,
+			add: buildingsAddContent
+		}
+	}
 ]
 
 export { layersDefPreset }

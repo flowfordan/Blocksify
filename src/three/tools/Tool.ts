@@ -82,21 +82,31 @@ export class Tool {
 
 		this.obj = {
 			line: {
-				form: new Line2(), geom: new LineGeometry(), mat: new LineMaterial()
+				form: new Line2(), 
+				geom: new LineGeometry(), 
+				mat: new LineMaterial()
 			}, 
 			points: {
-				form: new THREE.Points(), geom: new THREE.BufferGeometry(), mat: pMat
+				form: new THREE.Points(), 
+				geom: new THREE.BufferGeometry(), 
+				mat: pMat
 			}, 
 			polygon: {
-				form: new THREE.Mesh(), geom: new THREE.Shape(), mat: new THREE.MeshBasicMaterial()
+				form: new THREE.Mesh(), 
+				geom: new THREE.Shape(), 
+				mat: new THREE.MeshBasicMaterial()
 			}};
 		
 		this.objCoords = {line: [], polygon: []}
 
 		this.guideObj = {line: {
-			form: new Line2(), geom: new LineGeometry(), mat: new LineMaterial()
+			form: new Line2(), 
+			geom: new LineGeometry(), 
+			mat: new LineMaterial()
 		}, polygon: {
-			form: new THREE.Mesh(), geom: new THREE.Shape(), mat: new THREE.MeshBasicMaterial()
+			form: new THREE.Mesh(), 
+			geom: new THREE.Shape(), 
+			mat: new THREE.MeshBasicMaterial()
 		}};
 	}
 
