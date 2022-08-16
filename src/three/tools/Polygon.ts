@@ -38,7 +38,13 @@ export class Polygon extends Tool{
 
 		//POLYGON POLYLINE
 		//TODO if there is contour check
-		this.obj.line.mat = this.layer?.content.main?.mat.line!
+		this.obj.line.mat = this.layer?.content.main?.mat.line!;
+		this.obj.line.geom = new LineGeometry();
+
+		this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
+		this.obj.line.form.layers.set(this.layer!.id);
+		this.scene.add(this.obj.line.form);
+
 		
 		//init guide obj
 		
@@ -67,6 +73,8 @@ export class Polygon extends Tool{
 			this.obj.points.form = pointObj([this.currentPointerCoord.x, 0, this.currentPointerCoord.z]);
             this.scene.add(this.obj.points.form);
 
+
+
 			this.toolState = 2
 
 		} else if (this.obj.polygon.geom && this.toolState === 2) {
@@ -88,23 +96,18 @@ export class Polygon extends Tool{
 				this.objCoords.line[0], this.objCoords.line[1], this.objCoords.line[2]
 			)
 
-
 			//create points
 			this.scene.remove(this.obj.points.form);
 			this.obj.points.form = pointObj(currentLineCoords);
             this.scene.add(this.obj.points.form);
 
 			//create polyline
-			this.scene.remove(this.obj.line.form);
-
-			this.obj.line.geom = new LineGeometry();
-			this.obj.line.geom.setPositions(this.objCoords.line);
-
-			this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
-			this.obj.line.form.layers.set(this.layer!.id);
-
-            this.scene.add(this.obj.line.form);
+			//TODO upd geom without cr new
+			this.obj.line.form.geometry = new LineGeometry()
+			this.obj.line.form.geometry.setPositions(this.objCoords.line);
 			this.obj.line.form.computeLineDistances();
+
+			console.log(this.scene.children)
 		}
 		
 	};
