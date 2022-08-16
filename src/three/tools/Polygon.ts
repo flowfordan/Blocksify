@@ -4,6 +4,7 @@ import { pointObj, V2ArrToNumArr } from "../objs3d";
 import { getMouseLocation } from "../utils";
 import { Tool } from "./Tool";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
+import { CompressedTextureLoader } from "three";
 
 
 export class Polygon extends Tool{
@@ -47,6 +48,21 @@ export class Polygon extends Tool{
 
 		
 		//init guide obj
+		this.guideObj.polygon.mat = new THREE.MeshBasicMaterial( { 
+			color: new THREE.Color('skyblue'), 
+			side: THREE.DoubleSide, 
+			transparent:true,
+			opacity: 0.5 
+		} );
+		this.guideObj.polygon.geom = new THREE.Shape();
+		const shapeGuideGeom = new THREE.ShapeGeometry(this.guideObj.polygon.geom);
+
+		this.guideObj.polygon.form = new THREE.Mesh( shapeGuideGeom, this.guideObj.polygon.mat );
+		this.guideObj.polygon.form.name = 'guide'
+
+		//rotate(by def created on x-z plane)
+		this.guideObj.polygon.form.rotateX( Math.PI / 2);
+
 		
 		//add EL
 		this.canvas.addEventListener('mousemove', this._onMouseMove);
@@ -62,18 +78,53 @@ export class Polygon extends Tool{
         
         //upd coords
         this.currentPointerCoord = mouseLoc;
+
+		//upd guideLine
+		//1, 2, currentpoint
+		//show when 2 pts created
+		if(this.toolState === 2 && this.objCoords.line.length >= 9){
+			this.scene.remove(this.guideObj.polygon.form!)
+
+			this.guideObj.polygon.geom = new THREE.Shape();
+			const pt1 = this.obj.polygon.geom!.getPoints()[0];
+			this.guideObj.polygon.geom?.moveTo(pt1.x, pt1.y)
+			this.guideObj.polygon.geom?.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z)
+			const pt2 = this.obj.polygon.geom!.getPoints()[this.obj.polygon.geom!.getPoints().length-1];
+			this.guideObj.polygon.geom?.lineTo(pt2.x, pt2.y)
+
+			
+			this.guideObj.polygon.form = new THREE.Mesh( new THREE.ShapeGeometry( this.guideObj.polygon.geom! ), this.guideObj.polygon.mat! );
+			this.guideObj.polygon.form.name = 'guide'
+	
+			//rotate(by def created on x-z plane)
+			this.guideObj.polygon.form.rotateX( Math.PI / 2);
+
+			this.scene.add(this.guideObj.polygon.form!)
+
+			console.log(this.scene.children)
+			console.log(this.guideObj.polygon.form!)
+
+
+		}
+			
 	};
 
 	_onDrawClick = () => {
 		if(this.obj.polygon.geom && this.toolState === 1){
 			this.obj.polygon.geom.moveTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
-			console.log(this.obj.polygon.geom.getPoints());
 
-			//add pts
+
+
+			//add pt
 			this.obj.points.form = pointObj([this.currentPointerCoord.x, 0, this.currentPointerCoord.z]);
             this.scene.add(this.obj.points.form);
 
+			//add guideLine
+			this.guideObj.line.geom = new LineGeometry();
+			this.guideObj.line.form = new Line2(this.guideObj.line.geom, this.guideObj.line.mat);
+			this.scene.add(this.guideObj.line.form);
 
+			//add guidePoly
 
 			this.toolState = 2
 
@@ -101,11 +152,13 @@ export class Polygon extends Tool{
 			this.obj.points.form = pointObj(currentLineCoords);
             this.scene.add(this.obj.points.form);
 
-			//create polyline
+			//upd polyline
 			//TODO upd geom without cr new
-			this.obj.line.form.geometry = new LineGeometry()
+			this.obj.line.form.geometry = new LineGeometry();
 			this.obj.line.form.geometry.setPositions(this.objCoords.line);
 			this.obj.line.form.computeLineDistances();
+
+
 
 			console.log(this.scene.children)
 		}

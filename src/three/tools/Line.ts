@@ -28,16 +28,6 @@ export class Line extends Tool{
         console.log('LINE START')
 		super.startDrawing(camera, plane, layer);
 
-		//setting forms properties from layer
-		this.guideObj.line.mat = new LineMaterial({
-			color: 0x0E89E1,
-			linewidth: 2,
-			resolution: new THREE.Vector2(1920, 1080),
-			dashed: true,
-			opacity: 0.8
-		
-		});
-
 		//TODO null layer fix?
 		this.obj.line.mat = this.layer!.content.main!.mat.line!;
         

@@ -124,6 +124,16 @@ export class Tool {
         this.layer = layer;
         this.currentCamera = camera;
         this.currentPlane = plane;
+
+		//guideLine
+		this.guideObj.line.mat = new LineMaterial({
+			color: 0x0E89E1,
+			linewidth: 2,
+			resolution: new THREE.Vector2(1920, 1080),
+			dashed: true,
+			opacity: 0.8
+		
+		});
 	}
 
 	//REFRESH LOOP
