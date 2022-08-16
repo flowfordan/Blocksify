@@ -17,9 +17,9 @@ interface I3dObjLine {
 }
 
 interface I3dObjPolygon {
-	form: THREE.Mesh,
-    geom: THREE.Shape,
-    mat: THREE.MeshBasicMaterial
+	form: THREE.Mesh | null,
+    geom: THREE.Shape | null,
+    mat: THREE.MeshBasicMaterial | null
 }
 
 const null3dObj = {form: null, geom: null, mat: null}
@@ -92,9 +92,9 @@ export class Tool {
 				mat: pMat
 			}, 
 			polygon: {
-				form: new THREE.Mesh(), 
-				geom: new THREE.Shape(), 
-				mat: new THREE.MeshBasicMaterial()
+				form: null, 
+				geom: null, 
+				mat: null
 			}};
 		
 		this.objCoords = {line: [], polygon: []}
@@ -108,6 +108,8 @@ export class Tool {
 			geom: new THREE.Shape(), 
 			mat: new THREE.MeshBasicMaterial()
 		}};
+
+		console.log('NEW CONSTRUCTOR TOOL')
 	}
 
 	//START METHOD
