@@ -67,6 +67,7 @@ export class Polygon extends Tool{
 		this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
         this.canvas.addEventListener('dblclick', this._onDBClick);
+		window.addEventListener('keypress', this._onEnter);
   
 	}
 
@@ -155,6 +156,7 @@ export class Polygon extends Tool{
 			this.obj.line.form!.computeLineDistances();
 
 
+			this.scene.remove(this.guideObj.polygon.form!)
 
 			console.log(this.scene.children)
 		}
@@ -165,7 +167,11 @@ export class Polygon extends Tool{
 
 	};
 
-
+	private _onEnter = (event: KeyboardEvent) => {
+		if(event.key === 'Enter'){
+			this._resetLoop();
+		}
+	}
 
 	protected _resetLoop = () => {
 		super._resetLoop();
@@ -186,6 +192,7 @@ export class Polygon extends Tool{
 		this.canvas.removeEventListener('mousemove', this._onMouseMove);
         this.canvas.removeEventListener('click', this._onDrawClick);
         this.canvas.removeEventListener('dblclick', this._onDBClick);
+		window.removeEventListener('keypress', this._onEnter);
 
 	}
 }
