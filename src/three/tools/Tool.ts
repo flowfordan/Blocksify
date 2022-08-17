@@ -137,7 +137,11 @@ export class Tool {
 			opacity: 0.8
 		
 		});
+
+
 	}
+
+
 
 	//REFRESH LOOP
 	protected _resetLoop() {
@@ -157,6 +161,8 @@ export class Tool {
 		this.obj.polygon = empty3dObjPolygon;
 
 		this.objCoords = {line: [], polygon: []}
+
+
 	}
 }
 

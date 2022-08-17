@@ -67,7 +67,7 @@ export class Polygon extends Tool{
 		this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
         this.canvas.addEventListener('dblclick', this._onDBClick);
-		window.addEventListener('keypress', this._onEnter);  
+  
 	}
 
 	_onMouseMove = (e: MouseEvent) => {
@@ -165,12 +165,7 @@ export class Polygon extends Tool{
 
 	};
 
-	_onEnter = (event: KeyboardEvent) => {
-		if(event.key === 'Enter'){
-			console.log('ENTER BTN')
-			this._resetLoop();
-		}
-	}
+
 
 	protected _resetLoop = () => {
 		super._resetLoop();
@@ -191,6 +186,6 @@ export class Polygon extends Tool{
 		this.canvas.removeEventListener('mousemove', this._onMouseMove);
         this.canvas.removeEventListener('click', this._onDrawClick);
         this.canvas.removeEventListener('dblclick', this._onDBClick);
-		window.addEventListener('keypress', this._onEnter); 
+
 	}
 }

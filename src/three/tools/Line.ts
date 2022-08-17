@@ -2,8 +2,6 @@ import * as THREE from "three";
 import { getMouseLocation } from "../utils";
 import { pointObj, fatLineObj, lMat, lMat2, lGeom, pMat } from "../objs3d";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
-import { Layer } from "../../state";
-import { BufferGeometry } from "three";
 import { Tool } from "./Tool";
 import { toJS } from "mobx";
 
@@ -34,6 +32,8 @@ export class Line extends Tool{
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
         this.canvas.addEventListener('dblclick', this._onDBClick);
+		window.addEventListener('keypress', this._onEnter);
+
     }
 
     private _onMouseMove = (e: MouseEvent) => {
@@ -77,16 +77,11 @@ export class Line extends Tool{
 			this.obj.line.geom = new LineGeometry();
 			this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
 
-			this.scene.add(this.obj.line.form!);
-			
-
             let coords: Array<number> = Object.values(this.currentPointerCoord!);
             this.objCoords.line.push.apply(this.objCoords.line, coords);
 
             this.obj.points.form = pointObj(this.objCoords.line);
             this.scene.add(this.obj.points.form);
-
-			
 
             //GUIDELINE
             this.guideObj.line.form = new Line2(
@@ -100,39 +95,29 @@ export class Line extends Tool{
             //LINES HANDLE
 			//case of 2-points Line
             if(this.lineMode === 0 || this.lineParts === 1){ 
-                //this.obj.line.form = new Line2(this.obj.line.geom!, this.obj.line.mat!)
-				const pts = 2;
-				//this.obj.line.geom!.setDrawRange(0, pts*6); //1pt - 6vrts FATLINE
 				this.obj.line.geom!.setPositions(this.objCoords.line);
-				this.obj.line.form?.computeLineDistances()
-				
 
                 this.scene.remove(this.guideObj.line.form!)
             } 
 			//case of Polyline
 			else {
-
-				const pts = this.lineParts + 1;
-
-				this.obj.line.geom!.setPositions(this.objCoords.line);
-				this.obj.line.form?.geometry.attributes.instance
-
-                // this.scene.remove(this.obj.line.form!)
-                // this.obj.line.geom = new LineGeometry()
-                // this.obj.line.geom.setPositions(this.objCoords.line)
-                // this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
-
+                this.scene.remove(this.obj.line.form!)
+                this.obj.line.geom = new LineGeometry()
+                this.obj.line.geom.setPositions(this.objCoords.line)
+                this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
             }
 
             //if this is PL mode and segment after 1
             //modify existing polyline geometry
             this.obj.line.form!.layers.set(this.layer!.id);
-            // this.scene.add(this.obj.line.form!);
+            this.scene.add(this.obj.line.form!);
+			this.obj.line.form!.computeLineDistances();
 
             //POINTS HANDLE
             this.scene.remove(this.obj.points.form)
             this.obj.points.form = pointObj(this.objCoords.line)
-            this.scene.add(this.obj.points.form)         
+            this.scene.add(this.obj.points.form)
+     
             
             //clear and begin new item if LINE
             //begin new segment if PLINE
@@ -144,6 +129,12 @@ export class Line extends Tool{
             }            
         }
     }
+
+	private _onEnter = (event: KeyboardEvent) => {
+		if(event.key === 'Enter'){
+			this._resetLoop();
+		}
+	}
 
     //private _onPLDone
     private _onDBClick = (e: MouseEvent) => {
@@ -171,6 +162,7 @@ export class Line extends Tool{
         this.canvas.removeEventListener('mousemove', this._onMouseMove);
         this.canvas.removeEventListener('click', this._onDrawClick);
         this.canvas.removeEventListener('dblclick', this._onDBClick);
+		window.removeEventListener('keypress', this._onEnter);
     }
 
     protected _resetLoop = () => {
