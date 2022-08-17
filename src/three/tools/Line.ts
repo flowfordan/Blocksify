@@ -41,7 +41,6 @@ export class Line extends Tool{
         const mouseLoc = getMouseLocation(
             e, this.rect!, this.canvas, 
             this.currentCamera!, this.currentPlane!);
-        
         //upd coords
         this.currentPointerCoord = mouseLoc;
         

@@ -14,7 +14,6 @@ export class Polygon extends Tool{
 	constructor(canvas: HTMLCanvasElement, scene: THREE.Scene){
 		super(canvas, scene);
 		this.polygonParts = 1;
-		console.log('NEW CONSTRUCTOR POLY')
 	}
 
 	startDrawing = (camera: typeof this.currentCamera, 
@@ -67,7 +66,8 @@ export class Polygon extends Tool{
 		//add EL
 		this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
-        this.canvas.addEventListener('dblclick', this._onDBClick); 
+        this.canvas.addEventListener('dblclick', this._onDBClick);
+		window.addEventListener('keypress', this._onEnter);  
 	}
 
 	_onMouseMove = (e: MouseEvent) => {
@@ -103,8 +103,6 @@ export class Polygon extends Tool{
 
 			console.log(this.scene.children)
 			console.log(this.guideObj.polygon.form!)
-
-
 		}
 			
 	};
@@ -112,8 +110,6 @@ export class Polygon extends Tool{
 	_onDrawClick = () => {
 		if(this.obj.polygon.geom && this.toolState === 1){
 			this.obj.polygon.geom.moveTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
-
-
 
 			//add pt
 			this.obj.points.form = pointObj([this.currentPointerCoord.x, 0, this.currentPointerCoord.z]);
@@ -169,8 +165,16 @@ export class Polygon extends Tool{
 
 	};
 
+	_onEnter = (event: KeyboardEvent) => {
+		if(event.key === 'Enter'){
+			console.log('ENTER BTN')
+			this._resetLoop();
+		}
+	}
+
 	protected _resetLoop = () => {
 		super._resetLoop();
+		this.scene.remove(this.guideObj.polygon.form!)
 
 		this.obj.line.form = new Line2();
 		this.obj.line.geom = new LineGeometry();
@@ -187,5 +191,6 @@ export class Polygon extends Tool{
 		this.canvas.removeEventListener('mousemove', this._onMouseMove);
         this.canvas.removeEventListener('click', this._onDrawClick);
         this.canvas.removeEventListener('dblclick', this._onDBClick);
+		window.addEventListener('keypress', this._onEnter); 
 	}
 }
