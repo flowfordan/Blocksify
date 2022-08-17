@@ -117,7 +117,7 @@ export class Polygon extends Tool{
 
 			//add guideLine
 			this.guideObj.line.geom = new LineGeometry();
-			this.guideObj.line.form = new Line2(this.guideObj.line.geom, this.guideObj.line.mat);
+			this.guideObj.line.form = new Line2(this.guideObj.line.geom, this.guideObj.line.mat!);
 			this.scene.add(this.guideObj.line.form);
 
 			//add guidePoly
@@ -150,9 +150,9 @@ export class Polygon extends Tool{
 
 			//upd polyline
 			//TODO upd geom without cr new
-			this.obj.line.form.geometry = new LineGeometry();
-			this.obj.line.form.geometry.setPositions(this.objCoords.line);
-			this.obj.line.form.computeLineDistances();
+			this.obj.line.form!.geometry = new LineGeometry();
+			this.obj.line.form!.geometry.setPositions(this.objCoords.line);
+			this.obj.line.form!.computeLineDistances();
 
 
 

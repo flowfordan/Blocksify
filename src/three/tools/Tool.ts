@@ -11,9 +11,9 @@ interface I3dObjPoint {
 }
 
 interface I3dObjLine {
-	form: Line2,
-    geom: LineGeometry,
-    mat: LineMaterial
+	form: Line2 | null,
+    geom: LineGeometry | null,
+    mat: LineMaterial | null
 }
 
 interface I3dObjPolygon {
@@ -82,9 +82,9 @@ export class Tool {
 
 		this.obj = {
 			line: {
-				form: new Line2(), 
-				geom: new LineGeometry(), 
-				mat: new LineMaterial()
+				form: null, 
+				geom: null, 
+				mat: null
 			}, 
 			points: {
 				form: new THREE.Points(), 
@@ -99,15 +99,18 @@ export class Tool {
 		
 		this.objCoords = {line: [], polygon: []}
 
-		this.guideObj = {line: {
-			form: new Line2(), 
-			geom: new LineGeometry(), 
-			mat: new LineMaterial()
-		}, polygon: {
-			form: new THREE.Mesh(), 
-			geom: new THREE.Shape(), 
-			mat: new THREE.MeshBasicMaterial()
-		}};
+		this.guideObj = {
+			line: {
+				form: new Line2(), 
+				geom: new LineGeometry(), 
+				mat: new LineMaterial()
+			}, 
+			polygon: {
+				form: new THREE.Mesh(), 
+				geom: new THREE.Shape(), 
+				mat: new THREE.MeshBasicMaterial()
+			}
+		};
 
 		console.log('NEW CONSTRUCTOR TOOL')
 	}
