@@ -5,9 +5,9 @@ import { Layer } from "../../state";
 import { pMat } from "../objs3d";
 
 interface I3dObjPoint {
-	form: THREE.Points,
-    geom: THREE.BufferGeometry,
-    mat: THREE.PointsMaterial
+	form: THREE.Points | null,
+    geom: THREE.BufferGeometry | null,
+    mat: THREE.PointsMaterial | null
 }
 
 interface I3dObjLine {
@@ -87,8 +87,8 @@ export class Tool {
 				mat: null
 			}, 
 			points: {
-				form: new THREE.Points(), 
-				geom: new THREE.BufferGeometry(), 
+				form: null, 
+				geom: null, 
 				mat: pMat
 			}, 
 			polygon: {

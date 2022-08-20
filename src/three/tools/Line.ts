@@ -17,8 +17,6 @@ export class Line extends Tool{
 
         this.lineMode = drawMode; //0: 2pt line, 1:polyline
         this.lineParts = 1;
-
-		console.log(this.obj.line)
     }
 
     startDrawing = (camera: typeof this.currentCamera, 
@@ -114,7 +112,7 @@ export class Line extends Tool{
 			this.obj.line.form!.computeLineDistances();
 
             //POINTS HANDLE
-            this.scene.remove(this.obj.points.form)
+            this.scene.remove(this.obj.points.form!)
             this.obj.points.form = pointObj(this.objCoords.line)
             this.scene.add(this.obj.points.form)
      
@@ -140,7 +138,7 @@ export class Line extends Tool{
     private _onDBClick = (e: MouseEvent) => {
         //HANDLE SAME SPOT DBCLICK
         if(this.objCoords.line.length === 3){
-            this.scene.remove(this.obj.points.form)
+            this.scene.remove(this.obj.points.form!)
         }
 
 		//start new line
@@ -149,12 +147,13 @@ export class Line extends Tool{
     }
 
     stopDrawing = () => {
-        console.log('Line Drawing stopped')
+        console.log('Line Drawing stopped');
 		super.stopDrawing();
         //delete began forms
+		//TODO check for null obj - then delete if not null
         this.scene.remove(this.guideObj.line.form!);
         this.scene.remove(this.obj.line.form!);
-        this.scene.remove(this.obj.points.form);
+        this.scene.remove(this.obj.points.form!);
 
         this._resetLoop();
         
@@ -170,8 +169,8 @@ export class Line extends Tool{
         console.log('THIS LAYER', toJS(this.scene.children))
         this.scene.remove(this.guideObj.line.form!);
 
-        this.obj.line.form = new Line2();
-		this.obj.line.geom = new LineGeometry();
+        this.obj.line.form = null;
+		this.obj.line.geom = null;
 
         this.obj.points.form = new THREE.Points();
         this.objCoords.line = [];

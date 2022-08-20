@@ -145,7 +145,7 @@ export class Polygon extends Tool{
 			)
 
 			//create points
-			this.scene.remove(this.obj.points.form);
+			this.scene.remove(this.obj.points.form!);
 			this.obj.points.form = pointObj(currentLineCoords);
             this.scene.add(this.obj.points.form);
 
