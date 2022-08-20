@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { getMouseLocation } from "../utils";
 import { pointObj, fatLineObj, lMat, lMat2, lGeom, pMat } from "../objs3d";
-import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
+import { Line2, LineGeometry } from 'three-fatline';
 import { Tool } from "./Tool";
 import { toJS } from "mobx";
 
@@ -169,10 +169,11 @@ export class Line extends Tool{
         console.log('THIS LAYER', toJS(this.scene.children))
         this.scene.remove(this.guideObj.line.form!);
 
+		//CLEAN UP
         this.obj.line.form = null;
 		this.obj.line.geom = null;
 
-        this.obj.points.form = new THREE.Points();
+        this.obj.points.form = null;
         this.objCoords.line = [];
 
         this.lineParts = 1;

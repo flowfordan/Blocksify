@@ -1,10 +1,8 @@
 import * as THREE from "three";
-import { Layer } from "../../state";
 import { pointObj, V2ArrToNumArr } from "../objs3d";
 import { getMouseLocation } from "../utils";
 import { Tool } from "./Tool";
-import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
-import { CompressedTextureLoader } from "three";
+import { Line2, LineGeometry} from 'three-fatline';
 
 
 export class Polygon extends Tool{
@@ -22,30 +20,15 @@ export class Polygon extends Tool{
 		super.startDrawing(camera, plane, layer);
 		
 		//POLYGON
-		//init material, geometry, form,
+		//init material
 		this.obj.polygon.mat = this.layer?.content.main?.mat.polygon!;
-		
-		this.obj.polygon.geom = new THREE.Shape();
-		const shapeGeom = new THREE.ShapeGeometry(this.obj.polygon.geom);
 
-		this.obj.polygon.form = new THREE.Mesh( shapeGeom, this.obj.polygon.mat );
 
-		this.obj.polygon.form.name = 'border'
-
-		//rotate(by def created on x-z plane)
-		this.obj.polygon.form.rotateX( Math.PI / 2);
-		this.scene.add( this.obj.polygon.form );
-
-		//POLYGON POLYLINE
+		//POLYLINE - BORDER
 		//TODO if there is contour check
 		this.obj.line.mat = this.layer?.content.main?.mat.line!;
-		this.obj.line.geom = new LineGeometry();
 
-		this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
-		this.obj.line.form.layers.set(this.layer!.id);
-		this.scene.add(this.obj.line.form);
 
-		
 		//init guide obj
 		this.guideObj.polygon.mat = new THREE.MeshBasicMaterial( { 
 			color: new THREE.Color('skyblue'), 
@@ -104,24 +87,42 @@ export class Polygon extends Tool{
 
 			console.log(this.scene.children)
 			console.log(this.guideObj.polygon.form!)
-		}
-			
+		}	
 	};
 
 	_onDrawClick = () => {
-		if(this.obj.polygon.geom && this.toolState === 1){
+		if(this.toolState === 1){
+			//POLYGON SETUP
+			this.obj.polygon.geom = new THREE.Shape();
+			const shapeGeom = new THREE.ShapeGeometry(this.obj.polygon.geom);
+	
+			this.obj.polygon.form = new THREE.Mesh( shapeGeom, this.obj.polygon.mat!);
+			this.obj.polygon.form.name = 'border'
+	
+			//rotate(by def created on x-z plane)
+			this.obj.polygon.form.rotateX( Math.PI / 2);
+			this.scene.add( this.obj.polygon.form );
+
 			this.obj.polygon.geom.moveTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
 
+
+			//POINTS SETUP
 			//add pt
 			this.obj.points.form = pointObj([this.currentPointerCoord.x, 0, this.currentPointerCoord.z]);
             this.scene.add(this.obj.points.form);
 
-			//add guideLine
+
+			//LINE-BORDER SETUP
+			this.obj.line.geom = new LineGeometry();
+			this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
+			this.obj.line.form.layers.set(this.layer!.id);
+			this.scene.add(this.obj.line.form);
+
+
+			//GUIDE OBJS SETUP
 			this.guideObj.line.geom = new LineGeometry();
 			this.guideObj.line.form = new Line2(this.guideObj.line.geom, this.guideObj.line.mat!);
 			this.scene.add(this.guideObj.line.form);
-
-			//add guidePoly
 
 			this.toolState = 2
 
@@ -177,10 +178,14 @@ export class Polygon extends Tool{
 		super._resetLoop();
 		this.scene.remove(this.guideObj.polygon.form!)
 
-		this.obj.line.form = new Line2();
-		this.obj.line.geom = new LineGeometry();
+		//CLEAN UP
+		this.obj.line.form = null;
+		this.obj.line.geom = null;
 
-		this.obj.points.form = new THREE.Points();
+		this.obj.polygon.form = null;
+		this.obj.polygon.geom = null;
+
+		this.obj.points.form = null;
 		this.objCoords.line = [];
 	}
 
