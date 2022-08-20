@@ -20,11 +20,9 @@
 }
 
 .logo{
-    
     padding: 20px 0;
     padding-left: 10px;
     font-weight: bold;
-
 }
 
 .button, .buttonActive{
@@ -61,4 +59,35 @@
     height: 100%;
     display: flex;
     /* gap: 10px; */
+}
+
+.toolsOptions{
+	position: relative;
+}
+
+.menuItemReciever {
+	position: absolute;
+
+	height: 100%;
+	width: 100%;
+}
+
+.menuOpener{
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	padding-left: 5px;
+}
+
+.popupMenu {
+	position: absolute;
+	top: 100%;
+
+	margin-top: 10px;
+
+	background-color: var(--black);
+	padding: 10px 5px;
+
 }

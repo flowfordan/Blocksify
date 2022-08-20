@@ -2,13 +2,20 @@ import { observer } from "mobx-react-lite"
 
 import styles from './TopBar.module.css';
 import { sceneState, toolsState } from '../../state';
+import { useState } from "react";
 
 export const TopBar = observer((props:any): JSX.Element => {
+
+	const [isMenuOpened, toggleMenuOpened] = useState(false);
 
   const { drawingTools } = toolsState;
 
   let activeToolId = drawingTools.find(i => i.active)? 
     drawingTools.find(i => i.active)!.id : undefined
+
+	const handleMenuOpen = () => {
+		toggleMenuOpened(!isMenuOpened);
+	}
 
   //TODO: wrap in array tools
   const handleCameraChange = (id: number) => {
@@ -50,10 +57,48 @@ export const TopBar = observer((props:any): JSX.Element => {
           </span>
 
           <div className={styles.toolsOptions}>
-            <span className={''? styles.buttonActive : styles.button} 
-            onClick={() => {}}>
-              {`Snapping>`}
-            </span>
+            <div className={isMenuOpened? styles.buttonActive : styles.button}>
+				<div className={styles.menuItemReciever}  onClick={() => handleMenuOpen()}></div>
+              <div>{`Snapping`}</div>
+			  <div className={styles.menuOpener}>{`>`}</div>
+
+				{isMenuOpened && 
+				<div className={styles.popupMenu}>
+					<div className={styles.popupMenuBlock}>
+						<div className={styles.popupMenuHeader}>Snapping</div>
+
+						<div className={styles.popupMenuItem}>
+							<span><input type="checkbox" /></span>
+							<span>Spacing</span>
+							<span><input type="range" /></span>
+						</div>
+
+						<div>
+							<span><input type="checkbox" /></span>
+							<span>Angle</span>
+							<span><input type="range" /></span>
+						</div>
+
+						<div>
+							<span><input type="checkbox" /></span>
+							<span>Grid</span>
+							<span></span>
+						</div>
+					</div>
+
+
+					<div className={styles.popupMenuBlock}>
+						<div className={styles.popupMenuHeader}>Grid options</div>
+						<div>
+							<span></span>
+							<span>Grid size</span>
+							<span><input type="range" /></span>
+						</div>
+					</div>
+
+				</div> 
+				}
+            </div>
           </div>
         </div>              
         
