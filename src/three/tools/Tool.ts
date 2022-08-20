@@ -78,8 +78,6 @@ export class Tool {
 
 		this.currentPointerCoord = new THREE.Vector3();
 
-
-
 		this.obj = {
 			line: {
 				form: null, 
@@ -111,8 +109,6 @@ export class Tool {
 				mat: new THREE.MeshBasicMaterial()
 			}
 		};
-
-		console.log('NEW CONSTRUCTOR TOOL')
 	}
 
 	//START METHOD
@@ -128,6 +124,8 @@ export class Tool {
         this.currentCamera = camera;
         this.currentPlane = plane;
 
+		//TODO check for snapping options
+
 		//guideLine
 		this.guideObj.line.mat = new LineMaterial({
 			color: 0x0E89E1,
@@ -135,7 +133,6 @@ export class Tool {
 			resolution: new THREE.Vector2(1920, 1080),
 			dashed: true,
 			opacity: 0.8
-		
 		});
 	}
 

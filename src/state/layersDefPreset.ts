@@ -78,6 +78,10 @@ const buildingsAddContent = {
 	}
 }
 
+//LAYERS
+//TODO: utility layer with
+//TODO: property utility: bool
+//guides and helpers options
 const layersDefPreset = [{
 		name: 'Border',
 		id: 2,

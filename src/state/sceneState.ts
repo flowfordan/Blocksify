@@ -11,6 +11,28 @@ class SceneState{
     isFetchingGlobalCoords: boolean;
     globalCoords: Coords;
     currentCamera: number;
+
+	//grid, snapping and continous helpers lines
+	helpersOptions: {
+		snapping: {
+			spacing: {
+				isActive: boolean,
+				step: number
+			},
+			angle: {
+				isActive: boolean,
+				steps: Array<number>
+			},
+			grid: {
+				isActive: boolean
+			}
+		},
+		grid: {
+			isActive: boolean,
+			size: number
+		}
+		detector: null
+	};
     // cameraOptions: {
 
     // }
@@ -24,6 +46,28 @@ class SceneState{
             z: 0.00
         };
         this.currentCamera = 1;
+
+		this.helpersOptions = {
+			snapping: {
+				spacing: {
+					isActive: false,
+					step: 1
+				},
+				angle: {
+					isActive: false,
+					steps: [30, 90]
+				},
+				grid: {
+					isActive: false
+				}
+			},
+			grid: {
+				isActive: true,
+				size: 10
+			},
+			detector: null
+		}
+
         makeAutoObservable(this);
     }
 
