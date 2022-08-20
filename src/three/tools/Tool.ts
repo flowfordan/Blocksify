@@ -137,32 +137,30 @@ export class Tool {
 			opacity: 0.8
 		
 		});
-
-
 	}
-
 
 
 	//REFRESH LOOP
 	protected _resetLoop() {
 		this.toolState = 1;
+
+		//CLEAN UP
+		this.obj.line.form = null;
+		this.obj.line.geom = null;
+
+		this.obj.polygon.form = null;
+		this.obj.polygon.geom = null;
+
+		this.obj.points.form = null;
+		
+		this.objCoords.line = [];
 	}
 
 	//STOP METHOD
 	stopDrawing() {
 		console.log('TOOL STOP');
 		//tool state to 0
-		//null objects
-		//remove guide and started objcs
 		this.toolState = 0;
-		
-		this.obj.line = empty3dObjLine;
-		this.obj.points = empty3dObjPoint;
-		this.obj.polygon = empty3dObjPolygon;
-
-		this.objCoords = {line: [], polygon: []}
-
-
 	}
 }
 

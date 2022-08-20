@@ -149,9 +149,9 @@ export class Line extends Tool{
     stopDrawing = () => {
         console.log('Line Drawing stopped');
 		super.stopDrawing();
+
         //delete began forms
 		//TODO check for null obj - then delete if not null
-        this.scene.remove(this.guideObj.line.form!);
         this.scene.remove(this.obj.line.form!);
         this.scene.remove(this.obj.points.form!);
 
@@ -168,13 +168,6 @@ export class Line extends Tool{
 		super._resetLoop();
         console.log('THIS LAYER', toJS(this.scene.children))
         this.scene.remove(this.guideObj.line.form!);
-
-		//CLEAN UP
-        this.obj.line.form = null;
-		this.obj.line.geom = null;
-
-        this.obj.points.form = null;
-        this.objCoords.line = [];
 
         this.lineParts = 1;
     } 

@@ -85,8 +85,8 @@ export class Polygon extends Tool{
 
 			this.scene.add(this.guideObj.polygon.form!)
 
-			console.log(this.scene.children)
-			console.log(this.guideObj.polygon.form!)
+			// console.log(this.scene.children)
+			// console.log(this.guideObj.polygon.form!)
 		}	
 	};
 
@@ -126,15 +126,15 @@ export class Polygon extends Tool{
 
 			this.toolState = 2
 
-		} else if (this.obj.polygon.geom && this.toolState === 2) {
+		} else if (this.toolState === 2) {
 
-			this.obj.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
+			this.obj.polygon.geom!.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
 			//TODO find way to extend buffer & not create new geom every time
-			this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom );
+			this.obj.polygon.form!.geometry = new THREE.ShapeGeometry( this.obj.polygon.geom! );
 			
 			this.objCoords.line.length = 0
 			const currentLineCoords = V2ArrToNumArr(
-				this.obj.polygon.geom.getPoints(), 
+				this.obj.polygon.geom!.getPoints(), 
 				this.currentPlane!.constant //WORLD PLANE LEVEL
 			);
 
@@ -159,13 +159,13 @@ export class Polygon extends Tool{
 
 			this.scene.remove(this.guideObj.polygon.form!)
 
-			console.log(this.scene.children)
+			console.log('POLYGON CHILD',this.scene.children)
 		}
 		
 	};
 
 	_onDBClick = () => {
-
+		console.log('Double CLICK? What did you expect?')
 	};
 
 	private _onEnter = (event: KeyboardEvent) => {
@@ -175,22 +175,18 @@ export class Polygon extends Tool{
 	}
 
 	protected _resetLoop = () => {
-		super._resetLoop();
 		this.scene.remove(this.guideObj.polygon.form!)
-
-		//CLEAN UP
-		this.obj.line.form = null;
-		this.obj.line.geom = null;
-
-		this.obj.polygon.form = null;
-		this.obj.polygon.geom = null;
-
-		this.obj.points.form = null;
-		this.objCoords.line = [];
+		super._resetLoop();
 	}
 
 	stopDrawing() {
 		super.stopDrawing();
+
+		//delete began forms
+		//TODO check for null obj - then delete if not null
+		this.scene.remove(this.obj.line.form!);
+		this.scene.remove(this.obj.points.form!);
+		this.scene.remove(this.obj.polygon.form!);
 
 		this._resetLoop();
 
@@ -198,6 +194,5 @@ export class Polygon extends Tool{
         this.canvas.removeEventListener('click', this._onDrawClick);
         this.canvas.removeEventListener('dblclick', this._onDBClick);
 		window.removeEventListener('keypress', this._onEnter);
-
 	}
 }
