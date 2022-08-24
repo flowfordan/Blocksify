@@ -11,7 +11,7 @@ interface HelperOption {
 	type: string,
 	name: string,
 	isActive: boolean,
-	value: number | Array<number>,
+	value: number,
 	isRange: boolean,
 	rangeMin: number,
 	rangeMax: number,
@@ -27,34 +27,6 @@ class SceneState{
     isFetchingGlobalCoords: boolean;
     globalCoords: Coords;
     currentCamera: number;
-
-	//grid, snapping and continous helpers lines
-	// helpersOptions2: {
-	// 	snapping: {
-	// 		spacing: {
-	// 			helperID: number,
-	// 			isActive: boolean,
-	// 			step: number
-	// 		},
-	// 		angle: {
-	// 			helperID: number,
-	// 			isActive: boolean,
-
-	// 			steps: Array<number>
-	// 		},
-	// 		grid: {
-	// 			helperID: number,
-	// 			isActive: boolean
-	// 		}
-	// 	},
-	// 	grid: {
-	// 		helperID: number,
-	// 		isActive: boolean,
-	// 		size: number
-	// 	}
-	// 	detector: null
-	// };
-
 	helpersOptions: Array<HelperOption>
     // cameraOptions: {
 
@@ -146,6 +118,14 @@ class SceneState{
         this.globalCoords.y = coords.y;
         this.globalCoords.z = coords.z;
     }
+
+	toggleHelperActive = (id: number) => {
+		const item = this.helpersOptions.find(i => i.helperID === id);
+		if(item){
+			let idx = this.helpersOptions.indexOf(item);
+			this.helpersOptions[idx].isActive = !this.helpersOptions[idx].isActive
+		}
+	}
 
 	setHelperValue = (id: number, value: number) => {
 		//find helper by id

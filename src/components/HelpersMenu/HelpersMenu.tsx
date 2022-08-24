@@ -13,56 +13,66 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 	const helperOptions = sceneState.helpersOptions;
 
 	const handleActiveToggle = (helperID: number) => {
-		console.log()
+		sceneState.toggleHelperActive(helperID);
 	}
 
 	const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number) => {
-		const newValue = Number(e.target.value)
-		console.log(newValue)
+		const newValue = Number(e.target.value);
 		sceneState.setHelperValue(itemId, newValue);
+	}
+
+	const buildItems = (type: string) => {
+		return helperOptions.map((item, idx) => {
+		return item.type === type? (
+			<div key={item.helperID} className={styles.menuItem}>
+				<div className={styles.menuItemCheck}>
+					<span>
+						<input type="checkbox" 
+						checked={item.isActive} 
+						onClick={() => handleActiveToggle(item.helperID)}/>
+					</span>
+					<span>{item.name}</span>
+				</div>
+
+				{item.isRange && 
+				<div className={styles.menuItemRange}>
+					<span>
+						<input type="range" 
+						min={item.rangeMin} max={item.rangeMax} 
+						step={item.rangeStep}
+						value={item.value}
+						onChange={(e) => handleValueChange(e, item.helperID)}/>
+					</span>
+					<span>
+						{item.value}
+					</span>
+				</div>}
+
+				{item.isSelection && 
+				<div className={styles.menuItemRange}>
+					<span>
+						<input type="range" 
+						min={item.rangeMin} max={item.rangeMax} step={item.rangeStep}/>
+					</span>
+					<span>
+						{item.value}
+					</span>
+				</div>}
+			</div>
+		) : null
+	})
 	}
 
 	return (
 		<div className={styles.menu}>
-			{helperOptions.map((item, idx) => {
-				return(
-					<div key={item.helperID} className={styles.menuItem}>
-						<div className={styles.menuItemCheck}>
-							<span>
-								<input type="checkbox" 
-								checked={item.isActive} 
-								onClick={() => handleActiveToggle(item.helperID)}/>
-							</span>
-							<span>{item.name}</span>
-						</div>
-
-						{item.isRange && 
-						<div className={styles.menuItemRange}>
-							<span>
-								<input type="range" 
-								min={item.rangeMin} max={item.rangeMax} 
-								step={item.rangeStep} 
-								onChange={(e) => handleValueChange(e, item.helperID)}/>
-							</span>
-							<span>
-								{item.value}
-							</span>
-						</div>}
-
-						{item.isSelection && 
-						<div className={styles.menuItemRange}>
-							<span>
-								<input type="range" 
-								min={item.rangeMin} max={item.rangeMax} step={item.rangeStep}/>
-							</span>
-							<span>
-								{item.value}
-							</span>
-						</div>}
-					</div>
-				)
-			})}
-		
+			<div className={styles.menuBlock}>
+				<div className={styles.menuBlockHeader}>Snapping</div>
+				{buildItems('snap')}
+			</div>
+			<div className={styles.menuBlock}>
+				<div className={styles.menuBlockHeader}>Grid</div>
+				{buildItems('grid')}
+			</div>
 		</div>
 	);
 })
