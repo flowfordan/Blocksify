@@ -16,8 +16,10 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 		console.log()
 	}
 
-	const handleValueChange = () => {
-		
+	const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number) => {
+		const newValue = Number(e.target.value)
+		console.log(newValue)
+		sceneState.setHelperValue(itemId, newValue);
 	}
 
 	return (
@@ -38,7 +40,9 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 						<div className={styles.menuItemRange}>
 							<span>
 								<input type="range" 
-								min={item.rangeMin} max={item.rangeMax} step={item.rangeStep}/>
+								min={item.rangeMin} max={item.rangeMax} 
+								step={item.rangeStep} 
+								onChange={(e) => handleValueChange(e, item.helperID)}/>
 							</span>
 							<span>
 								{item.value}

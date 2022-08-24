@@ -147,6 +147,15 @@ class SceneState{
         this.globalCoords.z = coords.z;
     }
 
+	setHelperValue = (id: number, value: number) => {
+		//find helper by id
+		const item = this.helpersOptions.find(i => i.helperID === id);
+		if(item){
+			let idx = this.helpersOptions.indexOf(item);
+			this.helpersOptions[idx].value = value
+		}
+	}
+
 }
 
 const sceneState = new SceneState();

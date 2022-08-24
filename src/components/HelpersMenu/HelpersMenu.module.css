@@ -35,5 +35,6 @@
 }
 
 .menuItemRange{
-
+	display: flex;
+	flex-direction: column;
 }
