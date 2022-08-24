@@ -91,3 +91,15 @@
 	padding: 10px 5px;
 
 }
+
+.popupMenuHeader {
+	font-size: 9px;
+}
+
+.popupMenuItem{
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+
+	align-items: center;
+}

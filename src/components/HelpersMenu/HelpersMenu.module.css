@@ -1,0 +1,34 @@
+.menu {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+
+	margin-top: 10px;
+
+	background-color: var(--black);
+	padding: 10px 5px;
+
+}
+
+.menuHeader {
+	font-size: 9px;
+}
+
+.menuItem{
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+
+	align-items: center;
+}
+
+.menuItemCheck, .menuItemRange{
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+}
+
+.menuItemRange{
+
+}

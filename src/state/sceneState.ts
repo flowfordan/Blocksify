@@ -21,6 +21,8 @@ class SceneState{
 			},
 			angle: {
 				isActive: boolean,
+				//actually 1! 5 10 20 30! 45!
+				//! - default
 				steps: Array<number>
 			},
 			grid: {

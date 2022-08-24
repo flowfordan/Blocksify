@@ -4,6 +4,8 @@ import styles from './TopBar.module.css';
 import { sceneState, toolsState } from '../../state';
 import { useState } from "react";
 
+import { HelpersMenu } from "../HelpersMenu/HelpersMenu";
+
 export const TopBar = observer((props:any): JSX.Element => {
 
 	const [isMenuOpened, toggleMenuOpened] = useState(false);
@@ -57,47 +59,14 @@ export const TopBar = observer((props:any): JSX.Element => {
           </span>
 
           <div className={styles.toolsOptions}>
+			{/* TODO disabled if any instrument is active */}
             <div className={isMenuOpened? styles.buttonActive : styles.button}>
 				<div className={styles.menuItemReciever}  onClick={() => handleMenuOpen()}></div>
               <div>{`Snapping`}</div>
 			  <div className={styles.menuOpener}>{`>`}</div>
 
-				{isMenuOpened && 
-				<div className={styles.popupMenu}>
-					<div className={styles.popupMenuBlock}>
-						<div className={styles.popupMenuHeader}>Snapping</div>
 
-						<div className={styles.popupMenuItem}>
-							<span><input type="checkbox" /></span>
-							<span>Spacing</span>
-							<span><input type="range" /></span>
-						</div>
-
-						<div>
-							<span><input type="checkbox" /></span>
-							<span>Angle</span>
-							<span><input type="range" /></span>
-						</div>
-
-						<div>
-							<span><input type="checkbox" /></span>
-							<span>Grid</span>
-							<span></span>
-						</div>
-					</div>
-
-
-					<div className={styles.popupMenuBlock}>
-						<div className={styles.popupMenuHeader}>Grid options</div>
-						<div>
-							<span></span>
-							<span>Grid size</span>
-							<span><input type="range" /></span>
-						</div>
-					</div>
-
-				</div> 
-				}
+				{isMenuOpened && <HelpersMenu />}
             </div>
           </div>
         </div>              
