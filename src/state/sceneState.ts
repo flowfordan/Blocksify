@@ -12,6 +12,7 @@ interface HelperOption {
 	name: string,
 	isActive: boolean,
 	value: number,
+	valueName: string,
 	isRange: boolean,
 	rangeMin: number,
 	rangeMax: number,
@@ -19,6 +20,7 @@ interface HelperOption {
 	//actually 1! 5 10 20 30! 45!
 	//! - default
 	isSelection: boolean,
+	variants?: Array<number>,
 	numbers: Array<number> | 0
 }
 
@@ -46,9 +48,10 @@ class SceneState{
 			{
 				helperID: 0,
 				type: 'snap',
-				name: 'spacing',
+				name: 'Spacing',
 				isActive: false,
 				value: 2,
+				valueName: '',
 				isRange: true,
 				rangeMin: 0.5,
 				rangeMax: 5,
@@ -59,22 +62,25 @@ class SceneState{
 			{
 				helperID: 1,
 				type: 'snap',
-				name: 'angle',
+				name: 'Angle',
 				isActive: false,
 				value: 2,
+				valueName: '',
 				isRange: false,
 				rangeMin: 0,
 				rangeMax: 0,
 				rangeStep: 0,
 				isSelection: true,
+				variants: [1, 2, 5, 10, 20, 30, 45, 90],
 				numbers: [20, 30]
 			},
 			{
 				helperID: 2,
 				type: 'snap',
-				name: 'grid',
+				name: 'Grid',
 				isActive: false,
 				value: 0,
+				valueName: '',
 				isRange: false,
 				rangeMin: 0,
 				rangeMax: 0,
@@ -85,9 +91,10 @@ class SceneState{
 			{
 				helperID: 3,
 				type: 'grid',
-				name: 'size',
+				name: 'Show',
 				isActive: true,
 				value: 10,
+				valueName: 'size',
 				isRange: true,
 				rangeMin: 0.5,
 				rangeMax: 20,

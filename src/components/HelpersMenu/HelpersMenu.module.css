@@ -41,3 +41,24 @@
 	display: flex;
 	flex-direction: column;
 }
+
+.menuItemRangeVal {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.menuItemAnglesWrapper {
+
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 3px;
+
+}
+
+.menuItemAngles {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}

@@ -43,20 +43,22 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 						value={item.value}
 						onChange={(e) => handleValueChange(e, item.helperID)}/>
 					</span>
-					<span>
-						{item.value}
+					<span className={styles.menuItemRangeVal}>
+						<span>{item.valueName && item.valueName}</span>
+						<span>{item.value}</span>
 					</span>
 				</div>}
 
 				{item.isSelection && 
-				<div className={styles.menuItemRange}>
-					<span>
-						<input type="range" 
-						min={item.rangeMin} max={item.rangeMax} step={item.rangeStep}/>
-					</span>
-					<span>
-						{item.value}
-					</span>
+				<div className={styles.menuItemAnglesWrapper}>
+					{item.variants!.map((v, idx) => {
+						return(
+							<span className={styles.menuItemAngles}>
+								<input type="checkbox" />
+								<span>{v}</span>
+							</span>
+						)
+					})}
 				</div>}
 			</div>
 		) : null
