@@ -6,6 +6,22 @@ type Coords = {
     z: number 
 }
 
+interface HelperOption {
+	helperID: number,
+	type: string,
+	name: string,
+	isActive: boolean,
+	value: number | Array<number>,
+	isRange: boolean,
+	rangeMin: number,
+	rangeMax: number,
+	rangeStep: number,
+	//actually 1! 5 10 20 30! 45!
+	//! - default
+	isSelection: boolean,
+	numbers: Array<number> | 0
+}
+
 class SceneState{
 
     isFetchingGlobalCoords: boolean;
@@ -13,28 +29,33 @@ class SceneState{
     currentCamera: number;
 
 	//grid, snapping and continous helpers lines
-	helpersOptions: {
-		snapping: {
-			spacing: {
-				isActive: boolean,
-				step: number
-			},
-			angle: {
-				isActive: boolean,
-				//actually 1! 5 10 20 30! 45!
-				//! - default
-				steps: Array<number>
-			},
-			grid: {
-				isActive: boolean
-			}
-		},
-		grid: {
-			isActive: boolean,
-			size: number
-		}
-		detector: null
-	};
+	// helpersOptions2: {
+	// 	snapping: {
+	// 		spacing: {
+	// 			helperID: number,
+	// 			isActive: boolean,
+	// 			step: number
+	// 		},
+	// 		angle: {
+	// 			helperID: number,
+	// 			isActive: boolean,
+
+	// 			steps: Array<number>
+	// 		},
+	// 		grid: {
+	// 			helperID: number,
+	// 			isActive: boolean
+	// 		}
+	// 	},
+	// 	grid: {
+	// 		helperID: number,
+	// 		isActive: boolean,
+	// 		size: number
+	// 	}
+	// 	detector: null
+	// };
+
+	helpersOptions: Array<HelperOption>
     // cameraOptions: {
 
     // }
@@ -49,26 +70,60 @@ class SceneState{
         };
         this.currentCamera = 1;
 
-		this.helpersOptions = {
-			snapping: {
-				spacing: {
-					isActive: false,
-					step: 1
-				},
-				angle: {
-					isActive: false,
-					steps: [30, 90]
-				},
-				grid: {
-					isActive: false
-				}
+		this.helpersOptions = [
+			{
+				helperID: 0,
+				type: 'snap',
+				name: 'spacing',
+				isActive: false,
+				value: 2,
+				isRange: true,
+				rangeMin: 0.5,
+				rangeMax: 5,
+				rangeStep: 0.5,
+				isSelection: false,
+				numbers: 0
 			},
-			grid: {
+			{
+				helperID: 1,
+				type: 'snap',
+				name: 'angle',
+				isActive: false,
+				value: 2,
+				isRange: false,
+				rangeMin: 0,
+				rangeMax: 0,
+				rangeStep: 0,
+				isSelection: true,
+				numbers: [20, 30]
+			},
+			{
+				helperID: 2,
+				type: 'snap',
+				name: 'grid',
+				isActive: false,
+				value: 0,
+				isRange: false,
+				rangeMin: 0,
+				rangeMax: 0,
+				rangeStep: 0,
+				isSelection: false,
+				numbers: 0
+			},
+			{
+				helperID: 3,
+				type: 'grid',
+				name: 'size',
 				isActive: true,
-				size: 10
+				value: 10,
+				isRange: true,
+				rangeMin: 0.5,
+				rangeMax: 20,
+				rangeStep: 0.5,
+				isSelection: false,
+				numbers: 0
 			},
-			detector: null
-		}
+		]
 
         makeAutoObservable(this);
     }

@@ -1,4 +1,4 @@
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react-lite";
 
 import styles from './TopBar.module.css';
 import { sceneState, toolsState } from '../../state';
