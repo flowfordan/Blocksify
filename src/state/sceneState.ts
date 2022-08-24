@@ -21,7 +21,7 @@ interface HelperOption {
 	//! - default
 	isSelection: boolean,
 	variants?: Array<number>,
-	numbers: Array<number> | 0
+	numbers: Array<number>
 }
 
 class SceneState{
@@ -57,7 +57,7 @@ class SceneState{
 				rangeMax: 5,
 				rangeStep: 0.5,
 				isSelection: false,
-				numbers: 0
+				numbers: []
 			},
 			{
 				helperID: 1,
@@ -86,7 +86,7 @@ class SceneState{
 				rangeMax: 0,
 				rangeStep: 0,
 				isSelection: false,
-				numbers: 0
+				numbers: []
 			},
 			{
 				helperID: 3,
@@ -100,7 +100,7 @@ class SceneState{
 				rangeMax: 20,
 				rangeStep: 0.5,
 				isSelection: false,
-				numbers: 0
+				numbers: []
 			},
 		]
 
@@ -141,6 +141,22 @@ class SceneState{
 			let idx = this.helpersOptions.indexOf(item);
 			this.helpersOptions[idx].value = value
 		}
+	}
+
+	setValuesCollection = (id:number, value: number, include: boolean) => {
+		const item = this.helpersOptions.find(i => i.helperID === id);
+		if(item){
+			let idx = this.helpersOptions.indexOf(item);
+			if(include){
+				this.helpersOptions[idx].numbers.push(value);
+			} else {
+				const numIdx = this.helpersOptions[idx].numbers.indexOf(value);
+				if(numIdx > -1){
+					this.helpersOptions[idx].numbers.splice(numIdx, 1)
+				}
+			}
+		}
+
 	}
 
 }

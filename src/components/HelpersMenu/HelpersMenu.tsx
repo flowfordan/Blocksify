@@ -21,6 +21,11 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 		sceneState.setHelperValue(itemId, newValue);
 	}
 
+	const handleCollectionChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number, value: number) => {
+		const isIncluded = e.target.checked;
+		sceneState.setValuesCollection(itemId, value, isIncluded);
+	}
+
 	const buildItems = (type: string) => {
 		return helperOptions.map((item, idx) => {
 		return item.type === type? (
@@ -29,7 +34,7 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 					<span>
 						<input type="checkbox" 
 						checked={item.isActive} 
-						onClick={() => handleActiveToggle(item.helperID)}/>
+						onChange={() => handleActiveToggle(item.helperID)}/>
 					</span>
 					<span>{item.name}</span>
 				</div>
@@ -53,8 +58,9 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 				<div className={styles.menuItemAnglesWrapper}>
 					{item.variants!.map((v, idx) => {
 						return(
-							<span className={styles.menuItemAngles}>
-								<input type="checkbox" />
+							<span key={idx} className={styles.menuItemAngles}>
+								<input type="checkbox" checked={item.numbers.indexOf(v) !== -1}
+								onChange={(e) => handleCollectionChange(e, item.helperID, v)}/>
 								<span>{v}</span>
 							</span>
 						)
