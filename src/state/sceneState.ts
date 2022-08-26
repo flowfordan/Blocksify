@@ -18,8 +18,6 @@ interface HelperOption {
 	rangeMin: number,
 	rangeMax: number,
 	rangeStep: number,
-	//actually 1! 5 10 20 30! 45!
-	//! - default
 	isSelection: boolean,
 	variants?: Array<number>,
 	numbers: Array<number>
@@ -31,9 +29,6 @@ class SceneState{
     globalCoords: Coords;
     currentCamera: number;
 	helpersOptions: Array<HelperOption>
-    // cameraOptions: {
-
-    // }
 
     constructor(){
         

@@ -2,7 +2,7 @@ import { Line } from './tools/Line';
 import { Polygon } from './tools/Polygon';
 import * as THREE from 'three';
 import { camera } from './camera/camera';
-import { gridHelper } from './helpers/gridHelper';
+import { getGridHelper, gridHelper } from './helpers/gridHelper';
 import { dirLight, dirLightHelper, hemiLight } from './lights';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import {cube} from './geometry/geometry';
@@ -56,7 +56,7 @@ export class ThreeView {
         this.groundPlane = worldPlane;
 
         //3dobjects
-        this.scene.add(cube, worldPlaneMesh, worldPlaneHelper, gridHelper);
+        this.scene.add(cube, worldPlaneMesh, worldPlaneHelper);
         cube.material.color.setHex(0x84CBFF)
 
         //lights
@@ -104,6 +104,10 @@ export class ThreeView {
 
         autorun(() => {
             this.setCamera()
+        })
+
+		autorun(() => {
+            this.setHelpers()
         })
     }
 
@@ -165,6 +169,23 @@ export class ThreeView {
                 window.removeEventListener('keydown', this.onExit)
         }
     }
+
+	setHelpers = () => {
+		//grid test
+		const helperName = 'grid_helper';
+		const size = sceneState.helpersOptions[3].value
+
+		const newGridHelper = getGridHelper(size, helperName);
+
+		const prevGrid = this.scene.getObjectByName(helperName);
+		if(prevGrid){
+			this.scene.remove(prevGrid);
+		}
+
+		this.scene.add(newGridHelper);
+
+		console.log(this.scene.children)
+	}
 
     onExit = (event: KeyboardEvent) => {
         if(event.key === "Escape"){
