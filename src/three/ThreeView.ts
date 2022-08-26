@@ -2,7 +2,7 @@ import { Line } from './tools/Line';
 import { Polygon } from './tools/Polygon';
 import * as THREE from 'three';
 import { camera } from './camera/camera';
-import { gridHelper } from './planeHelper';
+import { gridHelper } from './helpers/gridHelper';
 import { dirLight, dirLightHelper, hemiLight } from './lights';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import {cube} from './geometry/geometry';
@@ -68,7 +68,6 @@ export class ThreeView {
         this.tools = {
             line: new Line(this.activeElement, this.scene, 0),
             pLine: new Line(this.activeElement, this.scene, 1),
-            //TODO:polygon class
             polygon: new Polygon(this.activeElement, this.scene),
         };
         this.currentTool = undefined;
@@ -94,16 +93,14 @@ export class ThreeView {
             this.setActiveDrawingTool()
         });
 
-        // autorun(() => {
-        //     this.setLayer()
-        // });
-
 		reaction(
 			() => layersState.layers.find(l => l.active), 
 			(value, previousValue, reaction) => { 
 				if(value?.id !== previousValue?.id){
 					this.setLayer()
-			} })
+				} 
+			}
+		);
 
         autorun(() => {
             this.setCamera()

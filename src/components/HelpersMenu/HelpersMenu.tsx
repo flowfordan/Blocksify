@@ -28,47 +28,47 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 
 	const buildItems = (type: string) => {
 		return helperOptions.map((item, idx) => {
-		return item.type === type? (
-			<div key={item.helperID} className={styles.menuItem}>
-				<div className={styles.menuItemCheck}>
-					<span>
-						<input type="checkbox" 
-						checked={item.isActive} 
-						onChange={() => handleActiveToggle(item.helperID)}/>
-					</span>
-					<span>{item.name}</span>
+			return item.type === type? (
+				<div key={item.helperID} className={styles.menuItem}>
+					<div className={styles.menuItemCheck}>
+						<span>
+							<input type="checkbox" 
+							checked={item.isActive} 
+							onChange={() => handleActiveToggle(item.helperID)}/>
+						</span>
+						<span>{item.name}</span>
+					</div>
+
+					{item.isRange && 
+					<div className={styles.menuItemRange}>
+						<span>
+							<input type="range" 
+							min={item.rangeMin} max={item.rangeMax} 
+							step={item.rangeStep}
+							value={item.value}
+							onChange={(e) => handleValueChange(e, item.helperID)}/>
+						</span>
+						<span className={styles.menuItemRangeVal}>
+							<span>{item.valueName && item.valueName}</span>
+							<span>{item.value}</span>
+						</span>
+					</div>}
+
+					{item.isSelection && 
+					<div className={styles.menuItemAnglesWrapper}>
+						{item.variants!.map((v, idx) => {
+							return(
+								<span key={idx} className={styles.menuItemAngles}>
+									<input type="checkbox" checked={item.numbers.indexOf(v) !== -1}
+									onChange={(e) => handleCollectionChange(e, item.helperID, v)}/>
+									<span>{v}</span>
+								</span>
+							)
+						})}
+					</div>}
 				</div>
-
-				{item.isRange && 
-				<div className={styles.menuItemRange}>
-					<span>
-						<input type="range" 
-						min={item.rangeMin} max={item.rangeMax} 
-						step={item.rangeStep}
-						value={item.value}
-						onChange={(e) => handleValueChange(e, item.helperID)}/>
-					</span>
-					<span className={styles.menuItemRangeVal}>
-						<span>{item.valueName && item.valueName}</span>
-						<span>{item.value}</span>
-					</span>
-				</div>}
-
-				{item.isSelection && 
-				<div className={styles.menuItemAnglesWrapper}>
-					{item.variants!.map((v, idx) => {
-						return(
-							<span key={idx} className={styles.menuItemAngles}>
-								<input type="checkbox" checked={item.numbers.indexOf(v) !== -1}
-								onChange={(e) => handleCollectionChange(e, item.helperID, v)}/>
-								<span>{v}</span>
-							</span>
-						)
-					})}
-				</div>}
-			</div>
-		) : null
-	})
+			) : null
+		})
 	}
 
 	return (
