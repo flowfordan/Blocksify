@@ -231,7 +231,8 @@ export class ThreeView {
     };
 
     onWindowResize(vpW:any, vpH:any) {
-        this.renderer.setSize(vpW, vpH);
+		console.log(vpW, vpH)
+        this.renderer.setSize(vpW, vpH, false);
         let aspect = vpW / vpH
         let viewSize = 200
         //upd camera ratio depending on cam Type

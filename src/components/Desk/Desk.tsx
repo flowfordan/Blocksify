@@ -13,13 +13,27 @@ export const Desk = (props:any): JSX.Element => {
   const resizeObserver = new ResizeObserver(entries => {
     entries.forEach(entry => {
       //on view params change
+	  console.log('resize')
       if(threeView){
         console.log('resize observ trigger', entry.contentRect.width, entry.contentRect.height, window.innerWidth, window.innerHeight)
         threeView.onWindowResize(
           entry.contentRect.width, entry.contentRect.height
         )
       }
-      
+    });
+  });
+
+  const containerObserver = new ResizeObserver(entries => {
+    entries.forEach(entry => {
+      //on view params change
+	  console.log('resize container')
+      if(threeView){
+        console.log('resize observ trigger', 
+		entry.contentRect.width, entry.contentRect.height)
+        // threeView.onWindowResize(
+        //   entry.contentRect.width, entry.contentRect.height
+        // )
+      }
     });
   });
 
@@ -30,7 +44,9 @@ export const Desk = (props:any): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     threeView = new ThreeView(innerTreeRef);
     
-    resizeObserver.observe(innerTreeRef)
+    resizeObserver.observe(innerTreeRef, {box: 'content-box'});
+
+	//containerObserver.observe(canvasContainer.current!)
 
   }
   ,[])
@@ -42,7 +58,9 @@ export const Desk = (props:any): JSX.Element => {
   };
 
   return (
-      <canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>    
+	<div ref={canvasContainer} className={styles.desk}>
+    	<canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>
+	</div>    
 );
 
   // return (
