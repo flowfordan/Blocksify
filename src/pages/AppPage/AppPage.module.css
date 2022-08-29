@@ -1,8 +1,4 @@
 .page {
-    /* display: grid;
-    grid-template-areas:
-    "lBar canvas rBar";
-    grid-template-columns: 250px minmax(500px, 1fr) 250px; */
 }
 
 .topBar {
@@ -11,6 +7,9 @@
 	width: 100%;
 	max-height: 50px;
 	z-index: 10;
+
+	background-color: var(--black);
+	color: var(--white);
 }
 
 .sideBar{
@@ -27,9 +26,10 @@
 
 	position: absolute;
 	left: 0;
+	bottom: 0;
 	top: 50px;
 	width: 250px;
-	height: auto;
+
 }
 
 .rightBar{
@@ -39,6 +39,7 @@
 
 	position: absolute;
 	right: 0;
+	bottom: 0;
 	top: 50px;
 	width: 250px;
 }
@@ -47,6 +48,4 @@
 .canvas{
 	position: absolute;
 	top: 0;
-	/* z-index: -1; */
-    /* grid-area: canvas; */
 }
