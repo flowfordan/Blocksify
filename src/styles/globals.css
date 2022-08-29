@@ -23,6 +23,13 @@ ul {
 	box-sizing: border-box;
 }
 
+.label {
+	background-color: rgb(255, 78, 78);
+	color: white;
+	padding: 5px;
+	border-radius: 2px;
+}
+
 
 :root {
 	--black: #3B434E;

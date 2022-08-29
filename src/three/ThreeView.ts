@@ -14,8 +14,12 @@ import { getMouseLocation } from './utils';
 import { autorun, reaction, toJS } from "mobx";
 import { Layer, layersState, sceneState, toolsState } from '../state';
 
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
+
 
 export class ThreeView {
+	labelRenderer: CSS2DRenderer;
+
     scene: THREE.Scene;
     renderer: THREE.WebGLRenderer;
     activeElement: HTMLCanvasElement;
@@ -39,6 +43,14 @@ export class ThreeView {
         
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color( 0xb3deff );
+
+		//TEST
+		this.labelRenderer = new CSS2DRenderer();
+		this.labelRenderer.domElement.style.position = 'absolute';
+		this.labelRenderer.domElement.style.top = '0px';
+		this.labelRenderer.domElement.style.pointerEvents = 'none'
+		document.body.appendChild( this.labelRenderer.domElement );
+		//TEST
         
         this.renderer = new THREE.WebGLRenderer({
             canvas: canvasRef,
@@ -82,6 +94,8 @@ export class ThreeView {
 
         //subscription to observe App State
         this.updState();
+
+		this.createLabel()
     }
 
     updState = () => {
@@ -110,6 +124,17 @@ export class ThreeView {
             this.setHelpers()
         })
     }
+
+	//TEST
+	createLabel = () => {
+		const earthDiv = document.createElement( 'div' );
+		earthDiv.className = 'label';
+		earthDiv.textContent = 'Earth';
+		earthDiv.style.marginTop = '-1em';
+		const earthLabel = new CSS2DObject( earthDiv );
+		earthLabel.position.set( 0, 10, 0 );
+		this.scene.add( earthLabel );
+	}
 
     setCamera = () => {
         //0 - top camera, 1 - perspective
@@ -246,10 +271,18 @@ export class ThreeView {
         }
         
         this.camera.updateProjectionMatrix();
+
+
+		//TEST
+		this.labelRenderer.setSize( vpW, vpH );
     }
 
     // ******************* RENDER LOOP ******************* //
     update() {
+		//TEST
+		this.labelRenderer.render(this.scene, this.camera)
+		//TEST
+
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame(this.update.bind(this));
         this.controls.update()

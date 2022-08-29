@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styles from './Desk.module.css';
-import {ThreeView} from '../../three/ThreeView'
+import {ThreeView} from '../../three/ThreeView';
+import "./desk-style.css";
 
 
 export const Desk = (props:any): JSX.Element => {
@@ -13,9 +14,7 @@ export const Desk = (props:any): JSX.Element => {
   const resizeObserver = new ResizeObserver(entries => {
     entries.forEach(entry => {
       //on view params change
-	  console.log('resize')
       if(threeView){
-        console.log('resize observ trigger', entry.contentRect.width, entry.contentRect.height, window.innerWidth, window.innerHeight)
         threeView.onWindowResize(
           entry.contentRect.width, entry.contentRect.height
         )
@@ -31,8 +30,6 @@ export const Desk = (props:any): JSX.Element => {
     threeView = new ThreeView(innerTreeRef);
     
     resizeObserver.observe(innerTreeRef, {box: 'content-box'});
-
-	//containerObserver.observe(canvasContainer.current!)
 
   }
   ,[])
