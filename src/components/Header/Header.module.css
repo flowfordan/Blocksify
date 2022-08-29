@@ -1,8 +1,4 @@
 .header {
-    /* display: grid;
-    gap: 20px; */
-    /* grid-template-columns: auto 1fr; */
-
     background-color: var(--black);
     color: var(--white);
     grid-area: header;

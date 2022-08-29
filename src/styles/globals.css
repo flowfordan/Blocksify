@@ -3,7 +3,7 @@ body {
 	margin: 0;
 	padding: 0;
 	color: var(--black);
-	background: var(--grey-lightest);
+	/* background: var(--grey-lightest); */
 
 	font-family: 'Noto Sans KR', sans-serif;
 }

@@ -6,12 +6,7 @@ export const Header = (props:any): JSX.Element => {
   return (
 
       <div className={styles.header}>
-        {/* <span className={styles.logo}>
-          BLOCKSIFY
-        </span> */}
-        {/* <span className={styles.toolsWrap}> */}
           <TopBar/>
-        {/* </span> */}
       </div>
 
   );

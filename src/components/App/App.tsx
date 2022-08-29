@@ -6,15 +6,10 @@ import {StartPage} from '../../pages/StartPage/StartPage';
 import {Header} from '../Header/Header';
 
 
-
-
 const App= (): JSX.Element => {
   return (
     <BrowserRouter>
-
       <div className={styles.wrapper}>
-          <Header />
-        
           <Routes>
             <Route path='/*' element={<AppPage />} />
             <Route path='/start' element={<StartPage />} />
