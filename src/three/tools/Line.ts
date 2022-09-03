@@ -4,6 +4,7 @@ import { pointObj } from "../objs3d";
 import { Line2, LineGeometry } from 'three-fatline';
 import { Tool } from "./Tool";
 import { toJS } from "mobx";
+import { Vector3 } from "three";
 
 
 export class Line extends Tool{
@@ -44,7 +45,7 @@ export class Line extends Tool{
         
         if(this.toolState === 2){
             console.log('Line: upd')
-
+			
             //UPDATING LINE COORDS
             //cut pushed to right amount - 1 chunk before new push
             if(this.lineMode === 0){
@@ -58,13 +59,16 @@ export class Line extends Tool{
 
 			//TODO GUIDE LINE
             this.scene.add(this.guideObj.line.form!);
+			const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
             this.lineMode === 0?this.guideObj.line.geom!.setPositions(this.objCoords.line)
             :
-            this.guideObj.line.geom!.setPositions(this.objCoords.line.slice(this.lineParts * 3 - 3));
+            this.guideObj.line.geom!.setPositions(current2ptLineCoords);
 
             this.guideObj.line.form!.computeLineDistances();
 
-			this.tagManager.renderTag();
+			console.log(new Vector3(...current2ptLineCoords.slice(0,3)), this.currentPointerCoord)
+			console.log(current2ptLineCoords.slice(0,3))
+			this.tagManager.renderTag(new Vector3(...current2ptLineCoords.slice(0,3)), this.currentPointerCoord);
         }
     }
 

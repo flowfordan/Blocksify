@@ -18,10 +18,10 @@ class TagManager {
 		this.toolTag = new CSS2DObject( this.tagContainer );
 	}
 
-	renderTag = () => {
+	renderTag = (v0: THREE.Vector3, v1: THREE.Vector3) => {
 		//delete if there is a tag
-		this.tagContainer.textContent = `Bla Bla`;
-		this.toolTag.position.set(5, 5, 5)
+		this.tagContainer.textContent = `${v0.distanceTo(v1).toFixed(2)} m`;
+		this.toolTag.position.lerpVectors(v0, v1, 0.5)
 
 		this.scene.add(this.toolTag);
 	}
