@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 import { Layer } from "../../state";
+import { TagManager } from "../helpers/TagManager";
 import { pMat } from "../objs3d";
 
 interface I3dObjPoint {
@@ -46,6 +47,8 @@ export class Tool {
 	currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera|null;
     currentPlane: THREE.Plane|null;
     currentPointerCoord: THREE.Vector3;
+
+	tagManager: TagManager;
 
 	//objects being created
 	obj:{
@@ -109,6 +112,8 @@ export class Tool {
 				mat: new THREE.MeshBasicMaterial()
 			}
 		};
+
+		this.tagManager = new TagManager(scene);
 	}
 
 	//START METHOD

@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { CSS2DObject } from "three/examples/jsm/renderers/CSS2DRenderer";
 
 class TagManager {
-	
 	tagContainer: HTMLDivElement;
 	scene: THREE.Scene;
 	toolTag: CSS2DObject;

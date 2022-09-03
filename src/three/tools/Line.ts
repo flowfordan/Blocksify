@@ -63,6 +63,8 @@ export class Line extends Tool{
             this.guideObj.line.geom!.setPositions(this.objCoords.line.slice(this.lineParts * 3 - 3));
 
             this.guideObj.line.form!.computeLineDistances();
+
+			this.tagManager.renderTag();
         }
     }
 
@@ -170,5 +172,7 @@ export class Line extends Tool{
         this.scene.remove(this.guideObj.line.form!);
 
         this.lineParts = 1;
+
+		this.tagManager.stopRender();
     } 
 }
