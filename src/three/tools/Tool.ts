@@ -134,6 +134,8 @@ export class Tool {
 			dashed: true,
 			opacity: 0.8
 		});
+
+		//change cursor apperiance
 	}
 
 
@@ -158,6 +160,9 @@ export class Tool {
 		console.log('TOOL STOP');
 		//tool state to 0
 		this.toolState = 0;
+
+		//change cursor apperiance
+		
 	}
 }
 

@@ -129,7 +129,7 @@ export class ThreeView {
 	createLabel = () => {
 		const earthDiv = document.createElement( 'div' );
 		earthDiv.className = 'label';
-		earthDiv.textContent = 'Earth';
+		earthDiv.textContent = `Center`;
 		earthDiv.style.marginTop = '-1em';
 		const earthLabel = new CSS2DObject( earthDiv );
 		earthLabel.position.set( 0, 10, 0 );
@@ -187,11 +187,15 @@ export class ThreeView {
             this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
             this.currentTool = activeToolId;
             
-            window.addEventListener('keydown', this.onExit)
+            window.addEventListener('keydown', this.onExit);
+
+			document.body.style.cursor = 'crosshair';
         } else {
             // if(typeof prevToolId === 'number'){
-                this.currentTool = undefined;
-                window.removeEventListener('keydown', this.onExit)
+			this.currentTool = undefined;
+			window.removeEventListener('keydown', this.onExit);
+
+			document.body.style.cursor = 'auto';
         }
     }
 
