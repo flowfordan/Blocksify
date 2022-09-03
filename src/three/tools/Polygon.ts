@@ -3,6 +3,7 @@ import { pointObj, V2ArrToNumArr } from "../objs3d";
 import { getMouseLocation } from "../utils";
 import { Tool } from "./Tool";
 import { Line2, LineGeometry} from 'three-fatline';
+import { Vector3 } from "three";
 
 
 export class Polygon extends Tool{
@@ -76,6 +77,8 @@ export class Polygon extends Tool{
 			const pt2 = this.obj.polygon.geom!.getPoints()[this.obj.polygon.geom!.getPoints().length-1];
 			this.guideObj.polygon.geom?.lineTo(pt2.x, pt2.y)
 
+			console.log(pt1, pt2)
+
 			
 			this.guideObj.polygon.form = new THREE.Mesh( new THREE.ShapeGeometry( this.guideObj.polygon.geom! ), this.guideObj.polygon.mat! );
 			this.guideObj.polygon.form.name = 'guide'
@@ -85,8 +88,11 @@ export class Polygon extends Tool{
 
 			this.scene.add(this.guideObj.polygon.form!)
 
-			// console.log(this.scene.children)
-			// console.log(this.guideObj.polygon.form!)
+			//render tag for lines
+			const current2pt = this.objCoords.line.slice(-6);
+			const p1 = current2pt.slice(0,3);
+			const p2 = current2pt.slice(3);
+			this.tagManager.renderTag([new Vector3(...p1), new Vector3(...p2)],this.currentPointerCoord)
 		}	
 	};
 
@@ -177,6 +183,8 @@ export class Polygon extends Tool{
 	protected _resetLoop = () => {
 		this.scene.remove(this.guideObj.polygon.form!)
 		super._resetLoop();
+
+		this.tagManager.stopRender();
 	}
 
 	stopDrawing() {
