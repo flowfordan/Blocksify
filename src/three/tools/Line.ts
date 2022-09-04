@@ -30,7 +30,7 @@ export class Line extends Tool{
 		this.obj.line.mat = this.layer!.content.main!.mat.line!;
 
 		//helpers
-		this.helpersManager = new HelpersManager();
+		this.helpersManager = new HelpersManager(this.scene);
         
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
@@ -46,7 +46,6 @@ export class Line extends Tool{
             this.currentCamera!, this.currentPlane!);
         //upd coords
         this.currentPointerCoord = this.helpersManager!.adjustCoords(mouseLoc);
-		console.log(this.currentPointerCoord.x, this.currentPointerCoord.z)
         
         if(this.toolState === 2){
             console.log('Line: upd')
@@ -181,5 +180,6 @@ export class Line extends Tool{
         this.lineParts = 1;
 
 		this.tagsManager.stopRender();
+		this.helpersManager!.removeRenderedLabels();
     } 
 }
