@@ -66,7 +66,7 @@ export class Line extends Tool{
 
             this.guideObj.line.form!.computeLineDistances();
 
-			this.tagManager.renderTag([new Vector3(...current2ptLineCoords.slice(0,3))], this.currentPointerCoord);
+			this.tagsManager.renderTag([new Vector3(...current2ptLineCoords.slice(0,3))], this.currentPointerCoord);
         }
     }
 
@@ -175,6 +175,6 @@ export class Line extends Tool{
 
         this.lineParts = 1;
 
-		this.tagManager.stopRender();
+		this.tagsManager.stopRender();
     } 
 }

@@ -1,42 +1,41 @@
 import * as THREE from "three";
 import { CSS2DObject } from "three/examples/jsm/renderers/CSS2DRenderer";
 
-class TagManager {
-	tagContainer: Array<HTMLDivElement>;
+class TagsManager {
+	tagContainers: Array<HTMLDivElement>;
 	scene: THREE.Scene;
-	toolTag: Array<CSS2DObject>;
+	toolTags: Array<CSS2DObject>;
 
+	//TODO: call new TagManager in StartDrawing()
+	//create CSS2D object in constructor
 	constructor(scene: THREE.Scene){
 		this.scene = scene;
 
 		//container options
-		this.tagContainer = [];
-
+		this.tagContainers = [];
 
 		//tag options
-		this.toolTag = [];
+		this.toolTags = [];
 	}
 
 	renderTag = (v0: Array<THREE.Vector3>, v1: THREE.Vector3) => {
-		this.scene.remove(...this.toolTag);
+		this.scene.remove(...this.toolTags);
 		for(let i=0; i<v0.length; i++){
-			this.tagContainer[i] = document.createElement('div');
-			this.tagContainer[i].className = 'label';
-			this.tagContainer[i].style.marginTop = '-1em';
-			this.toolTag[i] = new CSS2DObject( this.tagContainer[i] );
+			this.tagContainers[i] = document.createElement('div');
+			this.tagContainers[i].className = 'label';
+			this.tagContainers[i].style.marginTop = '-1em';
+			this.toolTags[i] = new CSS2DObject( this.tagContainers[i] );
 
-			this.tagContainer[i].textContent = `${v0[i].distanceTo(v1).toFixed(2)} m`;
-			this.toolTag[i].position.lerpVectors(v0[i], v1, 0.5)
+			this.tagContainers[i].textContent = `${v0[i].distanceTo(v1).toFixed(2)} m`;
+			this.toolTags[i].position.lerpVectors(v0[i], v1, 0.5)
 		}
-		// this.tagContainer.textContent = `${v0.distanceTo(v1).toFixed(2)} m`;
-		// this.toolTag.position.lerpVectors(v0, v1, 0.5)
 
-		this.scene.add(...this.toolTag);
+		this.scene.add(...this.toolTags);
 	}
 
 	stopRender = () => {
-		this.scene.remove(...this.toolTag);
+		this.scene.remove(...this.toolTags);
 	}
 }
 
-export {TagManager}
+export {TagsManager}

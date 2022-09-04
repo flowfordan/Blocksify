@@ -125,17 +125,6 @@ export class ThreeView {
         })
     }
 
-	//TEST
-	// createLabel = () => {
-	// 	const earthDiv = document.createElement( 'div' );
-	// 	earthDiv.className = 'label';
-	// 	earthDiv.textContent = `Center`;
-	// 	earthDiv.style.marginTop = '-1em';
-	// 	const earthLabel = new CSS2DObject( earthDiv );
-	// 	earthLabel.position.set( 0, 10, 0 );
-	// 	this.scene.add( earthLabel );
-	// }
-
     setCamera = () => {
         //0 - top camera, 1 - perspective
         let curCamId = sceneState.currentCamera

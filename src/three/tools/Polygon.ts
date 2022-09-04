@@ -92,7 +92,7 @@ export class Polygon extends Tool{
 			const current2pt = this.objCoords.line.slice(-6);
 			const p1 = current2pt.slice(0,3);
 			const p2 = current2pt.slice(3);
-			this.tagManager.renderTag([new Vector3(...p1), new Vector3(...p2)],this.currentPointerCoord)
+			this.tagsManager.renderTag([new Vector3(...p1), new Vector3(...p2)],this.currentPointerCoord)
 		}	
 	};
 
@@ -184,7 +184,7 @@ export class Polygon extends Tool{
 		this.scene.remove(this.guideObj.polygon.form!)
 		super._resetLoop();
 
-		this.tagManager.stopRender();
+		this.tagsManager.stopRender();
 	}
 
 	stopDrawing() {

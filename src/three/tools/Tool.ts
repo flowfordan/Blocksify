@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 import { Layer } from "../../state";
-import { TagManager } from "../helpers/TagManager";
+import { TagsManager } from "../helpers/TagManager";
 import { pMat } from "../objs3d";
 
 interface I3dObjPoint {
@@ -48,7 +48,7 @@ export class Tool {
     currentPlane: THREE.Plane|null;
     currentPointerCoord: THREE.Vector3;
 
-	tagManager: TagManager;
+	tagsManager: TagsManager;
 
 	//objects being created
 	obj:{
@@ -113,7 +113,7 @@ export class Tool {
 			}
 		};
 
-		this.tagManager = new TagManager(scene);
+		this.tagsManager = new TagsManager(scene);
 	}
 
 	//START METHOD
