@@ -1,4 +1,4 @@
-export const helpersDefPreset = [
+const helpersDefPreset = [
 	{
 		helperID: 0,
 		type: 'snap',
@@ -56,4 +56,6 @@ export const helpersDefPreset = [
 		isSelection: false,
 		numbers: []
 	},
-]
+];
+
+export { helpersDefPreset }

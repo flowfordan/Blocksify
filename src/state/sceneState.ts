@@ -1,4 +1,4 @@
-import { helpersDefPreset } from './helpersPreset';
+import { helpersDefPreset } from './presets/helpersPreset';
 import { makeAutoObservable } from "mobx";
 
 type Coords = {
@@ -28,7 +28,7 @@ class SceneState{
     isFetchingGlobalCoords: boolean;
     globalCoords: Coords;
     currentCamera: number;
-	helpersOptions: Array<HelperOption>
+	helpersOptions: Array<HelperOption>;
 
     constructor(){
         
@@ -101,4 +101,5 @@ class SceneState{
 
 const sceneState = new SceneState();
 
-export {sceneState}
+export { sceneState };
+export type { HelperOption };

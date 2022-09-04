@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { LineMaterial } from "three-fatline";
-import { layersDefPreset } from "./layersDefPreset";
+import { layersDefPreset } from "./presets/layersDefPreset";
 
 //TODO: layers structure to include additional obj props
 //TODO: include current layer property
