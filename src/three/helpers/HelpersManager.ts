@@ -20,7 +20,7 @@ class HelpersManager {
 				if(presition < 1 ){
 					newCoord = Math.round(coord*2)/2;
 				} else {
-					newCoord = Math.round(coord/10)*10;
+					newCoord = Math.round(coord/presition)*presition;
 				}
 
 				return newCoord;
@@ -30,6 +30,7 @@ class HelpersManager {
 			newCoords.z = adjustVal(newCoords.z, presition);
 		}
 
+		console.log(newCoords)
 		return newCoords;
 	}
 

@@ -32,7 +32,7 @@ const helpersDefPreset = [
 		helperID: 2,
 		type: 'snap',
 		name: 'Grid',
-		isActive: false,
+		isActive: true,
 		value: 0,
 		valueName: '',
 		isRange: false,

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 import { Layer } from "../../state";
+import { HelpersManager } from "../helpers/HelpersManager";
 import { TagsManager } from "../helpers/TagManager";
 import { pMat } from "../objs3d";
 
@@ -49,6 +50,7 @@ export class Tool {
     currentPointerCoord: THREE.Vector3;
 
 	tagsManager: TagsManager;
+	helpersManager: HelpersManager | null;
 
 	//objects being created
 	obj:{
@@ -114,6 +116,7 @@ export class Tool {
 		};
 
 		this.tagsManager = new TagsManager(scene);
+		this.helpersManager = null;
 	}
 
 	//START METHOD

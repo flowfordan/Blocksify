@@ -5,6 +5,7 @@ import { Line2, LineGeometry } from 'three-fatline';
 import { Tool } from "./Tool";
 import { toJS } from "mobx";
 import { Vector3 } from "three";
+import { HelpersManager } from "../helpers/HelpersManager";
 
 
 export class Line extends Tool{
@@ -27,6 +28,9 @@ export class Line extends Tool{
 
 		//TODO null layer fix?
 		this.obj.line.mat = this.layer!.content.main!.mat.line!;
+
+		//helpers
+		this.helpersManager = new HelpersManager();
         
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
@@ -41,7 +45,8 @@ export class Line extends Tool{
             e, this.rect!, this.canvas, 
             this.currentCamera!, this.currentPlane!);
         //upd coords
-        this.currentPointerCoord = mouseLoc;
+        this.currentPointerCoord = this.helpersManager!.adjustCoords(mouseLoc);
+		console.log(this.currentPointerCoord.x, this.currentPointerCoord.z)
         
         if(this.toolState === 2){
             console.log('Line: upd')
