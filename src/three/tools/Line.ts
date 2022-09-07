@@ -5,7 +5,7 @@ import { Line2, LineGeometry } from 'three-fatline';
 import { Tool } from "./Tool";
 import { toJS } from "mobx";
 import { Vector3 } from "three";
-import { HelpersManager } from "../helpers/HelpersManager";
+import { SnapManager } from "../helpers/SnapManager";
 
 
 export class Line extends Tool{
@@ -30,7 +30,7 @@ export class Line extends Tool{
 		this.obj.line.mat = this.layer!.content.main!.mat.line!;
 
 		//helpers
-		this.helpersManager = new HelpersManager(this.scene);
+		this.snapManager = new SnapManager(this.scene);
         
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('click', this._onDrawClick);
@@ -45,7 +45,7 @@ export class Line extends Tool{
             e, this.rect!, this.canvas, 
             this.currentCamera!, this.currentPlane!);
         //upd coords
-        this.currentPointerCoord = this.helpersManager!.adjustCoords(mouseLoc);
+        this.currentPointerCoord = this.snapManager!.adjustCoords(mouseLoc);
         
         if(this.toolState === 2){
             console.log('Line: upd')
@@ -180,6 +180,6 @@ export class Line extends Tool{
         this.lineParts = 1;
 
 		this.tagsManager.stopRender();
-		this.helpersManager!.removeRenderedLabels();
+		this.snapManager!.removeRenderedLabels();
     } 
 }

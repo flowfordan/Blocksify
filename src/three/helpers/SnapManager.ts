@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { sceneState, HelperOption } from '../../state';
 
 //new instance is created when Tool's startDrawing() called
-class HelpersManager {
+class SnapManager {
 	options: Array<HelperOption>;
 	scene: THREE.Scene;
 	renderLabel:THREE.Sprite;
@@ -66,4 +66,4 @@ class HelpersManager {
 	
 }
 
-export{HelpersManager}
+export{SnapManager}
