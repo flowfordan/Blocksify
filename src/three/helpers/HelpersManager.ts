@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { sceneState, HelperOption } from '../../state';
 
 //new instance is created when Tool's startDrawing() called
-class HelperManager {
+class HelpersManager {
 	options: Array<HelperOption>;
 	scene: THREE.Scene;
 	grid: THREE.GridHelper | null;
@@ -36,4 +36,4 @@ class HelperManager {
 	
 }
 
-export{HelperManager}
+export{HelpersManager}

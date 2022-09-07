@@ -2,7 +2,7 @@ import { Line } from './tools/Line';
 import { Polygon } from './tools/Polygon';
 import * as THREE from 'three';
 import { camera } from './camera/camera';
-import { getGridHelper, gridHelper } from './helpers/gridHelper';
+
 import { dirLight, dirLightHelper, hemiLight } from './lights';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import {cube} from './geometry/geometry';
@@ -16,7 +16,7 @@ import { Layer, layersState, sceneState, toolsState } from '../state';
 
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
-import { HelperManager } from './helpers/HelperManager';
+import { HelpersManager } from './helpers/HelpersManager';
 
 export class ThreeView {
 	labelRenderer: CSS2DRenderer;
@@ -31,7 +31,7 @@ export class ThreeView {
     controls: OrbitControls;
     stats: any;
 
-	helperManager: HelperManager;
+	helpersManager: HelpersManager;
 	
     tools: {
         line: Line,
@@ -89,7 +89,7 @@ export class ThreeView {
 
 		this.currentLayer = layersState.layers.find(l => l.active)!
 
-		this.helperManager = new HelperManager(this.scene);
+		this.helpersManager = new HelpersManager(this.scene);
 
         //STATS
         this.stats = Stats();
@@ -127,7 +127,7 @@ export class ThreeView {
 
 		//TODO concrete conditions
 		autorun(() => {
-            this.helperManager.renderGrid();
+            this.helpersManager.renderGrid();
         })
     }
 
@@ -193,23 +193,6 @@ export class ThreeView {
 			document.body.style.cursor = 'auto';
         }
     }
-
-	setHelpers = () => {
-		//grid test
-		const helperName = 'grid_helper';
-		const size = sceneState.helpersOptions[3].value
-
-		const newGridHelper = getGridHelper(size, helperName);
-
-		const prevGrid = this.scene.getObjectByName(helperName);
-		if(prevGrid){
-			this.scene.remove(prevGrid);
-		}
-
-		this.scene.add(newGridHelper);
-
-		console.log(this.scene.children)
-	}
 
     onExit = (event: KeyboardEvent) => {
         if(event.key === "Escape"){
