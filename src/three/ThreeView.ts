@@ -16,6 +16,7 @@ import { Layer, layersState, sceneState, toolsState } from '../state';
 
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
+import { HelperManager } from './helpers/HelperManager';
 
 export class ThreeView {
 	labelRenderer: CSS2DRenderer;
@@ -29,6 +30,8 @@ export class ThreeView {
     light: any;
     controls: OrbitControls;
     stats: any;
+
+	helperManager: HelperManager;
 	
     tools: {
         line: Line,
@@ -86,6 +89,8 @@ export class ThreeView {
 
 		this.currentLayer = layersState.layers.find(l => l.active)!
 
+		this.helperManager = new HelperManager(this.scene);
+
         //STATS
         this.stats = Stats();
         //document.body.appendChild(this.stats.dom);
@@ -120,8 +125,9 @@ export class ThreeView {
             this.setCamera()
         })
 
+		//TODO concrete conditions
 		autorun(() => {
-            this.setHelpers()
+            this.helperManager.renderGrid();
         })
     }
 
