@@ -41,14 +41,39 @@ class SnapManager {
 
 			newCoords.x = adjustVal(newCoords.x, precision);
 			newCoords.z = adjustVal(newCoords.z, precision);
+
+			this._renderHelperLabel(newCoords);
 		}
 
-		this._renderHelperLabel(newCoords);
+		
 
 		return newCoords;
 	}
 
-	setGrid = () => {
+	adjustCoordsToLine = (fixedCoords: THREE.Vector3, pointerCoords: THREE.Vector3): THREE.Vector3 => {
+		//find coords
+		//TODO search within Options?
+		let newCoords = pointerCoords;
+
+		if(this.options[0].isActive){
+		const snapValue = this.options[0].value;
+
+		const distToPointer = fixedCoords.distanceTo(pointerCoords);
+
+		const snapsAmount = Math.round(distToPointer / snapValue);
+		const snapDistance = snapsAmount * snapValue;
+
+		newCoords = new THREE.Vector3()
+		newCoords.subVectors(pointerCoords, fixedCoords).setLength(snapDistance).add(fixedCoords);
+
+		//render ray and closest point
+		//this._renderHelperRay();
+		this._renderHelperLabel(newCoords);
+		}
+		return newCoords;
+	}
+
+	private _renderHelperRay = () => {
 
 	}
 

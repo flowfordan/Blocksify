@@ -67,10 +67,13 @@ export class Line extends Tool{
             this.lineMode === 0?this.guideObj.line.geom!.setPositions(this.objCoords.line)
             :
             this.guideObj.line.geom!.setPositions(current2ptLineCoords);
-
             this.guideObj.line.form!.computeLineDistances();
 
+			//SNAPPING
+			this.currentPointerCoord = this.snapManager!.adjustCoordsToLine(new Vector3(...current2ptLineCoords.slice(0,3)), mouseLoc);
+
 			this.tagsManager.renderTag([new Vector3(...current2ptLineCoords.slice(0,3))], this.currentPointerCoord);
+			this.snapManager?.adjustCoordsToLine(new Vector3(...current2ptLineCoords.slice(0,3)), mouseLoc);
         }
     }
 
