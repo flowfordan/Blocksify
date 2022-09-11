@@ -5,20 +5,20 @@ import { sceneState, HelperOption } from '../../state';
 class SnapManager {
 	options: Array<HelperOption>;
 	scene: THREE.Scene;
-	renderLabel:THREE.Sprite;
-	labelMaterial: THREE.SpriteMaterial;
+	renderLabel:THREE.Points;
+	labelMaterial: THREE.PointsMaterial;
+	renderGeom: THREE.BufferGeometry;
 
 	constructor(scene: THREE.Scene){
 		this.options = sceneState.helpersOptions;
 		this.scene = scene;
 
-		this.labelMaterial = new THREE.SpriteMaterial( { color: Math.random() * 0xffffff } );
+		this.labelMaterial = new THREE.PointsMaterial( { color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true} )
 		this.labelMaterial.depthWrite = false;
 		this.labelMaterial.depthTest = false;
-		
-		this.labelMaterial.sizeAttenuation = false;
+		this.renderGeom = new THREE.BufferGeometry();
 
-		this.renderLabel = new THREE.Sprite( this.labelMaterial );
+		this.renderLabel = new THREE.Points( this.renderGeom, this.labelMaterial );
 		// this.renderLabel.scale.set(0.03,0.03,0.03)
 
 
@@ -56,8 +56,10 @@ class SnapManager {
 
 	private _renderHelperLabel = (coords: THREE.Vector3) => {
 		//helper object
-		this.renderLabel.position.set(coords.x, coords.y, coords.z);
+		this.renderGeom.setFromPoints([coords])
 		this.scene.add( this.renderLabel);
+
+		console.log(this.scene.children);
 	}
 
 	removeRenderedLabels = () => {
