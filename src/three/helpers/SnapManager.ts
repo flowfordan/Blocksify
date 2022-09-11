@@ -20,8 +20,6 @@ class SnapManager {
 
 		this.renderLabel = new THREE.Points( this.renderGeom, this.labelMaterial );
 		// this.renderLabel.scale.set(0.03,0.03,0.03)
-
-
 	}
 
 	adjustCoords = (initCoords: THREE.Vector3): THREE.Vector3 => {
