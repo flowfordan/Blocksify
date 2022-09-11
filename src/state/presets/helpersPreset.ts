@@ -1,3 +1,22 @@
+//preset config
+/*
+	helperID - id of helper
+	type - type snap/grid
+	name - spacing/angle/grid/visibility
+	type + name - final helper characterisation
+
+	isActive: false,
+	value - main current number for sliders only
+	valueName - UI name of slider
+	isRange - UI - slidr or checkboxes
+	rangeMin: 0.5,
+	rangeMax: 5,
+	rangeStep: 0.5,
+	isSelection - UI checkboxes or not
+	numbers - UI - for checkboxes only - selected values
+
+*/
+
 const helpersDefPreset = [
 	{
 		helperID: 0,
