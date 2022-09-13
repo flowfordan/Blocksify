@@ -1,5 +1,5 @@
 import { helpersDefPreset } from './presets/helpersPreset';
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, toJS } from "mobx";
 
 type Coords = {
     x: number,
@@ -7,9 +7,11 @@ type Coords = {
     z: number 
 }
 
+type HelperType = 'snap' | 'grid'
+
 interface HelperOption {
 	helperID: number,
-	type: string,
+	type: HelperType,
 	name: string,
 	isActive: boolean,
 	value: number,
@@ -23,12 +25,19 @@ interface HelperOption {
 	numbers: Array<number>
 }
 
+type HelperOptions = Array<HelperOption>;
+
+type HelpersActive = {
+	[id: number]: boolean;
+};
+
 class SceneState{
 
     isFetchingGlobalCoords: boolean;
     globalCoords: Coords;
     currentCamera: number;
-	helpersOptions: Array<HelperOption>;
+	helpersOptions: HelperOptions;
+	isHelpersActive: HelpersActive | null;
 
     constructor(){
         
@@ -40,10 +49,15 @@ class SceneState{
         };
         this.currentCamera = 1;
 
-		this.helpersOptions = helpersDefPreset;
+		this.helpersOptions = helpersDefPreset as HelperOptions;
+		this.isHelpersActive = null;
 
+
+		this._constructIsHelpersActive();
         makeAutoObservable(this);
     }
+
+
 
     changeCamera = (id: number) => {
         this.currentCamera = id;
@@ -68,7 +82,9 @@ class SceneState{
 		const item = this.helpersOptions.find(i => i.helperID === id);
 		if(item){
 			let idx = this.helpersOptions.indexOf(item);
-			this.helpersOptions[idx].isActive = !this.helpersOptions[idx].isActive
+			this.helpersOptions[idx].isActive = !this.helpersOptions[idx].isActive;
+
+			this._updIsHelperActive(item.helperID);
 		}
 	}
 
@@ -95,6 +111,21 @@ class SceneState{
 			}
 		}
 
+	}
+
+	private _constructIsHelpersActive = () => {
+		let obj: HelpersActive = {};
+		for(let item of this.helpersOptions){
+			obj[item.helperID] = item.isActive
+		}	
+		this.isHelpersActive = obj;
+	}
+
+	private _updIsHelperActive = (id: number) => {
+		if(this.isHelpersActive){
+			this.isHelpersActive[id] = !this.isHelpersActive[id];
+		}
+		
 	}
 
 }
