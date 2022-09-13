@@ -45,7 +45,10 @@ export class Line extends Tool{
             e, this.rect!, this.canvas, 
             this.currentCamera!, this.currentPlane!);
         //upd coords
-        this.currentPointerCoord = this.snapManager!.adjustCoords(mouseLoc);
+		if(this.toolState === 1){
+			this.currentPointerCoord = this.snapManager!.snapCoords(mouseLoc);
+		}
+
         
         if(this.toolState === 2){
             console.log('Line: upd')
@@ -57,23 +60,27 @@ export class Line extends Tool{
             } else if (this.lineMode === 1){
                 this.objCoords.line.length = this.lineParts * 3
             }
+			const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
+
+			//SNAPPING
+			this.currentPointerCoord = this.snapManager!.snapCoords(mouseLoc, new Vector3(...current2ptLineCoords.slice(0,3)));
+
 
             let coords: Array<number> = Object.values(this.currentPointerCoord!)
             this.objCoords.line.push.apply(this.objCoords.line, coords);
 
 			//TODO GUIDE LINE
             this.scene.add(this.guideObj.line.form!);
-			const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
+
             this.lineMode === 0?this.guideObj.line.geom!.setPositions(this.objCoords.line)
             :
             this.guideObj.line.geom!.setPositions(current2ptLineCoords);
             this.guideObj.line.form!.computeLineDistances();
 
-			//SNAPPING
-			this.currentPointerCoord = this.snapManager!.adjustCoordsToLine(new Vector3(...current2ptLineCoords.slice(0,3)), mouseLoc);
+
 
 			this.tagsManager.renderTag([new Vector3(...current2ptLineCoords.slice(0,3))], this.currentPointerCoord);
-			this.snapManager?.adjustCoordsToLine(new Vector3(...current2ptLineCoords.slice(0,3)), mouseLoc);
+			// this.snapManager?.adjustCoordsToLine(new Vector3(...current2ptLineCoords.slice(0,3)), mouseLoc);
         }
     }
 

@@ -27,7 +27,7 @@ interface HelperOption {
 
 type HelperOptions = Array<HelperOption>;
 
-type HelpersActive = {
+type HelpersActivity = {
 	[id: number]: boolean;
 };
 
@@ -37,7 +37,7 @@ class SceneState{
     globalCoords: Coords;
     currentCamera: number;
 	helpersOptions: HelperOptions;
-	isHelpersActive: HelpersActive | null;
+	isHelpersActive: HelpersActivity | null;
 
     constructor(){
         
@@ -114,7 +114,7 @@ class SceneState{
 	}
 
 	private _constructIsHelpersActive = () => {
-		let obj: HelpersActive = {};
+		let obj: HelpersActivity = {};
 		for(let item of this.helpersOptions){
 			obj[item.helperID] = item.isActive
 		}	
@@ -133,4 +133,4 @@ class SceneState{
 const sceneState = new SceneState();
 
 export { sceneState };
-export type { HelperOption };
+export type { HelperOptions, HelperOption, HelpersActivity };
