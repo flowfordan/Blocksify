@@ -43,13 +43,21 @@ class SnapManager {
 
 			gridSnapCoords = this._snapToGrid(currentCoords);
 
-			newCoords = currentCoords.distanceTo(gridSnapCoords) > currentCoords.distanceTo(stepSnapCoords)? stepSnapCoords : gridSnapCoords;
-			this._renderHelperLabel(newCoords);
+			let labelType = 2;
+			if(currentCoords.distanceTo(gridSnapCoords) > currentCoords.distanceTo(stepSnapCoords)){
+				newCoords = stepSnapCoords;
+				labelType = 0;
+			} else {
+				newCoords = gridSnapCoords;
+			}
+
+			this._renderHelperLabel(newCoords, labelType);
+
 			return newCoords;
 		} else
 		if(this.activityOptions![2]) {
 			newCoords = this._snapToGrid(currentCoords);
-			this._renderHelperLabel(newCoords);
+			this._renderHelperLabel(newCoords, 2);
 			return newCoords;
 		}  else
 		if(this.activityOptions![0] && lastCoords) {
@@ -109,7 +117,12 @@ class SnapManager {
 		return newCoords;
 	}
 
-	private _renderHelperLabel = (coords: THREE.Vector3) => {
+	private _renderHelperLabel = (coords: THREE.Vector3, type = 0) => {
+		if(type === 0){
+			this.labelMaterial.color = new THREE.Color( 0x5CC6FF );
+		}else {
+			this.labelMaterial.color = new THREE.Color( 0xA7A7A7 );
+		}
 		//helper object
 		this.renderGeom.setFromPoints([coords])
 		this.scene.add( this.renderLabel);
