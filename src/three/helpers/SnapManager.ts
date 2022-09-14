@@ -21,9 +21,9 @@ class SnapManager {
 		this.renderGeom = new THREE.BufferGeometry();
 
 		this.renderLabel = new THREE.Points( this.renderGeom, this.labelMaterial );
-		// this.renderLabel.scale.set(0.03,0.03,0.03)
 	}
 
+	//TODO rewrite ugly if/elses
 	snapCoords = (currentCoords: THREE.Vector3, lastCoords?: THREE.Vector3):THREE.Vector3 => {
 		let newCoords = currentCoords;
 
@@ -34,56 +34,61 @@ class SnapManager {
 		if(Object.values(this.activityOptions!).every(i => i === false)){
 			console.log('Snapping is off');
 			return currentCoords;
-		}
-		//check if grid snap active
-		if(this.activityOptions![2]){
-			gridSnapCoords = this._snapToGrid(currentCoords);
-			console.log('GRID',gridSnapCoords)
-		}
-
-		//check if spacing snap active
-		if(this.activityOptions![0] && lastCoords){
+		} else 
+		if(this.activityOptions![0] && !lastCoords && !this.activityOptions![2]) {
+			return currentCoords;
+		} else //case for 2 snaps in one time 
+		if(this.activityOptions![2] && this.activityOptions![0] && lastCoords){
 			stepSnapCoords = this._snapToStep(currentCoords, lastCoords);
-			console.log('STEP',stepSnapCoords)
+
+			gridSnapCoords = this._snapToGrid(currentCoords);
+
+			newCoords = currentCoords.distanceTo(gridSnapCoords) > currentCoords.distanceTo(stepSnapCoords)? stepSnapCoords : gridSnapCoords;
+			this._renderHelperLabel(newCoords);
+			return newCoords;
+		} else
+		if(this.activityOptions![2]) {
+			newCoords = this._snapToGrid(currentCoords);
+			this._renderHelperLabel(newCoords);
+			return newCoords;
+		}  else
+		if(this.activityOptions![0] && lastCoords) {
+			newCoords = this._snapToStep(currentCoords, lastCoords);
+			this._renderHelperLabel(newCoords);
+			return newCoords;
 		}
-
-		newCoords = currentCoords.distanceTo(gridSnapCoords) > currentCoords.distanceTo(stepSnapCoords)? stepSnapCoords : gridSnapCoords;
-		console.log(currentCoords.distanceTo(gridSnapCoords), 'vs', currentCoords.distanceTo(stepSnapCoords));
-		this._renderHelperLabel(newCoords);
-
-		return newCoords;
+		else {
+			return currentCoords
+		}		
 	}
 
 	private _snapToGrid = (initCoords: THREE.Vector3): THREE.Vector3 => {
-		const newCoords = initCoords
-		//grid adjusment
-		if(this.options[2].isActive){
-			const precision = this.options[3].value;
+		const newCoords = Object.assign({}, initCoords);
 
-			const adjustVal = (coord: number, precision: number): number => {
-				let newCoord = 0;
-				if(precision < 1 ){
-					newCoord = Math.round(coord*2)/2;
-				} else {
-					newCoord = Math.round(coord/precision)*precision;
-				}
+		const precision = this.options[3].value;
 
-				return newCoord;
+		const adjustVal = (coord: number, precision: number): number => {
+			let newCoord = 0;
+			if(precision < 1 ){
+				newCoord = Math.round(coord*2)/2;
+			} else {
+				newCoord = Math.round(coord/precision)*precision;
 			}
-
-			newCoords.x = adjustVal(newCoords.x, precision);
-			newCoords.z = adjustVal(newCoords.z, precision);
-
-			// this._renderHelperLabel(newCoords);
+			return newCoord;
 		}
+
+		newCoords.x = adjustVal(newCoords.x, precision);
+		newCoords.z = adjustVal(newCoords.z, precision);
+		
 		return newCoords;
 	}
 
 	private _snapToStep = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3): THREE.Vector3 => {
 		//find coords
 		//TODO search within Options?
-		let newCoords = pointerCoords;
+		let newCoords = Object.assign({}, pointerCoords);;
 		console.log('step START', newCoords)
+		console.log('step START', pointerCoords)
 
 		if(this.options[0].isActive){
 		const snapValue = this.options[0].value;
@@ -108,8 +113,6 @@ class SnapManager {
 		//helper object
 		this.renderGeom.setFromPoints([coords])
 		this.scene.add( this.renderLabel);
-
-		console.log(this.scene.children);
 	}
 
 	removeRenderedLabels = () => {
