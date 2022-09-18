@@ -16,7 +16,7 @@ type HelperType = 'snap' | 'grid'
 // 	angle = 'angle'
 // }
 
-type SnapType = 'snap' | 'grid' | 'angle'
+type SnapType = 'step' | 'grid' | 'angle'
 
 interface HelperOption {
 	helperID: number,
@@ -36,7 +36,7 @@ interface HelperOption {
 
 type HelperOptions = Array<HelperOption>;
 
-type SnapStatus = {isActive: boolean, snappedCoords: Vector3 | null, distToOrigin: number | null}
+type SnapStatus = {isActive: boolean, snappedCoords: Vector3, distToOrigin: number}
 
 type SnapOptions = {
 	[I in SnapType]: SnapStatus;
@@ -148,4 +148,4 @@ class SceneState{
 const sceneState = new SceneState();
 
 export { sceneState };
-export type { HelperOptions, HelperOption, HelpersActivity, SnapOptions, SnapStatus, SnapType };
+export type { HelperOptions, HelperOption, HelpersActivity, SnapOptions, SnapType };
