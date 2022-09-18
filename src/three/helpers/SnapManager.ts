@@ -39,11 +39,17 @@ class SnapManager {
 	}
 
 
-	snapToCoords = (currentCoords: THREE.Vector3, lastCoords?: THREE.Vector3):THREE.Vector3 => {
+	snapToCoords = (currentCoords: THREE.Vector3, toolState = 1, lastCoords?: THREE.Vector3):THREE.Vector3 => {
 		console.log('OPTIONS',this.snapOptions)
+		for(let key in this.snapOptions!){
+			(this.snapOptions as SnapOptions)[key as SnapType].snappedCoords = currentCoords;
+		}
+		
 		this._snapToGrid(currentCoords);
-		this._snapToStep(currentCoords, lastCoords);
-		// this._snapToAngle();
+		if(toolState > 1){
+			this._snapToStep(currentCoords, lastCoords);
+			// this._snapToAngle();
+		}
 
 		let newCoords = currentCoords;
 		let distanceToPointer = Infinity;
@@ -55,6 +61,8 @@ class SnapManager {
 					distanceToPointer = (this.snapOptions as SnapOptions)[key as SnapType].distToOrigin;
 					newCoords = (this.snapOptions as SnapOptions)[key as SnapType].snappedCoords;
 					finalSnapType = key;
+					console.log(finalSnapType )
+					console.log(newCoords)
 				}
 			}
 		}

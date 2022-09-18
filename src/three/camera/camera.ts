@@ -28,7 +28,7 @@ const camera = (renderer = initRenderer, id = 1): THREE.PerspectiveCamera| THREE
             0.1, 
             2000)
 
-            perspCam.position.set(15, 20, 20)
+            perspCam.position.set(50, 60, 50)
 
             return perspCam 
         }
