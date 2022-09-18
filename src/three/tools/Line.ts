@@ -47,15 +47,14 @@ export class Line extends Tool{
         //upd coords
 		if(this.toolState === 1){
 			this.currentPointerCoord = this.snapManager!.snapCoords(mouseLoc);
+			this.currentPointerCoord = this.snapManager!.snapToCoords(mouseLoc);
 		}
 
         
         if(this.toolState === 2){
             console.log('Line: upd')
 
-			const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
-			//SNAPPING
-			this.currentPointerCoord = this.snapManager!.snapCoords(mouseLoc, new Vector3(...current2ptLineCoords.slice(0,3)));
+
 			
             //UPDATING LINE COORDS
             //cut pushed to right amount - 1 chunk before new push
@@ -65,10 +64,16 @@ export class Line extends Tool{
                 this.objCoords.line.length = this.lineParts * 3
             }
 
+
+
 			//push to Line last pointer coords
             let coords: Array<number> = Object.values(this.currentPointerCoord!)
             this.objCoords.line.push.apply(this.objCoords.line, coords);
 
+			const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
+			//SNAPPING
+			this.currentPointerCoord = this.snapManager!.snapCoords(mouseLoc, new Vector3(...current2ptLineCoords.slice(0,3)));
+			this.currentPointerCoord = this.snapManager!.snapToCoords(mouseLoc, new Vector3(...current2ptLineCoords.slice(0,3)));
 			//TODO GUIDE LINE
             this.scene.add(this.guideObj.line.form!);
 			//const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
