@@ -1,20 +1,23 @@
 import * as THREE from 'three';
 import { mapLinear } from 'three/src/math/MathUtils';
-import { sceneState, HelperOptions, HelpersActivity } from '../../state';
+import { sceneState, HelperOptions, HelpersActivity, SnapOptions, SnapStatus, SnapType } from '../../state';
 
 //new instance is created when Tool's startDrawing() called
 class SnapManager {
 	options: HelperOptions;
 	activityOptions: HelpersActivity | null;
+	snapStatus: SnapOptions | {};
 	scene: THREE.Scene;
 	renderLabel:THREE.Points;
 	labelMaterial: THREE.PointsMaterial;
 	renderGeom: THREE.BufferGeometry;
 
 	constructor(scene: THREE.Scene){
+		this.scene = scene;
 		this.options = sceneState.helpersOptions;
 		this.activityOptions = sceneState.isHelpersActive;
-		this.scene = scene;
+		this.snapStatus = {};
+
 
 		this.labelMaterial = new THREE.PointsMaterial( { color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true} )
 		this.labelMaterial.depthWrite = false;
@@ -22,13 +25,26 @@ class SnapManager {
 		this.renderGeom = new THREE.BufferGeometry();
 
 		this.renderLabel = new THREE.Points( this.renderGeom, this.labelMaterial );
+
+		this._constructStatus();
+	}
+
+	private _constructStatus = () => {
+		for(let item of this.options){
+			if(item.type === 'snap'){
+				(this.snapStatus as SnapOptions)[item.name as SnapType] = {
+					isActive: item.isActive, 
+					snappedCoords: null, 
+					distToOrigin: null}
+			}
+		}
 	}
 
 	snapToCoords = (currentCoords: THREE.Vector3, lastCoords?: THREE.Vector3):THREE.Vector3 => {
 		const snapStatus = new Map();
-		snapStatus.set("grid", {isActive: true, snappedCoords: null, distToOrigin: null})
-		.set("step", {isActive: true, snappedCoords: null, distToOrigin: null})
-		.set("angle", {isActive: true, snappedCoords: null, distToOrigin: null})
+		snapStatus.set("grid", {isActive: false, snappedCoords: null, distToOrigin: null})
+		.set("step", {isActive: false, snappedCoords: null, distToOrigin: null})
+		.set("angle", {isActive: false, snappedCoords: null, distToOrigin: null})
 
 		this._snapToGrid2(currentCoords, snapStatus);
 		this._snapToStep2(currentCoords, lastCoords, snapStatus);
@@ -47,7 +63,8 @@ class SnapManager {
 			}
 		}
 
-		//call render
+		console.log(finalSnapType)
+		//call helpers render
 		this._renderHelperLabel1(newCoords, finalSnapType);
 
 		return newCoords;

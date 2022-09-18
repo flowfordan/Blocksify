@@ -1,5 +1,6 @@
 import { helpersDefPreset } from './presets/helpersPreset';
 import { makeAutoObservable, toJS } from "mobx";
+import { Vector3 } from 'three';
 
 type Coords = {
     x: number,
@@ -8,6 +9,14 @@ type Coords = {
 }
 
 type HelperType = 'snap' | 'grid'
+
+// enum SnapType {
+// 	grid = 'grid',
+// 	step = 'step',
+// 	angle = 'angle'
+// }
+
+type SnapType = 'snap' | 'grid' | 'angle'
 
 interface HelperOption {
 	helperID: number,
@@ -26,6 +35,12 @@ interface HelperOption {
 }
 
 type HelperOptions = Array<HelperOption>;
+
+type SnapStatus = {isActive: boolean, snappedCoords: Vector3 | null, distToOrigin: number | null}
+
+type SnapOptions = {
+	[I in SnapType]: SnapStatus;
+}
 
 type HelpersActivity = {
 	[id: number]: boolean;
@@ -133,4 +148,4 @@ class SceneState{
 const sceneState = new SceneState();
 
 export { sceneState };
-export type { HelperOptions, HelperOption, HelpersActivity };
+export type { HelperOptions, HelperOption, HelpersActivity, SnapOptions, SnapStatus, SnapType };

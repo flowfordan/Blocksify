@@ -21,7 +21,7 @@ const helpersDefPreset = [
 	{
 		helperID: 0,
 		type: 'snap',
-		name: 'Spacing',
+		name: 'step',
 		isActive: false,
 		value: 2,
 		valueName: '',
@@ -35,7 +35,7 @@ const helpersDefPreset = [
 	{
 		helperID: 1,
 		type: 'snap',
-		name: 'Angle',
+		name: 'angle',
 		isActive: false,
 		value: 2,
 		valueName: '',
@@ -50,7 +50,7 @@ const helpersDefPreset = [
 	{
 		helperID: 2,
 		type: 'snap',
-		name: 'Grid',
+		name: 'grid',
 		isActive: true,
 		value: 0,
 		valueName: '',
@@ -64,7 +64,7 @@ const helpersDefPreset = [
 	{
 		helperID: 3,
 		type: 'grid',
-		name: 'Show',
+		name: 'show',
 		isActive: true,
 		value: 10,
 		valueName: 'size',
