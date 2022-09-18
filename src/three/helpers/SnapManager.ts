@@ -1,13 +1,12 @@
 import * as THREE from 'three';
 import { Vector3 } from 'three';
-import { mapLinear } from 'three/src/math/MathUtils';
-import { sceneState, HelperOptions, HelpersActivity, SnapOptions, SnapType } from '../../state';
+import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus } from '../../state';
 
 //new instance is created when Tool's startDrawing() called
 class SnapManager {
 	options: HelperOptions;
-	activityOptions: HelpersActivity | null;
-	snapOptions: SnapOptions | null;
+	snapOptions: SnapOptions;
+
 	scene: THREE.Scene;
 	renderLabel:THREE.Points;
 	labelMaterial: THREE.PointsMaterial;
@@ -16,9 +15,18 @@ class SnapManager {
 	constructor(scene: THREE.Scene){
 		this.scene = scene;
 		this.options = sceneState.helpersOptions;
-		this.activityOptions = sceneState.isHelpersActive;
-		this.snapOptions = null;
 
+		const snapsArray: Array<SnapType> = ['grid', 'angle', 'step'];
+		const statusPreset: SnapStatus = {
+			isActive: false, 
+			snappedCoords: new Vector3(), 
+			distToOrigin: Infinity}
+		const defaultSnapOptions: any = {};
+		for(let i of snapsArray){
+			console.log(statusPreset)
+			defaultSnapOptions[i] = Object.assign({}, statusPreset);
+		}
+		this.snapOptions = Object.assign({}, defaultSnapOptions);
 
 		this.labelMaterial = new THREE.PointsMaterial( { color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true} )
 		this.labelMaterial.depthWrite = false;
@@ -32,6 +40,7 @@ class SnapManager {
 
 
 	snapToCoords = (currentCoords: THREE.Vector3, lastCoords?: THREE.Vector3):THREE.Vector3 => {
+		console.log('OPTIONS',this.snapOptions)
 		this._snapToGrid(currentCoords);
 		this._snapToStep(currentCoords, lastCoords);
 		// this._snapToAngle();
@@ -41,16 +50,14 @@ class SnapManager {
 		let finalSnapType: string = '';
 		//iterate snapOptions and reassign if needed
 		for(let key in this.snapOptions!){
-			if(this.snapOptions[key as SnapType].isActive){
-				if(this.snapOptions[key as SnapType].distToOrigin <= distanceToPointer){
-					distanceToPointer = this.snapOptions[key as SnapType].distToOrigin;
-					newCoords = this.snapOptions[key as SnapType].snappedCoords;
+			if((this.snapOptions as SnapOptions)[key as SnapType].isActive){
+				if((this.snapOptions as SnapOptions)[key as SnapType].distToOrigin <= distanceToPointer){
+					distanceToPointer = (this.snapOptions as SnapOptions)[key as SnapType].distToOrigin;
+					newCoords = (this.snapOptions as SnapOptions)[key as SnapType].snappedCoords;
 					finalSnapType = key;
 				}
 			}
 		}
-
-		console.log(finalSnapType)
 		//call helpers render
 		this._renderHelperLabel(newCoords, finalSnapType);
 
@@ -141,16 +148,23 @@ class SnapManager {
 	private _constructSnapOptions = () => {
 		for(let item of this.options){
 			if(item.type === 'snap'){
-				(this.snapOptions as SnapOptions)[item.name as SnapType] = {
-					isActive: item.isActive, 
-					snappedCoords: new Vector3(), 
-					distToOrigin: Infinity
-				}
+				(this.snapOptions as SnapOptions)[item.name as SnapType].isActive = item.isActive;
 			}
 		}
 	}
 
-	removeRenderedLabels = () => {
+	resetSnap = () => {
+		this._removeRenderedLabels();
+		for(let item of this.options){
+			if(item.type === 'snap'){
+				(this.snapOptions as SnapOptions)[item.name as SnapType].isActive = item.isActive;
+				(this.snapOptions as SnapOptions)[item.name as SnapType].distToOrigin = Infinity;
+				(this.snapOptions as SnapOptions)[item.name as SnapType].snappedCoords = new Vector3();
+			}
+		}
+	}
+
+	private _removeRenderedLabels = () => {
 		this.scene.remove( this.renderLabel);
 	}
 	

@@ -148,4 +148,4 @@ class SceneState{
 const sceneState = new SceneState();
 
 export { sceneState };
-export type { HelperOptions, HelperOption, HelpersActivity, SnapOptions, SnapType };
+export type { HelperOptions, HelperOption, HelpersActivity, SnapOptions, SnapType, SnapStatus };

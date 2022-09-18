@@ -46,7 +46,6 @@ export class Line extends Tool{
             this.currentCamera!, this.currentPlane!);
         //upd coords
 		if(this.toolState === 1){
-			this.currentPointerCoord = this.snapManager!.snapCoords(mouseLoc);
 			this.currentPointerCoord = this.snapManager!.snapToCoords(mouseLoc);
 		}
 
@@ -72,7 +71,6 @@ export class Line extends Tool{
 
 			const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
 			//SNAPPING
-			this.currentPointerCoord = this.snapManager!.snapCoords(mouseLoc, new Vector3(...current2ptLineCoords.slice(0,3)));
 			this.currentPointerCoord = this.snapManager!.snapToCoords(mouseLoc, new Vector3(...current2ptLineCoords.slice(0,3)));
 			//TODO GUIDE LINE
             this.scene.add(this.guideObj.line.form!);
@@ -192,6 +190,6 @@ export class Line extends Tool{
         this.lineParts = 1;
 
 		this.tagsManager.stopRender();
-		this.snapManager!.removeRenderedLabels();
+		this.snapManager!.resetSnap();
     } 
 }
