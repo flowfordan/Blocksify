@@ -48,7 +48,7 @@ class SnapManager {
 		this._snapToGrid(currentCoords);
 		if(toolState > 1){
 			this._snapToStep(currentCoords, lastCoords);
-			// this._snapToAngle();
+			this._snapToAngle(currentCoords, lastCoords);
 		}
 
 		let newCoords = currentCoords;
@@ -130,6 +130,32 @@ class SnapManager {
 			return
 		}
 
+	}
+
+	private _snapToAngle = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined) => {
+		const BASE_VECTOR = new Vector3(1, 0, 0);
+
+		//normalize the direction vector (convert to vector of length 1)
+		BASE_VECTOR.normalize();
+
+		const origin = new THREE.Vector3( 0, 0, 0 );
+		const length = 20;
+		const hex = 0x000000;
+
+		const arrowHelper = new THREE.ArrowHelper( BASE_VECTOR, origin, length, hex );
+		this.scene.add( arrowHelper );
+
+		if(fixedCoords){
+			//
+			const rebase = BASE_VECTOR.add(fixedCoords)
+			
+
+			
+			
+			console.log(rebase)
+		}
+
+		//const angle;
 	}
 
 	private _renderHelperLabel = (coords: THREE.Vector3, finalSnapType: string) => {

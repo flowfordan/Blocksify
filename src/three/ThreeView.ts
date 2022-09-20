@@ -91,6 +91,9 @@ export class ThreeView {
 
 		this.helpersManager = new HelpersManager(this.scene);
 
+		const axesHelper = new THREE.AxesHelper( 10 );
+		this.scene.add( axesHelper );
+
         //STATS
         this.stats = Stats();
         //document.body.appendChild(this.stats.dom);
