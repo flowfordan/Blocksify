@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus } from '../../state';
+import { pointObj } from '../objs3d';
 
 //new instance is created when Tool's startDrawing() called
 class SnapManager {
@@ -36,6 +37,18 @@ class SnapManager {
 		this.renderLabel = new THREE.Points( this.renderGeom, this.labelMaterial );
 
 		this._constructSnapOptions();
+
+		const BASE_VECTOR = new Vector3(1, 0, 1);
+
+		//normalize the direction vector (convert to vector of length 1)
+		BASE_VECTOR.normalize();
+
+		const origin = new THREE.Vector3( 0, 0, 0 );
+		const length = 20;
+		const hex = 0x000000;
+
+		const arrowHelper = new THREE.ArrowHelper( BASE_VECTOR, origin, length, hex );
+		this.scene.add( arrowHelper );
 	}
 
 
@@ -133,29 +146,77 @@ class SnapManager {
 	}
 
 	private _snapToAngle = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined) => {
-		const BASE_VECTOR = new Vector3(1, 0, 0);
+		const VECTOR = new Vector3(1, 0, 0);
+		if (fixedCoords) {
+			const basedV3 = fixedCoords
+			.clone()
+			.add(
+				pointerCoords
+				.clone()
+				.multiplyScalar(-1)
+			);
 
-		//normalize the direction vector (convert to vector of length 1)
-		BASE_VECTOR.normalize();
+			const currentAngleRad = VECTOR.angleTo(basedV3);
+			const currentAngleDeg = currentAngleRad * (180/(Math.PI));
+			console.log('ANGLE', currentAngleDeg);
 
-		const origin = new THREE.Vector3( 0, 0, 0 );
-		const length = 20;
-		const hex = 0x000000;
+			const step = 90;
+			const isYDirectionPositive = pointerCoords.z > fixedCoords.z;
+			const newBasedV3 = 0
+			console.log('POSITIVE', isYDirectionPositive);
 
-		const arrowHelper = new THREE.ArrowHelper( BASE_VECTOR, origin, length, hex );
-		this.scene.add( arrowHelper );
+			//rotation TEST
+			const AXE_VECTOR = new Vector3(0, 1, 0);
 
-		if(fixedCoords){
-			//
-			const rebase = BASE_VECTOR.add(fixedCoords)
-			
+			//normalize the direction vector (convert to vector of length 1)
+			AXE_VECTOR.normalize();
 
-			
-			
-			console.log(rebase)
+			//for 90 snap
+			//[0, 90, 180] - [(-1, 0, 0), (0, 0, -1), (0, 0, 1), (1, 0, 0)]
+
+			type V3Collection = {
+				[key: number]: Array<Vector3>
+			}
+
+			const closestV3collection: V3Collection = {
+				0: [new Vector3(-1, 0, 0), new Vector3(-1, 0, 0)],
+				90: [new Vector3(0, 0, 1), new Vector3(0, 0, -1)], 
+				180: [new Vector3(1, 0, 0), new Vector3(1, 0, 0)]
+			}
+
+			let closestV3 = new Vector3();
+			let threshold = 360;
+
+			for (let [key, value] of Object.entries(closestV3collection)) {
+				const newThreshold = Math.abs(currentAngleDeg - parseInt(key));
+				console.log('T', newThreshold);
+				if( newThreshold < threshold){
+					threshold = newThreshold;
+					if(isYDirectionPositive){
+						closestV3 = closestV3collection[key as unknown as keyof V3Collection][0];
+					} else {
+						closestV3 = closestV3collection[key as unknown as keyof V3Collection][1];
+					}
+				}
+			}
+
+			console.log('CLOSEST V3', closestV3);
+			const tresholdAngle = basedV3.angleTo(closestV3);
+
+			const basedNewV3 = closestV3.clone().setLength (fixedCoords.distanceTo(pointerCoords))
+			const newV3 = basedNewV3.clone()
+			.add(
+				fixedCoords
+				.clone()
+			);
+			console.log('NEW', basedNewV3);
+
+			pointObj(newV3.toArray())
+			const arrowHelper = pointObj(newV3.toArray());
+			this.scene.add( arrowHelper );
+		
 		}
 
-		//const angle;
 	}
 
 	private _renderHelperLabel = (coords: THREE.Vector3, finalSnapType: string) => {
