@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus } from '../../state';
 import { pointObj } from '../objs3d';
+import { constructBaseV3Variants } from '../utils/constructBaseV3';
 
 //new instance is created when Tool's startDrawing() called
 class SnapManager {
@@ -35,6 +36,8 @@ class SnapManager {
 		this.renderGeom = new THREE.BufferGeometry();
 
 		this.renderLabel = new THREE.Points( this.renderGeom, this.labelMaterial );
+
+		constructBaseV3Variants();
 
 		this._constructSnapOptions();
 
@@ -204,13 +207,12 @@ class SnapManager {
 			const tresholdAngle = basedV3.angleTo(closestV3);
 
 			const basedNewV3 = closestV3.clone().setLength (fixedCoords.distanceTo(pointerCoords))
-			const newV3 = basedNewV3.clone()
-			.add(
-				fixedCoords
-				.clone()
-			);
+			const newV3 = basedNewV3
+			.clone()
+			.add(fixedCoords);
 			console.log('NEW', basedNewV3);
 
+			//TODO render points and lines
 			pointObj(newV3.toArray())
 			const arrowHelper = pointObj(newV3.toArray());
 			this.scene.add( arrowHelper );
