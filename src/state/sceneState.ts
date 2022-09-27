@@ -46,6 +46,8 @@ type HelpersActivity = {
 	[id: number]: boolean;
 };
 
+//TODO helpers to ToolsState?
+
 class SceneState{
 
     isFetchingGlobalCoords: boolean;

@@ -1,8 +1,9 @@
+import { LineMaterial, Line2, LineGeometry } from 'three-fatline';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
-import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus } from '../../state';
-import { pointObj } from '../objs3d';
-import { constructBaseV3Variants } from '../utils/constructBaseV3';
+import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, toolsState } from '../../state';
+import { getLineMat, pointObj } from '../objs3d';
+import { constructBaseV3Variants } from './constructBaseV3';
 
 //new instance is created when Tool's startDrawing() called
 class SnapManager {
@@ -13,6 +14,10 @@ class SnapManager {
 	renderLabel:THREE.Points;
 	labelMaterial: THREE.PointsMaterial;
 	renderGeom: THREE.BufferGeometry;
+
+	guidesObj: Line2;
+	guidesMat: LineMaterial;
+	guidesGeom: LineGeometry;
 
 	constructor(scene: THREE.Scene){
 		this.scene = scene;
@@ -37,7 +42,12 @@ class SnapManager {
 
 		this.renderLabel = new THREE.Points( this.renderGeom, this.labelMaterial );
 
-		constructBaseV3Variants();
+		//GUIDES
+		this.guidesMat = getLineMat(0xFF2F2F);
+		this.guidesGeom = new LineGeometry();
+		this.guidesObj = new Line2(this.guidesGeom, this.guidesMat);
+
+		//constructBaseV3Variants();
 
 		this._constructSnapOptions();
 
@@ -181,41 +191,64 @@ class SnapManager {
 				[key: number]: Array<Vector3>
 			}
 
-			const closestV3collection: V3Collection = {
-				0: [new Vector3(-1, 0, 0), new Vector3(-1, 0, 0)],
-				90: [new Vector3(0, 0, 1), new Vector3(0, 0, -1)], 
-				180: [new Vector3(1, 0, 0), new Vector3(1, 0, 0)]
-			}
+			
+			const closestV3collection: V3Collection = toolsState.allAnglesSnapV3s;
+			// 	0: [new Vector3(-1, 0, 0), new Vector3(-1, 0, 0)],
+			// 	90: [new Vector3(0, 0, 1), new Vector3(0, 0, -1)], 
+			// 	180: [new Vector3(1, 0, 0), new Vector3(1, 0, 0)]
+			// }
 
 			let closestV3 = new Vector3();
 			let threshold = 360;
 
 			for (let [key, value] of Object.entries(closestV3collection)) {
+				//choosing closest snapped option angle from collection
+				//getting absolute value - delta
+				//TODO rename stuff
 				const newThreshold = Math.abs(currentAngleDeg - parseInt(key));
+
+				console.log('CURRENT ANGLE', currentAngleDeg);
 				console.log('T', newThreshold);
 				if( newThreshold < threshold){
 					threshold = newThreshold;
+					//check 'side' from main NJS Vector
+					//assign V3 from snapped angle
+					//TODO remove V3 array & change just z for -1 * z
 					if(isYDirectionPositive){
 						closestV3 = closestV3collection[key as unknown as keyof V3Collection][0];
 					} else {
 						closestV3 = closestV3collection[key as unknown as keyof V3Collection][1];
 					}
+					console.log('ANGLE KEY', key);
+					console.log(closestV3.x, closestV3.z);
 				}
+				console.log('RESULT TRESHOLD', threshold)
 			}
 
 			console.log('CLOSEST V3', closestV3);
-			const tresholdAngle = basedV3.angleTo(closestV3);
 
-			const basedNewV3 = closestV3.clone().setLength (fixedCoords.distanceTo(pointerCoords))
+			//longing base UNIT V3 to needed distance
+			const basedNewV3 = closestV3.clone().setLength (fixedCoords.distanceTo(pointerCoords));
+
+			//'moving' vector from CENTER to fixed point
 			const newV3 = basedNewV3
 			.clone()
 			.add(fixedCoords);
-			console.log('NEW', basedNewV3);
+
+			console.log('NEW', newV3);
+			console.log('NEW B', basedNewV3);
 
 			//TODO render points and lines
-			pointObj(newV3.toArray())
-			const arrowHelper = pointObj(newV3.toArray());
-			this.scene.add( arrowHelper );
+			this._renderHelperLabel(newV3, 'angle')
+			// const arrowHelper = pointObj(newV3.toArray());
+			// this.scene.add( arrowHelper );
+
+			//temp render guides
+			// this.scene.remove(this.guidesObj);
+
+			this.guidesGeom.setPositions([...fixedCoords.toArray(),...newV3.toArray()])
+
+			this.scene.add(this.guidesObj);
 		
 		}
 
