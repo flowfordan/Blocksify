@@ -161,6 +161,15 @@ class SnapManager {
 	private _snapToAngle = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined) => {
 		const VECTOR = new Vector3(1, 0, 0);
 		if (fixedCoords) {
+
+			//SAFETY check if angles are not chosen
+			//but snapping is active
+			const closestV3collection: V3Collection = toolsState.anglesSnapV3s;
+			if (Object.keys(closestV3collection).length === 0) {
+				console.log('Angles for snapping werent chosen, angle snap is off');
+				return;
+			}
+
 			const basedV3 = fixedCoords
 			.clone()
 			.add(
@@ -176,19 +185,11 @@ class SnapManager {
 			const isYDirectionPositive = pointerCoords.z > fixedCoords.z;
 			console.log('POSITIVE', isYDirectionPositive);
 
-			//for 90 snap
-			//[0, 90, 180] - [(-1, 0, 0), (0, 0, -1), (0, 0, 1), (1, 0, 0)]
-
 			type V3Collection = {
 				[key: number]: Array<Vector3>
 			}
 
 			
-			const closestV3collection: V3Collection = toolsState.allAnglesSnapV3s;
-			// 	0: [new Vector3(-1, 0, 0), new Vector3(-1, 0, 0)],
-			// 	90: [new Vector3(0, 0, 1), new Vector3(0, 0, -1)], 
-			// 	180: [new Vector3(1, 0, 0), new Vector3(1, 0, 0)]
-			// }
 
 			let closestV3 = new Vector3();
 			let threshold = 360;

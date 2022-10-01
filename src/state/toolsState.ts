@@ -51,9 +51,7 @@ class ToolsState{
 
     drawingTools:Array<ITool>;
 
-	allAnglesSnapV3s: AnglePts;
-	currentAnglesSnapV3: AnglePts | null;
-	angles: Array<number>;
+	anglesSnapV3s: AnglePts;
 
 	helpersOptions: HelperOptions;
 	isHelpersActive: HelpersActivity | null;
@@ -69,9 +67,7 @@ class ToolsState{
 		this.helpersOptions = helpersDefPreset as HelperOptions;
 		this.isHelpersActive = null;
 
-		this.angles = [15];
-		this.allAnglesSnapV3s = createBaseV3s(this.angles);
-		this.currentAnglesSnapV3 = null;
+		this.anglesSnapV3s = createBaseV3s(this.helpersOptions[1].numbers);
 
 		this._updHelpersActivity();
 
@@ -124,6 +120,8 @@ class ToolsState{
 					this.helpersOptions[idx].numbers.splice(numIdx, 1)
 				}
 			}
+			console.log(toJS(this.helpersOptions[idx].numbers))
+			this.anglesSnapV3s = createBaseV3s(this.helpersOptions[idx].numbers);
 		}
 	}
 
