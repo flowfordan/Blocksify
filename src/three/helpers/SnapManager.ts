@@ -21,7 +21,7 @@ class SnapManager {
 
 	constructor(scene: THREE.Scene){
 		this.scene = scene;
-		this.options = sceneState.helpersOptions;
+		this.options = toolsState.helpersOptions;
 
 		const snapsArray: Array<SnapType> = ['grid', 'angle', 'step'];
 		const statusPreset: SnapStatus = {

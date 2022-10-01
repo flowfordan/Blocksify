@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import styles from "./HelpersMenu.module.css";
 
-import { sceneState } from '../../state';
+import { toolsState } from '../../state';
 import { observer } from "mobx-react-lite";
 
 interface HelpersMenuProps {
@@ -10,20 +10,20 @@ interface HelpersMenuProps {
  
 const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 
-	const helperOptions = sceneState.helpersOptions;
+	const helperOptions = toolsState.helpersOptions;
 
 	const handleActiveToggle = (helperID: number) => {
-		sceneState.toggleHelperActive(helperID);
+		toolsState.toggleHelperActive(helperID);
 	}
 
 	const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number) => {
 		const newValue = Number(e.target.value);
-		sceneState.setHelperValue(itemId, newValue);
+		toolsState.setHelperValue(itemId, newValue);
 	}
 
 	const handleCollectionChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number, value: number) => {
 		const isIncluded = e.target.checked;
-		sceneState.setValuesCollection(itemId, value, isIncluded);
+		toolsState.setValuesCollection(itemId, value, isIncluded);
 	}
 
 	const buildItems = (type: string) => {
