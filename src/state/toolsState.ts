@@ -1,4 +1,4 @@
-import { AnglePts, constructBaseV3Variants } from './../three/helpers/constructBaseV3';
+import { AnglePts, createBaseV3s } from '../three/helpers/createBaseV3s';
 import { makeAutoObservable, toJS} from "mobx";
 
 enum EToolName {
@@ -28,9 +28,9 @@ class ToolsState{
             {id: 2, name: EToolName.Polygon, active: false}
         ]
 
-		this.angles = [45];
+		this.angles = [15];
 
-		this.allAnglesSnapV3s = constructBaseV3Variants(this.angles);
+		this.allAnglesSnapV3s = createBaseV3s(this.angles);
 		this.currentAnglesSnapV3 = null;
 
         makeAutoObservable(this);

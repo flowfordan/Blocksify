@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, toolsState } from '../../state';
 import { getLineMat, pointObj } from '../objs3d';
-import { constructBaseV3Variants } from './constructBaseV3';
+import { createBaseV3s } from './createBaseV3s';
 
 //new instance is created when Tool's startDrawing() called
 class SnapManager {
@@ -173,16 +173,8 @@ class SnapManager {
 			const currentAngleDeg = currentAngleRad * (180/(Math.PI));
 			console.log('ANGLE', currentAngleDeg);
 
-			const step = 90;
 			const isYDirectionPositive = pointerCoords.z > fixedCoords.z;
-			const newBasedV3 = 0
 			console.log('POSITIVE', isYDirectionPositive);
-
-			//rotation TEST
-			const AXE_VECTOR = new Vector3(0, 1, 0);
-
-			//normalize the direction vector (convert to vector of length 1)
-			AXE_VECTOR.normalize();
 
 			//for 90 snap
 			//[0, 90, 180] - [(-1, 0, 0), (0, 0, -1), (0, 0, 1), (1, 0, 0)]
@@ -240,11 +232,6 @@ class SnapManager {
 
 			//TODO render points and lines
 			this._renderHelperLabel(newV3, 'angle')
-			// const arrowHelper = pointObj(newV3.toArray());
-			// this.scene.add( arrowHelper );
-
-			//temp render guides
-			// this.scene.remove(this.guidesObj);
 
 			this.guidesGeom.setPositions([...fixedCoords.toArray(),...newV3.toArray()])
 
