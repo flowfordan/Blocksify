@@ -23,17 +23,7 @@ class SnapManager {
 		this.scene = scene;
 		this.options = toolsState.helpersOptions;
 
-		const snapsArray: Array<SnapType> = ['grid', 'angle', 'step'];
-		const statusPreset: SnapStatus = {
-			isActive: false, 
-			snappedCoords: new Vector3(), 
-			distToOrigin: Infinity}
-		const defaultSnapOptions: any = {};
-		for(let i of snapsArray){
-			console.log(statusPreset)
-			defaultSnapOptions[i] = Object.assign({}, statusPreset);
-		}
-		this.snapOptions = Object.assign({}, defaultSnapOptions);
+		this.snapOptions = this._loadInitSnapOptions();
 
 		this.labelMaterial = new THREE.PointsMaterial( { color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true} )
 		this.labelMaterial.depthWrite = false;
@@ -46,10 +36,6 @@ class SnapManager {
 		this.guidesMat = getLineMat(0xFF2F2F);
 		this.guidesGeom = new LineGeometry();
 		this.guidesObj = new Line2(this.guidesGeom, this.guidesMat);
-
-		//constructBaseV3Variants();
-
-		this._constructSnapOptions();
 
 		const BASE_VECTOR = new Vector3(1, 0, 1);
 
@@ -263,13 +249,34 @@ class SnapManager {
 		this.scene.add( this.renderLabel);
 	}
 
-	private _constructSnapOptions = () => {
-		for(let item of this.options){
+  private _loadInitSnapOptions = (): SnapOptions => {
+    const snapsArray: Array<SnapType> = ['grid', 'angle', 'step'];
+
+		const statusPreset: SnapStatus = {
+			isActive: false, 
+			snappedCoords: new Vector3(), 
+			distToOrigin: Infinity
+    }
+
+		const defaultSnapOptions: any = {};
+  
+		for(let i of snapsArray){
+			console.log(statusPreset)
+			defaultSnapOptions[i] = {...statusPreset};
+		}
+
+		const snapOptions: any = {...defaultSnapOptions};
+
+    for(let item of this.options){
 			if(item.type === 'snap'){
-				(this.snapOptions as SnapOptions)[item.name as SnapType].isActive = item.isActive;
+				(snapOptions as SnapOptions)[item.name as SnapType].isActive = item.isActive;
+        (snapOptions as SnapOptions)[item.name as SnapType].snappedCoords = new Vector3();
+        (snapOptions as SnapOptions)[item.name as SnapType].distToOrigin = Infinity;
 			}
 		}
-	}
+
+    return snapOptions;
+  }
 
 	resetSnap = () => {
 		this._removeRenderedLabels();
