@@ -25,6 +25,8 @@ class SnapManager {
 
 		this.snapOptions = this._loadInitSnapOptions();
 
+
+    //LABELS - shows snapped points
 		this.labelMaterial = new THREE.PointsMaterial( { color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true} )
 		this.labelMaterial.depthWrite = false;
 		this.labelMaterial.depthTest = false;
@@ -32,38 +34,27 @@ class SnapManager {
 
 		this.renderLabel = new THREE.Points( this.renderGeom, this.labelMaterial );
 
-		//GUIDES
+		//GUIDES - lines that shows snapped angle
 		this.guidesMat = getLineMat(0xFF2F2F);
 		this.guidesGeom = new LineGeometry();
 		this.guidesObj = new Line2(this.guidesGeom, this.guidesMat);
-
-		const BASE_VECTOR = new Vector3(1, 0, 1);
-
-		//normalize the direction vector (convert to vector of length 1)
-		BASE_VECTOR.normalize();
-
-		const origin = new THREE.Vector3( 0, 0, 0 );
-		const length = 20;
-		const hex = 0x000000;
-
-		const arrowHelper = new THREE.ArrowHelper( BASE_VECTOR, origin, length, hex );
-		this.scene.add( arrowHelper );
 	}
 
 
-	snapToCoords = (currentCoords: THREE.Vector3, toolState = 1, lastCoords?: THREE.Vector3):THREE.Vector3 => {
+  //TODO see about performance when angle snap small and mouse moving fast
+	snapToCoords = (pointerCoords: THREE.Vector3, toolState = 1, lastCoords?: THREE.Vector3):THREE.Vector3 => {
 		console.log('OPTIONS',this.snapOptions)
 		for(let key in this.snapOptions!){
-			(this.snapOptions as SnapOptions)[key as SnapType].snappedCoords = currentCoords;
+			(this.snapOptions as SnapOptions)[key as SnapType].snappedCoords = pointerCoords;
 		}
 		
-		this._snapToGrid(currentCoords);
+		this._snapToGrid(pointerCoords);
 		if(toolState > 1){
-			this._snapToStep(currentCoords, lastCoords);
-			this._snapToAngle(currentCoords, lastCoords);
+			this._snapToStep(pointerCoords, lastCoords);
+			this._snapToAngle(pointerCoords, lastCoords);
 		}
 
-		let newCoords = currentCoords;
+		let newCoords = pointerCoords;
 		let distanceToPointer = Infinity;
 		let finalSnapType: string = '';
 		//iterate snapOptions and reassign if needed
@@ -128,7 +119,9 @@ class SnapManager {
 			const snapDistance = snapsAmount * snapValue;
 
 			newCoords = new THREE.Vector3()
-			newCoords.subVectors(pointerCoords, fixedCoords).setLength(snapDistance).add(fixedCoords);
+			newCoords.subVectors(pointerCoords, fixedCoords) //
+      .setLength(snapDistance)
+      .add(fixedCoords);
 			
 			console.log('step END', newCoords)
 
@@ -220,7 +213,14 @@ class SnapManager {
 			//TODO render points and lines
 			this._renderHelperLabel(newV3, 'angle')
 
-			this.guidesGeom.setPositions([...fixedCoords.toArray(),...newV3.toArray()])
+      //temp render line parallel to snapped angle
+      const guideV3 = new THREE.Vector3()
+			guideV3.subVectors(newV3, fixedCoords) //newV3 - fixed
+      .setLength(10000) //TODO define number, infinite?
+      .add(fixedCoords);
+
+      console.log(guideV3)
+			this.guidesGeom.setPositions([...fixedCoords.toArray(),...guideV3.toArray()])
 
 			this.scene.add(this.guidesObj);
 		
@@ -290,7 +290,7 @@ class SnapManager {
 	}
 
 	private _removeRenderedLabels = () => {
-		this.scene.remove( this.renderLabel);
+		this.scene.remove(this.renderLabel);
 	}
 	
 }
