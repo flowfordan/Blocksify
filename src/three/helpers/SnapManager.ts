@@ -15,6 +15,11 @@ type RenderedGuidesOptions = {
     form: Line2;
     geometry: LineGeometry;
     material: LineMaterial;
+  },
+  mainLine: {
+    form: Line2;
+    geometry: LineGeometry;
+    material: LineMaterial;
   }
 }
 
@@ -231,14 +236,30 @@ class SnapManager {
 			case 'angle':
         this.renderedGuidesOptions.points.material.color = new THREE.Color( 0x5CC6FF );
         if(fixedCoords){
+          console.log('FIXED', fixedCoords);
+          const guideDist = 10000;
           //temp render line parallel to snapped angle
           const guideV3 = new THREE.Vector3()
           guideV3.subVectors(coords, fixedCoords) //newV3 - fixed
-          .setLength(10000) //TODO define number, infinite?
+          .setLength(guideDist) //TODO define number, infinite?
+          .add(fixedCoords);
+          
+          const extGuideV3 = fixedCoords.clone().lerp(guideV3, -1)
+          
+          this.renderedGuidesOptions.lines.geometry.setPositions([...extGuideV3.toArray(),...guideV3.toArray()])
+
+          //render North-South base line
+          const baseV3 = new Vector3(1, 0, 0);
+          baseV3.setLength(guideDist)
           .add(fixedCoords);
 
-          this.renderedGuidesOptions.lines.geometry.setPositions([...fixedCoords.toArray(),...guideV3.toArray()])
+          const extBaseV3 = fixedCoords.clone().lerp(baseV3, -1)
+
+          this.renderedGuidesOptions.mainLine.geometry.setPositions([...extBaseV3.toArray(),...baseV3.toArray()])
+
+
           this.scene.add(this.renderedGuidesOptions.lines.form);
+          this.scene.add(this.renderedGuidesOptions.mainLine.form);
         }
 				break;
 			case '':
@@ -292,6 +313,11 @@ class SnapManager {
         form: new Line2(),
         geometry: new LineGeometry(),
         material: getLineMat(0xFF2F2F),
+      },
+      mainLine: {
+        form: new Line2(),
+        geometry: new LineGeometry(),
+        material: getLineMat(0xFF8383, 2, false, 0.8),
       }
     }
     guidesOptions.points.material.depthWrite = false;
@@ -299,6 +325,7 @@ class SnapManager {
 
     guidesOptions.points.form = new THREE.Points( guidesOptions.points.geometry, guidesOptions.points.material );
     guidesOptions.lines.form = new Line2(guidesOptions.lines.geometry, guidesOptions.lines.material);
+    guidesOptions.mainLine.form = new Line2(guidesOptions.mainLine.geometry, guidesOptions.mainLine.material);
     
     return guidesOptions;
   }
@@ -317,6 +344,7 @@ class SnapManager {
 	private _removeRenderedLabels = () => {
     this.scene.remove(this.renderedGuidesOptions.lines.form);
     this.scene.remove(this.renderedGuidesOptions.points.form);
+    this.scene.remove(this.renderedGuidesOptions.mainLine.form);
 	}
 	
 }
