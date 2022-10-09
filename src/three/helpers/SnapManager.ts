@@ -43,7 +43,12 @@ class SnapManager {
 
   //TODO see about performance when angle snap small and mouse moving fast
 	snapToCoords = (pointerCoords: THREE.Vector3, toolState = 1, lastCoords?: THREE.Vector3):THREE.Vector3 => {
-		console.log('OPTIONS',this.snapOptions)
+    //return if non of snapping is active
+    if(Object.values(this.snapOptions).every(o => o.isActive === false)){
+      return pointerCoords;
+    }
+    
+    console.time("snapping time");
 		for(let key in this.snapOptions!){
 			(this.snapOptions as SnapOptions)[key as SnapType].snappedCoords = pointerCoords;
 		}
@@ -73,7 +78,7 @@ class SnapManager {
 		}
 		//call helpers render
 		this._renderHelperLabel(newCoords, finalSnapType, lastCoords);
-
+    console.timeEnd("snapping time");
 		return newCoords;
 
 	}
