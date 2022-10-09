@@ -5,19 +5,26 @@ import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, toolsStat
 import { getLineMat, pointObj } from '../objs3d';
 import { createBaseV3s } from './createBaseV3s';
 
+type RenderedGuidesOptions = {
+  points: {
+    form: THREE.Points;
+    geometry: THREE.BufferGeometry;
+    material: THREE.PointsMaterial;
+  },
+  lines: {
+    form: Line2;
+    geometry: LineGeometry;
+    material: LineMaterial;
+  }
+}
+
 //new instance is created when Tool's startDrawing() called
 class SnapManager {
 	options: HelperOptions;
 	snapOptions: SnapOptions;
-
 	scene: THREE.Scene;
-	renderLabel:THREE.Points;
-	labelMaterial: THREE.PointsMaterial;
-	renderGeom: THREE.BufferGeometry;
 
-	guidesObj: Line2;
-	guidesMat: LineMaterial;
-	guidesGeom: LineGeometry;
+  renderedGuidesOptions: RenderedGuidesOptions;
 
 	constructor(scene: THREE.Scene){
 		this.scene = scene;
@@ -25,19 +32,9 @@ class SnapManager {
 
 		this.snapOptions = this._loadInitSnapOptions();
 
-
-    //LABELS - shows snapped points
-		this.labelMaterial = new THREE.PointsMaterial( { color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true} )
-		this.labelMaterial.depthWrite = false;
-		this.labelMaterial.depthTest = false;
-		this.renderGeom = new THREE.BufferGeometry();
-
-		this.renderLabel = new THREE.Points( this.renderGeom, this.labelMaterial );
-
-		//GUIDES - lines that shows snapped angle
-		this.guidesMat = getLineMat(0xFF2F2F);
-		this.guidesGeom = new LineGeometry();
-		this.guidesObj = new Line2(this.guidesGeom, this.guidesMat);
+    //GUIDES - shows snapped points and lines for angles
+    //TODO load when Scene is building
+    this.renderedGuidesOptions = this._loadInitGuidesOptions();
 	}
 
 
@@ -226,13 +223,13 @@ class SnapManager {
 	private _renderHelperLabel = (coords: THREE.Vector3, finalSnapType: string, fixedCoords?: THREE.Vector3) => {
 		switch(finalSnapType){
 			case 'grid':
-				this.labelMaterial.color = new THREE.Color( 0xA7A7A7 );
+        this.renderedGuidesOptions.points.material.color = new THREE.Color( 0xA7A7A7 );
 				break;
 			case 'step':
-				this.labelMaterial.color = new THREE.Color( 0x5CC6FF );
+        this.renderedGuidesOptions.points.material.color = new THREE.Color( 0x5CC6FF );
 				break;
-			case 'angle':        
-        this.labelMaterial.color = new THREE.Color( 0x5CC6FF );
+			case 'angle':
+        this.renderedGuidesOptions.points.material.color = new THREE.Color( 0x5CC6FF );
         if(fixedCoords){
           //temp render line parallel to snapped angle
           const guideV3 = new THREE.Vector3()
@@ -240,22 +237,21 @@ class SnapManager {
           .setLength(10000) //TODO define number, infinite?
           .add(fixedCoords);
 
-          this.guidesGeom.setPositions([...fixedCoords.toArray(),...guideV3.toArray()])
-
-          this.scene.add(this.guidesObj);
+          this.renderedGuidesOptions.lines.geometry.setPositions([...fixedCoords.toArray(),...guideV3.toArray()])
+          this.scene.add(this.renderedGuidesOptions.lines.form);
         }
-
 				break;
 			case '':
 				return
 			default:
-				this.labelMaterial.color = new THREE.Color( 0xA7A7A7 );
+        this.renderedGuidesOptions.points.material.color = new THREE.Color( 0xA7A7A7 );
 		}
 		//helper object - point
-		this.renderGeom.setFromPoints([coords])
-		this.scene.add( this.renderLabel);
+    this.renderedGuidesOptions.points.geometry.setFromPoints([coords]);
+    this.scene.add(this.renderedGuidesOptions.points.form);
 	}
 
+  //INITIALIZATION
   private _loadInitSnapOptions = (): SnapOptions => {
     const snapsArray: Array<SnapType> = ['grid', 'angle', 'step'];
 
@@ -285,6 +281,28 @@ class SnapManager {
     return snapOptions;
   }
 
+  private _loadInitGuidesOptions = (): RenderedGuidesOptions => {
+    const guidesOptions = {
+      points: {
+        form: new THREE.Points(),
+        geometry: new THREE.BufferGeometry(),
+        material: new THREE.PointsMaterial( { color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true} ),
+      },
+      lines: {
+        form: new Line2(),
+        geometry: new LineGeometry(),
+        material: getLineMat(0xFF2F2F),
+      }
+    }
+    guidesOptions.points.material.depthWrite = false;
+    guidesOptions.points.material.depthTest = false;
+
+    guidesOptions.points.form = new THREE.Points( guidesOptions.points.geometry, guidesOptions.points.material );
+    guidesOptions.lines.form = new Line2(guidesOptions.lines.geometry, guidesOptions.lines.material);
+    
+    return guidesOptions;
+  }
+
 	resetSnap = () => {
 		this._removeRenderedLabels();
 		for(let item of this.options){
@@ -297,8 +315,8 @@ class SnapManager {
 	}
 
 	private _removeRenderedLabels = () => {
-		this.scene.remove(this.renderLabel);
-    this.scene.remove(this.guidesObj);
+    this.scene.remove(this.renderedGuidesOptions.lines.form);
+    this.scene.remove(this.renderedGuidesOptions.points.form);
 	}
 	
 }
