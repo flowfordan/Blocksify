@@ -76,9 +76,7 @@ class SnapManager {
 					distanceToPointer = this.snapOptions[key as SnapType].distToOrigin;
 					newCoords = this.snapOptions[key as SnapType].snappedCoords;
 					finalSnapType = key;
-
-					console.log(finalSnapType )
-					console.log(newCoords)
+          this.snapOptions[key as SnapType].isCurrent = true;
 				}
 			}
 		}
@@ -170,10 +168,8 @@ class SnapManager {
 
 			const currentAngleRad = this.baseVector.angleTo(basedV3);
 			const currentAngleDeg = currentAngleRad * (180/(Math.PI));
-			console.log('ANGLE', currentAngleDeg);
 
 			const isYDirectionPositive = pointerCoords.z > fixedCoords.z;
-			console.log('POSITIVE', isYDirectionPositive);
 
 			type V3Collection = {
 				[key: number]: Array<Vector3>
@@ -188,8 +184,6 @@ class SnapManager {
 				//TODO rename stuff
 				const newThreshold = Math.abs(currentAngleDeg - parseInt(key));
 
-				console.log('CURRENT ANGLE', currentAngleDeg);
-				console.log('T', newThreshold);
 				if( newThreshold < threshold){
 					threshold = newThreshold;
 					//check 'side' from main NJS Vector
@@ -200,13 +194,8 @@ class SnapManager {
 					} else {
 						closestV3 = closestV3collection[key as unknown as keyof V3Collection][1];
 					}
-					console.log('ANGLE KEY', key);
-					console.log(closestV3.x, closestV3.z);
 				}
-				console.log('RESULT TRESHOLD', threshold)
 			}
-
-			console.log('CLOSEST V3', closestV3);
 
 			//longing base UNIT V3 to needed distance
 			const basedNewV3 = closestV3.clone().setLength (fixedCoords.distanceTo(pointerCoords));
@@ -215,9 +204,6 @@ class SnapManager {
 			const newV3 = basedNewV3
 			.clone()
 			.add(fixedCoords);
-
-			console.log('NEW', newV3);
-			console.log('NEW B', basedNewV3);
 
       // saving results to obj
       const distanceToCurrent = pointerCoords.distanceTo(newV3);
@@ -282,13 +268,13 @@ class SnapManager {
 		const statusPreset: SnapStatus = {
 			isActive: false, 
 			snappedCoords: new Vector3(), 
-			distToOrigin: Infinity
+			distToOrigin: Infinity,
+      isCurrent: false,
     }
 
 		const defaultSnapOptions: any = {};
   
 		for(let i of snapsArray){
-			console.log(statusPreset)
 			defaultSnapOptions[i] = {...statusPreset};
 		}
 
@@ -299,6 +285,7 @@ class SnapManager {
 				(snapOptions as SnapOptions)[item.name as SnapType].isActive = item.isActive;
         (snapOptions as SnapOptions)[item.name as SnapType].snappedCoords = new Vector3();
         (snapOptions as SnapOptions)[item.name as SnapType].distToOrigin = Infinity;
+        (snapOptions as SnapOptions)[item.name as SnapType].isCurrent = false;
 			}
 		}
 
@@ -340,6 +327,7 @@ class SnapManager {
 				(this.snapOptions as SnapOptions)[item.name as SnapType].isActive = item.isActive;
 				(this.snapOptions as SnapOptions)[item.name as SnapType].distToOrigin = Infinity;
 				(this.snapOptions as SnapOptions)[item.name as SnapType].snappedCoords = new Vector3();
+        (this.snapOptions as SnapOptions)[item.name as SnapType].isCurrent = false;
 			}
 		}
 	}

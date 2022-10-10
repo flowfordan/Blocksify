@@ -32,23 +32,48 @@ class TagsManager {
 	}
 
 	renderTag = (v0: Array<THREE.Vector3>, v1: THREE.Vector3) => {
+    //TODO check if angle snap win
+    const angleSnap = true;
+
     const line = new Vector3();
     line.subVectors(v0[0], v1)
     console.log(this.baseDirection.angleTo(line)  * (180/(Math.PI)))
 
 		this.scene.remove(...this.toolTags.lengths, ...this.toolTags.angles);
 
+    //lengths tags
 		for(let i=0; i<v0.length; i++){
-			this.tagContainers[i] = document.createElement('div');
-			this.tagContainers[i].className = 'label';
-			this.tagContainers[i].style.marginTop = '-1em';
-			this.toolTags[i] = new CSS2DObject( this.tagContainers[i] );
+			this.tagContainers.lengths[i] = document.createElement('div');
+			this.tagContainers.lengths[i].className = 'label';
+			this.tagContainers.lengths[i].style.marginTop = '-1em';
+			this.toolTags.lengths[i] = new CSS2DObject( this.tagContainers.lengths[i] );
 
-			this.tagContainers[i].textContent = `${v0[i].distanceTo(v1).toFixed(2)} m`;
-			this.toolTags[i].position.lerpVectors(v0[i], v1, 0.5)
+			this.tagContainers.lengths[i].textContent = `${v0[i].distanceTo(v1).toFixed(2)} m`;
+			this.toolTags.lengths[i].position.lerpVectors(v0[i], v1, 0.5)
 		}
+    //angles tags
+    if(angleSnap){
+      const currentLines: Array<Vector3> = []
+      for(let i=0; i<v0.length; i++){
+        currentLines[i] = new Vector3;
+        currentLines[i].subVectors(v0[i], v1);
+        const angleDeg = this.baseDirection.angleTo(currentLines[i])  * (180/(Math.PI));
 
-		this.scene.add(...this.toolTags);
+        this.tagContainers.angles[i] = document.createElement('div');
+        this.tagContainers.angles[i].className = 'label';
+        this.tagContainers.angles[i].style.marginTop = '-3em';
+        this.toolTags.angles[i] = new CSS2DObject( this.tagContainers.angles[i] );
+
+        this.tagContainers.angles[i].textContent = `${angleDeg.toFixed(0)} °`;
+
+        // const renderPos = currentLines[i].clone().
+        this.toolTags.angles[i].position.lerpVectors(v0[i], v1, -0.02)
+      }
+
+      this.scene.add(...this.toolTags.angles)
+    }
+
+		this.scene.add(...this.toolTags.lengths);
 	}
 
 	stopRender = () => {
