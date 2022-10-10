@@ -80,7 +80,7 @@ export class Line extends Tool{
             this.guideObj.line.geom!.setPositions(current2ptLineCoords);
             this.guideObj.line.form!.computeLineDistances();
 
-			this.tagsManager.renderTag([new Vector3(...current2ptLineCoords.slice(0,3))], this.currentPointerCoord);
+			    this.tagsManager.renderTag([new Vector3(...current2ptLineCoords.slice(0,3))], this.currentPointerCoord);
         }
     }
 

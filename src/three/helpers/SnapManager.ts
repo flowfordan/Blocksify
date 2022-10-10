@@ -29,6 +29,8 @@ class SnapManager {
 	snapOptions: SnapOptions;
 	scene: THREE.Scene;
 
+  baseVector: THREE.Vector3;
+
   renderedGuidesOptions: RenderedGuidesOptions;
 
 	constructor(scene: THREE.Scene){
@@ -36,6 +38,8 @@ class SnapManager {
 		this.options = toolsState.helpersOptions;
 
 		this.snapOptions = this._loadInitSnapOptions();
+
+    this.baseVector = sceneState.baseDirection;
 
     //GUIDES - shows snapped points and lines for angles
     //TODO load when Scene is building
@@ -146,7 +150,6 @@ class SnapManager {
 	}
 
 	private _snapToAngle = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined) => {
-		const VECTOR = new Vector3(1, 0, 0);
 		if (fixedCoords) {
 
 			//SAFETY check if angles are not chosen
@@ -165,7 +168,7 @@ class SnapManager {
 				.multiplyScalar(-1)
 			);
 
-			const currentAngleRad = VECTOR.angleTo(basedV3);
+			const currentAngleRad = this.baseVector.angleTo(basedV3);
 			const currentAngleDeg = currentAngleRad * (180/(Math.PI));
 			console.log('ANGLE', currentAngleDeg);
 

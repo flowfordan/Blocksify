@@ -1,25 +1,43 @@
 import * as THREE from "three";
+import { Vector3 } from "three";
 import { CSS2DObject } from "three/examples/jsm/renderers/CSS2DRenderer";
+import { sceneState } from "../../state";
 
 class TagsManager {
-	tagContainers: Array<HTMLDivElement>;
+	// tagContainers: Array<HTMLDivElement>;
 	scene: THREE.Scene;
-	toolTags: Array<CSS2DObject>;
+	toolTags: {
+    lengths: Array<CSS2DObject>,
+    angles: Array<CSS2DObject>,
+  };
+
+  tagContainers: {
+    lengths: Array<HTMLDivElement>,
+    angles: Array<HTMLDivElement>,
+  }
+
+  baseDirection: THREE.Vector3;
 
 	//TODO: call new TagManager in StartDrawing()
 	//create CSS2D object in constructor
 	constructor(scene: THREE.Scene){
 		this.scene = scene;
+    this.baseDirection = sceneState.baseDirection;
 
 		//container options
-		this.tagContainers = [];
+		this.tagContainers = {lengths: [], angles: []};
 
 		//tag options
-		this.toolTags = [];
+		this.toolTags = {lengths: [], angles: []};
 	}
 
 	renderTag = (v0: Array<THREE.Vector3>, v1: THREE.Vector3) => {
-		this.scene.remove(...this.toolTags);
+    const line = new Vector3();
+    line.subVectors(v0[0], v1)
+    console.log(this.baseDirection.angleTo(line)  * (180/(Math.PI)))
+
+		this.scene.remove(...this.toolTags.lengths, ...this.toolTags.angles);
+
 		for(let i=0; i<v0.length; i++){
 			this.tagContainers[i] = document.createElement('div');
 			this.tagContainers[i].className = 'label';
@@ -34,7 +52,7 @@ class TagsManager {
 	}
 
 	stopRender = () => {
-		this.scene.remove(...this.toolTags);
+		this.scene.remove(...this.toolTags.lengths, ...this.toolTags.angles);
 	}
 }
 
