@@ -28,6 +28,7 @@ class SnapManager {
 	options: HelperOptions;
 	snapOptions: SnapOptions;
 	scene: THREE.Scene;
+  currentSnapping: string | null;
 
   baseVector: THREE.Vector3;
 
@@ -36,6 +37,7 @@ class SnapManager {
 	constructor(scene: THREE.Scene){
 		this.scene = scene;
 		this.options = toolsState.helpersOptions;
+    this.currentSnapping = null;
 
 		this.snapOptions = this._loadInitSnapOptions();
 
@@ -72,17 +74,22 @@ class SnapManager {
 		for(let key in this.snapOptions! as SnapOptions){
       //iterate only active snaps
 			if(this.snapOptions[key as SnapType].isActive){
+
 				if(this.snapOptions[key as SnapType].distToOrigin <= distanceToPointer){
 					distanceToPointer = this.snapOptions[key as SnapType].distToOrigin;
 					newCoords = this.snapOptions[key as SnapType].snappedCoords;
 					finalSnapType = key;
+          //set current 'chosen' snap type
           this.snapOptions[key as SnapType].isCurrent = true;
+
+          this.currentSnapping = key;
 				}
 			}
 		}
 		//call helpers render
 		this._renderHelperLabel(newCoords, finalSnapType, lastCoords);
     console.timeEnd("snapping time");
+    
 		return newCoords;
 
 	}
@@ -246,7 +253,6 @@ class SnapManager {
 
           this.renderedGuidesOptions.mainLine.geometry.setPositions([...extBaseV3.toArray(),...baseV3.toArray()])
 
-
           this.scene.add(this.renderedGuidesOptions.lines.form);
           this.scene.add(this.renderedGuidesOptions.mainLine.form);
         }
@@ -322,6 +328,7 @@ class SnapManager {
 
 	resetSnap = () => {
 		this._removeRenderedLabels();
+    this.currentSnapping = null;
 		for(let item of this.options){
 			if(item.type === 'snap'){
 				(this.snapOptions as SnapOptions)[item.name as SnapType].isActive = item.isActive;

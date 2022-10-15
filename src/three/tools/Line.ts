@@ -51,17 +51,13 @@ export class Line extends Tool{
 
         
         if(this.toolState === 2){
-            console.log('Line: upd')
-
-
-			
-            //UPDATING LINE COORDS
-            //cut pushed to right amount - 1 chunk before new push
-            if(this.lineMode === 0){
-                this.objCoords.line.length = 3;            
-            } else if (this.lineMode === 1){
-                this.objCoords.line.length = this.lineParts * 3
-            }
+          //UPDATING LINE COORDS
+          //cut pushed to right amount - 1 chunk before new push
+          if(this.lineMode === 0){
+              this.objCoords.line.length = 3;            
+          } else if (this.lineMode === 1){
+              this.objCoords.line.length = this.lineParts * 3
+          }
 
 
 
@@ -80,7 +76,9 @@ export class Line extends Tool{
             this.guideObj.line.geom!.setPositions(current2ptLineCoords);
             this.guideObj.line.form!.computeLineDistances();
 
-			    this.tagsManager.renderTag([new Vector3(...current2ptLineCoords.slice(0,3))], this.currentPointerCoord);
+            console.log('SNAP OPTION', this.snapManager!.snapOptions);
+
+			    this.tagsManager.renderTag([new Vector3(...current2ptLineCoords.slice(0,3))], this.currentPointerCoord, this.snapManager!.snapOptions);
         }
     }
 
