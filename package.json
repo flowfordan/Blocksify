@@ -1,7 +1,7 @@
 {
-  "name": "react-ts-three-app",
+  "name": "blocksify",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.44",
@@ -14,11 +14,9 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.1",
     "three": "^0.139.2",
     "three-fatline": "^0.5.3",
-    "typescript": "^4.6.3",
-    "web-vitals": "^2.1.4"
+    "typescript": "^4.6.3"
   },
   "scripts": {
     "start": "react-scripts start",
