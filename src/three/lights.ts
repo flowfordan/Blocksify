@@ -13,7 +13,7 @@ dirLight.shadow.mapSize.width = 4096;
 dirLight.shadow.mapSize.height = 4096;
 
 //area where shadows are working
-var side = 100;
+const side = 100;
 dirLight.shadow.camera.top = side;
 dirLight.shadow.camera.bottom = -side;
 dirLight.shadow.camera.left = side;

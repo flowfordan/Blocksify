@@ -26,20 +26,19 @@ export const Desk = (props:any): JSX.Element => {
   useEffect(() => {
     
     const innerTreeRef = canvasScene.current!;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     threeView = new ThreeView(innerTreeRef);
     
-    resizeObserver.observe(innerTreeRef, {box: 'content-box'});
+    resizeObserver.observe(innerTreeRef, {box: 'content-box', });
 
   }
-  ,[])
+  , [])
   
 
-	return (
-	<div ref={canvasContainer} className={styles.desk}>
-    	<canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>
-	</div>    
-	);
+  return (
+    <div ref={canvasContainer} className={styles.desk}>
+      <canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>
+    </div>    
+  );
 }
 
  

@@ -9,15 +9,15 @@ export const StartPage = (): JSX.Element => {
 
   return (
 
-      <div className={styles.page}>
+    <div className={styles.page}>
 
 
-        <div className={styles.body}>
+      <div className={styles.body}>
           Start Page
-        </div>
-
-
       </div>
+
+
+    </div>
 
   );
 }

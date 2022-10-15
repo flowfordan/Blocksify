@@ -8,44 +8,44 @@ type Coords = {
 }
 class SceneState{
 
-    isFetchingGlobalCoords: boolean;
-    globalCoords: Coords;
-    currentCamera: number;
-    baseDirection: Vector3;
+  isFetchingGlobalCoords: boolean;
+  globalCoords: Coords;
+  currentCamera: number;
+  baseDirection: Vector3;
 
-    constructor(){
+  constructor(){
         
-        this.isFetchingGlobalCoords = true;
-        this.globalCoords = {
-            x: 0.00,
-            y: 0.00,
-            z: 0.00
-        };
-        this.currentCamera = 1;
+    this.isFetchingGlobalCoords = true;
+    this.globalCoords = {
+      x: 0.00,
+      y: 0.00,
+      z: 0.00,
+    };
+    this.currentCamera = 1;
 
-        this.baseDirection = new Vector3(1, 0, 0);
+    this.baseDirection = new Vector3(1, 0, 0);
 
-        makeAutoObservable(this);
+    makeAutoObservable(this);
+  }
+
+  changeCamera = (id: number) => {
+    this.currentCamera = id;
+  }
+
+  toggleCoordsFetching = (status: boolean) => {
+    this.isFetchingGlobalCoords = status;
+    if(!status){
+      this.globalCoords.x = 0;
+      this.globalCoords.y = 0;
+      this.globalCoords.z = 0;
     }
-
-    changeCamera = (id: number) => {
-        this.currentCamera = id;
-    }
-
-    toggleCoordsFetching = (status: boolean) => {
-        this.isFetchingGlobalCoords = status;
-        if(!status){
-            this.globalCoords.x = 0;
-            this.globalCoords.y = 0;
-            this.globalCoords.z = 0;
-        }
-    }
+  }
     
-    setGlobalCoords = (coords: Coords) => {
-        this.globalCoords.x = coords.x;
-        this.globalCoords.y = coords.y;
-        this.globalCoords.z = coords.z;
-    }
+  setGlobalCoords = (coords: Coords) => {
+    this.globalCoords.x = coords.x;
+    this.globalCoords.y = coords.y;
+    this.globalCoords.z = coords.z;
+  }
 }
 
 const sceneState = new SceneState();

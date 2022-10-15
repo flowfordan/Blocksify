@@ -2,7 +2,7 @@
     display: block;
     /* background-color: var(--primary); */
     max-height: 100vh;
-	width: 100vw;
+  width: 100vw;
     /* padding: 10px; */
     /* max-height: 100%; */
 }
@@ -19,8 +19,8 @@
 }
 
 .label {
-	background-color: black;
-	color: white;
+  background-color: black;
+  color: white;
 }
 
 /* canvas{

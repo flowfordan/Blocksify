@@ -20,19 +20,19 @@ type HelperType = 'snap' | 'grid'
 type SnapType = 'step' | 'grid' | 'angle'
 
 interface HelperOption {
-	helperID: number,
-	type: HelperType,
-	name: string,
-	isActive: boolean,
-	value: number,
-	valueName: string,
-	isRange: boolean,
-	rangeMin: number,
-	rangeMax: number,
-	rangeStep: number,
-	isSelection: boolean,
-	variants?: Array<number>,
-	numbers: Array<number>
+  helperID: number,
+  type: HelperType,
+  name: string,
+  isActive: boolean,
+  value: number,
+  valueName: string,
+  isRange: boolean,
+  rangeMin: number,
+  rangeMax: number,
+  rangeStep: number,
+  isSelection: boolean,
+  variants?: Array<number>,
+  numbers: Array<number>
 }
 
 type HelperOptions = Array<HelperOption>;
@@ -40,109 +40,109 @@ type HelperOptions = Array<HelperOption>;
 type SnapStatus = {isActive: boolean, snappedCoords: Vector3, distToOrigin: number, isCurrent: boolean}
 
 type SnapOptions = {
-	[I in SnapType]: SnapStatus;
+  [I in SnapType]: SnapStatus;
 }
 
 type HelpersActivity = {
-	[id: number]: boolean;
+  [id: number]: boolean;
 };
 
 class ToolsState{
 
-    drawingTools:Array<ITool>;
+  drawingTools:Array<ITool>;
 
-	anglesSnapV3s: AnglePts;
+  anglesSnapV3s: AnglePts;
 
-	helpersOptions: HelperOptions;
-	isHelpersActive: HelpersActivity | null;
+  helpersOptions: HelperOptions;
+  isHelpersActive: HelpersActivity | null;
 
-    constructor(){
-        this.drawingTools = [
-            {id: 0, name: EToolName.Line, active: false},
-            {id: 1, name: EToolName.PLine, active: false},
-            {id: 2, name: EToolName.Polygon, active: false}
-        ]
+  constructor(){
+    this.drawingTools = [
+      {id: 0, name: EToolName.Line, active: false,},
+      {id: 1, name: EToolName.PLine, active: false,},
+      {id: 2, name: EToolName.Polygon, active: false,}
+    ]
 
-		/* HELPERS */
-		this.helpersOptions = helpersDefPreset as HelperOptions;
-		this.isHelpersActive = null;
+    /* HELPERS */
+    this.helpersOptions = helpersDefPreset as HelperOptions;
+    this.isHelpersActive = null;
 
-		this.anglesSnapV3s = createBaseV3s(this.helpersOptions[1].numbers);
+    this.anglesSnapV3s = createBaseV3s(this.helpersOptions[1].numbers);
 
-		this._updHelpersActivity();
+    this._updHelpersActivity();
 
-        makeAutoObservable(this);
+    makeAutoObservable(this);
+  }
+
+  //activating defined Tool and deact other Tools
+  setActiveTool = (id: number) => {
+    //find current active, deactivate
+    this.drawingTools.forEach((item, idx, arr) => {
+      if(item.active){
+        arr[idx].active = false;
+      } else if (!item.active && item.id === id){
+        arr[idx].active = true;
+      }
+    })
+  }
+
+  //toggle activity of Helper
+  toggleHelperActive = (id: number) => {
+    const item = this.helpersOptions.find(i => i.helperID === id);
+    if(item){
+      const idx = this.helpersOptions.indexOf(item);
+      this.helpersOptions[idx].isActive = !this.helpersOptions[idx].isActive;
+
+      this._updHelpersActivity(item.helperID);
     }
+  }
 
-	//activating defined Tool and deact other Tools
-    setActiveTool = (id: number) => {
-        //find current active, deactivate
-        this.drawingTools.forEach((item, idx, arr) => {
-            if(item.active){
-                arr[idx].active = false;
-            } else if (!item.active && item.id === id){
-                arr[idx].active = true;
-            }
-        })
+  //set VALUE for concrete numeric option (grid size, step snap val etc)
+  setHelperValue = (id: number, value: number) => {
+    //find helper by id
+    const item = this.helpersOptions.find(i => i.helperID === id);
+    if(item){
+      const idx = this.helpersOptions.indexOf(item);
+      this.helpersOptions[idx].value = value
     }
+  }
 
-	//toggle activity of Helper
-	toggleHelperActive = (id: number) => {
-		const item = this.helpersOptions.find(i => i.helperID === id);
-		if(item){
-			let idx = this.helpersOptions.indexOf(item);
-			this.helpersOptions[idx].isActive = !this.helpersOptions[idx].isActive;
+  //set VALUES for option with mult. variants (angles snap)
+  setValuesCollection = (id:number, value: number, include: boolean) => {
+    const item = this.helpersOptions.find(i => i.helperID === id);
+    if(item){
+      const idx = this.helpersOptions.indexOf(item);
+      if(include){
+        this.helpersOptions[idx].numbers.push(value);
+      } else {
+        const numIdx = this.helpersOptions[idx].numbers.indexOf(value);
+        if(numIdx > -1){
+          this.helpersOptions[idx].numbers.splice(numIdx, 1)
+        }
+      }
+      console.log(toJS(this.helpersOptions[idx].numbers))
+      this.anglesSnapV3s = createBaseV3s(this.helpersOptions[idx].numbers);
+    }
+  }
 
-			this._updHelpersActivity(item.helperID);
-		}
-	}
-
-	//set VALUE for concrete numeric option (grid size, step snap val etc)
-	setHelperValue = (id: number, value: number) => {
-		//find helper by id
-		const item = this.helpersOptions.find(i => i.helperID === id);
-		if(item){
-			let idx = this.helpersOptions.indexOf(item);
-			this.helpersOptions[idx].value = value
-		}
-	}
-
-	//set VALUES for option with mult. variants (angles snap)
-	setValuesCollection = (id:number, value: number, include: boolean) => {
-		const item = this.helpersOptions.find(i => i.helperID === id);
-		if(item){
-			let idx = this.helpersOptions.indexOf(item);
-			if(include){
-				this.helpersOptions[idx].numbers.push(value);
-			} else {
-				const numIdx = this.helpersOptions[idx].numbers.indexOf(value);
-				if(numIdx > -1){
-					this.helpersOptions[idx].numbers.splice(numIdx, 1)
-				}
-			}
-			console.log(toJS(this.helpersOptions[idx].numbers))
-			this.anglesSnapV3s = createBaseV3s(this.helpersOptions[idx].numbers);
-		}
-	}
-
-	//TODO define
-	private _updHelpersActivity = (id?: number) => {
-		//upd exist value in exist obj
-		if (id && this.isHelpersActive) {
-			if(this.isHelpersActive){
-				this.isHelpersActive[id] = !this.isHelpersActive[id];
-			}
-		}
-		//construct new obj if no id provided and no obj
-		//create obj ID:isActive
-		else {
-			let obj: HelpersActivity = {};
-			for(let item of this.helpersOptions){
-				obj[item.helperID] = item.isActive
-			}	
-			this.isHelpersActive = obj;
-		}	
-	}
+  //TODO define
+  private _updHelpersActivity = (id?: number) => {
+    //upd exist value in exist obj
+    if (id && this.isHelpersActive) {
+      if(this.isHelpersActive){
+        this.isHelpersActive[id] = !this.isHelpersActive[id];
+      }
+    }
+    //construct new obj if no id provided and no obj
+    //create obj ID:isActive
+    else {
+      const obj: HelpersActivity = {};
+      for(const item of this.helpersOptions){
+        obj[item.helperID] = item.isActive
+      }  
+      this.isHelpersActive = obj;
+    }  
+  }
 }
 
 const toolsState = new ToolsState();

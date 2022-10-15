@@ -4,59 +4,57 @@ import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 
 const pointObj = (coords: Array<number>) => {
-	let position
+  const position = Float32Array.from(coords);
 
-	position = Float32Array.from(coords);
-
-    let pGeom = new THREE.BufferGeometry();
-    pGeom.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
-    let pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false} );
-    let point = new THREE.Points(pGeom, pMat);
+  const pGeom = new THREE.BufferGeometry();
+  pGeom.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
+  const pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false, } );
+  const point = new THREE.Points(pGeom, pMat);
     
-    return point
+  return point
 };
 
 const V2ArrToNumArr = (arr: Array<Vector2>, baseLevel: number) => {
-	return arr.map(i => {
-		return(
-			[i.toArray()[0], 0-baseLevel, i.toArray()[1]]
-		)
-	}).flat()
+  return arr.map(i => {
+    return(
+      [ i.toArray()[0], 0-baseLevel, i.toArray()[1] ]
+    )
+  }).flat()
 }
 
-const pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false} );
+const pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false, } );
 
 
 //function returning fatline material with given atributes
 const getLineMat = (color = 0xffffff, lineWidth = 2, dash = false, opacity = 1) => {
-	const lineMaterial = new LineMaterial({
-		color: color,
-		linewidth: lineWidth,
-		resolution: new THREE.Vector2(1920, 1080),
-		dashed: dash,
-		dashSize: 8,
-		gapSize: 4,
-		//dashOffset: 25,
-		opacity: opacity
-	
-	});
+  const lineMaterial = new LineMaterial({
+    color: color,
+    linewidth: lineWidth,
+    resolution: new THREE.Vector2(1920, 1080),
+    dashed: dash,
+    dashSize: 8,
+    gapSize: 4,
+    //dashOffset: 25,
+    opacity: opacity,
+  
+  });
 
-	return lineMaterial;
+  return lineMaterial;
 }
 
 const getPolygonMat = () => {
-	const mat = new THREE.MeshBasicMaterial( { 
-		color: new THREE.Color('moccasin'), 
-		side: THREE.DoubleSide, 
-		transparent:true,
-		opacity: 0.5 
-	} );
+  const mat = new THREE.MeshBasicMaterial( { 
+    color: new THREE.Color('moccasin'), 
+    side: THREE.DoubleSide, 
+    transparent:true,
+    opacity: 0.5, 
+  } );
 
-	return mat
+  return mat
 }
 
 
 export {
-	pointObj, pMat, getLineMat,
-	getPolygonMat, V2ArrToNumArr
+  pointObj, pMat, getLineMat,
+  getPolygonMat, V2ArrToNumArr
 }

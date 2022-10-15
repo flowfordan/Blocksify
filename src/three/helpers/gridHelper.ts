@@ -8,11 +8,11 @@ gridHelper.visible = false
 
 
 const getGridHelper = (size: number, name: string) => {
-	const totalSize = 5000;
-	const division = totalSize/size;
-	const helper = new THREE.GridHelper( 5000, division, 0x4AA8FF, 0xC3C3C3 );
-	helper.name = name;
-	return helper
+  const totalSize = 5000;
+  const division = totalSize/size;
+  const helper = new THREE.GridHelper( 5000, division, 0x4AA8FF, 0xC3C3C3 );
+  helper.name = name;
+  return helper
 }
 
 export {gridHelper, getGridHelper}

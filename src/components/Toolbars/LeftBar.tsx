@@ -31,27 +31,27 @@ export const LeftBar = observer((props:any): JSX.Element => {
  
 
   return (
-      <div className={styles.leftBar}>
+    <div className={styles.leftBar}>
 
-        <div className={styles.layersPanel}>
-          <div>Layers</div>
-          <ul className={styles.layersList}>
-            {constructLayersList(layersState.layers)}
-          </ul>
+      <div className={styles.layersPanel}>
+        <div>Layers</div>
+        <ul className={styles.layersList}>
+          {constructLayersList(layersState.layers)}
+        </ul>
           
           
-        </div>
-
-        <div className={styles.adjustmentsPanel}>
-          <span>Adjust</span>
-          
-        </div>
-
-        <div className={styles.coordsPanel}>
-          <CoordsDisplay/>
-        </div>
-
       </div>
+
+      <div className={styles.adjustmentsPanel}>
+        <span>Adjust</span>
+          
+      </div>
+
+      <div className={styles.coordsPanel}>
+        <CoordsDisplay/>
+      </div>
+
+    </div>
 
   );
 })

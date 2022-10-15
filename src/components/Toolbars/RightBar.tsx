@@ -8,16 +8,16 @@ import styles from './RightBar.module.css';
 export const RightBar = observer((props:any): JSX.Element => {
 
   return (
-      <div className={styles.header}>
+    <div className={styles.header}>
 
         
-          <div>
-            <div>Analyse</div>
-          </div>
-
-        
-
+      <div>
+        <div>Analyse</div>
       </div>
+
+        
+
+    </div>
 
   );
 })
