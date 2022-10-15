@@ -9,18 +9,18 @@ type PhotoType = {
     small: string
 }
 
-type Three<T> = T extends 'user' ? UserType : PhotoType 
+type Three<T> = T extends 'user' ? UserType : PhotoType
 
 
-let a: Three<'photo'> = {
-    large: 'large',
-    small: 'small'
-}
+const a: Three<'photo'> = {
+  large: 'large',
+  small: 'small'
+};
 
-let b: Three<'user'> = {
-    name: 'Boris',
-    secondName: 'Abobus',
-    age: 145
-}
+const b: Three<'user'> = {
+  name: 'Boris',
+  secondName: 'Abobus',
+  age: 145
+};
 
-export {}
+export {};

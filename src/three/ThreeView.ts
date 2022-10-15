@@ -1,276 +1,276 @@
-import { Line } from './tools/Line';
-import { Polygon } from './tools/Polygon';
+import {Line} from './tools/Line';
+import {Polygon} from './tools/Polygon';
 import * as THREE from 'three';
-import { camera } from './camera/camera';
+import {camera} from './camera/camera';
 
-import { dirLight, dirLightHelper, hemiLight } from './lights';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import {dirLight, dirLightHelper, hemiLight} from './lights';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {cube} from './geometry/geometry';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import {worldPlaneMesh, worldPlane, worldPlaneHelper} from './geometry/worldPlane';
 
-import { getMouseLocation } from './utils';
+import {getMouseLocation} from './utils';
 
-import { autorun, reaction, toJS } from "mobx";
-import { Layer, layersState, sceneState, toolsState } from '../state';
+import {autorun, reaction, toJS} from "mobx";
+import {Layer, layersState, sceneState, toolsState} from '../state';
 
-import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
+import {CSS2DRenderer, CSS2DObject} from 'three/examples/jsm/renderers/CSS2DRenderer';
 
-import { HelpersManager } from './helpers/HelpersManager';
+import {HelpersManager} from './helpers/HelpersManager';
 
 export class ThreeView {
-	labelRenderer: CSS2DRenderer;
+  labelRenderer: CSS2DRenderer;
 
-    scene: THREE.Scene;
-    renderer: THREE.WebGLRenderer;
-    activeElement: HTMLCanvasElement;
-    rect: DOMRect;
-    camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
-    groundPlane: typeof worldPlane;
-    light: any;
-    controls: OrbitControls;
-    stats: any;
+  scene: THREE.Scene;
+  renderer: THREE.WebGLRenderer;
+  activeElement: HTMLCanvasElement;
+  rect: DOMRect;
+  camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
+  groundPlane: typeof worldPlane;
+  light: any;
+  controls: OrbitControls;
+  stats: any;
 
-	helpersManager: HelpersManager;
-	
-    tools: {
+  helpersManager: HelpersManager;
+
+  tools: {
         line: Line,
         pLine: Line,
         polygon: Polygon
     };
-    currentTool: number|undefined;
+  currentTool: number|undefined;
 
-    currentLayer: Layer|null;
+  currentLayer: Layer|null;
 
-    constructor(canvasRef: HTMLCanvasElement) {
-        
-        this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color( 0xb3deff );
+  constructor(canvasRef: HTMLCanvasElement) {
 
-		//TEST
-		this.labelRenderer = new CSS2DRenderer();
-		this.labelRenderer.domElement.style.position = 'absolute';
-		this.labelRenderer.domElement.style.top = '0px';
-		this.labelRenderer.domElement.style.pointerEvents = 'none'
-		document.body.appendChild( this.labelRenderer.domElement );
-		//TEST
-        
-        this.renderer = new THREE.WebGLRenderer({
-            canvas: canvasRef,
-            antialias: true,
-        });
-        this.renderer.shadowMap.enabled = true;
-        this.renderer.setClearColor(0xEEEEEE);
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color( 0xb3deff );
 
-        this.activeElement = this.renderer.domElement;
-        this.rect = canvasRef.getBoundingClientRect();
+    //TEST
+    this.labelRenderer = new CSS2DRenderer();
+    this.labelRenderer.domElement.style.position = 'absolute';
+    this.labelRenderer.domElement.style.top = '0px';
+    this.labelRenderer.domElement.style.pointerEvents = 'none';
+    document.body.appendChild( this.labelRenderer.domElement );
+    //TEST
 
-        this.camera = camera();
-        this.controls = new OrbitControls(this.camera,  this.activeElement)
+    this.renderer = new THREE.WebGLRenderer({
+      canvas: canvasRef,
+      antialias: true
+    });
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.setClearColor(0xEEEEEE);
 
-        this.groundPlane = worldPlane;
+    this.activeElement = this.renderer.domElement;
+    this.rect = canvasRef.getBoundingClientRect();
 
-        //3dobjects
-        this.scene.add(cube, worldPlaneMesh, worldPlaneHelper);
-        cube.material.color.setHex(0x84CBFF)
+    this.camera = camera();
+    this.controls = new OrbitControls(this.camera, this.activeElement);
 
-        //lights
-        this.scene.add(dirLight, dirLightHelper, hemiLight)
+    this.groundPlane = worldPlane;
 
-        this.currentLayer = null;
+    //3dobjects
+    this.scene.add(cube, worldPlaneMesh, worldPlaneHelper);
+    cube.material.color.setHex(0x84CBFF);
 
-        //TOOLS STATE
-        this.tools = {
-            line: new Line(this.activeElement, this.scene, 0),
-            pLine: new Line(this.activeElement, this.scene, 1),
-            polygon: new Polygon(this.activeElement, this.scene),
-        };
-        this.currentTool = undefined;
+    //lights
+    this.scene.add(dirLight, dirLightHelper, hemiLight);
 
-		this.currentLayer = layersState.layers.find(l => l.active)!
+    this.currentLayer = null;
 
-		this.helpersManager = new HelpersManager(this.scene);
+    //TOOLS STATE
+    this.tools = {
+      line: new Line(this.activeElement, this.scene, 0),
+      pLine: new Line(this.activeElement, this.scene, 1),
+      polygon: new Polygon(this.activeElement, this.scene)
+    };
+    this.currentTool = undefined;
 
-		const axesHelper = new THREE.AxesHelper( 10 );
-		this.scene.add( axesHelper );
+    this.currentLayer = layersState.layers.find(l => l.active)!;
 
-        //STATS
-        this.stats = Stats();
-        //document.body.appendChild(this.stats.dom);
-        this.stats.update();
-        this.update();
+    this.helpersManager = new HelpersManager(this.scene);
 
-        //subscription to observe App State
-        this.updState();
+    const axesHelper = new THREE.AxesHelper( 10 );
+    this.scene.add( axesHelper );
 
-		// this.createLabel()
-    }
+    //STATS
+    this.stats = Stats();
+    //document.body.appendChild(this.stats.dom);
+    this.stats.update();
+    this.update();
 
-    updState = () => {
-        autorun(() => {
-            this.updGlobalCoords()
-        });
+    //subscription to observe App State
+    this.updState();
 
-        autorun(() => {
-            this.setActiveDrawingTool()
-        });
+    // this.createLabel()
+  }
 
-		reaction(
-			() => layersState.layers.find(l => l.active), 
-			(value, previousValue, reaction) => { 
-				if(value?.id !== previousValue?.id){
-					this.setLayer()
-				} 
-			}
-		);
+  updState = () => {
+    autorun(() => {
+      this.updGlobalCoords();
+    });
 
-        autorun(() => {
-            this.setCamera()
-        })
+    autorun(() => {
+      this.setActiveDrawingTool();
+    });
 
-		//TODO concrete conditions
-		autorun(() => {
-            this.helpersManager.renderGrid();
-        })
-    }
-
-    setCamera = () => {
-        //0 - top camera, 1 - perspective
-        let curCamId = sceneState.currentCamera
-        if(curCamId === 0){
-            this.camera = camera(this.renderer, curCamId);
-            this.controls = new OrbitControls(this.camera,  this.activeElement)
-            //this.controls.enableDamping = true;
-            this.controls.enableRotate = false;
-            //enable all existing layers
-            layersState.layers.forEach(i => this.camera.layers.enable(i.id))
-        } else if(curCamId === 1){
-            this.camera = camera(this.renderer, curCamId)
-            this.controls = new OrbitControls(this.camera,  this.activeElement)
-            //enable all existing layers
-            layersState.layers.forEach(i => this.camera.layers.enable(i.id))
+    reaction(
+      () => layersState.layers.find(l => l.active),
+      (value, previousValue, reaction) => {
+        if (value?.id !== previousValue?.id){
+          this.setLayer();
         }
-    }
+      }
+    );
 
-    setLayer = () => {
-        let current = layersState.layers.find(l => l.active)
-        if(current){
-            this.currentLayer = current;
-			this.setActiveDrawingTool();
-        }
-    }
+    autorun(() => {
+      this.setCamera();
+    });
 
-	//TODO: rewrite without many ifs elses
-    setActiveDrawingTool = () => {
-		
-        let activeToolId = toolsState.drawingTools.find(i => i.active)?
+    //TODO concrete conditions
+    autorun(() => {
+      this.helpersManager.renderGrid();
+    });
+  };
+
+  setCamera = () => {
+    //0 - top camera, 1 - perspective
+    const curCamId = sceneState.currentCamera;
+    if (curCamId === 0){
+      this.camera = camera(this.renderer, curCamId);
+      this.controls = new OrbitControls(this.camera, this.activeElement);
+      //this.controls.enableDamping = true;
+      this.controls.enableRotate = false;
+      //enable all existing layers
+      layersState.layers.forEach(i => this.camera.layers.enable(i.id));
+    } else if (curCamId === 1){
+      this.camera = camera(this.renderer, curCamId);
+      this.controls = new OrbitControls(this.camera, this.activeElement);
+      //enable all existing layers
+      layersState.layers.forEach(i => this.camera.layers.enable(i.id));
+    }
+  };
+
+  setLayer = () => {
+    const current = layersState.layers.find(l => l.active);
+    if (current){
+      this.currentLayer = current;
+      this.setActiveDrawingTool();
+    }
+  };
+
+  //TODO: rewrite without many ifs elses
+  setActiveDrawingTool = () => {
+
+    const activeToolId = toolsState.drawingTools.find(i => i.active)?
         toolsState.drawingTools.find(i => i.active)!.id : undefined;
 
-        let prevToolId = this.currentTool;
-        let prevToolName;
-		console.log('PREV TOOL', prevToolId, 'CURRENT', this.currentTool)
+    const prevToolId = this.currentTool;
+    let prevToolName;
+    console.log('PREV TOOL', prevToolId, 'CURRENT', this.currentTool);
 
-		//if there was tool in use - stop it
-        if(typeof prevToolId === 'number'){
-			console.log('error')
-           prevToolName = toolsState.drawingTools.find(i => i.id === prevToolId)!.name
-           this.tools[prevToolName].stopDrawing();
-        }
-        
-		//activate new tool
-        if(typeof activeToolId === 'number'){
-			console.log(activeToolId, 'LAYER', this.currentLayer)
-            let toolName = toolsState.drawingTools.find(i => i.active)!.name
-
-            this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
-            this.currentTool = activeToolId;
-            
-            window.addEventListener('keydown', this.onExit);
-
-			document.body.style.cursor = 'crosshair';
-        } else {
-            // if(typeof prevToolId === 'number'){
-			this.currentTool = undefined;
-			window.removeEventListener('keydown', this.onExit);
-
-			document.body.style.cursor = 'auto';
-        }
+    //if there was tool in use - stop it
+    if (typeof prevToolId === 'number'){
+      console.log('error');
+      prevToolName = toolsState.drawingTools.find(i => i.id === prevToolId)!.name;
+      this.tools[prevToolName].stopDrawing();
     }
 
-    onExit = (event: KeyboardEvent) => {
-        if(event.key === "Escape"){
-            let activeToolId = toolsState.drawingTools.find(i => i.active)?
+    //activate new tool
+    if (typeof activeToolId === 'number'){
+      console.log(activeToolId, 'LAYER', this.currentLayer);
+      const toolName = toolsState.drawingTools.find(i => i.active)!.name;
+
+      this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
+      this.currentTool = activeToolId;
+
+      window.addEventListener('keydown', this.onExit);
+
+      document.body.style.cursor = 'crosshair';
+    } else {
+      // if(typeof prevToolId === 'number'){
+      this.currentTool = undefined;
+      window.removeEventListener('keydown', this.onExit);
+
+      document.body.style.cursor = 'auto';
+    }
+  };
+
+  onExit = (event: KeyboardEvent) => {
+    if (event.key === "Escape"){
+      const activeToolId = toolsState.drawingTools.find(i => i.active)?
                 toolsState.drawingTools.find(i => i.active)!.id : undefined;
-            
-            if(typeof activeToolId === 'number'){
-                let toolName = toolsState.drawingTools.find(i => i.active)!.name
-                this.tools[toolName].stopDrawing();
-                this.tools[toolName].toolState = 0;
-                this.currentTool = undefined;
 
-               toolsState.setActiveTool(activeToolId);
+      if (typeof activeToolId === 'number'){
+        const toolName = toolsState.drawingTools.find(i => i.active)!.name;
+        this.tools[toolName].stopDrawing();
+        this.tools[toolName].toolState = 0;
+        this.currentTool = undefined;
 
-               window.removeEventListener('keydown', this.onExit)
-            }
-        }
+        toolsState.setActiveTool(activeToolId);
+
+        window.removeEventListener('keydown', this.onExit);
+      }
+    }
+  };
+
+  //to show coords on ground under mouse
+  updGlobalCoords = () => {
+    if (sceneState.isFetchingGlobalCoords){
+      this.activeElement.addEventListener( 'pointermove', this.onUpdMouseLoc );
+    } else {
+      this.activeElement.removeEventListener( 'pointermove', this.onUpdMouseLoc );
+    }
+  };
+
+
+  //get mouse coords on "ground" plane
+  onUpdMouseLoc = (event: MouseEvent) => {
+    const mouseLoc = getMouseLocation(
+      event, this.rect, this.activeElement,
+      this.camera, this.groundPlane);
+
+    //send mouseloc to State
+    //TODO:not send new obj every time
+    sceneState.setGlobalCoords({
+      x: mouseLoc.x,
+      y: mouseLoc.y,
+      z:mouseLoc.z
+    });
+  };
+
+  onWindowResize(vpW:any, vpH:any) {
+    console.log(vpW, vpH);
+    this.renderer.setSize(vpW, vpH, false);
+    const aspect = vpW / vpH;
+    const viewSize = 200;
+    //upd camera ratio depending on cam Type
+    if (this.camera instanceof THREE.PerspectiveCamera){
+      this.camera.aspect = aspect;
+    } else {
+      this.camera.left = aspect*viewSize / -2;
+      this.camera.right = aspect*viewSize / 2;
+      this.camera.top = viewSize / 2;
+      this.camera.bottom = viewSize / -2;
     }
 
-    //to show coords on ground under mouse
-    updGlobalCoords = () => {
-        if(sceneState.isFetchingGlobalCoords){
-            this.activeElement.addEventListener( 'pointermove', this.onUpdMouseLoc );
-        } else {
-            this.activeElement.removeEventListener( 'pointermove', this.onUpdMouseLoc );
-        }   
-    }
+    this.camera.updateProjectionMatrix();
 
 
-    //get mouse coords on "ground" plane
-    onUpdMouseLoc = (event: MouseEvent) => {
-        let mouseLoc = getMouseLocation(
-            event, this.rect, this.activeElement,
-            this.camera, this.groundPlane);
+    //TEST
+    this.labelRenderer.setSize( vpW, vpH );
+  }
 
-        //send mouseloc to State
-        //TODO:not send new obj every time
-        sceneState.setGlobalCoords({
-            x: mouseLoc.x, 
-            y: mouseLoc.y,
-            z:mouseLoc.z
-        })
-    };
+  // ******************* RENDER LOOP ******************* //
+  update() {
+    //TEST
+    this.labelRenderer.render(this.scene, this.camera);
+    //TEST
 
-    onWindowResize(vpW:any, vpH:any) {
-		console.log(vpW, vpH)
-        this.renderer.setSize(vpW, vpH, false);
-        let aspect = vpW / vpH
-        let viewSize = 200
-        //upd camera ratio depending on cam Type
-        if(this.camera instanceof THREE.PerspectiveCamera){
-           this.camera.aspect = aspect 
-        } else {
-            this.camera.left = aspect*viewSize / -2
-            this.camera.right = aspect*viewSize / 2
-            this.camera.top = viewSize / 2
-            this.camera.bottom =  viewSize / -2
-        }
-        
-        this.camera.updateProjectionMatrix();
-
-
-		//TEST
-		this.labelRenderer.setSize( vpW, vpH );
-    }
-
-    // ******************* RENDER LOOP ******************* //
-    update() {
-		//TEST
-		this.labelRenderer.render(this.scene, this.camera)
-		//TEST
-
-        this.renderer.render(this.scene, this.camera);
-        requestAnimationFrame(this.update.bind(this));
-        this.controls.update()
-        this.stats.update() 
-    }   
+    this.renderer.render(this.scene, this.camera);
+    requestAnimationFrame(this.update.bind(this));
+    this.controls.update();
+    this.stats.update();
+  }
 }
