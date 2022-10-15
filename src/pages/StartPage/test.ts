@@ -14,13 +14,13 @@ type Three<T> = T extends 'user' ? UserType : PhotoType
 
 const a: Three<'photo'> = {
   large: 'large',
-  small: 'small',
+  small: 'small'
 };
 
 const b: Three<'user'> = {
   name: 'Boris',
   secondName: 'Abobus',
-  age: 145,
+  age: 145
 };
 
 export {};

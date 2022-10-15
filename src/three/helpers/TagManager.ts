@@ -25,10 +25,10 @@ class TagsManager {
     this.baseDirection = sceneState.baseDirection;
 
     //container options
-    this.tagContainers = {lengths: [], angles: [],};
+    this.tagContainers = {lengths: [], angles: []};
 
     //tag options
-    this.toolTags = {lengths: [], angles: [],};
+    this.toolTags = {lengths: [], angles: []};
   }
 
   renderTag = (v0: Array<THREE.Vector3>, v1: THREE.Vector3, snapOptions?: SnapOptions) => {

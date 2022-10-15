@@ -10,7 +10,7 @@ interface HelpersMenuProps {
 
 const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   const obj = {
-    d: 5,
+    d: 5
   };
 
   const helperOptions = toolsState.helpersOptions;

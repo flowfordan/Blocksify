@@ -58,9 +58,9 @@ class ToolsState{
 
   constructor(){
     this.drawingTools = [
-      {id: 0, name: EToolName.Line, active: false,},
-      {id: 1, name: EToolName.PLine, active: false,},
-      {id: 2, name: EToolName.Polygon, active: false,}
+      {id: 0, name: EToolName.Line, active: false},
+      {id: 1, name: EToolName.PLine, active: false},
+      {id: 2, name: EToolName.Polygon, active: false}
     ];
 
     /* HELPERS */

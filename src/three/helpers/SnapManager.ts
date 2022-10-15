@@ -275,16 +275,16 @@ class SnapManager {
       isActive: false,
       snappedCoords: new Vector3(),
       distToOrigin: Infinity,
-      isCurrent: false,
+      isCurrent: false
     };
 
     const defaultSnapOptions: any = {};
 
     for (const i of snapsArray){
-      defaultSnapOptions[i] = {...statusPreset,};
+      defaultSnapOptions[i] = {...statusPreset};
     }
 
-    const snapOptions: any = {...defaultSnapOptions,};
+    const snapOptions: any = {...defaultSnapOptions};
 
     for (const item of this.options){
       if (item.type === 'snap'){
@@ -303,18 +303,18 @@ class SnapManager {
       points: {
         form: new THREE.Points(),
         geometry: new THREE.BufferGeometry(),
-        material: new THREE.PointsMaterial( {color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true,} ),
+        material: new THREE.PointsMaterial( {color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true} )
       },
       lines: {
         form: new Line2(),
         geometry: new LineGeometry(),
-        material: getLineMat(0xFF2F2F),
+        material: getLineMat(0xFF2F2F)
       },
       mainLine: {
         form: new Line2(),
         geometry: new LineGeometry(),
-        material: getLineMat(0xFF8383, 2, false, 0.8),
-      },
+        material: getLineMat(0xFF8383, 2, false, 0.8)
+      }
     };
     guidesOptions.points.material.depthWrite = false;
     guidesOptions.points.material.depthTest = false;

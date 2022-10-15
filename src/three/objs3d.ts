@@ -8,7 +8,7 @@ const pointObj = (coords: Array<number>) => {
 
   const pGeom = new THREE.BufferGeometry();
   pGeom.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
-  const pMat = new THREE.PointsMaterial( {color: 0x888888, size: 6, sizeAttenuation: false,} );
+  const pMat = new THREE.PointsMaterial( {color: 0x888888, size: 6, sizeAttenuation: false} );
   const point = new THREE.Points(pGeom, pMat);
 
   return point;
@@ -22,7 +22,7 @@ const V2ArrToNumArr = (arr: Array<Vector2>, baseLevel: number) => {
   }).flat();
 };
 
-const pMat = new THREE.PointsMaterial( {color: 0x888888, size: 6, sizeAttenuation: false,} );
+const pMat = new THREE.PointsMaterial( {color: 0x888888, size: 6, sizeAttenuation: false} );
 
 
 //function returning fatline material with given atributes
@@ -35,7 +35,7 @@ const getLineMat = (color = 0xffffff, lineWidth = 2, dash = false, opacity = 1) 
     dashSize: 8,
     gapSize: 4,
     //dashOffset: 25,
-    opacity: opacity,
+    opacity: opacity
 
   });
 
@@ -47,7 +47,7 @@ const getPolygonMat = () => {
     color: new THREE.Color('moccasin'),
     side: THREE.DoubleSide,
     transparent:true,
-    opacity: 0.5,
+    opacity: 0.5
   } );
 
   return mat;

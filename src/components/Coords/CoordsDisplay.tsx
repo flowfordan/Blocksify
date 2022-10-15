@@ -18,7 +18,7 @@ export const CoordsDisplay = observer((): JSX.Element => {
   const coords: UICoords = {
     x: `${sceneState.globalCoords.x.toFixed(2)}`,
     y: `${sceneState.globalCoords.z.toFixed(2)}`,
-    z: `${sceneState.globalCoords.y.toFixed(2)}`,
+    z: `${sceneState.globalCoords.y.toFixed(2)}`
   };
 
   return (

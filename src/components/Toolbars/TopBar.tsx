@@ -12,7 +12,7 @@ export const TopBar = observer((props:any): JSX.Element => {
 
   const [ isMenuOpened, toggleMenuOpened ] = useState(false);
 
-  const {drawingTools,} = toolsState;
+  const {drawingTools} = toolsState;
 
   const activeToolId = drawingTools.find(i => i.active)?
     drawingTools.find(i => i.active)!.id : undefined;

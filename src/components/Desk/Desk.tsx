@@ -28,7 +28,7 @@ export const Desk = (props:any): JSX.Element => {
     const innerTreeRef = canvasScene.current!;
     threeView = new ThreeView(innerTreeRef);
 
-    resizeObserver.observe(innerTreeRef, {box: 'content-box',});
+    resizeObserver.observe(innerTreeRef, {box: 'content-box'});
 
   }
   , []);

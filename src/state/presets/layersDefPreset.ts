@@ -8,8 +8,8 @@ const borderMainContent = {
   descr: 'Border or/and Zone inside Border ',
   stage: 0, mat: {
     line: getLineMat(0x1d5e9a, 5, true),
-    polygon: getPolygonMat(),
-  },
+    polygon: getPolygonMat()
+  }
 };
 
 //LAYER 3 - STREETS
@@ -20,8 +20,8 @@ const streetsMainContent = {
   stage: 0,
   mat: {
     line: getLineMat(0x533931),
-    polygon: null,
-  },
+    polygon: null
+  }
 };
 
 //add
@@ -32,8 +32,8 @@ const streetsAddContent = {
     stage: 0,
     mat: {
       line: getLineMat(0x533931),
-      polygon: null,
-    },
+      polygon: null
+    }
   },
   auto: {
     id: 1, name: 'Street area',
@@ -41,9 +41,9 @@ const streetsAddContent = {
     stage: 1,
     mat: {
       line: getLineMat(0x533931),
-      polygon: getPolygonMat(),
-    },
-  },
+      polygon: getPolygonMat()
+    }
+  }
 };
 
 //LAYER 4 - BLOCKS
@@ -58,9 +58,9 @@ const blocksAddContent = {
     stage: 1,
     mat: {
       line: getLineMat(0x533931),
-      polygon: getPolygonMat(),
-    },
-  },
+      polygon: getPolygonMat()
+    }
+  }
 };
 
 //LAYER 5 - BUILDINGS
@@ -73,9 +73,9 @@ const buildingsAddContent = {
     stage: 1,
     mat: {
       line: getLineMat(0x533931),
-      polygon: getPolygonMat(),
-    },
-  },
+      polygon: getPolygonMat()
+    }
+  }
 };
 
 //LAYERS
@@ -93,9 +93,9 @@ const layersDefPreset = [ {
     main: borderMainContent,
     add: {
       rt: null,
-      auto: null,
-    },
-  },
+      auto: null
+    }
+  }
 },
 {
   name: 'Streets',
@@ -106,8 +106,8 @@ const layersDefPreset = [ {
   visible: true,
   content: {
     main: streetsMainContent,
-    add: streetsAddContent,
-  },
+    add: streetsAddContent
+  }
 },
 {
   name: 'Blocks',
@@ -118,8 +118,8 @@ const layersDefPreset = [ {
   visible: true,
   content: {
     main: null,
-    add: blocksAddContent,
-  },
+    add: blocksAddContent
+  }
 },
 {
   name: 'Buildings',
@@ -130,8 +130,8 @@ const layersDefPreset = [ {
   visible: false,
   content: {
     main: null,
-    add: buildingsAddContent,
-  },
+    add: buildingsAddContent
+  }
 }
 ];
 

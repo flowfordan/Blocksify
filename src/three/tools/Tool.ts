@@ -24,16 +24,16 @@ interface I3dObjPolygon {
     mat: THREE.MeshBasicMaterial | null
 }
 
-const null3dObj = {form: null, geom: null, mat: null,};
+const null3dObj = {form: null, geom: null, mat: null};
 
 const empty3dObjPoint = {
-  form: new THREE.Points(), geom: new THREE.BufferGeometry(), mat: pMat,
+  form: new THREE.Points(), geom: new THREE.BufferGeometry(), mat: pMat
 };
 const empty3dObjLine = {
-  form: new Line2(), geom: new LineGeometry(), mat: new LineMaterial(),
+  form: new Line2(), geom: new LineGeometry(), mat: new LineMaterial()
 };
 const empty3dObjPolygon = {
-  form: new THREE.Mesh(), geom: new THREE.Shape(), mat: new THREE.MeshBasicMaterial(),
+  form: new THREE.Mesh(), geom: new THREE.Shape(), mat: new THREE.MeshBasicMaterial()
 };
 
 //SUPERCLASS FOR TOOLS
@@ -87,32 +87,32 @@ export class Tool {
       line: {
         form: null,
         geom: null,
-        mat: null,
+        mat: null
       },
       points: {
         form: null,
         geom: null,
-        mat: pMat,
+        mat: pMat
       },
       polygon: {
         form: null,
         geom: null,
-        mat: null,
-      },};
+        mat: null
+      }};
 
-    this.objCoords = {line: [], polygon: [],};
+    this.objCoords = {line: [], polygon: []};
 
     this.guideObj = {
       line: {
         form: new Line2(),
         geom: new LineGeometry(),
-        mat: new LineMaterial(),
+        mat: new LineMaterial()
       },
       polygon: {
         form: new THREE.Mesh(),
         geom: new THREE.Shape(),
-        mat: new THREE.MeshBasicMaterial(),
-      },
+        mat: new THREE.MeshBasicMaterial()
+      }
     };
 
     this.tagsManager = new TagsManager(scene);
@@ -140,7 +140,7 @@ export class Tool {
       linewidth: 2,
       resolution: new THREE.Vector2(1920, 1080),
       dashed: true,
-      opacity: 0.8,
+      opacity: 0.8
     });
   }
 

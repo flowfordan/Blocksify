@@ -57,7 +57,7 @@ export class ThreeView {
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: canvasRef,
-      antialias: true,
+      antialias: true
     });
     this.renderer.shadowMap.enabled = true;
     this.renderer.setClearColor(0xEEEEEE);
@@ -83,7 +83,7 @@ export class ThreeView {
     this.tools = {
       line: new Line(this.activeElement, this.scene, 0),
       pLine: new Line(this.activeElement, this.scene, 1),
-      polygon: new Polygon(this.activeElement, this.scene),
+      polygon: new Polygon(this.activeElement, this.scene)
     };
     this.currentTool = undefined;
 
@@ -236,7 +236,7 @@ export class ThreeView {
     sceneState.setGlobalCoords({
       x: mouseLoc.x,
       y: mouseLoc.y,
-      z:mouseLoc.z,
+      z:mouseLoc.z
     });
   };
 

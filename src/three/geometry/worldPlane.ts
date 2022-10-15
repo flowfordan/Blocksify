@@ -5,7 +5,7 @@ import {Plane} from 'three';
 const worldPlaneGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 8, 8);
 const worldPlaneMaterial = new THREE.MeshStandardMaterial({
   color: 0xcbcbcb,
-  side: THREE.DoubleSide,});
+  side: THREE.DoubleSide});
 
 const worldPlaneMesh = new THREE.Mesh(worldPlaneGeometry, worldPlaneMaterial);
 worldPlaneMesh.rotateX( - Math.PI / 2);

@@ -30,7 +30,7 @@ const helpersDefPreset = [
     rangeMax: 5,
     rangeStep: 0.5,
     isSelection: false,
-    numbers: [],
+    numbers: []
   },
   {
     helperID: 1,
@@ -45,7 +45,7 @@ const helpersDefPreset = [
     rangeStep: 0,
     isSelection: true,
     variants: [ 1, 2, 5, 10, 20, 30, 45, 90 ],
-    numbers: [ 20, 30 ],
+    numbers: [ 20, 30 ]
   },
   {
     helperID: 2,
@@ -59,7 +59,7 @@ const helpersDefPreset = [
     rangeMax: 0,
     rangeStep: 0,
     isSelection: false,
-    numbers: [],
+    numbers: []
   },
   {
     helperID: 3,
@@ -73,7 +73,7 @@ const helpersDefPreset = [
     rangeMax: 20,
     rangeStep: 0.5,
     isSelection: false,
-    numbers: [],
+    numbers: []
   }
 ];
 

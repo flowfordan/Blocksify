@@ -5,7 +5,7 @@ import {Line2, LineGeometry, LineMaterial} from 'three-fatline';
 const geometry = new THREE.BoxGeometry(10, 10, 10);
 const material = new THREE.MeshStandardMaterial({
   color: 0x84CBFF,
-  wireframe: false,
+  wireframe: false
 });
 
 const cube = new THREE.Mesh(geometry, material);
@@ -15,7 +15,7 @@ cube.position.set(0, 5, 20);
 
 // wireframe
 const geo = new THREE.EdgesGeometry( cube.geometry ); // or WireframeGeometry
-const mat = new THREE.LineBasicMaterial( {color: 0x0000000,} );
+const mat = new THREE.LineBasicMaterial( {color: 0x0000000} );
 const wireframe = new THREE.LineSegments( geo, mat );
 cube.add( wireframe );
 
@@ -35,7 +35,7 @@ const matLine = new LineMaterial({
   dashed: true,
   dashScale: 2,
   dashSize: 2,
-  gapSize: 1,
+  gapSize: 1
 
 });
 

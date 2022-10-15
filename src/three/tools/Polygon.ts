@@ -35,7 +35,7 @@ export class Polygon extends Tool{
       color: new THREE.Color('skyblue'),
       side: THREE.DoubleSide,
       transparent:true,
-      opacity: 0.5,
+      opacity: 0.5
     } );
     this.guideObj.polygon.geom = new THREE.Shape();
     const shapeGuideGeom = new THREE.ShapeGeometry(this.guideObj.polygon.geom);
