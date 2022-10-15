@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Desk } from '../../components/Desk/Desk';
+import React, {useState} from 'react';
+import {Desk} from '../../components/Desk/Desk';
 import styles from './AppPage.module.css';
-import { LeftBar } from '../../components/Toolbars/LeftBar';
-import { RightBar, TopBar } from '../../components/Toolbars';
+import {LeftBar} from '../../components/Toolbars/LeftBar';
+import {RightBar, TopBar} from '../../components/Toolbars';
 
 export const AppPage= (): JSX.Element => {
 
@@ -27,6 +27,6 @@ export const AppPage= (): JSX.Element => {
 
     </div>
   );
-}
+};
 
 

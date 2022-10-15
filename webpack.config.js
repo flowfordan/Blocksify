@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -63,6 +64,7 @@ module.exports = {
     new HtmlWebpackPlugin({
     template: path.resolve(__dirname, "./public/index.html"),
     }),
+    new ESLintPlugin(),
   ],
   //for imports without .js/.jsx
   resolve: {

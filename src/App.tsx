@@ -18,6 +18,6 @@ const App= (): JSX.Element => {
       </div>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

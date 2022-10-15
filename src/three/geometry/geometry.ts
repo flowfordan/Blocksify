@@ -1,21 +1,21 @@
 import * as THREE from 'three';
-import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
+import {Line2, LineGeometry, LineMaterial} from 'three-fatline';
 
 //TEST CUBE
-const geometry = new THREE.BoxGeometry(10, 10, 10)
+const geometry = new THREE.BoxGeometry(10, 10, 10);
 const material = new THREE.MeshStandardMaterial({
   color: 0x84CBFF,
   wireframe: false,
-})
+});
 
-const cube = new THREE.Mesh(geometry, material)
+const cube = new THREE.Mesh(geometry, material);
 //cube.receiveShadow = true;
 cube.castShadow = true;
-cube.position.set(0, 5, 20)
+cube.position.set(0, 5, 20);
 
 // wireframe
 const geo = new THREE.EdgesGeometry( cube.geometry ); // or WireframeGeometry
-const mat = new THREE.LineBasicMaterial( { color: 0x0000000, } );
+const mat = new THREE.LineBasicMaterial( {color: 0x0000000,} );
 const wireframe = new THREE.LineSegments( geo, mat );
 cube.add( wireframe );
 
@@ -46,4 +46,4 @@ const myLine2 = new Line2(geomLine2, matLine);
 myLine.computeLineDistances();
 myLine2.computeLineDistances();
 
-export {cube, myLine, myLine2}
+export {cube, myLine, myLine2};

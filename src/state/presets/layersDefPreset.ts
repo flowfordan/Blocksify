@@ -1,50 +1,50 @@
-import { getLineMat, getPolygonMat } from "../../three/objs3d";
+import {getLineMat, getPolygonMat} from "../../three/objs3d";
 
 //objects 3d materials
 //LAYER 2 - BORDER
 //main
 const borderMainContent = {
-  id: 0, name: 'Border', 
-  descr: 'Border or/and Zone inside Border ', 
+  id: 0, name: 'Border',
+  descr: 'Border or/and Zone inside Border ',
   stage: 0, mat: {
     line: getLineMat(0x1d5e9a, 5, true),
     polygon: getPolygonMat(),
   },
-}
+};
 
 //LAYER 3 - STREETS
 //main
 const streetsMainContent = {
-  id: 0, name: 'Street axis', 
-  descr: 'Street axis', 
-  stage: 0, 
+  id: 0, name: 'Street axis',
+  descr: 'Street axis',
+  stage: 0,
   mat: {
     line: getLineMat(0x533931),
     polygon: null,
   },
-}
+};
 
 //add
 const streetsAddContent = {
   rt: {
-    id: 0, name: 'Street sides', 
-    descr: 'Street sides', 
-    stage: 0, 
+    id: 0, name: 'Street sides',
+    descr: 'Street sides',
+    stage: 0,
     mat: {
       line: getLineMat(0x533931),
       polygon: null,
     },
   },
   auto: {
-    id: 1, name: 'Street area', 
-    descr: 'Street area - polygon (public territory)', 
-    stage: 1, 
+    id: 1, name: 'Street area',
+    descr: 'Street area - polygon (public territory)',
+    stage: 1,
     mat: {
       line: getLineMat(0x533931),
       polygon: getPolygonMat(),
     },
   },
-}
+};
 
 //LAYER 4 - BLOCKS
 //main
@@ -53,30 +53,30 @@ const streetsAddContent = {
 const blocksAddContent = {
   rt: null,
   auto: {
-    id: 1, name: 'Block area', 
-    descr: 'Block area territory', 
-    stage: 1, 
+    id: 1, name: 'Block area',
+    descr: 'Block area territory',
+    stage: 1,
     mat: {
       line: getLineMat(0x533931),
       polygon: getPolygonMat(),
     },
   },
-}
+};
 
 //LAYER 5 - BUILDINGS
 //add
 const buildingsAddContent = {
   rt: null,
   auto: {
-    id: 1, name: 'Building', 
-    descr: 'Building volume', 
-    stage: 1, 
+    id: 1, name: 'Building',
+    descr: 'Building volume',
+    stage: 1,
     mat: {
       line: getLineMat(0x533931),
       polygon: getPolygonMat(),
     },
   },
-}
+};
 
 //LAYERS
 //TODO: utility layer with
@@ -89,7 +89,7 @@ const layersDefPreset = [ {
   empty: true,
   editable: true,
   visible: true,
-  content: { 
+  content: {
     main: borderMainContent,
     add: {
       rt: null,
@@ -133,6 +133,6 @@ const layersDefPreset = [ {
     add: buildingsAddContent,
   },
 }
-]
+];
 
-export { layersDefPreset }
+export {layersDefPreset};

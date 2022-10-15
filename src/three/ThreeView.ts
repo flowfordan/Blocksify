@@ -1,22 +1,22 @@
-import { Line } from './tools/Line';
-import { Polygon } from './tools/Polygon';
+import {Line} from './tools/Line';
+import {Polygon} from './tools/Polygon';
 import * as THREE from 'three';
-import { camera } from './camera/camera';
+import {camera} from './camera/camera';
 
-import { dirLight, dirLightHelper, hemiLight } from './lights';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import {dirLight, dirLightHelper, hemiLight} from './lights';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {cube} from './geometry/geometry';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import {worldPlaneMesh, worldPlane, worldPlaneHelper} from './geometry/worldPlane';
 
-import { getMouseLocation } from './utils';
+import {getMouseLocation} from './utils';
 
-import { autorun, reaction, toJS } from "mobx";
-import { Layer, layersState, sceneState, toolsState } from '../state';
+import {autorun, reaction, toJS} from "mobx";
+import {Layer, layersState, sceneState, toolsState} from '../state';
 
-import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
+import {CSS2DRenderer, CSS2DObject} from 'three/examples/jsm/renderers/CSS2DRenderer';
 
-import { HelpersManager } from './helpers/HelpersManager';
+import {HelpersManager} from './helpers/HelpersManager';
 
 export class ThreeView {
   labelRenderer: CSS2DRenderer;
@@ -32,7 +32,7 @@ export class ThreeView {
   stats: any;
 
   helpersManager: HelpersManager;
-  
+
   tools: {
         line: Line,
         pLine: Line,
@@ -43,7 +43,7 @@ export class ThreeView {
   currentLayer: Layer|null;
 
   constructor(canvasRef: HTMLCanvasElement) {
-        
+
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color( 0xb3deff );
 
@@ -51,10 +51,10 @@ export class ThreeView {
     this.labelRenderer = new CSS2DRenderer();
     this.labelRenderer.domElement.style.position = 'absolute';
     this.labelRenderer.domElement.style.top = '0px';
-    this.labelRenderer.domElement.style.pointerEvents = 'none'
+    this.labelRenderer.domElement.style.pointerEvents = 'none';
     document.body.appendChild( this.labelRenderer.domElement );
     //TEST
-        
+
     this.renderer = new THREE.WebGLRenderer({
       canvas: canvasRef,
       antialias: true,
@@ -66,16 +66,16 @@ export class ThreeView {
     this.rect = canvasRef.getBoundingClientRect();
 
     this.camera = camera();
-    this.controls = new OrbitControls(this.camera,  this.activeElement)
+    this.controls = new OrbitControls(this.camera, this.activeElement);
 
     this.groundPlane = worldPlane;
 
     //3dobjects
     this.scene.add(cube, worldPlaneMesh, worldPlaneHelper);
-    cube.material.color.setHex(0x84CBFF)
+    cube.material.color.setHex(0x84CBFF);
 
     //lights
-    this.scene.add(dirLight, dirLightHelper, hemiLight)
+    this.scene.add(dirLight, dirLightHelper, hemiLight);
 
     this.currentLayer = null;
 
@@ -87,7 +87,7 @@ export class ThreeView {
     };
     this.currentTool = undefined;
 
-    this.currentLayer = layersState.layers.find(l => l.active)!
+    this.currentLayer = layersState.layers.find(l => l.active)!;
 
     this.helpersManager = new HelpersManager(this.scene);
 
@@ -108,83 +108,83 @@ export class ThreeView {
 
   updState = () => {
     autorun(() => {
-      this.updGlobalCoords()
+      this.updGlobalCoords();
     });
 
     autorun(() => {
-      this.setActiveDrawingTool()
+      this.setActiveDrawingTool();
     });
 
     reaction(
-      () => layersState.layers.find(l => l.active), 
-      (value, previousValue, reaction) => { 
-        if(value?.id !== previousValue?.id){
-          this.setLayer()
-        } 
+      () => layersState.layers.find(l => l.active),
+      (value, previousValue, reaction) => {
+        if (value?.id !== previousValue?.id){
+          this.setLayer();
+        }
       }
     );
 
     autorun(() => {
-      this.setCamera()
-    })
+      this.setCamera();
+    });
 
     //TODO concrete conditions
     autorun(() => {
       this.helpersManager.renderGrid();
-    })
-  }
+    });
+  };
 
   setCamera = () => {
     //0 - top camera, 1 - perspective
-    const curCamId = sceneState.currentCamera
-    if(curCamId === 0){
+    const curCamId = sceneState.currentCamera;
+    if (curCamId === 0){
       this.camera = camera(this.renderer, curCamId);
-      this.controls = new OrbitControls(this.camera,  this.activeElement)
+      this.controls = new OrbitControls(this.camera, this.activeElement);
       //this.controls.enableDamping = true;
       this.controls.enableRotate = false;
       //enable all existing layers
-      layersState.layers.forEach(i => this.camera.layers.enable(i.id))
-    } else if(curCamId === 1){
-      this.camera = camera(this.renderer, curCamId)
-      this.controls = new OrbitControls(this.camera,  this.activeElement)
+      layersState.layers.forEach(i => this.camera.layers.enable(i.id));
+    } else if (curCamId === 1){
+      this.camera = camera(this.renderer, curCamId);
+      this.controls = new OrbitControls(this.camera, this.activeElement);
       //enable all existing layers
-      layersState.layers.forEach(i => this.camera.layers.enable(i.id))
+      layersState.layers.forEach(i => this.camera.layers.enable(i.id));
     }
-  }
+  };
 
   setLayer = () => {
-    const current = layersState.layers.find(l => l.active)
-    if(current){
+    const current = layersState.layers.find(l => l.active);
+    if (current){
       this.currentLayer = current;
       this.setActiveDrawingTool();
     }
-  }
+  };
 
   //TODO: rewrite without many ifs elses
   setActiveDrawingTool = () => {
-    
+
     const activeToolId = toolsState.drawingTools.find(i => i.active)?
         toolsState.drawingTools.find(i => i.active)!.id : undefined;
 
     const prevToolId = this.currentTool;
     let prevToolName;
-    console.log('PREV TOOL', prevToolId, 'CURRENT', this.currentTool)
+    console.log('PREV TOOL', prevToolId, 'CURRENT', this.currentTool);
 
     //if there was tool in use - stop it
-    if(typeof prevToolId === 'number'){
-      console.log('error')
-      prevToolName = toolsState.drawingTools.find(i => i.id === prevToolId)!.name
+    if (typeof prevToolId === 'number'){
+      console.log('error');
+      prevToolName = toolsState.drawingTools.find(i => i.id === prevToolId)!.name;
       this.tools[prevToolName].stopDrawing();
     }
-        
+
     //activate new tool
-    if(typeof activeToolId === 'number'){
-      console.log(activeToolId, 'LAYER', this.currentLayer)
-      const toolName = toolsState.drawingTools.find(i => i.active)!.name
+    if (typeof activeToolId === 'number'){
+      console.log(activeToolId, 'LAYER', this.currentLayer);
+      const toolName = toolsState.drawingTools.find(i => i.active)!.name;
 
       this.tools[toolName].startDrawing(this.camera, this.groundPlane, this.currentLayer!);
       this.currentTool = activeToolId;
-            
+
       window.addEventListener('keydown', this.onExit);
 
       document.body.style.cursor = 'crosshair';
@@ -195,34 +195,34 @@ export class ThreeView {
 
       document.body.style.cursor = 'auto';
     }
-  }
+  };
 
   onExit = (event: KeyboardEvent) => {
-    if(event.key === "Escape"){
+    if (event.key === "Escape"){
       const activeToolId = toolsState.drawingTools.find(i => i.active)?
                 toolsState.drawingTools.find(i => i.active)!.id : undefined;
-            
-      if(typeof activeToolId === 'number'){
-        const toolName = toolsState.drawingTools.find(i => i.active)!.name
+
+      if (typeof activeToolId === 'number'){
+        const toolName = toolsState.drawingTools.find(i => i.active)!.name;
         this.tools[toolName].stopDrawing();
         this.tools[toolName].toolState = 0;
         this.currentTool = undefined;
 
         toolsState.setActiveTool(activeToolId);
 
-        window.removeEventListener('keydown', this.onExit)
+        window.removeEventListener('keydown', this.onExit);
       }
     }
-  }
+  };
 
   //to show coords on ground under mouse
   updGlobalCoords = () => {
-    if(sceneState.isFetchingGlobalCoords){
+    if (sceneState.isFetchingGlobalCoords){
       this.activeElement.addEventListener( 'pointermove', this.onUpdMouseLoc );
     } else {
       this.activeElement.removeEventListener( 'pointermove', this.onUpdMouseLoc );
-    }   
-  }
+    }
+  };
 
 
   //get mouse coords on "ground" plane
@@ -234,27 +234,27 @@ export class ThreeView {
     //send mouseloc to State
     //TODO:not send new obj every time
     sceneState.setGlobalCoords({
-      x: mouseLoc.x, 
+      x: mouseLoc.x,
       y: mouseLoc.y,
       z:mouseLoc.z,
-    })
+    });
   };
 
   onWindowResize(vpW:any, vpH:any) {
-    console.log(vpW, vpH)
+    console.log(vpW, vpH);
     this.renderer.setSize(vpW, vpH, false);
-    const aspect = vpW / vpH
-    const viewSize = 200
+    const aspect = vpW / vpH;
+    const viewSize = 200;
     //upd camera ratio depending on cam Type
-    if(this.camera instanceof THREE.PerspectiveCamera){
-      this.camera.aspect = aspect 
+    if (this.camera instanceof THREE.PerspectiveCamera){
+      this.camera.aspect = aspect;
     } else {
-      this.camera.left = aspect*viewSize / -2
-      this.camera.right = aspect*viewSize / 2
-      this.camera.top = viewSize / 2
-      this.camera.bottom =  viewSize / -2
+      this.camera.left = aspect*viewSize / -2;
+      this.camera.right = aspect*viewSize / 2;
+      this.camera.top = viewSize / 2;
+      this.camera.bottom = viewSize / -2;
     }
-        
+
     this.camera.updateProjectionMatrix();
 
 
@@ -265,12 +265,12 @@ export class ThreeView {
   // ******************* RENDER LOOP ******************* //
   update() {
     //TEST
-    this.labelRenderer.render(this.scene, this.camera)
+    this.labelRenderer.render(this.scene, this.camera);
     //TEST
 
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(this.update.bind(this));
-    this.controls.update()
-    this.stats.update() 
-  }   
+    this.controls.update();
+    this.stats.update();
+  }
 }

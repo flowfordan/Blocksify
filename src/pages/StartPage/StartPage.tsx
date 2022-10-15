@@ -5,7 +5,7 @@ import styles from './StartPage.module.css';
 export const StartPage = (): JSX.Element => {
 
 
-  
+
 
   return (
 
@@ -20,5 +20,5 @@ export const StartPage = (): JSX.Element => {
     </div>
 
   );
-}
+};
 

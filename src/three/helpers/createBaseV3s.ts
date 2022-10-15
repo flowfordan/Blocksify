@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import {Vector3} from 'three';
 
 const anglesPossible = [ 1, 2, 5, 10, 15, 30, 45, 90 ];
 
@@ -10,7 +10,7 @@ export type AnglePts = {
 base coords of points on circle of Radius 1
 to certain directions(angles) from 0 to 180 */
 const createBaseV3s = (snapAngles: Array<number>): AnglePts => {
-  const coordsPerAngle: AnglePts = {}
+  const coordsPerAngle: AnglePts = {};
   const maxAngle = 180;
   const baseRadius = 1;
 
@@ -26,7 +26,7 @@ const createBaseV3s = (snapAngles: Array<number>): AnglePts => {
   //with nums divided only by input angles
   const anglesSteps: Array<number> = [];
   for (const angle of allAngles) {
-    for(const inputAngle of snapAngles){
+    for (const inputAngle of snapAngles){
       if (angle % inputAngle === 0 && !anglesSteps.includes(angle)) {
         anglesSteps.push(angle);
       }
@@ -42,9 +42,9 @@ const createBaseV3s = (snapAngles: Array<number>): AnglePts => {
     const V3z = parseFloat((baseRadius * Math.sin(angleRad)).toFixed(9)); //y in model
 
     //positive and negative V3s around z (around y in model)
-    coordsPerAngle[angle] = [ new Vector3(V3x, 0, V3z), new Vector3(V3x, 0, -1*V3z) ]
+    coordsPerAngle[angle] = [ new Vector3(V3x, 0, V3z), new Vector3(V3x, 0, -1*V3z) ];
   }
   return coordsPerAngle;
-}
+};
 
-export { createBaseV3s }
+export {createBaseV3s};

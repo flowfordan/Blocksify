@@ -1,10 +1,10 @@
-import * as THREE from 'three'
-import { _vec3, _vec2, raycaster } from './common';
+import * as THREE from 'three';
+import {_vec3, _vec2, raycaster} from './common';
 
 function getMouseLocation (
-  event: MouseEvent, 
-  rect: DOMRect, 
-  canvas: HTMLCanvasElement, 
+  event: MouseEvent,
+  rect: DOMRect,
+  canvas: HTMLCanvasElement,
   camera: THREE.PerspectiveCamera | THREE.OrthographicCamera,
   plane: THREE.Plane): THREE.Vector3 {
   event.preventDefault();
@@ -21,4 +21,4 @@ function getMouseLocation (
   return _vec3;
 }
 
-export {getMouseLocation}
+export {getMouseLocation};

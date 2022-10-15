@@ -5,16 +5,16 @@ import {
 } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
 //renderer
-const renderer = new THREE.WebGLRenderer({ antialias: true,})
-renderer.shadowMap.enabled = true
-renderer.outputEncoding = THREE.sRGBEncoding
-renderer.setSize(window.innerWidth, window.innerHeight)
+const renderer = new THREE.WebGLRenderer({antialias: true,});
+renderer.shadowMap.enabled = true;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.setSize(window.innerWidth, window.innerHeight);
 
 //label renderer
-const labelRenderer = new CSS2DRenderer()
-labelRenderer.setSize(window.innerWidth, window.innerHeight)
-labelRenderer.domElement.style.position = 'absolute'
-labelRenderer.domElement.style.top = '0px'
-labelRenderer.domElement.style.pointerEvents = 'none'
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(window.innerWidth, window.innerHeight);
+labelRenderer.domElement.style.position = 'absolute';
+labelRenderer.domElement.style.top = '0px';
+labelRenderer.domElement.style.pointerEvents = 'none';
 
-export {renderer, labelRenderer}
+export {renderer, labelRenderer};

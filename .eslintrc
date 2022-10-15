@@ -10,7 +10,12 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    //spacing inline
     "array-bracket-spacing": ["error", "always"],
+    "keyword-spacing": ["error", { "before": true }],    
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "arrow-spacing": "error",
+    "object-curly-spacing": ["error", "never"],
     //commas
     "comma-dangle": ["error", {
       "arrays": "never",
@@ -19,15 +24,14 @@
       "exports": "never",
       "functions": "never"
     }],
-    "comma-spacing": ["error", { "before": false, "after": true }],
+
     "indent": ["error", 2],
-    "prefer-spread": "warn"
-    // "@typescript-eslint/strict-boolean-expressions": [
-    //     2,
-    //     {
-    //         "allowString" : false,
-    //         "allowNumber" : false
-    //     }
-    // ]
+    "prefer-spread": "warn",
+    "no-multi-spaces": "error",
+    "no-tabs": ["error"],
+    "no-trailing-spaces": "error",
+    //semicolons
+    "semi-style": ["error", "last"],
+    "semi": ["error", "always"]
   }
 }

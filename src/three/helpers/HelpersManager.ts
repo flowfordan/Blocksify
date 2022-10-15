@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { sceneState, HelperOption, toolsState } from '../../state';
+import {sceneState, HelperOption, toolsState} from '../../state';
 
 //new instance is created when Tool's startDrawing() called
 class HelpersManager {
@@ -16,7 +16,7 @@ class HelpersManager {
   renderGrid = () => {
 
     //clean up
-    this.scene.remove(this.grid as THREE.Object3D)
+    this.scene.remove(this.grid as THREE.Object3D);
 
     const gridOptions = this.options.find(i => i.type === 'grid');
 
@@ -27,13 +27,13 @@ class HelpersManager {
     this.grid = new THREE.GridHelper( 5000, division, 0x4AA8FF, 0xC3C3C3 );
     this.grid.name = 'grid';
 
-    if(!gridOptions?.isActive){
+    if (!gridOptions?.isActive){
       this.grid.visible = false;
     }
 
     this.scene.add(this.grid);
-  }
-  
+  };
+
 }
 
-export{HelpersManager}
+export {HelpersManager};

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { Vector2 } from 'three';
-import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
+import {Vector2} from 'three';
+import {Line2, LineGeometry, LineMaterial} from 'three-fatline';
 
 
 const pointObj = (coords: Array<number>) => {
@@ -8,21 +8,21 @@ const pointObj = (coords: Array<number>) => {
 
   const pGeom = new THREE.BufferGeometry();
   pGeom.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
-  const pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false, } );
+  const pMat = new THREE.PointsMaterial( {color: 0x888888, size: 6, sizeAttenuation: false,} );
   const point = new THREE.Points(pGeom, pMat);
-    
-  return point
+
+  return point;
 };
 
 const V2ArrToNumArr = (arr: Array<Vector2>, baseLevel: number) => {
   return arr.map(i => {
-    return(
+    return (
       [ i.toArray()[0], 0-baseLevel, i.toArray()[1] ]
-    )
-  }).flat()
-}
+    );
+  }).flat();
+};
 
-const pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false, } );
+const pMat = new THREE.PointsMaterial( {color: 0x888888, size: 6, sizeAttenuation: false,} );
 
 
 //function returning fatline material with given atributes
@@ -36,25 +36,25 @@ const getLineMat = (color = 0xffffff, lineWidth = 2, dash = false, opacity = 1) 
     gapSize: 4,
     //dashOffset: 25,
     opacity: opacity,
-  
+
   });
 
   return lineMaterial;
-}
+};
 
 const getPolygonMat = () => {
-  const mat = new THREE.MeshBasicMaterial( { 
-    color: new THREE.Color('moccasin'), 
-    side: THREE.DoubleSide, 
+  const mat = new THREE.MeshBasicMaterial( {
+    color: new THREE.Color('moccasin'),
+    side: THREE.DoubleSide,
     transparent:true,
-    opacity: 0.5, 
+    opacity: 0.5,
   } );
 
-  return mat
-}
+  return mat;
+};
 
 
 export {
   pointObj, pMat, getLineMat,
   getPolygonMat, V2ArrToNumArr
-}
+};

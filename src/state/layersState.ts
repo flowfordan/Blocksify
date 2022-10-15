@@ -1,16 +1,16 @@
-import { makeAutoObservable } from "mobx";
-import { LineMaterial } from "three-fatline";
-import { layersDefPreset } from "./presets/layersDefPreset";
+import {makeAutoObservable} from "mobx";
+import {LineMaterial} from "three-fatline";
+import {layersDefPreset} from "./presets/layersDefPreset";
 
 //TODO: layers structure to include additional obj props
 //TODO: include current layer property
 interface LayerContentMaterials {
-  line: LineMaterial | null, 
+  line: LineMaterial | null,
   polygon: THREE.MeshBasicMaterial | null
 }
 
 interface LayerContentItem {
-  id: number, name: string, descr: string, 
+  id: number, name: string, descr: string,
   stage: number, mat: LayerContentMaterials
 }
 
@@ -48,28 +48,28 @@ class LayersState{
     //set new active
     const newActive = this.layers.find(item => item.id === num);
 
-    if(newActive){
-            
-      if(!newActive.editable){
+    if (newActive){
+
+      if (!newActive.editable){
         //TODO popup window 'Layer is not editable'
-        console.log('exit')
-        return
+        console.log('exit');
+        return;
       }
-            
+
       //set current  active to not active
       const currentActive = this.layers.find(item => item.active);
-      if(currentActive){
+      if (currentActive){
         const idx = this.layers.indexOf(currentActive);
         this.layers[idx].active = false;
       }
 
       const idx = this.layers.indexOf(newActive);
       this.layers[idx].active = true;
-    }     
-        
-  }
+    }
+
+  };
 }
 
 const layersState = new LayersState();
 
-export {layersState}
+export {layersState};

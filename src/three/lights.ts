@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import * as THREE from 'three';
 
 //creating light
 
@@ -6,7 +6,7 @@ import * as THREE from 'three'
 export const dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
 dirLight.color.setHSL( 0.1, 1, 0.95 );
 dirLight.position.set( - 1, 5, 5 );
-dirLight.position.multiplyScalar( 30 )
+dirLight.position.multiplyScalar( 30 );
 dirLight.castShadow = true;
 dirLight.shadow.bias = 0.0001;
 dirLight.shadow.mapSize.width = 4096;
@@ -23,15 +23,15 @@ export const dirLightHelper = new THREE.DirectionalLightHelper( dirLight, 5 );
 
 
 // first one
-export const mainLight = new THREE.SpotLight(undefined, 5)
-mainLight.position.set(-125, 125, -12.5)
-mainLight.castShadow = true
-mainLight.shadow.mapSize.width = 4096
-mainLight.shadow.mapSize.height = 4096
+export const mainLight = new THREE.SpotLight(undefined, 5);
+mainLight.position.set(-125, 125, -12.5);
+mainLight.castShadow = true;
+mainLight.shadow.mapSize.width = 4096;
+mainLight.shadow.mapSize.height = 4096;
 mainLight.shadow.radius = 1;
 mainLight.intensity = 1;
 
-export const mainLightHelper = new THREE.SpotLightHelper( mainLight, 5 ); 
+export const mainLightHelper = new THREE.SpotLightHelper( mainLight, 5 );
 
 
 //third
