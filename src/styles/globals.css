@@ -37,10 +37,12 @@ ul {
   --black: #3B434E;
   --black-dark: #23272e;
 
-    --grey-lightest:#EBEBEB;
-  --grey-light:#e0e0e0;
-  --grey-main-light:#c5c5c5;
-    --grey-main:#b1b1b1;
+  /* greys */
+  --grey-lightest:#F5F5F5;
+  --grey-light:#E9E9E9;
+  --grey-main:#C3C3C3;
+  --grey-dark:#686868;
+  --grey-darkest:#474747;
 
 
   --white: white;

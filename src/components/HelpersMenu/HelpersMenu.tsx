@@ -47,7 +47,7 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
           {item.isRange &&
           <div className={styles.menuItemRange}>
             <span>
-              <Slider minVal={item.rangeMin} maxVal={item.rangeMax} stepVal={item.rangeStep} val={item.value} />
+              <Slider minVal={item.rangeMin} maxVal={item.rangeMax} stepVal={item.rangeStep} val={item.value} uiItemId={item.helperID}/>
               {/* <input type="range"
                 min={item.rangeMin} max={item.rangeMax}
                 step={item.rangeStep}
