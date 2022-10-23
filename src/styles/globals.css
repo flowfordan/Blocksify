@@ -5,7 +5,7 @@ body {
   color: var(--black);
   /* background: var(--grey-lightest); */
 
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 a {
@@ -48,11 +48,12 @@ ul {
   --white: white;
 
   --primary-invis: #95ccff;
-  --primary: #1790FF;
+  --primary: #3EB0FF;
+  --primary-overlay: rgba(62, 176, 255, 0.4);
   --primary-hover: #167cdb;
   
   --red: #FC836D;
   --green: #1DC37E;
   --green-light: #C8F8E4;
-  --font-family: 'Noto Sans KR', sans-serif;
+  --font-family: 'Inter', sans-serif;
 }

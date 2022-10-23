@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import { Slider } from "../basic/Slider/Slider";
 import { ComplexSlider } from "../complex/ComplexSlider/ComplexSlider";
+import { ListItemCheck } from "../complex/ListItemCheck/ListItemCheck";
 
 
 interface HelpersMenuProps {
@@ -21,12 +22,9 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 
   const handleActiveToggle = (helperID: number) => {
     toolsState.toggleHelperActive(helperID);
+    console.log('CLICK');
   };
 
-  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number) => {
-    const newValue = Number(e.target.value);
-    toolsState.setHelperValue(itemId, newValue);
-  };
 
   const handleCollectionChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number, value: number) => {
     const isIncluded = e.target.checked;
@@ -36,20 +34,10 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   const buildItems = (type: string) => {
     return helperOptions.map((item, idx) => {
       return item.type === type? (
-        <div key={item.helperID} className={styles.menuItem}>
-          <div className={styles.menuItemCheck}>
-            <span>
-              <input type="checkbox"
-                checked={item.isActive}
-                onChange={() => handleActiveToggle(item.helperID)}/>
-            </span>
-            <span>{item.name}</span>
-          </div>
-
+        <ListItemCheck key={item.helperID} title={item.name} isChecked={item.isActive} onClick={() => handleActiveToggle(item.helperID)}>
           {item.isRange &&
-          <div className={styles.menuItemRange}>
             <ComplexSlider minVal={item.rangeMin} maxVal={item.rangeMax} stepVal={item.rangeStep} val={item.value} uiItemId={item.helperID} valName={item.valueName}/>
-          </div>}
+          }
 
           {item.isSelection &&
           <div className={styles.menuItemAnglesWrapper}>
@@ -63,7 +51,20 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
               );
             })}
           </div>}
-        </div>
+        </ListItemCheck>
+
+      // <div key={item.helperID} className={styles.menuItem}>
+      //   <div className={styles.menuItemCheck}>
+      //     <span>
+      //       <input type="checkbox"
+      //         checked={item.isActive}
+      //         onChange={() => handleActiveToggle(item.helperID)}/>
+      //     </span>
+      //     <span>{item.name}</span>
+      //   </div>
+
+
+
       ) : null;
     });
   };
