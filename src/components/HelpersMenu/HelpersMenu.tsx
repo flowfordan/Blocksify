@@ -34,7 +34,7 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   const buildItems = (type: string) => {
     return helperOptions.map((item, idx) => {
       return item.type === type? (
-        <ListItemCheck key={item.helperID} title={item.name} isChecked={item.isActive} onClick={() => handleActiveToggle(item.helperID)}>
+        <ListItemCheck key={item.helperID} title={item.name} isChecked={item.isActive} onDoubleClick={() => handleActiveToggle(item.helperID)}>
           {item.isRange &&
             <ComplexSlider minVal={item.rangeMin} maxVal={item.rangeMax} stepVal={item.rangeStep} val={item.value} uiItemId={item.helperID} valName={item.valueName}/>
           }
