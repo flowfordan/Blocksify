@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import {Vector3} from "three";
-import {CSS2DObject} from "three/examples/jsm/renderers/CSS2DRenderer";
-import {sceneState, SnapOptions} from "../../state";
+import { Vector3 } from "three";
+import { CSS2DObject } from "three/examples/jsm/renderers/CSS2DRenderer";
+import { sceneState, SnapOptions } from "../../state";
 
 class TagsManager {
   // tagContainers: Array<HTMLDivElement>;
@@ -25,10 +25,10 @@ class TagsManager {
     this.baseDirection = sceneState.baseDirection;
 
     //container options
-    this.tagContainers = {lengths: [], angles: []};
+    this.tagContainers = { lengths: [], angles: [] };
 
     //tag options
-    this.toolTags = {lengths: [], angles: []};
+    this.toolTags = { lengths: [], angles: [] };
   }
 
   renderTag = (v0: Array<THREE.Vector3>, v1: THREE.Vector3, snapOptions?: SnapOptions) => {
@@ -77,4 +77,4 @@ class TagsManager {
   };
 }
 
-export {TagsManager};
+export { TagsManager };

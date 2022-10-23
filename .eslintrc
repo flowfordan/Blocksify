@@ -15,7 +15,7 @@
     "keyword-spacing": ["error", { "before": true }],    
     "comma-spacing": ["error", { "before": false, "after": true }],
     "arrow-spacing": "error",
-    "object-curly-spacing": ["error", "never"],
+    "object-curly-spacing": ["error", "always"],
     //commas
     "comma-dangle": ["error", {
       "arrays": "never",

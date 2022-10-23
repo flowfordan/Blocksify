@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import {getMouseLocation} from "../utils";
-import {pointObj} from "../objs3d";
-import {Line2, LineGeometry} from 'three-fatline';
-import {Tool} from "./Tool";
-import {toJS} from "mobx";
-import {Vector3} from "three";
-import {SnapManager} from "../helpers/SnapManager";
+import { getMouseLocation } from "../utils";
+import { pointObj } from "../objs3d";
+import { Line2, LineGeometry } from 'three-fatline';
+import { Tool } from "./Tool";
+import { toJS } from "mobx";
+import { Vector3 } from "three";
+import { SnapManager } from "../helpers/SnapManager";
 
 
 export class Line extends Tool{

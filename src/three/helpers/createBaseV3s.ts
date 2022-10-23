@@ -1,4 +1,4 @@
-import {Vector3} from 'three';
+import { Vector3 } from 'three';
 
 const anglesPossible = [ 1, 2, 5, 10, 15, 30, 45, 90 ];
 
@@ -47,4 +47,4 @@ const createBaseV3s = (snapAngles: Array<number>): AnglePts => {
   return coordsPerAngle;
 };
 
-export {createBaseV3s};
+export { createBaseV3s };

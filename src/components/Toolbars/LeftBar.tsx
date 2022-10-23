@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
-import {observer} from "mobx-react-lite";
+import React, { useEffect } from 'react';
+import { observer } from "mobx-react-lite";
 
 import cn from 'classnames';
 
 import styles from './LeftBar.module.css';
-import {sceneState, layersState} from '../../state';
-import {CoordsDisplay} from '../Coords/CoordsDisplay';
+import { sceneState, layersState } from '../../state';
+import { CoordsDisplay } from '../Coords/CoordsDisplay';
 
 
 export const LeftBar = observer((props:any): JSX.Element => {

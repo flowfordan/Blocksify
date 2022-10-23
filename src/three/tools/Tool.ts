@@ -1,10 +1,10 @@
 import * as THREE from "three";
-import {Line2, LineGeometry, LineMaterial} from 'three-fatline';
+import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
-import {Layer} from "../../state";
-import {SnapManager} from "../helpers/SnapManager";
-import {TagsManager} from "../helpers/TagManager";
-import {pMat} from "../objs3d";
+import { Layer } from "../../state";
+import { SnapManager } from "../helpers/SnapManager";
+import { TagsManager } from "../helpers/TagManager";
+import { pMat } from "../objs3d";
 
 interface I3dObjPoint {
   form: THREE.Points | null,
@@ -24,7 +24,7 @@ interface I3dObjPolygon {
     mat: THREE.MeshBasicMaterial | null
 }
 
-const null3dObj = {form: null, geom: null, mat: null};
+const null3dObj = { form: null, geom: null, mat: null };
 
 const empty3dObjPoint = {
   form: new THREE.Points(), geom: new THREE.BufferGeometry(), mat: pMat
@@ -98,9 +98,9 @@ export class Tool {
         form: null,
         geom: null,
         mat: null
-      }};
+      } };
 
-    this.objCoords = {line: [], polygon: []};
+    this.objCoords = { line: [], polygon: [] };
 
     this.guideObj = {
       line: {

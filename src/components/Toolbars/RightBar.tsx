@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {observer} from "mobx-react-lite";
+import React, { useEffect } from 'react';
+import { observer } from "mobx-react-lite";
 
 import styles from './RightBar.module.css';
 

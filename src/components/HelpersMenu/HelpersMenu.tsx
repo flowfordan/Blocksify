@@ -1,8 +1,10 @@
-import {FunctionComponent} from "react";
+import { FunctionComponent } from "react";
 import styles from "./HelpersMenu.module.css";
 
-import {toolsState} from '../../state';
-import {observer} from "mobx-react-lite";
+import { toolsState } from '../../state';
+import { observer } from "mobx-react-lite";
+import React from "react";
+import { Slider } from "../basic/Slider/Slider";
 
 interface HelpersMenuProps {
   test?: boolean;
@@ -45,11 +47,12 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
           {item.isRange &&
           <div className={styles.menuItemRange}>
             <span>
-              <input type="range"
+              <Slider minVal={item.rangeMin} maxVal={item.rangeMax} stepVal={item.rangeStep} val={item.value} />
+              {/* <input type="range"
                 min={item.rangeMin} max={item.rangeMax}
                 step={item.rangeStep}
                 value={item.value}
-                onChange={(e) => handleValueChange(e, item.helperID)}/>
+                onChange={(e) => handleValueChange(e, item.helperID)}/> */}
             </span>
             <span className={styles.menuItemRangeVal}>
               <span>{item.valueName && item.valueName}</span>
@@ -88,4 +91,4 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   );
 });
 
-export {HelpersMenu};
+export { HelpersMenu };

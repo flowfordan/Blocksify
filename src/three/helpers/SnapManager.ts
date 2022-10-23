@@ -1,9 +1,9 @@
-import {LineMaterial, Line2, LineGeometry} from 'three-fatline';
+import { LineMaterial, Line2, LineGeometry } from 'three-fatline';
 import * as THREE from 'three';
-import {Vector3} from 'three';
-import {sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, toolsState} from '../../state';
-import {getLineMat, pointObj} from '../objs3d';
-import {createBaseV3s} from './createBaseV3s';
+import { Vector3 } from 'three';
+import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, toolsState } from '../../state';
+import { getLineMat, pointObj } from '../objs3d';
+import { createBaseV3s } from './createBaseV3s';
 
 type RenderedGuidesOptions = {
   points: {
@@ -281,10 +281,10 @@ class SnapManager {
     const defaultSnapOptions: any = {};
 
     for (const i of snapsArray){
-      defaultSnapOptions[i] = {...statusPreset};
+      defaultSnapOptions[i] = { ...statusPreset };
     }
 
-    const snapOptions: any = {...defaultSnapOptions};
+    const snapOptions: any = { ...defaultSnapOptions };
 
     for (const item of this.options){
       if (item.type === 'snap'){
@@ -303,7 +303,7 @@ class SnapManager {
       points: {
         form: new THREE.Points(),
         geometry: new THREE.BufferGeometry(),
-        material: new THREE.PointsMaterial( {color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true} )
+        material: new THREE.PointsMaterial( { color: 0x5CC6FF, size: 11, sizeAttenuation: false, opacity: 0.5, transparent:true } )
       },
       lines: {
         form: new Line2(),
@@ -347,4 +347,4 @@ class SnapManager {
 
 }
 
-export {SnapManager};
+export { SnapManager };

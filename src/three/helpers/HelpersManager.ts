@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {sceneState, HelperOption, toolsState} from '../../state';
+import { sceneState, HelperOption, toolsState } from '../../state';
 
 //new instance is created when Tool's startDrawing() called
 class HelpersManager {
@@ -36,4 +36,4 @@ class HelpersManager {
 
 }
 
-export {HelpersManager};
+export { HelpersManager };

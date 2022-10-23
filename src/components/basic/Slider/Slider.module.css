@@ -1,0 +1,6 @@
+.header {
+  background-color: var(--black);
+  color: var(--white);
+  grid-area: header;
+}
+

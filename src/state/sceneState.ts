@@ -1,5 +1,5 @@
-import {makeAutoObservable, toJS} from "mobx";
-import {Vector3} from 'three';
+import { makeAutoObservable, toJS } from "mobx";
+import { Vector3 } from 'three';
 
 type Coords = {
     x: number,
@@ -50,4 +50,4 @@ class SceneState{
 
 const sceneState = new SceneState();
 
-export {sceneState};
+export { sceneState };

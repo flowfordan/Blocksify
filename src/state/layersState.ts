@@ -1,6 +1,6 @@
-import {makeAutoObservable} from "mobx";
-import {LineMaterial} from "three-fatline";
-import {layersDefPreset} from "./presets/layersDefPreset";
+import { makeAutoObservable } from "mobx";
+import { LineMaterial } from "three-fatline";
+import { layersDefPreset } from "./presets/layersDefPreset";
 
 //TODO: layers structure to include additional obj props
 //TODO: include current layer property
@@ -72,4 +72,4 @@ class LayersState{
 
 const layersState = new LayersState();
 
-export {layersState};
+export { layersState };

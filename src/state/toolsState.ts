@@ -1,7 +1,7 @@
-import {AnglePts, createBaseV3s} from '../three/helpers/createBaseV3s';
-import {makeAutoObservable, toJS} from "mobx";
-import {Vector3} from 'three';
-import {helpersDefPreset} from './presets/helpersPreset';
+import { AnglePts, createBaseV3s } from '../three/helpers/createBaseV3s';
+import { makeAutoObservable, toJS } from "mobx";
+import { Vector3 } from 'three';
+import { helpersDefPreset } from './presets/helpersPreset';
 
 enum EToolName {
     Line = 'line',
@@ -58,9 +58,9 @@ class ToolsState{
 
   constructor(){
     this.drawingTools = [
-      {id: 0, name: EToolName.Line, active: false},
-      {id: 1, name: EToolName.PLine, active: false},
-      {id: 2, name: EToolName.Polygon, active: false}
+      { id: 0, name: EToolName.Line, active: false },
+      { id: 1, name: EToolName.PLine, active: false },
+      { id: 2, name: EToolName.Polygon, active: false }
     ];
 
     /* HELPERS */
@@ -147,5 +147,5 @@ class ToolsState{
 
 const toolsState = new ToolsState();
 
-export {toolsState};
-export type {HelperOptions, SnapOptions, SnapType, SnapStatus, HelperOption};
+export { toolsState };
+export type { HelperOptions, SnapOptions, SnapType, SnapStatus, HelperOption };

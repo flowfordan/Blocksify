@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {renderer as initRenderer} from '../renderer/renderer';
+import { renderer as initRenderer } from '../renderer/renderer';
 
 const camera = (renderer = initRenderer, id = 1): THREE.PerspectiveCamera| THREE.OrthographicCamera => {
   switch (id){
@@ -43,4 +43,4 @@ const camera = (renderer = initRenderer, id = 1): THREE.PerspectiveCamera| THREE
 
 
 
-export {camera};
+export { camera };

@@ -1,5 +1,5 @@
-import {observer} from "mobx-react-lite";
-import {sceneState} from "../../state";
+import { observer } from "mobx-react-lite";
+import { sceneState } from "../../state";
 import styles from "./CoordsDisplay.module.css";
 
 interface UICoords {

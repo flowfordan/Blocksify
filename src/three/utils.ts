@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {_vec3, _vec2, raycaster} from './common';
+import { _vec3, _vec2, raycaster } from './common';
 
 function getMouseLocation (
   event: MouseEvent,
@@ -21,4 +21,4 @@ function getMouseLocation (
   return _vec3;
 }
 
-export {getMouseLocation};
+export { getMouseLocation };

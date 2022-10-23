@@ -77,4 +77,4 @@ const helpersDefPreset = [
   }
 ];
 
-export {helpersDefPreset};
+export { helpersDefPreset };

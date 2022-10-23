@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import {Vector2} from 'three';
-import {Line2, LineGeometry, LineMaterial} from 'three-fatline';
+import { Vector2 } from 'three';
+import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 
 const pointObj = (coords: Array<number>) => {
@@ -8,7 +8,7 @@ const pointObj = (coords: Array<number>) => {
 
   const pGeom = new THREE.BufferGeometry();
   pGeom.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
-  const pMat = new THREE.PointsMaterial( {color: 0x888888, size: 6, sizeAttenuation: false} );
+  const pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false } );
   const point = new THREE.Points(pGeom, pMat);
 
   return point;
@@ -22,7 +22,7 @@ const V2ArrToNumArr = (arr: Array<Vector2>, baseLevel: number) => {
   }).flat();
 };
 
-const pMat = new THREE.PointsMaterial( {color: 0x888888, size: 6, sizeAttenuation: false} );
+const pMat = new THREE.PointsMaterial( { color: 0x888888, size: 6, sizeAttenuation: false } );
 
 
 //function returning fatline material with given atributes

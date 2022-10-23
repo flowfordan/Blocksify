@@ -15,4 +15,4 @@ const getGridHelper = (size: number, name: string) => {
   return helper;
 };
 
-export {gridHelper, getGridHelper};
+export { gridHelper, getGridHelper };

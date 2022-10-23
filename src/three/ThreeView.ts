@@ -1,22 +1,22 @@
-import {Line} from './tools/Line';
-import {Polygon} from './tools/Polygon';
+import { Line } from './tools/Line';
+import { Polygon } from './tools/Polygon';
 import * as THREE from 'three';
-import {camera} from './camera/camera';
+import { camera } from './camera/camera';
 
-import {dirLight, dirLightHelper, hemiLight} from './lights';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import {cube} from './geometry/geometry';
+import { dirLight, dirLightHelper, hemiLight } from './lights';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { cube } from './geometry/geometry';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import {worldPlaneMesh, worldPlane, worldPlaneHelper} from './geometry/worldPlane';
+import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './geometry/worldPlane';
 
-import {getMouseLocation} from './utils';
+import { getMouseLocation } from './utils';
 
-import {autorun, reaction, toJS} from "mobx";
-import {Layer, layersState, sceneState, toolsState} from '../state';
+import { autorun, reaction, toJS } from "mobx";
+import { Layer, layersState, sceneState, toolsState } from '../state';
 
-import {CSS2DRenderer, CSS2DObject} from 'three/examples/jsm/renderers/CSS2DRenderer';
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
-import {HelpersManager} from './helpers/HelpersManager';
+import { HelpersManager } from './helpers/HelpersManager';
 
 export class ThreeView {
   labelRenderer: CSS2DRenderer;
