@@ -5,6 +5,8 @@ import { toolsState } from '../../state';
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Slider } from "../basic/Slider/Slider";
+import { ComplexSlider } from "../complex/ComplexSlider/ComplexSlider";
+
 
 interface HelpersMenuProps {
   test?: boolean;
@@ -46,18 +48,7 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 
           {item.isRange &&
           <div className={styles.menuItemRange}>
-            <span>
-              <Slider minVal={item.rangeMin} maxVal={item.rangeMax} stepVal={item.rangeStep} val={item.value} uiItemId={item.helperID}/>
-              {/* <input type="range"
-                min={item.rangeMin} max={item.rangeMax}
-                step={item.rangeStep}
-                value={item.value}
-                onChange={(e) => handleValueChange(e, item.helperID)}/> */}
-            </span>
-            <span className={styles.menuItemRangeVal}>
-              <span>{item.valueName && item.valueName}</span>
-              <span>{item.value}</span>
-            </span>
+            <ComplexSlider minVal={item.rangeMin} maxVal={item.rangeMax} stepVal={item.rangeStep} val={item.value} uiItemId={item.helperID} valName={item.valueName}/>
           </div>}
 
           {item.isSelection &&

@@ -7,5 +7,4 @@ export interface SliderProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLI
   stepVal: number;
   val: number;
   uiItemId: number;
-  onChange?: () => void;
 }

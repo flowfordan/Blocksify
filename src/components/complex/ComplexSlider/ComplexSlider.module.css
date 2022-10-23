@@ -1,0 +1,30 @@
+.complexSlider {
+  display: grid;
+  grid-template-columns: 1fr 8px 8px;
+  grid-template-rows: repeat(3, 8px);
+  grid-template-areas: 
+  ". . ."
+  "slider val val"
+  "name name name";
+
+  align-items: center;
+
+  font-size: 10px;
+  line-height: 10px;
+  color: var(--grey-main);
+}
+
+.complexSlider_value{
+  grid-area: val;
+  text-align: end;
+}
+
+.complexSlider_slider{
+  grid-area: slider;
+  display: flex;
+
+}
+
+.complexSlider_valName{
+  grid-area: name;
+}
