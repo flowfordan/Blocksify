@@ -6,7 +6,7 @@
   type + name - final helper characterisation
 
   isActive: false,
-  value - main current number for sliders only
+  value - main current number - for sliders only
   valueName - UI name of slider
   isRange - UI - slidr or checkboxes
   rangeMin: 0.5,
@@ -44,8 +44,8 @@ const helpersDefPreset = [
     rangeMax: 0,
     rangeStep: 0,
     isSelection: true,
-    variants: [ 1, 2, 5, 10, 20, 30, 45, 90 ],
-    numbers: [ 20, 30 ]
+    variants: [ 1, 2, 5, 10, 15, 30, 45, 90 ],
+    numbers: [ 2 ]
   },
   {
     helperID: 2,

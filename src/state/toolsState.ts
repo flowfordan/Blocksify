@@ -31,8 +31,8 @@ interface HelperOption {
   rangeMax: number,
   rangeStep: number,
   isSelection: boolean,
-  variants?: Array<number>,
-  numbers: Array<number>
+  variants?: Array<number>, //possible variants
+  numbers: Array<number> //selected numbers
 }
 
 type HelperOptions = Array<HelperOption>;

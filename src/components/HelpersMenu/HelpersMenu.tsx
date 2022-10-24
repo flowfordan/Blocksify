@@ -7,17 +7,13 @@ import React from "react";
 import { Slider } from "../basic/Slider/Slider";
 import { ComplexSlider } from "../complex/ComplexSlider/ComplexSlider";
 import { ListItemCheck } from "../complex/ListItemCheck/ListItemCheck";
-
+import { CheckMatrix } from "../basic/CheckMatrix/CheckMatrix";
 
 interface HelpersMenuProps {
   test?: boolean;
 }
 
 const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
-  const obj = {
-    d: 5
-  };
-
   const helperOptions = toolsState.helpersOptions;
 
   const handleActiveToggle = (helperID: number) => {
@@ -41,7 +37,8 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 
           {item.isSelection &&
           <div className={styles.menuItemAnglesWrapper}>
-            {item.variants!.map((v, idx) => {
+            <CheckMatrix items={item.variants!} selected={item.numbers}/>
+            {/* {item.variants!.map((v, idx) => {
               return (
                 <span key={idx} className={styles.menuItemAngles}>
                   <input type="checkbox" checked={item.numbers.indexOf(v) !== -1}
@@ -49,22 +46,9 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
                   <span>{v}</span>
                 </span>
               );
-            })}
+            })} */}
           </div>}
         </ListItemCheck>
-
-      // <div key={item.helperID} className={styles.menuItem}>
-      //   <div className={styles.menuItemCheck}>
-      //     <span>
-      //       <input type="checkbox"
-      //         checked={item.isActive}
-      //         onChange={() => handleActiveToggle(item.helperID)}/>
-      //     </span>
-      //     <span>{item.name}</span>
-      //   </div>
-
-
-
       ) : null;
     });
   };

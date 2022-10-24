@@ -1,0 +1,37 @@
+import React from 'react';
+import cn from 'classnames';
+
+import { CheckMatrixProps } from './CheckMatrix.props';
+import styles from './CheckMatrix.module.css';
+import { toolsState } from '../../../state';
+
+const CheckMatrix = ({ items, selected, ...props }: CheckMatrixProps): JSX.Element => {
+  const closed: Array<number> = [];
+
+  for (const choice of selected){
+    for (const item of items) {
+      if ((item % choice === 0) && item > choice && !selected.includes(item)) {
+        closed.push(item);
+      }
+    }
+  }
+
+  console.log(closed);
+  console.log(1 % 30);
+
+  return (
+    <div className={styles.matrix}>
+      {items.map((i, idx) => {
+        return (
+          <span key={idx} className={cn(styles.item, {
+            [styles.itemClosed]: closed.includes(i),
+            [styles.itemSelected]: selected.includes(i)
+          })}>{i}</span>
+        );
+      })}
+    </div>
+  );
+};
+
+export { CheckMatrix };
+
