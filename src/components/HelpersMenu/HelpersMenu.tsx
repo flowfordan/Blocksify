@@ -8,6 +8,7 @@ import { Slider } from "../basic/Slider/Slider";
 import { ComplexSlider } from "../complex/ComplexSlider/ComplexSlider";
 import { ListItemCheck } from "../complex/ListItemCheck/ListItemCheck";
 import { CheckMatrix } from "../basic/CheckMatrix/CheckMatrix";
+import { Division } from "../basic/Division/Division";
 
 interface HelpersMenuProps {
   test?: boolean;
@@ -55,14 +56,16 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 
   return (
     <div className={styles.menu}>
-      <div className={styles.menuBlock}>
+      <Division>{buildItems('snap')}</Division>
+      <Division>{buildItems('grid')}</Division>
+      {/* <div className={styles.menuBlock}>
         <div className={styles.menuBlockHeader}>Snapping</div>
         {buildItems('snap')}
       </div>
       <div className={styles.menuBlock}>
         <div className={styles.menuBlockHeader}>Grid</div>
         {buildItems('grid')}
-      </div>
+      </div> */}
     </div>
   );
 });

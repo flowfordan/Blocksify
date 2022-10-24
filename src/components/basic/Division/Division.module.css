@@ -1,0 +1,33 @@
+.division {
+  padding-top: 8px;
+}
+
+/* .division:not(:last-child){
+  border-bottom: 1px solid var(--grey-darkest);
+} */
+
+.division:not(:last-child)::after{
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  content: '';
+
+  height: 1px;
+  width: 90%;
+
+  /* margin: 0 8px; */
+
+  background-color: var(--grey-darkest);
+}
+
+.header {
+  padding-left: 8px;
+
+  color: var(--grey-dark);
+}
+
+.content {
+
+}
+

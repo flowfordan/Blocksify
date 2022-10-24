@@ -1,6 +1,6 @@
-import { InputHTMLAttributes, DetailedHTMLProps } from 'react';
+import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
-export interface CheckMatrixProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export interface CheckMatrixProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   error?: string;
   items: Array<number>;
   selected: Array<number>;

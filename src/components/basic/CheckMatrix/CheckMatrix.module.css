@@ -17,6 +17,8 @@
 
   color: var(--grey-main);
   text-decoration: none;
+
+  transition: all 0.2s;
 }
 
 .item:hover {
@@ -29,8 +31,8 @@
 }
 
 .itemClosed {
-  color: var(--grey-dark);
-  text-decoration: none;
+  /* color: var(--grey-dark); */
+  text-decoration: line-through;
 }
 
 .itemClosed:hover {

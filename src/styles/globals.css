@@ -49,7 +49,7 @@ ul {
 
   --primary-invis: #95ccff;
   --primary: #3EB0FF;
-  --primary-overlay: rgba(62, 176, 255, 0.25);
+  --primary-overlay: rgba(62, 176, 255, 0.5);
   --primary-hover: #167cdb;
   
   --red: #FC836D;
