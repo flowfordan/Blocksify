@@ -19,7 +19,6 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 
   const handleActiveToggle = (helperID: number) => {
     toolsState.toggleHelperActive(helperID);
-    console.log('CLICK');
   };
 
 
@@ -39,15 +38,6 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
           {item.isSelection &&
           <div className={styles.menuItemAnglesWrapper}>
             <CheckMatrix items={item.variants!} selected={item.numbers}/>
-            {/* {item.variants!.map((v, idx) => {
-              return (
-                <span key={idx} className={styles.menuItemAngles}>
-                  <input type="checkbox" checked={item.numbers.indexOf(v) !== -1}
-                    onChange={(e) => handleCollectionChange(e, item.helperID, v)}/>
-                  <span>{v}</span>
-                </span>
-              );
-            })} */}
           </div>}
         </ListItemCheck>
       ) : null;
@@ -56,16 +46,8 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
 
   return (
     <div className={styles.menu}>
-      <Division>{buildItems('snap')}</Division>
-      <Division>{buildItems('grid')}</Division>
-      {/* <div className={styles.menuBlock}>
-        <div className={styles.menuBlockHeader}>Snapping</div>
-        {buildItems('snap')}
-      </div>
-      <div className={styles.menuBlock}>
-        <div className={styles.menuBlockHeader}>Grid</div>
-        {buildItems('grid')}
-      </div> */}
+      <Division header="snapping">{buildItems('snap')}</Division>
+      <Division header="grid">{buildItems('grid')}</Division>
     </div>
   );
 });

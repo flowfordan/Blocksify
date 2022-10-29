@@ -16,14 +16,16 @@ const CheckMatrix = ({ items, selected, ...props }: CheckMatrixProps): JSX.Eleme
     }
   }
 
-  console.log(closed);
-  console.log(1 % 30);
+  const handleCollectionUpd = (value: number) => {
+    console.log('upd collect', 'item', value);
+    toolsState.setValuesCollection(1, value, );
+  };
 
   return (
     <div className={styles.matrix}>
       {items.map((i, idx) => {
         return (
-          <span key={idx} className={cn(styles.item, {
+          <span key={idx} onClick={() => handleCollectionUpd(i)} className={cn(styles.item, {
             [styles.itemClosed]: closed.includes(i),
             [styles.itemSelected]: selected.includes(i)
           })}>{i}</span>

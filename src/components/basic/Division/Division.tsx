@@ -10,7 +10,7 @@ const Division = ({ children, header, ...props }: DivisionProps): JSX.Element =>
 
   return (
     <div className={styles.division}>
-      <div className={styles.header}>Header</div>
+      <div className={styles.header}>{header}</div>
       <div className={styles.content}>{children}</div>
     </div>
   );

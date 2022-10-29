@@ -108,21 +108,23 @@ class ToolsState{
   };
 
   //set VALUES for option with mult. variants (angles snap)
-  setValuesCollection = (id:number, value: number, include: boolean) => {
-    const item = this.helpersOptions.find(i => i.helperID === id);
-    if (item){
-      const idx = this.helpersOptions.indexOf(item);
-      if (include){
-        this.helpersOptions[idx].numbers.push(value);
-      } else {
-        const numIdx = this.helpersOptions[idx].numbers.indexOf(value);
-        if (numIdx > -1){
-          this.helpersOptions[idx].numbers.splice(numIdx, 1);
-        }
-      }
-      console.log(toJS(this.helpersOptions[idx].numbers));
-      this.anglesSnapV3s = createBaseV3s(this.helpersOptions[idx].numbers);
+  setValuesCollection = (id:number, value: number, include?: boolean) => {
+    const helper = this.helpersOptions.find(i => i.helperID === id);
+    if (!helper){
+      return;
     }
+    const idx = this.helpersOptions.indexOf(helper);
+    const isIncluded = this.helpersOptions[idx].numbers.includes(value);
+    if (isIncluded){
+      const numIdx = this.helpersOptions[idx].numbers.indexOf(value);
+      if (numIdx > -1){
+        this.helpersOptions[idx].numbers.splice(numIdx, 1);
+      }
+    } else {
+      this.helpersOptions[idx].numbers.push(value);
+    }
+    console.log(toJS(this.helpersOptions[idx].numbers));
+    this.anglesSnapV3s = createBaseV3s(this.helpersOptions[idx].numbers);
   };
 
   //TODO define
