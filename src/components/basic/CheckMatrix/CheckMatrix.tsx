@@ -5,7 +5,9 @@ import { CheckMatrixProps } from './CheckMatrix.props';
 import styles from './CheckMatrix.module.css';
 import { toolsState } from '../../../state';
 
-const CheckMatrix = ({ items, selected, ...props }: CheckMatrixProps): JSX.Element => {
+import { observer } from "mobx-react-lite";
+
+const CheckMatrix = observer(({ items, selected, ...props }: CheckMatrixProps): JSX.Element => {
   const closed: Array<number> = [];
 
   for (const choice of selected){
@@ -18,7 +20,7 @@ const CheckMatrix = ({ items, selected, ...props }: CheckMatrixProps): JSX.Eleme
 
   const handleCollectionUpd = (value: number) => {
     console.log('upd collect', 'item', value);
-    toolsState.setValuesCollection(1, value, );
+    toolsState.setValuesCollection(1, value);
   };
 
   return (
@@ -33,7 +35,7 @@ const CheckMatrix = ({ items, selected, ...props }: CheckMatrixProps): JSX.Eleme
       })}
     </div>
   );
-};
+});
 
 export { CheckMatrix };
 
