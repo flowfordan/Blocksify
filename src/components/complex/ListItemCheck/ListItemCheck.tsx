@@ -5,18 +5,10 @@ import styles from './ListItemCheck.module.css';
 
 import TickIcon from '../../../assets/icons/tick.svg';
 import { AssetKey, assetsData } from '../../_data/assetsData';
+import { returnSvgNode } from '../../../helpers/returnSvgNode';
 
 
 const ListItemCheck = ({ title, isChecked, icon, children, ...props }: ListItemCheckProps): JSX.Element => {
-  console.log(icon);
-  const returnSvgNode = (iconKey: AssetKey) => {
-    if (!iconKey){
-      return <></>;
-    }
-    const IconToRender = assetsData[iconKey];
-    return <IconToRender />;
-  };
-
   return (
     <div className={icon ? styles.listItemCheck : styles.listItemCheck_bold} {...props}>
       <span className={styles.check}>{isChecked && <TickIcon />}</span>

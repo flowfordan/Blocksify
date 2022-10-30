@@ -9,6 +9,7 @@ import { useState } from "react";
 
 import { HelpersMenu } from "../HelpersMenu/HelpersMenu";
 import { ToolsMenu } from "../ToolsMenu/ToolsMenu";
+import { returnSvgNode } from "../../helpers/returnSvgNode";
 
 
 
@@ -64,8 +65,8 @@ export const TopBar = observer((props:any): JSX.Element => {
 
         <div className={styles.drawingTools}>
           <span className={activeTool && activeTool.id === 0? styles.buttonActive : styles.button} onClick={() => handleMenuOpen('tools')}>
-            <span>{activeTool ? activeTool.name : 'Draw'}</span>
-            <span>{'>'}</span>
+            <span className={styles.btnContentMain}>{activeTool ? returnSvgNode(activeTool.name) : returnSvgNode('line')}</span>
+            <span className={styles.btnContentArrow}>{returnSvgNode('arrowHead')}</span>
             {isToolsMenuOpened && <ToolsMenu />}
           </span>
           <div className={styles.toolsOptions}>
@@ -73,7 +74,7 @@ export const TopBar = observer((props:any): JSX.Element => {
             <div className={isSnapMenuOpened? styles.buttonActive : styles.button}>
               <div className={styles.menuItemReciever} onClick={() => handleMenuOpen('snap')}></div>
               <div>{`Snapping`}</div>
-              <div className={styles.menuOpener}>{`>`}</div>
+              <div className={styles.menuOpener}>{returnSvgNode('arrowHead')}</div>
               {isSnapMenuOpened && <HelpersMenu />}
             </div>
           </div>

@@ -1,12 +1,14 @@
 import PolygonIcon from '../../assets/icons/polygon.svg';
 import PolylineIcon from '../../assets/icons/polyline.svg';
 import LineIcon from '../../assets/icons/line.svg';
+import ArrowHeadIcon from '../../assets/icons/arrowHead.svg';
 
 //
 enum Assets {
   polygon = 'polygon',
   line = 'line',
-  pLine = 'pLine'
+  pLine = 'pLine',
+  arrowHead = 'arrowHead'
 }
 
 export type AssetKey = `${Assets}`;
@@ -18,7 +20,8 @@ type AssetsData = {
 const assetsData: AssetsData = {
   polygon: PolygonIcon,
   pLine: PolylineIcon,
-  line: LineIcon
+  line: LineIcon,
+  arrowHead: ArrowHeadIcon
 };
 
 export { assetsData };

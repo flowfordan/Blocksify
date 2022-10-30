@@ -21,9 +21,9 @@
 }
 
 .logo{
-    padding: auto 0;
-    padding-left: 10px;
-    font-weight: bold;
+  padding: auto 0;
+  padding-left: 10px;
+  font-weight: bold;
 
   color: var(--white);
 
@@ -36,11 +36,17 @@
   position: relative;
 
   height: 100%;
-  display: flex;
+
+  display: grid;
+  grid-template-columns: 24px 8px;
+  grid-template-rows: 1fr;
+  column-gap: 8px;
+  
   font-size: 12px;
+  justify-content: center;
   align-items: center;
 
-  padding: 5px 10px;
+  padding: 8px 10px;
 
   transition: all 0.2s;    
   cursor: pointer;
@@ -48,8 +54,8 @@
 
 
 .button:hover{
-    background-color: var(--black-dark);
-    color: var(--grey-main);
+  background-color: var(--black-overlay);
+  color: var(--grey-main);
 }
 
 .button:active{
@@ -59,6 +65,12 @@
 .buttonActive{
     color: white;
     background-color: rgb(134, 196, 255);
+}
+
+.btnContentMain{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cameraOptions{
