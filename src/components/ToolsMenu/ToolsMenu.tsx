@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./HelpersMenu.module.css";
+import styles from "./ToolsMenu.module.css";
 
 import { toolsState } from '../../state';
 import { observer } from "mobx-react-lite";
@@ -14,8 +14,10 @@ interface HelpersMenuProps {
   test?: boolean;
 }
 
-const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
+const ToolsMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   const helperOptions = toolsState.helpersOptions;
+
+  const tools = toolsState.drawingTools;
 
   const handleActiveToggle = (helperID: number) => {
     toolsState.toggleHelperActive(helperID);
@@ -27,26 +29,19 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
     toolsState.setValuesCollection(itemId, value, isIncluded);
   };
 
-  const buildItems = (type: string) => {
-    return helperOptions.map((item, idx) => {
-      return item.type === type? (
-        <ListItemCheck key={item.helperID} title={item.name} isChecked={item.isActive} onDoubleClick={() => handleActiveToggle(item.helperID)}>
-          {item.isRange &&
-            <ComplexSlider minVal={item.rangeMin} maxVal={item.rangeMax} stepVal={item.rangeStep} val={item.value} uiItemId={item.helperID} valName={item.valueName}/>
-          }
-
-          {item.isSelection && <CheckMatrix items={item.variants!} selected={item.numbers}/>}
-        </ListItemCheck>
-      ) : null;
-    });
+  const handleToolChange = (id: number) => {
+    toolsState.setActiveTool(id);
   };
 
   return (
     <div className={styles.menu}>
-      <Division header="snapping">{buildItems('snap')}</Division>
-      <Division header="grid">{buildItems('grid')}</Division>
+      {tools.map(t => {
+        return (
+          <ListItemCheck key={t.id} icon={t.name} title={t.name} isChecked={t.active} onClick={() => handleToolChange(t.id)}/>
+        );
+      })}
     </div>
   );
 });
 
-export { HelpersMenu };
+export { ToolsMenu };

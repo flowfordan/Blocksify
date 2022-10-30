@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-constant-condition */
+import React from "react";
 import { observer } from "mobx-react-lite";
 
 import styles from './TopBar.module.css';
@@ -7,18 +8,33 @@ import { sceneState, toolsState } from '../../state';
 import { useState } from "react";
 
 import { HelpersMenu } from "../HelpersMenu/HelpersMenu";
+import { ToolsMenu } from "../ToolsMenu/ToolsMenu";
+
+
 
 export const TopBar = observer((props:any): JSX.Element => {
 
-  const [ isMenuOpened, toggleMenuOpened ] = useState(false);
+  const [ isSnapMenuOpened, toggleSnapMenuOpened ] = useState(false);
+  const [ isToolsMenuOpened, toggleToolsMenuOpened ] = useState(false);
 
   const { drawingTools } = toolsState;
 
-  const activeToolId = drawingTools.find(i => i.active)?
-    drawingTools.find(i => i.active)!.id : undefined;
+  const activeTool = drawingTools.find(i => i.active)?
+    drawingTools.find(i => i.active)! : undefined;
 
-  const handleMenuOpen = () => {
-    toggleMenuOpened(!isMenuOpened);
+  const handleMenuOpen = (menu: 'tools' | 'snap') => {
+    switch (menu){
+    case 'tools':
+      toggleToolsMenuOpened(!isToolsMenuOpened);
+      toggleSnapMenuOpened(false);
+      break;
+    case 'snap':
+      toggleSnapMenuOpened(!isSnapMenuOpened);
+      toggleToolsMenuOpened(false);
+      break;
+    default:
+      return;
+    }
   };
 
   //TODO: wrap in array tools
@@ -47,28 +63,18 @@ export const TopBar = observer((props:any): JSX.Element => {
       <div className={styles.tools}>
 
         <div className={styles.drawingTools}>
-          <span className={activeToolId === 0? styles.buttonActive : styles.button}
-            onClick={() => handleToolChange(0)}>
-            Line
+          <span className={activeTool && activeTool.id === 0? styles.buttonActive : styles.button} onClick={() => handleMenuOpen('tools')}>
+            <span>{activeTool ? activeTool.name : 'Draw'}</span>
+            <span>{'>'}</span>
+            {isToolsMenuOpened && <ToolsMenu />}
           </span>
-          <span className={activeToolId === 1? styles.buttonActive : styles.button}
-            onClick={() => handleToolChange(1)}>
-            Polyline
-          </span>
-          <span className={activeToolId === 2? styles.buttonActive : styles.button}
-            onClick={() => handleToolChange(2)}>
-            Polygon
-          </span>
-
           <div className={styles.toolsOptions}>
             {/* TODO disabled if any instrument is active */}
-            <div className={isMenuOpened? styles.buttonActive : styles.button}>
-              <div className={styles.menuItemReciever} onClick={() => handleMenuOpen()}></div>
+            <div className={isSnapMenuOpened? styles.buttonActive : styles.button}>
+              <div className={styles.menuItemReciever} onClick={() => handleMenuOpen('snap')}></div>
               <div>{`Snapping`}</div>
               <div className={styles.menuOpener}>{`>`}</div>
-
-
-              {isMenuOpened && <HelpersMenu />}
+              {isSnapMenuOpened && <HelpersMenu />}
             </div>
           </div>
         </div>
