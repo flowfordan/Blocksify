@@ -16,7 +16,7 @@ module.exports = {
     static: {       
       directory: path.join(__dirname, 'public')
     },
-    port: 3000,
+    port: 3381,
     hot: true,
     client: {
       progress: true,

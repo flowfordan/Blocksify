@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-constant-condition */
 import React from "react";
+import cn from 'classnames';
 import { observer } from "mobx-react-lite";
 
 import styles from './TopBar.module.css';
@@ -64,20 +65,27 @@ export const TopBar = observer((props:any): JSX.Element => {
       <div className={styles.tools}>
 
         <div className={styles.drawingTools}>
-          <span className={activeTool && activeTool.id === 0? styles.buttonActive : styles.button} onClick={() => handleMenuOpen('tools')}>
+          <span className={cn(styles.button, {
+            [styles.buttonActive]: activeTool,
+            [styles.buttonSelected]: isToolsMenuOpened
+          })}
+          onClick={() => handleMenuOpen('tools')}>
             <span className={styles.btnContentMain}>{activeTool ? returnSvgNode(activeTool.name) : returnSvgNode('line')}</span>
             <span className={styles.btnContentArrow}>{returnSvgNode('arrowHead')}</span>
             {isToolsMenuOpened && <ToolsMenu />}
           </span>
-          <div className={styles.toolsOptions}>
+
+          <span className={styles.helpersOptions}>
             {/* TODO disabled if any instrument is active */}
-            <div className={isSnapMenuOpened? styles.buttonActive : styles.button}>
+            <div className={cn(styles.button, {
+              [styles.buttonSelected]: isSnapMenuOpened
+            })}>
               <div className={styles.menuItemReciever} onClick={() => handleMenuOpen('snap')}></div>
-              <div>{`Snapping`}</div>
+              <div>{`Snap`}</div>
               <div className={styles.menuOpener}>{returnSvgNode('arrowHead')}</div>
               {isSnapMenuOpened && <HelpersMenu />}
             </div>
-          </div>
+          </span>
         </div>
 
         <div className={styles.cameraOptions}>

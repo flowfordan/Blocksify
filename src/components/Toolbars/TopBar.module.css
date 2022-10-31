@@ -1,7 +1,7 @@
 .appHeader{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 250px 1fr 250px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
   height: 50px;
 }
 
@@ -32,7 +32,7 @@
   align-items: center;
 }
 
-.button, .buttonActive{
+.button, .buttonActive, .buttonSelected{
   position: relative;
 
   height: 100%;
@@ -53,18 +53,14 @@
 }
 
 
-.button:hover{
+.button:hover, .buttonSelected {
   background-color: var(--black-overlay);
   color: var(--grey-main);
 }
 
-.button:active{
-    background-color: rgb(134, 196, 255);
-}
-
 .buttonActive{
-    color: white;
-    background-color: rgb(134, 196, 255);
+  color: white;
+  background-color: var(--primary-overlay);
 }
 
 .btnContentMain{
@@ -79,12 +75,11 @@
 }
 
 .drawingTools{
-    height: 100%;
-    display: flex;
-    /* gap: 10px; */
+  height: 100%;
+  display: flex;
 }
 
-.toolsOptions{
+.helpersOptions{
   position: relative;
 }
 

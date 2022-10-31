@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 import styles from './LeftBar.module.css';
 import { sceneState, layersState } from '../../state';
-import { CoordsDisplay } from '../Coords/CoordsDisplay';
+import { CoordsDisplay } from '../complex/Coords/CoordsDisplay';
 
 
 export const LeftBar = observer((props:any): JSX.Element => {

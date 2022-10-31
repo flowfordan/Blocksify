@@ -1,5 +1,6 @@
+import React from "react";
 import { observer } from "mobx-react-lite";
-import { sceneState } from "../../state";
+import { sceneState } from "../../../state";
 import styles from "./CoordsDisplay.module.css";
 
 interface UICoords {
@@ -23,13 +24,6 @@ export const CoordsDisplay = observer((): JSX.Element => {
 
   return (
     <>
-      <div>
-        <input type="checkbox"
-          checked={sceneState.isFetchingGlobalCoords}
-          onChange={() => toggleFetchingCoords()}/>
-        <span>Update coordinates</span>
-      </div>
-
       <div className={styles.coords}>
         <span>{`X: ${coords.x}`}</span>
         <span>{`Y: ${coords.y}`}</span>

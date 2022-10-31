@@ -1,14 +1,13 @@
+import React from "react";
 import { FunctionComponent } from "react";
-import styles from "./ToolsMenu.module.css";
+import { observer } from "mobx-react-lite";
 
 import { toolsState } from '../../state';
-import { observer } from "mobx-react-lite";
-import React from "react";
-import { Slider } from "../basic/Slider/Slider";
-import { ComplexSlider } from "../complex/ComplexSlider/ComplexSlider";
 import { ListItemCheck } from "../complex/ListItemCheck/ListItemCheck";
-import { CheckMatrix } from "../basic/CheckMatrix/CheckMatrix";
-import { Division } from "../basic/Division/Division";
+
+import { Card } from "../basic/Card/Card";
+
+import styles from "./ToolsMenu.module.css";
 
 interface HelpersMenuProps {
   test?: boolean;
@@ -34,13 +33,13 @@ const ToolsMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   };
 
   return (
-    <div className={styles.menu}>
+    <Card className={styles.menu}>
       {tools.map(t => {
         return (
           <ListItemCheck key={t.id} icon={t.name} title={t.name} isChecked={t.active} onClick={() => handleToolChange(t.id)}/>
         );
       })}
-    </div>
+    </Card>
   );
 });
 
