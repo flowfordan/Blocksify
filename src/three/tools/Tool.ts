@@ -8,8 +8,8 @@ import { pMat } from "../objs3d";
 
 interface I3dObjPoint {
   form: THREE.Points | null,
-    geom: THREE.BufferGeometry | null,
-    mat: THREE.PointsMaterial | null
+  geom: THREE.BufferGeometry | null,
+  mat: THREE.PointsMaterial | null
 }
 
 interface I3dObjLine {

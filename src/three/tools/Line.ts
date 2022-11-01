@@ -120,10 +120,10 @@ export class Line extends Tool{
         this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
       }
 
-            //if this is PL mode and segment after 1
-            //modify existing polyline geometry
-            this.obj.line.form!.layers.set(this.layer!.id);
-            this.scene.add(this.obj.line.form!);
+      //if this is PL mode and segment after 1
+      //modify existing polyline geometry
+      this.obj.line.form!.layers.set(this.layer!.id);
+      this.scene.add(this.obj.line.form!);
       this.obj.line.form!.computeLineDistances();
 
       //POINTS HANDLE
