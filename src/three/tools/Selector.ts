@@ -2,13 +2,17 @@ import * as THREE from 'three';
 
 export class Selector {
   selectedObj: THREE.Object3D | null;
+  cursor: 'pointer';
+  toolState: number;
   constructor(){
     //
     this.selectedObj = null;
+    this.cursor = 'pointer';
+    this.toolState = 0;
   }
 
   //startTool
-  startSelector = () => {
+  start = () => {
     //add event listeners
     // this.canvas.addEventListener('mousemove', this._onMouseMove);
     // this.canvas.addEventListener('click', this._onDrawClick);
@@ -24,7 +28,7 @@ export class Selector {
     //highlight this object
   };
 
-  stopSelector = () => {
+  stop = () => {
     //null selected
     //remove event listeners
   };

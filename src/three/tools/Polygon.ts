@@ -15,10 +15,10 @@ export class Polygon extends Tool{
     this.polygonParts = 1;
   }
 
-  startDrawing = (camera: typeof this.currentCamera,
+  start = (camera: typeof this.currentCamera,
     plane: typeof this.currentPlane,
     layer: typeof this.layer) => {
-    super.startDrawing(camera, plane, layer);
+    super.start(camera, plane, layer);
 
     //POLYGON
     //init material
@@ -186,8 +186,8 @@ export class Polygon extends Tool{
     this.tagsManager.stopRender();
   };
 
-  stopDrawing() {
-    super.stopDrawing();
+  stop() {
+    super.stop();
 
     //delete began forms
     //TODO check for null obj - then delete if not null

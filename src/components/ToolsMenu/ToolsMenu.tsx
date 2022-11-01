@@ -16,7 +16,7 @@ interface HelpersMenuProps {
 const ToolsMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   const helperOptions = toolsState.helpersOptions;
 
-  const tools = toolsState.drawingTools;
+  const tools = toolsState.tools;
 
   const handleActiveToggle = (helperID: number) => {
     toolsState.toggleHelperActive(helperID);
@@ -35,9 +35,12 @@ const ToolsMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   return (
     <Card className={styles.menu}>
       {tools.map(t => {
-        return (
-          <ListItemCheck key={t.id} icon={t.name} title={t.name} isChecked={t.active} onClick={() => handleToolChange(t.id)}/>
-        );
+        if (t.type === 'draw'){
+          return (
+            <ListItemCheck key={t.id} icon={t.name} title={t.name} isChecked={t.active} onClick={() => handleToolChange(t.id)}/>
+          );
+        }
+
       })}
     </Card>
   );

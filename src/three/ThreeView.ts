@@ -52,7 +52,7 @@ export class ThreeView {
     });
 
     autorun(() => {
-      this.toolsController.setActiveDrawingTool(this.currentLayer, this.groundPlane, this.cameraController.camera);
+      this.toolsController.setActiveTool(this.currentLayer, this.groundPlane, this.cameraController.camera);
     });
 
     reaction(
@@ -78,7 +78,7 @@ export class ThreeView {
     const current = layersState.layers.find(l => l.active);
     if (current){
       this.currentLayer = current;
-      this.toolsController.setActiveDrawingTool(this.currentLayer, this.groundPlane, this.cameraController.camera);
+      this.toolsController.setActiveTool(this.currentLayer, this.groundPlane, this.cameraController.camera);
     }
   };
 

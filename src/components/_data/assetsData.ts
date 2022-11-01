@@ -8,7 +8,8 @@ enum Assets {
   polygon = 'polygon',
   line = 'line',
   pLine = 'pLine',
-  arrowHead = 'arrowHead'
+  arrowHead = 'arrowHead',
+  selector = 'selector'
 }
 
 export type AssetKey = `${Assets}`;
@@ -21,7 +22,8 @@ const assetsData: AssetsData = {
   polygon: PolygonIcon,
   pLine: PolylineIcon,
   line: LineIcon,
-  arrowHead: ArrowHeadIcon
+  arrowHead: ArrowHeadIcon,
+  selector: ArrowHeadIcon
 };
 
 export { assetsData };

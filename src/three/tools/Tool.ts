@@ -52,6 +52,8 @@ export class Tool {
   tagsManager: TagsManager;
   snapManager: SnapManager | null;
 
+  cursor: 'crosshair';
+
   //objects being created
   obj:{
     line: I3dObjLine,
@@ -117,10 +119,12 @@ export class Tool {
 
     this.tagsManager = new TagsManager(scene);
     this.snapManager = null;
+
+    this.cursor = 'crosshair';
   }
 
   //START METHOD
-  startDrawing(camera: typeof this.currentCamera,
+  start(camera: typeof this.currentCamera,
     plane: typeof this.currentPlane,
     layer: typeof this.layer) {
     console.log('TOOL START');
@@ -162,7 +166,7 @@ export class Tool {
   }
 
   //STOP METHOD
-  stopDrawing() {
+  stop() {
     console.log('TOOL STOP');
     //tool state to 0
     this.toolState = 0;

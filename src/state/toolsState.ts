@@ -6,16 +6,18 @@ import { helpersDefPreset } from './presets/helpersPreset';
 //Drawing Tool
 //Selection Tool
 
-enum DrawingToolName {
-    Line = 'line',
-    PLine = 'pLine',
-    Polygon = 'polygon'
+export enum ToolName {
+  Line = 'line',
+  PLine = 'pLine',
+  Polygon = 'polygon',
+  Selector = 'selector'
 }
 
-interface IDrawingTool {
+interface ITool {
   id: number,
-  name: DrawingToolName,
-  active: boolean
+  name: ToolName,
+  active: boolean,
+  type: 'draw' | 'select'
 }
 
 interface ISelectionTool {
@@ -58,7 +60,7 @@ type HelpersActivity = {
 
 class ToolsState{
 
-  drawingTools:Array<IDrawingTool>;
+  tools:Array<ITool>;
   selectionTool: ISelectionTool;
 
   anglesSnapV3s: AnglePts;
@@ -68,10 +70,11 @@ class ToolsState{
 
   constructor(){
     /* TOOLS */
-    this.drawingTools = [
-      { id: 0, name: DrawingToolName.Line, active: false },
-      { id: 1, name: DrawingToolName.PLine, active: false },
-      { id: 2, name: DrawingToolName.Polygon, active: false }
+    this.tools = [
+      { id: 0, name: ToolName.Line, active: false, type: 'draw' },
+      { id: 1, name: ToolName.PLine, active: false, type: 'draw' },
+      { id: 2, name: ToolName.Polygon, active: false, type: 'draw' },
+      { id: 3, name: ToolName.Selector, active: false, type: 'select' }
     ];
 
     this.selectionTool = { id: 0, name: 'selection', active: false };
@@ -90,7 +93,7 @@ class ToolsState{
   //activating defined Tool and deact other Tools
   setActiveTool = (id: number) => {
     //find current active, deactivate
-    this.drawingTools.forEach((item, idx, arr) => {
+    this.tools.forEach((item, idx, arr) => {
       if (item.active){
         arr[idx].active = false;
       } else if (!item.active && item.id === id){

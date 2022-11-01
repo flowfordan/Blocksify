@@ -19,10 +19,10 @@ export const TopBar = observer((props:any): JSX.Element => {
   const [ isSnapMenuOpened, toggleSnapMenuOpened ] = useState(false);
   const [ isToolsMenuOpened, toggleToolsMenuOpened ] = useState(false);
 
-  const { drawingTools } = toolsState;
+  const { tools } = toolsState;
 
-  const activeTool = drawingTools.find(i => i.active)?
-    drawingTools.find(i => i.active)! : undefined;
+  const activeTool = tools.find(i => i.active)?
+    tools.find(i => i.active)! : undefined;
 
   const handleMenuOpen = (menu: 'tools' | 'snap') => {
     switch (menu){

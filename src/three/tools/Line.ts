@@ -21,10 +21,10 @@ export class Line extends Tool{
     this.lineParts = 1;
   }
 
-  startDrawing = (camera: typeof this.currentCamera,
+  start = (camera: typeof this.currentCamera,
     plane: typeof this.currentPlane, layer: typeof this.layer) => {
     console.log('LINE START');
-    super.startDrawing(camera, plane, layer);
+    super.start(camera, plane, layer);
 
     //TODO null layer fix?
     this.obj.line.mat = this.layer!.content.main!.mat.line!;
@@ -159,9 +159,9 @@ export class Line extends Tool{
     console.log(this.scene.children);
   };
 
-  stopDrawing = () => {
+  stop = () => {
     console.log('Line Drawing stopped');
-    super.stopDrawing();
+    super.stop();
 
     //delete began forms
     //TODO check for null obj - then delete if not null
