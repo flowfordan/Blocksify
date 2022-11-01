@@ -3,16 +3,25 @@ import { makeAutoObservable, toJS } from "mobx";
 import { Vector3 } from 'three';
 import { helpersDefPreset } from './presets/helpersPreset';
 
-enum EToolName {
+//Drawing Tool
+//Selection Tool
+
+enum DrawingToolName {
     Line = 'line',
     PLine = 'pLine',
     Polygon = 'polygon'
 }
 
-interface ITool {
-    id: number,
-    name: EToolName,
-    active: boolean
+interface IDrawingTool {
+  id: number,
+  name: DrawingToolName,
+  active: boolean
+}
+
+interface ISelectionTool {
+  id: number,
+  name: 'selection',
+  active: boolean,
 }
 
 type HelperType = 'snap' | 'grid'
@@ -49,7 +58,8 @@ type HelpersActivity = {
 
 class ToolsState{
 
-  drawingTools:Array<ITool>;
+  drawingTools:Array<IDrawingTool>;
+  selectionTool: ISelectionTool;
 
   anglesSnapV3s: AnglePts;
 
@@ -57,11 +67,14 @@ class ToolsState{
   isHelpersActive: HelpersActivity | null;
 
   constructor(){
+    /* TOOLS */
     this.drawingTools = [
-      { id: 0, name: EToolName.Line, active: false },
-      { id: 1, name: EToolName.PLine, active: false },
-      { id: 2, name: EToolName.Polygon, active: false }
+      { id: 0, name: DrawingToolName.Line, active: false },
+      { id: 1, name: DrawingToolName.PLine, active: false },
+      { id: 2, name: DrawingToolName.Polygon, active: false }
     ];
+
+    this.selectionTool = { id: 0, name: 'selection', active: false };
 
     /* HELPERS */
     this.helpersOptions = helpersDefPreset as HelperOptions;

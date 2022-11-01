@@ -9,9 +9,14 @@ interface LayerContentMaterials {
   polygon: THREE.MeshBasicMaterial | null
 }
 
+type LayerID = 'border' | 'streets' | 'blocks' | 'buildings';
+
 interface LayerContentItem {
-  id: number, name: string, descr: string,
-  stage: number, mat: LayerContentMaterials
+  id: number,
+  name: string,
+  descr: string,
+  stage: number,
+  mat: LayerContentMaterials
 }
 
 interface LayerContent {

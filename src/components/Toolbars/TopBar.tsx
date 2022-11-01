@@ -66,6 +66,10 @@ export const TopBar = observer((props:any): JSX.Element => {
 
         <div className={styles.drawingTools}>
           <span className={cn(styles.button, {
+            [styles.buttonActive]: activeTool
+          })}>Select</span>
+
+          <span className={cn(styles.button, {
             [styles.buttonActive]: activeTool,
             [styles.buttonSelected]: isToolsMenuOpened
           })}

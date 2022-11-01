@@ -4,9 +4,11 @@ import { getLineMat, getPolygonMat } from "../../three/objs3d";
 //LAYER 2 - BORDER
 //main
 const borderMainContent = {
-  id: 0, name: 'Border',
+  id: 0,
+  name: 'Border',
   descr: 'Border or/and Zone inside Border ',
-  stage: 0, mat: {
+  stage: 0,
+  mat: {
     line: getLineMat(0x1d5e9a, 5, true),
     polygon: getPolygonMat()
   }
@@ -15,7 +17,8 @@ const borderMainContent = {
 //LAYER 3 - STREETS
 //main
 const streetsMainContent = {
-  id: 0, name: 'Street axis',
+  id: 0,
+  name: 'Street axis',
   descr: 'Street axis',
   stage: 0,
   mat: {
@@ -36,7 +39,8 @@ const streetsAddContent = {
     }
   },
   auto: {
-    id: 1, name: 'Street area',
+    id: 1,
+    name: 'Street area',
     descr: 'Street area - polygon (public territory)',
     stage: 1,
     mat: {
@@ -53,7 +57,8 @@ const streetsAddContent = {
 const blocksAddContent = {
   rt: null,
   auto: {
-    id: 1, name: 'Block area',
+    id: 1,
+    name: 'Block area',
     descr: 'Block area territory',
     stage: 1,
     mat: {
