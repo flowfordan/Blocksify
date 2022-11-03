@@ -8,9 +8,13 @@
 
 
   padding: 8px 8px;
-  margin: -1px 0 0 -1px;
+  margin: -1px 0 0 0;
 
-  border: 1px solid var(--grey-main);
+
+  border-top: 1px solid var(--grey-light);
+  border-right: 1px solid rgba($color: #000000, $alpha: 0.0);
+  border-bottom: 1px solid var(--grey-light);
+  border-left: 1px solid rgba($color: #000000, $alpha: 0.0);
 
   /* user-select: none; */
   cursor: pointer;
@@ -39,5 +43,6 @@
 .layersListItem_active {
   background-color: var(--primary-overlay-light);
   border-color: var(--primary);
+  margin: 0 0 1px 0;
 }
 

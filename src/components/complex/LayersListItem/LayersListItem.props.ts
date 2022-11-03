@@ -6,6 +6,8 @@ export interface LayersListItemProps extends DetailedHTMLProps<HTMLAttributes<HT
   name: string;
   isEmpty: boolean;
   isActive: boolean;
+  isVisible: boolean;
+  isBlocked?: boolean;
   // children?: ReactNode;
   // title: string;
   // isChecked: boolean;
