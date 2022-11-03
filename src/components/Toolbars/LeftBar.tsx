@@ -20,12 +20,6 @@ export const LeftBar = observer((props:any): JSX.Element => {
       layersArr.map(l => {
         return (
           <LayersListItem name={l.name} isEmpty={false} key={l.id} isActive={l.active}/>
-          // <li key={l.id} className={cn(styles.layerItem, {
-          //   [styles.layerItem_empty]: l.empty,
-          //   [styles.layerItem_active]: l.active,
-          //   [styles.layerItem_notEditable]: !l.editable
-          // })}
-          // onClick={() => handleSelectLayer(l.id)}>{`${l.name}`}</li>
         );
       })
     );

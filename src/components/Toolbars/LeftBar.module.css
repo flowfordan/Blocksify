@@ -4,10 +4,6 @@
     grid-template-rows: 1fr 1fr auto;
 }
 
-.layersPanel{
-
-}
-
 .layerItem{
     padding: 8px 15px;
     border-top: 1px solid var(--grey-light);
@@ -34,17 +30,8 @@
     background-color: var(--grey-lightest);
 }
 
-.adjustmentsPanel{
 
-}
-
-.coordsPanel{
-
-}
-
-
-
-.button, .buttonActive{
+/* .button, .buttonActive{
     font-size: 12px;
     text-align: center;
     cursor: pointer;
@@ -71,4 +58,4 @@
 .drawingTools{
     display: flex;
     gap: 10px;
-}
+} */

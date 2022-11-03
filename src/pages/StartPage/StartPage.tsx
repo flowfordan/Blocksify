@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './StartPage.module.css';
+import './startPage.scss';
 
 
 export const StartPage = (): JSX.Element => {
@@ -9,10 +9,10 @@ export const StartPage = (): JSX.Element => {
 
   return (
 
-    <div className={styles.page}>
+    <div className='startPage'>
 
 
-      <div className={styles.body}>
+      <div>
           Start Page
       </div>
 
