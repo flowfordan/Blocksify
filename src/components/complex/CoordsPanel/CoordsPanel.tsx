@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { sceneState } from "../../../state";
-import styles from "./CoordsDisplay.module.css";
+import "./coordsPanel.scss";
 
 interface UICoords {
     x: string;
@@ -24,7 +24,7 @@ export const CoordsDisplay = observer((): JSX.Element => {
 
   return (
     <>
-      <div className={styles.coords}>
+      <div className={'coordsPanel'}>
         <span>{`X: ${coords.x}`}</span>
         <span>{`Y: ${coords.y}`}</span>
         <span>{`Z: ${coords.z}`}</span>

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./HelpersMenu.module.css";
+import "./helpersMenu.scss";
 
 import { toolsState } from '../../state';
 import { observer } from "mobx-react-lite";
@@ -43,7 +43,7 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   };
 
   return (
-    <Card className={styles.menu}>
+    <Card className={'helpersMenu'}>
       <Division header="snapping">{buildItems('snap')}</Division>
       <Division header="grid">{buildItems('grid')}</Division>
     </Card>

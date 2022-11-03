@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import styles from './Desk.module.css';
+import './desk.scss';
 import { ThreeView } from '../../three/ThreeView';
-import "./desk-style.css";
 
 
 export const Desk = (props:any): JSX.Element => {
@@ -35,8 +34,8 @@ export const Desk = (props:any): JSX.Element => {
 
 
   return (
-    <div ref={canvasContainer} className={styles.desk}>
-      <canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>
+    <div ref={canvasContainer} className={'desk'}>
+      <canvas ref={canvasScene} {...props} className={'desk__canvasScene'} id='canvasScene'/>
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { ListItemCheck } from "../complex/ListItemCheck/ListItemCheck";
 
 import { Card } from "../basic/Card/Card";
 
-import styles from "./ToolsMenu.module.css";
+import "./toolsMenu.scss";
 
 interface HelpersMenuProps {
   test?: boolean;
@@ -33,7 +33,7 @@ const ToolsMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   };
 
   return (
-    <Card className={styles.menu}>
+    <Card className={'toolsMenu'}>
       {tools.map(t => {
         if (t.type === 'draw'){
           return (

@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 import styles from './LeftBar.module.css';
 import { sceneState, layersState } from '../../state';
-import { CoordsDisplay } from '../complex/Coords/CoordsDisplay';
+import { CoordsDisplay } from '../complex/CoordsPanel/CoordsPanel';
 
 import { LayersListItem } from '../complex/LayersListItem/LayersListItem';
 

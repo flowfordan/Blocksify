@@ -13,6 +13,28 @@
   grid-template-columns: 8px 24px auto auto;
   grid-template-areas: 
   "check icon title content";
+
+  &__check {
+    grid-area: check;
+    display: flex;
+  }
+
+  &__icon {
+    grid-area: icon;
+  }
+
+  &__title {
+    grid-area: title;
+  
+    font-size: 12px;
+    line-height: 12px;
+    color: var(--white);
+    text-transform: capitalize;
+  }
+  
+  &__content {
+    grid-area: content;
+  }
 }
 
 .listItemCheck_bold {
@@ -24,26 +46,3 @@
 .listItemCheck:hover, .listItemCheck_bold:hover {
   background-color: var(--primary-overlay);
 }
-
-.check {
-  grid-area: check;
-  display: flex;
-}
-
-.icon {
-  grid-area: icon;
-}
-
-.title {
-  grid-area: title;
-
-  font-size: 12px;
-  line-height: 12px;
-  color: var(--white);
-  text-transform: capitalize;
-}
-
-.content {
-  grid-area: content;
-}
-

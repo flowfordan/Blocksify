@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ComplexSliderProps } from './ComplexSlider.props';
-import styles from './ComplexSlider.module.css';
+import './complexSlider.scss';
 
 import { Slider } from '../../basic/Slider/Slider';
 
@@ -11,10 +11,10 @@ const ComplexSlider = ({ minVal, maxVal, stepVal, val, uiItemId, valName, ...pro
   //TODO connect thru UI manager
 
   return (
-    <div className={styles.complexSlider}>
-      <span className={styles.complexSlider_value}>{val}</span>
-      <span className={styles.complexSlider_slider}><Slider minVal={minVal} maxVal={maxVal} stepVal={stepVal} val={val} uiItemId={uiItemId} /></span>
-      {valName && <span className={styles.complexSlider_valName}>{valName}</span>}
+    <div className={'complexSlider'}>
+      <span className={'complexSlider__value'}>{val}</span>
+      <span className={'complexSlider__slider'}><Slider minVal={minVal} maxVal={maxVal} stepVal={stepVal} val={val} uiItemId={uiItemId} /></span>
+      {valName && <span className={'complexSlider__valName'}>{valName}</span>}
     </div>
   );
 };

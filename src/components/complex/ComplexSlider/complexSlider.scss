@@ -12,19 +12,19 @@
   font-size: 10px;
   line-height: 10px;
   color: var(--grey-main);
-}
 
-.complexSlider_value{
-  grid-area: val;
-  text-align: end;
-}
+  &__value{
+    grid-area: val;
+    text-align: end;
+  }
 
-.complexSlider_slider{
-  grid-area: slider;
-  display: flex;
+  &__slider{
+    grid-area: slider;
+    display: flex;
+  
+  }
 
-}
-
-.complexSlider_valName{
-  grid-area: name;
+  &__valName{
+    grid-area: name;
+  }
 }
