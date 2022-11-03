@@ -1,11 +1,14 @@
 .division {
   padding-top: 8px;
+
+  &__header {
+    padding-left: 8px;
+
+    color: var(--grey-dark);
+  }
 }
 
-/* .division:not(:last-child){
-  border-bottom: 1px solid var(--grey-darkest);
-} */
-
+//divider n the bottom
 .division:not(:last-child)::after{
   display: block;
   position: absolute;
@@ -16,18 +19,5 @@
   height: 1px;
   width: 90%;
 
-  /* margin: 0 8px; */
-
   background-color: var(--grey-darkest);
 }
-
-.header {
-  padding-left: 8px;
-
-  color: var(--grey-dark);
-}
-
-.content {
-
-}
-

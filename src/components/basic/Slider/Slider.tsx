@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SliderProps } from './Slider.props';
-import styles from './Slider.module.css';
+import './slider.scss';
 import { toolsState } from '../../../state';
 
 const Slider = ({ minVal, maxVal, stepVal, val, uiItemId, ...props }: SliderProps): JSX.Element => {
@@ -13,7 +13,7 @@ const Slider = ({ minVal, maxVal, stepVal, val, uiItemId, ...props }: SliderProp
   };
 
   return (
-    <input className={styles.slider} type="range"
+    <input className={'slider'} type="range"
       min={minVal} max={maxVal}
       step={stepVal}
       value={val}
