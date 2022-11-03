@@ -7,6 +7,7 @@ import styles from './LeftBar.module.css';
 import { sceneState, layersState } from '../../state';
 import { CoordsDisplay } from '../complex/Coords/CoordsDisplay';
 
+import { LayersListItem } from '../complex/LayersListItem/LayersListItem';
 
 export const LeftBar = observer((props:any): JSX.Element => {
 
@@ -18,12 +19,13 @@ export const LeftBar = observer((props:any): JSX.Element => {
     return (
       layersArr.map(l => {
         return (
-          <li key={l.id} className={cn(styles.layerItem, {
-            [styles.layerItem_empty]: l.empty,
-            [styles.layerItem_active]: l.active,
-            [styles.layerItem_notEditable]: !l.editable
-          })}
-          onClick={() => handleSelectLayer(l.id)}>{`${l.name}`}</li>
+          <LayersListItem name={l.name} isEmpty={false} key={l.id} isActive={l.active}/>
+          // <li key={l.id} className={cn(styles.layerItem, {
+          //   [styles.layerItem_empty]: l.empty,
+          //   [styles.layerItem_active]: l.active,
+          //   [styles.layerItem_notEditable]: !l.editable
+          // })}
+          // onClick={() => handleSelectLayer(l.id)}>{`${l.name}`}</li>
         );
       })
     );
@@ -35,9 +37,9 @@ export const LeftBar = observer((props:any): JSX.Element => {
 
       <div className={styles.layersPanel}>
         <div>Layers</div>
-        <ul className={styles.layersList}>
+        <div className={styles.layersList}>
           {constructLayersList(layersState.layers)}
-        </ul>
+        </div>
 
 
       </div>
