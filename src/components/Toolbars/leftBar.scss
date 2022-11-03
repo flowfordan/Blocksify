@@ -1,0 +1,32 @@
+.leftBar{
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr auto;
+}
+
+// .layerItem{
+//   padding: 8px 15px;
+//   border-top: 1px solid var(--grey-light);
+
+//   color: var(--black);
+
+//   cursor: pointer;
+// }
+
+// .layerItem:last-child{
+//     border-bottom: 1px solid var(--grey-light);
+// }
+
+// .layerItem_empty{
+//     color: var(--grey-main);
+// }
+
+// .layerItem_active{
+//     background-color: rgb(203, 230, 255);
+//     border: 1px solid rgb(134, 196, 255);
+// }
+
+// .layerItem_notEditable{
+//     background-color: var(--grey-lightest);
+// }
+

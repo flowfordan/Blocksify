@@ -12,7 +12,7 @@ import { returnSvgNode } from '../../../helpers/returnSvgNode';
 const ListItemCheck = ({ title, isChecked, icon, children, ...props }: ListItemCheckProps): JSX.Element => {
   return (
     <div className={cn('listItemCheck', {
-      ['listItemCheck_bold']: icon
+      ['listItemCheck_bold']: !icon
     })} {...props}>
       <span className={'listItemCheck__check'}>{isChecked && <TickIcon />}</span>
       {icon && <span className={'listItemCheck__icon'}>

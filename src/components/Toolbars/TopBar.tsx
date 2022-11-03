@@ -4,7 +4,7 @@ import React from "react";
 import cn from 'classnames';
 import { observer } from "mobx-react-lite";
 
-import styles from './TopBar.module.css';
+import './topBar.scss';
 import { sceneState, toolsState } from '../../state';
 import { useState } from "react";
 
@@ -50,58 +50,56 @@ export const TopBar = observer((props:any): JSX.Element => {
 
   return (
 
-    <div className={styles.appHeader}>
+    <div className={'topBar'}>
 
-      <div className={styles.corner}>
-        <span className={styles.logo}>
+      <div className={'topBar__corner'}>
+        <span className={'topBar__corner--logo'}>
           BLOCKSIFY
         </span>
-        <span className={''? styles.buttonActive : styles.button}
+        <span className={''? 'topBar__btnActive' : 'topBar__btn'}
           onClick={() => {}}>
             Import
         </span>
       </div>
 
-      <div className={styles.tools}>
+      <div className={'topBar__main'}>
+        <div className={'topBar__main--tools'}>
 
-        <div className={styles.drawingTools}>
-          <span className={cn(styles.button, {
-            [styles.buttonActive]: activeTool
+          <span className={cn('topBar__btn', {
+            ['topBar__btnActive']: activeTool
           })}>Select</span>
 
-          <span className={cn(styles.button, {
-            [styles.buttonActive]: activeTool,
-            [styles.buttonSelected]: isToolsMenuOpened
+          <span className={cn('topBar__btn', {
+            ['topBar__btnActive']: activeTool,
+            ['topBar__btnSelected']: isToolsMenuOpened
           })}
           onClick={() => handleMenuOpen('tools')}>
-            <span className={styles.btnContentMain}>{activeTool ? returnSvgNode(activeTool.name) : returnSvgNode('line')}</span>
-            <span className={styles.btnContentArrow}>{returnSvgNode('arrowHead')}</span>
+            <span className={'topBar__btn--content'}>{activeTool ? returnSvgNode(activeTool.name) : returnSvgNode('line')}</span>
+            <span className={'topBar__btn--content'}>{returnSvgNode('arrowHead')}</span>
             {isToolsMenuOpened && <ToolsMenu />}
           </span>
 
-          <span className={styles.helpersOptions}>
-            {/* TODO disabled if any instrument is active */}
-            <div className={cn(styles.button, {
-              [styles.buttonSelected]: isSnapMenuOpened
-            })}>
-              <div className={styles.menuItemReciever} onClick={() => handleMenuOpen('snap')}></div>
-              <div>{`Snap`}</div>
-              <div className={styles.menuOpener}>{returnSvgNode('arrowHead')}</div>
-              {isSnapMenuOpened && <HelpersMenu />}
-            </div>
-          </span>
+          {/* TODO disabled if any instrument is active */}
+          <div className={cn('topBar__btn', {
+            ['topBar__btnSelected']: isSnapMenuOpened
+          })}>
+            <div className={'topBar__btn--menuItemReciever'} onClick={() => handleMenuOpen('snap')}></div>
+            <div>{`Snap`}</div>
+            <div className={'topBar__btn--menuOpener'}>{returnSvgNode('arrowHead')}</div>
+            {isSnapMenuOpened && <HelpersMenu />}
+          </div>
         </div>
 
-        <div className={styles.cameraOptions}>
-          <span className={sceneState.currentCamera===0? styles.buttonActive : styles.button}
+        <div className={'topBar__main--cameraOptions'}>
+          <span className={sceneState.currentCamera===0? 'topBar__btnActive' : 'topBar__btn'}
             onClick={() => {handleCameraChange(0);}}>
               Top
           </span>
-          <span className={sceneState.currentCamera===1? styles.buttonActive : styles.button}
+          <span className={sceneState.currentCamera===1? 'topBar__btnActive' : 'topBar__btn'}
             onClick={() => {handleCameraChange(1);}}>
               Perspective
           </span>
-          <span className={''? styles.buttonActive : styles.button}
+          <span className={''? 'topBar__btnActive' : 'topBar__btn'}
             onClick={() => {}}>
               ViewAll
           </span>
@@ -114,7 +112,7 @@ export const TopBar = observer((props:any): JSX.Element => {
       </div>
 
       <div>
-        <span className={''? styles.buttonActive : styles.button}
+        <span className={''? 'topBar__btnActive' : 'topBar__btn'}
           onClick={() => {}}>
             Save
         </span>

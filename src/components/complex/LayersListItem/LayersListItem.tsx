@@ -1,6 +1,5 @@
 import React from 'react';
 import cn from 'classnames';
-import "./layerListItemTest.css";
 
 import { LayersListItemProps } from './LayersListItem.props';
 import './layersListItem.scss';

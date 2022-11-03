@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import cn from 'classnames';
 
-import styles from './LeftBar.module.css';
+import './leftBar.scss';
 import { sceneState, layersState } from '../../state';
 import { CoordsDisplay } from '../complex/CoordsPanel/CoordsPanel';
 
@@ -27,23 +27,20 @@ export const LeftBar = observer((props:any): JSX.Element => {
 
 
   return (
-    <div className={styles.leftBar}>
+    <div className={'leftBar'}>
 
-      <div className={styles.layersPanel}>
+      <div className={'leftBar__layersPanel'}>
         <div>Layers</div>
-        <div className={styles.layersList}>
+        <>
           {constructLayersList(layersState.layers)}
-        </div>
-
-
+        </>
       </div>
 
-      <div className={styles.adjustmentsPanel}>
+      <div className={'leftBar__adjustmentsPanel'}>
         <span>Adjust</span>
-
       </div>
 
-      <div className={styles.coordsPanel}>
+      <div className={'leftBar__coordsPanel'}>
         <CoordsDisplay/>
       </div>
 
