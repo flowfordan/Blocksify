@@ -7,6 +7,9 @@ import HelperIcon from '../../assets/icons/helper.svg';
 import CameraTopIcon from '../../assets/icons/camera_top.svg';
 import CameraPerspectiveIcon from '../../assets/icons/camera_perspective.svg';
 
+import ViewAllIcon from '../../assets/icons/view_all.svg';
+import ViewCenterIcon from '../../assets/icons/view_center.svg';
+
 import ArrowHeadIcon from '../../assets/icons/arrowHead.svg';
 import EyeIcon from '../../assets/icons/eye.svg';
 import EyeClosedIcon from '../../assets/icons/eye_closed.svg';
@@ -23,8 +26,12 @@ enum Assets {
   eye = 'eye',
   eye_closed = 'eyeClosed',
   lock = 'lock',
+  //
   cameraTop = 'cameraTop',
-  cameraPerspective = 'cameraPerspective'
+  cameraPerspective = 'cameraPerspective',
+  //
+  viewAll = 'viewAll',
+  viewCenter = 'viewCenter'
 }
 
 export type AssetKey = `${Assets}`;
@@ -45,7 +52,10 @@ const assetsData: AssetsData = {
   eyeClosed: EyeClosedIcon,
   lock: LockIcon,
   cameraTop: CameraTopIcon,
-  cameraPerspective: CameraPerspectiveIcon
+  cameraPerspective: CameraPerspectiveIcon,
+  //
+  viewAll: ViewAllIcon,
+  viewCenter: ViewCenterIcon
 };
 
 export { assetsData };

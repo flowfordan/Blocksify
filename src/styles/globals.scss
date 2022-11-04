@@ -8,9 +8,34 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
 a {
   text-decoration: none;
   color: inherit;
+  background-color: transparent;
+}
+
+img {
+  border-style: none;
 }
 
 ul {
@@ -19,9 +44,36 @@ ul {
   padding: 0;
 }
 
-* {
-  box-sizing: border-box;
+button {
+  margin: 0;
+  padding: 0;
+  background-color: #727272;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  user-select: none;
 }
+
+button,
+input { /* 1 */
+  overflow: visible;
+}
+
+button,
+select { /* 1 */
+  text-transform: none;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
 
 .label {
   background-color: var(--primary);

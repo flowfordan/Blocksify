@@ -11,6 +11,8 @@ import { useState } from "react";
 import { HelpersMenu } from "../HelpersMenu/HelpersMenu";
 import { ToolsMenu } from "../ToolsMenu/ToolsMenu";
 import { returnSvgNode } from "../../helpers/returnSvgNode";
+import { Btn } from "../basic/Btn/Btn";
+import { BtnBar } from "../complex/BtnBar/BtnBar";
 
 
 
@@ -63,50 +65,26 @@ export const TopBar = observer((props:any): JSX.Element => {
       </div>
 
       <div className={'topBar__main'}>
-        <div className={'topBar__main--tools'}>
+        <div className={'topBar__main--part'}>
+          <BtnBar iconKey='selector' isActive={activeTool?.id === 3}/>
 
-          <span className={cn('topBar__btn', {
-            ['topBar__btnActive']: activeTool
-          })}>Select</span>
-
-          <span className={cn('topBar__btn', {
-            ['topBar__btnActive']: activeTool,
-            ['topBar__btnSelected']: isToolsMenuOpened
-          })}
-          onClick={() => handleMenuOpen('tools')}>
-            <span className={'topBar__btn--content'}>{activeTool ? returnSvgNode(activeTool.name) : returnSvgNode('line')}</span>
-            <span className={'topBar__btn--content'}>{returnSvgNode('arrowHead')}</span>
-            {isToolsMenuOpened && <ToolsMenu />}
-          </span>
+          <BtnBar iconKey={activeTool ? activeTool.name : 'line'} isActive={Boolean(activeTool)} onClick={() => handleMenuOpen('tools')} isExpandable/>
+          {isToolsMenuOpened && <ToolsMenu />}
 
           {/* TODO disabled if any instrument is active */}
-          <div className={cn('topBar__btn', {
-            ['topBar__btnSelected']: isSnapMenuOpened
-          })}>
-            <div className={'topBar__btn--menuItemReciever'} onClick={() => handleMenuOpen('snap')}></div>
-            <div>{`Snap`}</div>
-            <div className={'topBar__btn--menuOpener'}>{returnSvgNode('arrowHead')}</div>
-            {isSnapMenuOpened && <HelpersMenu />}
-          </div>
+          <BtnBar iconKey={'helper'} isActive={false} onClick={() => handleMenuOpen('snap')} isExpandable/>
+          {isSnapMenuOpened && <HelpersMenu />}
         </div>
 
-        <div className={'topBar__main--cameraOptions'}>
-          <span className={sceneState.currentCamera===0? 'topBar__btnActive' : 'topBar__btn'}
-            onClick={() => {handleCameraChange(0);}}>
-              Top
-          </span>
-          <span className={sceneState.currentCamera===1? 'topBar__btnActive' : 'topBar__btn'}
-            onClick={() => {handleCameraChange(1);}}>
-              Perspective
-          </span>
-          <span className={''? 'topBar__btnActive' : 'topBar__btn'}
-            onClick={() => {}}>
-              ViewAll
-          </span>
+        <div className={'topBar__main--part'}>
+          <BtnBar iconKey='cameraTop' onClick={() => {handleCameraChange(0);}} isActive={sceneState.currentCamera === 0}/>
+          <BtnBar iconKey='cameraPerspective' onClick={() => {handleCameraChange(1);}} isActive={sceneState.currentCamera === 1}/>
+
         </div>
 
-        <div>
-          K
+        <div className={'topBar__main--part'}>
+          <BtnBar iconKey='viewAll' isActive={false}/>
+          <BtnBar iconKey='viewCenter' isActive={false}/>
         </div>
 
       </div>
