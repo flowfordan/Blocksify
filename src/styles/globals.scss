@@ -1,0 +1,114 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--black);
+  /* background: var(--grey-lightest); */
+
+  font-family: 'Inter', sans-serif;
+}
+
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  background-color: transparent;
+}
+
+img {
+  border-style: none;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  background-color: #727272;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  user-select: none;
+}
+
+button,
+input { /* 1 */
+  overflow: visible;
+}
+
+button,
+select { /* 1 */
+  text-transform: none;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+
+.label {
+  background-color: var(--primary);
+  color: white;
+  padding: 5px;
+  border-radius: 2px;
+
+  font-size: 12px;
+}
+
+
+:root {
+  --black: #202020;
+  --black-dark: #202020;
+
+  /* greys */
+  --grey-lightest:#F5F5F5;
+  --grey-light:#E9E9E9;
+  --grey-main:#C3C3C3;
+  --grey-dark:#686868;
+  --grey-darkest:#474747;
+
+
+  --white: white;
+
+  --primary-invis: #95ccff;
+  --primary: #3ec8ff;
+  --primary-overlay: rgba(62, 176, 255, 0.5);
+  --primary-overlay-light: rgba(62, 176, 255, 0.2);
+  --primary-hover: #167cdb;
+  
+  --red: #FC836D;
+  --green: #1DC37E;
+  --green-light: #C8F8E4;
+  --font-family: 'Inter', sans-serif;
+
+  --black-overlay: #0000006b;
+}

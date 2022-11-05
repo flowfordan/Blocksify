@@ -1,45 +1,60 @@
-import React, { useEffect, useRef } from 'react';
-import styles from './Desk.module.css';
-import {ThreeView} from '../../three/ThreeView';
-import "./desk-style.css";
+import React, { useEffect, useRef, useState } from 'react';
+import './desk.scss';
+import { ThreeView } from '../../three/ThreeView';
 
 
 export const Desk = (props:any): JSX.Element => {
-  
+
+  const [ canvasSize, setCanvasSize ] = useState({ width: 0, height: 0 });
+
   let threeView: any;
   const canvasScene = useRef<null | HTMLCanvasElement>(null);
   const canvasUI = useRef<null | HTMLCanvasElement>(null);
-  const canvasContainer = useRef<null | HTMLDivElement>(null)
-  
+  const canvasContainer = useRef<null | HTMLDivElement>(null);
+
   const resizeObserver = new ResizeObserver(entries => {
     entries.forEach(entry => {
       //on view params change
-      if(threeView){
+      if (threeView){
         threeView.onWindowResize(
           entry.contentRect.width, entry.contentRect.height
-        )
+        );
       }
     });
   });
 
   //on Mount
   useEffect(() => {
-    
+
     const innerTreeRef = canvasScene.current!;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     threeView = new ThreeView(innerTreeRef);
-    
-    resizeObserver.observe(innerTreeRef, {box: 'content-box'});
+
+    resizeObserver.observe(innerTreeRef, { box: 'content-box' });
+
+    if (canvasContainer.current){
+      const width = canvasContainer.current.offsetWidth;
+      const height = canvasContainer.current.offsetHeight;
+      setCanvasSize(prevSizes => {
+        return {
+          ...prevSizes,
+          width: width,
+          height: height
+        };
+      });
+    }
 
   }
-  ,[])
-  
+  , []);
 
-	return (
-	<div ref={canvasContainer} className={styles.desk}>
-    	<canvas ref={canvasScene} {...props} className={styles.canvasScene} id='canvasScene'/>
-	</div>    
-	);
-}
 
- 
+  return (
+    <div ref={canvasContainer} className={'desk'}>
+      <canvas ref={canvasScene} {...props} className={'desk__canvasScene'} id='canvasScene'
+        // width={canvasSize.width}
+        // height={canvasSize.height}
+      />
+    </div>
+  );
+};
+
+

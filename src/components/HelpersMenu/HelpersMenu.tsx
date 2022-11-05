@@ -1,88 +1,53 @@
 import { FunctionComponent } from "react";
-import styles from "./HelpersMenu.module.css";
+import "./helpersMenu.scss";
 
-import { sceneState } from '../../state';
+import { toolsState } from '../../state';
 import { observer } from "mobx-react-lite";
+import React from "react";
+import { Slider } from "../basic/Slider/Slider";
+import { ComplexSlider } from "../complex/ComplexSlider/ComplexSlider";
+import { ListItemCheck } from "../complex/ListItemCheck/ListItemCheck";
+import { CheckMatrix } from "../basic/CheckMatrix/CheckMatrix";
+import { Division } from "../basic/Division/Division";
+import { Card } from "../basic/Card/Card";
 
 interface HelpersMenuProps {
-	
+  test?: boolean;
 }
- 
+
 const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
+  const helperOptions = toolsState.helpersOptions;
 
-	const helperOptions = sceneState.helpersOptions;
+  const handleActiveToggle = (helperID: number) => {
+    toolsState.toggleHelperActive(helperID);
+  };
 
-	const handleActiveToggle = (helperID: number) => {
-		sceneState.toggleHelperActive(helperID);
-	}
 
-	const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number) => {
-		const newValue = Number(e.target.value);
-		sceneState.setHelperValue(itemId, newValue);
-	}
+  const handleCollectionChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number, value: number) => {
+    const isIncluded = e.target.checked;
+    toolsState.setValuesCollection(itemId, value, isIncluded);
+  };
 
-	const handleCollectionChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number, value: number) => {
-		const isIncluded = e.target.checked;
-		sceneState.setValuesCollection(itemId, value, isIncluded);
-	}
+  const buildItems = (type: string) => {
+    return helperOptions.map((item, idx) => {
+      return item.type === type? (
+        <ListItemCheck key={item.helperID} title={item.name} isChecked={item.isActive} onDoubleClick={() => handleActiveToggle(item.helperID)}>
+          {item.isRange &&
+            <ComplexSlider minVal={item.rangeMin} maxVal={item.rangeMax} stepVal={item.rangeStep} val={item.value} uiItemId={item.helperID} valName={item.valueName}/>
+          }
 
-	const buildItems = (type: string) => {
-		return helperOptions.map((item, idx) => {
-			return item.type === type? (
-				<div key={item.helperID} className={styles.menuItem}>
-					<div className={styles.menuItemCheck}>
-						<span>
-							<input type="checkbox" 
-							checked={item.isActive} 
-							onChange={() => handleActiveToggle(item.helperID)}/>
-						</span>
-						<span>{item.name}</span>
-					</div>
+          {item.isSelection && <CheckMatrix items={item.variants!} selected={item.numbers}/>}
+        </ListItemCheck>
+      ) : null;
+    });
+  };
 
-					{item.isRange && 
-					<div className={styles.menuItemRange}>
-						<span>
-							<input type="range" 
-							min={item.rangeMin} max={item.rangeMax} 
-							step={item.rangeStep}
-							value={item.value}
-							onChange={(e) => handleValueChange(e, item.helperID)}/>
-						</span>
-						<span className={styles.menuItemRangeVal}>
-							<span>{item.valueName && item.valueName}</span>
-							<span>{item.value}</span>
-						</span>
-					</div>}
+  return (
+    <Card className={'helpersMenu'}>
+      <Division header="snapping">{buildItems('snap')}</Division>
+      <Division header="grid">{buildItems('grid')}</Division>
+    </Card>
+  );
+});
 
-					{item.isSelection && 
-					<div className={styles.menuItemAnglesWrapper}>
-						{item.variants!.map((v, idx) => {
-							return(
-								<span key={idx} className={styles.menuItemAngles}>
-									<input type="checkbox" checked={item.numbers.indexOf(v) !== -1}
-									onChange={(e) => handleCollectionChange(e, item.helperID, v)}/>
-									<span>{v}</span>
-								</span>
-							)
-						})}
-					</div>}
-				</div>
-			) : null
-		})
-	}
-
-	return (
-		<div className={styles.menu}>
-			<div className={styles.menuBlock}>
-				<div className={styles.menuBlockHeader}>Snapping</div>
-				{buildItems('snap')}
-			</div>
-			<div className={styles.menuBlock}>
-				<div className={styles.menuBlockHeader}>Grid</div>
-				{buildItems('grid')}
-			</div>
-		</div>
-	);
-})
- 
 export { HelpersMenu };

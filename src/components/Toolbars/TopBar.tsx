@@ -1,104 +1,89 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable no-constant-condition */
+import React from "react";
+import cn from 'classnames';
 import { observer } from "mobx-react-lite";
 
-import styles from './TopBar.module.css';
+import './topBar.scss';
 import { sceneState, toolsState } from '../../state';
 import { useState } from "react";
 
 import { HelpersMenu } from "../HelpersMenu/HelpersMenu";
+import { ToolsMenu } from "../ToolsMenu/ToolsMenu";
+import { BtnBar } from "../complex/BtnBar/BtnBar";
+import { TopBarProps } from "./TopBar.props";
 
-export const TopBar = observer((props:any): JSX.Element => {
 
-	const [isMenuOpened, toggleMenuOpened] = useState(false);
+export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
 
-  const { drawingTools } = toolsState;
+  const [ isSnapMenuOpened, toggleSnapMenuOpened ] = useState(false);
+  const [ isToolsMenuOpened, toggleToolsMenuOpened ] = useState(false);
 
-  let activeToolId = drawingTools.find(i => i.active)? 
-    drawingTools.find(i => i.active)!.id : undefined
+  const { tools } = toolsState;
 
-	const handleMenuOpen = () => {
-		toggleMenuOpened(!isMenuOpened);
-	}
+  const activeTool = tools.find(i => i.active)?
+    tools.find(i => i.active)! : undefined;
+
+  const handleMenuOpen = (menu: 'tools' | 'snap') => {
+    switch (menu){
+    case 'tools':
+      toggleToolsMenuOpened(!isToolsMenuOpened);
+      toggleSnapMenuOpened(false);
+      break;
+    case 'snap':
+      toggleSnapMenuOpened(!isSnapMenuOpened);
+      toggleToolsMenuOpened(false);
+      break;
+    default:
+      return;
+    }
+  };
 
   //TODO: wrap in array tools
   const handleCameraChange = (id: number) => {
-    sceneState.changeCamera(id)
-  }
+    sceneState.changeCamera(id);
+  };
 
   const handleToolChange = (id: number) => {
-    toolsState.setActiveTool(id)
-  }
+    toolsState.setActiveTool(id);
+  };
 
   return (
+    <div className={cn(className, 'topBar')} {...props}>
 
-    <div className={styles.appHeader}>
-
-      <div className={styles.corner}>
-        <span className={styles.logo}>
+      <div className={'topBar__corner'}>
+        <span className={'topBar__corner--logo'}>
           BLOCKSIFY
         </span>
-        <span className={''? styles.buttonActive : styles.button} 
-          onClick={() => {}}>
-            Import
-          </span>
+        <BtnBar title={'Import'} isActive={false}/>
       </div>
-      
-      <div className={styles.tools}>
 
-        <div className={styles.drawingTools}>
-          <span className={activeToolId === 0? styles.buttonActive : styles.button} 
-          onClick={() => handleToolChange(0)}>
-            Line
-          </span>
-          <span className={activeToolId === 1? styles.buttonActive : styles.button} 
-          onClick={() => handleToolChange(1)}>
-            Polyline
-          </span>
-          <span className={activeToolId === 2? styles.buttonActive : styles.button} 
-          onClick={() => handleToolChange(2)}>
-            Polygon
-          </span>
+      <div className={'topBar__main'}>
+        <div className={'topBar__main--part'}>
+          <BtnBar iconKey='selector' isActive={activeTool?.id === 3}/>
 
-          <div className={styles.toolsOptions}>
-			{/* TODO disabled if any instrument is active */}
-            <div className={isMenuOpened? styles.buttonActive : styles.button}>
-				<div className={styles.menuItemReciever}  onClick={() => handleMenuOpen()}></div>
-              <div>{`Snapping`}</div>
-			  <div className={styles.menuOpener}>{`>`}</div>
+          <BtnBar iconKey={activeTool ? activeTool.name : 'line'} isActive={Boolean(activeTool)} onClick={() => handleMenuOpen('tools')} isExpandable/>
+          {isToolsMenuOpened && <ToolsMenu />}
 
-
-				{isMenuOpened && <HelpersMenu />}
-            </div>
-          </div>
-        </div>              
-        
-        <div className={styles.cameraOptions}>
-            <span className={sceneState.currentCamera===0? styles.buttonActive : styles.button} 
-            onClick={() => {handleCameraChange(0)}}>
-              Top
-            </span>
-            <span className={sceneState.currentCamera===1? styles.buttonActive : styles.button} 
-            onClick={() => {handleCameraChange(1)}}>
-              Perspective
-            </span>
-            <span className={''? styles.buttonActive : styles.button} 
-            onClick={() => {}}>
-              ViewAll
-            </span>
+          <BtnBar iconKey={'helper'} isActive={false} onClick={() => handleMenuOpen('snap')} isExpandable/>
+          {isSnapMenuOpened && <HelpersMenu />}
         </div>
 
-        <div>
-          K
+        <div className={'topBar__main--part'}>
+          <BtnBar iconKey='cameraTop' onClick={() => {handleCameraChange(0);}} isActive={sceneState.currentCamera === 0}/>
+          <BtnBar iconKey='cameraPerspective' onClick={() => {handleCameraChange(1);}} isActive={sceneState.currentCamera === 1}/>
         </div>
 
+        <div className={'topBar__main--part'}>
+          <BtnBar iconKey='viewAll' isActive={false}/>
+          <BtnBar iconKey='viewCenter' isActive={false}/>
+        </div>
       </div>
-      
+
       <div>
-      <span className={''? styles.buttonActive : styles.button} 
-          onClick={() => {}}>
-            Save
-          </span>
+        <BtnBar title={'Save'} isActive={false}/>
       </div>
 
     </div>
   );
-})
+});

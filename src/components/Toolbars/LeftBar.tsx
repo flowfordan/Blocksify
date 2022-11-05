@@ -3,55 +3,48 @@ import { observer } from "mobx-react-lite";
 
 import cn from 'classnames';
 
-import styles from './LeftBar.module.css';
+import './leftBar.scss';
 import { sceneState, layersState } from '../../state';
-import { CoordsDisplay } from '../Coords/CoordsDisplay';
+import { CoordsDisplay } from '../complex/CoordsPanel/CoordsPanel';
 
+import { LayersListItem } from '../complex/LayersListItem/LayersListItem';
 
 export const LeftBar = observer((props:any): JSX.Element => {
 
   const handleSelectLayer = (num: number) => {
-    layersState.setActiveLayer(num)
-  }
+    layersState.setActiveLayer(num);
+  };
 
   const constructLayersList = (layersArr: typeof layersState.layers) => {
-    return(
+    return (
       layersArr.map(l => {
         return (
-          <li key={l.id} className={cn(styles.layerItem, {
-            [styles.layerItem_empty]: l.empty,
-            [styles.layerItem_active]: l.active,
-            [styles.layerItem_notEditable]: !l.editable,
-          })}
-          onClick={() => handleSelectLayer(l.id)}>{`${l.name}`}</li>
-        )
+          <LayersListItem name={l.name} isEmpty={false} key={l.id} isActive={l.active} isVisible={l.visible} onClick={() => handleSelectLayer(l.id)}/>
+        );
       })
-    )
-  }
- 
+    );
+  };
+
 
   return (
-      <div className={styles.leftBar}>
+    <div className={'leftBar'}>
 
-        <div className={styles.layersPanel}>
-          <div>Layers</div>
-          <ul className={styles.layersList}>
-            {constructLayersList(layersState.layers)}
-          </ul>
-          
-          
-        </div>
-
-        <div className={styles.adjustmentsPanel}>
-          <span>Adjust</span>
-          
-        </div>
-
-        <div className={styles.coordsPanel}>
-          <CoordsDisplay/>
-        </div>
-
+      <div className={'leftBar__layersPanel'}>
+        <div>Layers</div>
+        <>
+          {constructLayersList(layersState.layers)}
+        </>
       </div>
 
+      <div className={'leftBar__adjustmentsPanel'}>
+        <span>Adjust</span>
+      </div>
+
+      <div className={'leftBar__coordsPanel'}>
+        <CoordsDisplay/>
+      </div>
+
+    </div>
+
   );
-})
+});

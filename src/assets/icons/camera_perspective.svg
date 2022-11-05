@@ -1,0 +1,7 @@
+<svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1 4.33333L12.1111 7.66667L21 4.33333" stroke="white"/>
+<path d="M1 16.5556L12.1111 19.8889L21 16.5556" stroke="white" stroke-dasharray="2 1"/>
+<path d="M21 4.33333L9.88889 1L1 4.33333" stroke="white" stroke-dasharray="2 1"/>
+<path d="M1 4.33333V16.5556M21 4.33333V16.5556" stroke="white" stroke-dasharray="2 1"/>
+<path d="M12.1111 7.66667V19.8889" stroke="white"/>
+</svg>

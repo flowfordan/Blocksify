@@ -1,0 +1,48 @@
+.layersListItem, .layersListItem_active {
+  height: 32px;
+
+  display: grid;
+  column-gap: 8px;
+  grid-template-columns: 8px 1fr 16px 16px;
+  align-items: center;
+
+
+  padding: 8px 8px;
+  margin: -1px 0 0 0;
+
+
+  border-top: 1px solid var(--grey-light);
+  border-right: 1px solid rgba($color: #000000, $alpha: 0.0);
+  border-bottom: 1px solid var(--grey-light);
+  border-left: 1px solid rgba($color: #000000, $alpha: 0.0);
+
+  /* user-select: none; */
+  cursor: pointer;
+
+  &__emptyStatus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__nonEmptyBadge {
+    height: 4px;
+    width: 4px;
+  
+    border-radius: 4px;
+  
+    background-color: var(--primary);
+  }
+}
+
+.layersListItem:hover {
+  background-color: var(--grey-light);
+}
+
+
+.layersListItem_active {
+  background-color: var(--primary-overlay-light);
+  border-color: var(--primary);
+  margin: 0 0 1px 0;
+}
+

@@ -1,32 +1,34 @@
-import React, { useState } from 'react';
-import { Desk } from '../../components/Desk/Desk';
-import styles from './AppPage.module.css';
-import { LeftBar } from '../../components/Toolbars/LeftBar';
-import { RightBar, TopBar } from '../../components/Toolbars';
+import React from 'react';
 
-export const AppPage= (): JSX.Element => {
+import { Desk } from '../../components/Desk/Desk';
+import { RightBar, TopBar, LeftBar } from '../../components/Toolbars';
+
+import './appPage.scss';
+
+
+export const AppPage = (): JSX.Element => {
 
   return (
-      <div className={styles.page}>
+    <div className='appPage'>
 
-		<div className={styles.topBar}>
-          <TopBar/>
-		</div>
+      <TopBar className='appPage__topBar'/>
 
-        <div className={`${styles.sideBar} ${styles.leftBar}`}>
-          <LeftBar/>
-        </div>
-
-        <div className={styles.canvas}>
-          <Desk />
-        </div>
-
-        <div className={`${styles.sideBar} ${styles.rightBar}`} id="right-bar">
-          <RightBar/>
-        </div>
-
+      <div className='appPage__canvas'>
+        <Desk />
       </div>
+
+
+      <div className={`appPage__leftBar`}>
+        <LeftBar/>
+      </div>
+
+
+      <div className={`appPage__rightBar`}>
+        <RightBar/>
+      </div>
+
+    </div>
   );
-}
+};
 
 
