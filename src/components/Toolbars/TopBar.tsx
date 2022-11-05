@@ -10,13 +10,11 @@ import { useState } from "react";
 
 import { HelpersMenu } from "../HelpersMenu/HelpersMenu";
 import { ToolsMenu } from "../ToolsMenu/ToolsMenu";
-import { returnSvgNode } from "../../helpers/returnSvgNode";
-import { Btn } from "../basic/Btn/Btn";
 import { BtnBar } from "../complex/BtnBar/BtnBar";
+import { TopBarProps } from "./TopBar.props";
 
 
-
-export const TopBar = observer((props:any): JSX.Element => {
+export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
 
   const [ isSnapMenuOpened, toggleSnapMenuOpened ] = useState(false);
   const [ isToolsMenuOpened, toggleToolsMenuOpened ] = useState(false);
@@ -51,17 +49,13 @@ export const TopBar = observer((props:any): JSX.Element => {
   };
 
   return (
-
-    <div className={'topBar'}>
+    <div className={cn(className, 'topBar')} {...props}>
 
       <div className={'topBar__corner'}>
         <span className={'topBar__corner--logo'}>
           BLOCKSIFY
         </span>
-        <span className={''? 'topBar__btnActive' : 'topBar__btn'}
-          onClick={() => {}}>
-            Import
-        </span>
+        <BtnBar title={'Import'} isActive={false}/>
       </div>
 
       <div className={'topBar__main'}>
@@ -71,7 +65,6 @@ export const TopBar = observer((props:any): JSX.Element => {
           <BtnBar iconKey={activeTool ? activeTool.name : 'line'} isActive={Boolean(activeTool)} onClick={() => handleMenuOpen('tools')} isExpandable/>
           {isToolsMenuOpened && <ToolsMenu />}
 
-          {/* TODO disabled if any instrument is active */}
           <BtnBar iconKey={'helper'} isActive={false} onClick={() => handleMenuOpen('snap')} isExpandable/>
           {isSnapMenuOpened && <HelpersMenu />}
         </div>
@@ -79,7 +72,6 @@ export const TopBar = observer((props:any): JSX.Element => {
         <div className={'topBar__main--part'}>
           <BtnBar iconKey='cameraTop' onClick={() => {handleCameraChange(0);}} isActive={sceneState.currentCamera === 0}/>
           <BtnBar iconKey='cameraPerspective' onClick={() => {handleCameraChange(1);}} isActive={sceneState.currentCamera === 1}/>
-
         </div>
 
         <div className={'topBar__main--part'}>
@@ -90,10 +82,7 @@ export const TopBar = observer((props:any): JSX.Element => {
       </div>
 
       <div>
-        <span className={''? 'topBar__btnActive' : 'topBar__btn'}
-          onClick={() => {}}>
-            Save
-        </span>
+        <BtnBar title={'Save'} isActive={false}/>
       </div>
 
     </div>

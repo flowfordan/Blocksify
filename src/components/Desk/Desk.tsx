@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './desk.scss';
 import { ThreeView } from '../../three/ThreeView';
 
 
 export const Desk = (props:any): JSX.Element => {
+
+  const [ canvasSize, setCanvasSize ] = useState({ width: 0, height: 0 });
 
   let threeView: any;
   const canvasScene = useRef<null | HTMLCanvasElement>(null);
@@ -29,13 +31,28 @@ export const Desk = (props:any): JSX.Element => {
 
     resizeObserver.observe(innerTreeRef, { box: 'content-box' });
 
+    if (canvasContainer.current){
+      const width = canvasContainer.current.offsetWidth;
+      const height = canvasContainer.current.offsetHeight;
+      setCanvasSize(prevSizes => {
+        return {
+          ...prevSizes,
+          width: width,
+          height: height
+        };
+      });
+    }
+
   }
   , []);
 
 
   return (
     <div ref={canvasContainer} className={'desk'}>
-      <canvas ref={canvasScene} {...props} className={'desk__canvasScene'} id='canvasScene'/>
+      <canvas ref={canvasScene} {...props} className={'desk__canvasScene'} id='canvasScene'
+        // width={canvasSize.width}
+        // height={canvasSize.height}
+      />
     </div>
   );
 };

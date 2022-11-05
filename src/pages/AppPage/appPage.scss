@@ -1,48 +1,56 @@
 .appPage {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+
   &__topBar{
     position: absolute;
     top: 0;
     width: 100%;
-    max-height: 50px;
+    height: 50px;
     z-index: 10;
   
     background-color: var(--black);
     color: var(--white);
   }
+    
+  &__sideBar, &__leftBar, &__rightBar {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
 
-  &__sideBar {
+
     padding: 10px 0;
     font-size: 12px;
 
     z-index: 10;
   }
 
-  &__leftBar{
-    grid-area: lBar;
+  &__leftBar {
     background-color: var(--white);
     border-right: 0.5px solid var(--grey-light);
 
     position: absolute;
     left: 0;
-    bottom: 0;
-    top: 50px;
+
     width: 250px;
   }
 
-  &__rightBar{
-    grid-area: rBar;
+  &__rightBar {
     background-color: var(--white);
     border-left: 0.5px solid var(--grey-light);
 
     position: absolute;
     right: 0;
-    bottom: 0;
-    top: 50px;
+
     width: 250px;
   }
 
   &__canvas{
     position: absolute;
     top: 0;
-  }
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 }
