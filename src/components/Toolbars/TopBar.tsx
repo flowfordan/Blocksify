@@ -78,7 +78,6 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
           <BtnBar iconKey='viewAll' isActive={false}/>
           <BtnBar iconKey='viewCenter' isActive={false}/>
         </div>
-
       </div>
 
       <div>

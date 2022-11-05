@@ -4,7 +4,7 @@ import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 //TEST CUBE
 const geometry = new THREE.BoxGeometry(10, 10, 10);
 const material = new THREE.MeshStandardMaterial({
-  color: 0x84CBFF,
+  color: 0x3EB0FF,
   wireframe: false
 });
 
