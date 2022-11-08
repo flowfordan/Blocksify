@@ -1,0 +1,32 @@
+.panelDivision {
+  padding-top: 8px;
+  padding-bottom: 2px;
+
+  &__header {
+    padding-left: 8px;
+    padding-bottom: 2px;
+
+    color: var(--grey-dark);
+
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  &__content {
+    // margin-bottom: 2px;
+  }
+}
+
+//divider n the bottom
+.panelDivision:not(:last-child)::after{
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  content: '';
+
+  height: 1px;
+  width: 100%;
+
+  background-color: var(--grey-light);
+}

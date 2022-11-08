@@ -8,6 +8,7 @@ import { sceneState, layersState } from '../../state';
 import { CoordsDisplay } from '../complex/CoordsPanel/CoordsPanel';
 
 import { LayersListItem } from '../complex/LayersListItem/LayersListItem';
+import { PanelDivision } from '../basic/PanelDivision/PanelDivision';
 
 export const LeftBar = observer((props:any): JSX.Element => {
 
@@ -19,7 +20,7 @@ export const LeftBar = observer((props:any): JSX.Element => {
     return (
       layersArr.map(l => {
         return (
-          <LayersListItem name={l.name} isEmpty={false} key={l.id} isActive={l.active} isVisible={l.visible} onClick={() => handleSelectLayer(l.id)}/>
+          <LayersListItem layerId={l.id} name={l.name} isEmpty={false} key={l.id} isActive={l.active} isVisible={l.visible} onClick={() => handleSelectLayer(l.id)}/>
         );
       })
     );
@@ -29,16 +30,18 @@ export const LeftBar = observer((props:any): JSX.Element => {
   return (
     <div className={'leftBar'}>
 
-      <div className={'leftBar__layersPanel'}>
+      <PanelDivision header={'Layers'}>
+        {constructLayersList(layersState.layers)}
+      </PanelDivision>
+      {/* <div className={'leftBar__layersPanel'}>
         <div>Layers</div>
         <>
-          {constructLayersList(layersState.layers)}
         </>
-      </div>
+      </div> */}
 
-      <div className={'leftBar__adjustmentsPanel'}>
-        <span>Adjust</span>
-      </div>
+      <PanelDivision header={'Adjust'}>
+        {'There will be adjustments for selected el-s'}
+      </PanelDivision>
 
       <div className={'leftBar__coordsPanel'}>
         <CoordsDisplay/>
