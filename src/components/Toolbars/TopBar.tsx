@@ -5,13 +5,14 @@ import cn from 'classnames';
 import { observer } from "mobx-react-lite";
 
 import './topBar.scss';
-import { sceneState, toolsState } from '../../state';
+import { sceneState, toolsState, uiState } from '../../state';
 import { useState } from "react";
 
 import { HelpersMenu } from "../HelpersMenu/HelpersMenu";
 import { ToolsMenu } from "../ToolsMenu/ToolsMenu";
 import { BtnBar } from "../complex/BtnBar/BtnBar";
 import { TopBarProps } from "./TopBar.props";
+import { CtxMenu } from "../complex/CtxMenu/CtxMenu";
 
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
@@ -19,24 +20,15 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
   const [ isSnapMenuOpened, toggleSnapMenuOpened ] = useState(false);
   const [ isToolsMenuOpened, toggleToolsMenuOpened ] = useState(false);
 
+
   const { tools } = toolsState;
 
   const activeTool = tools.find(i => i.active)?
     tools.find(i => i.active)! : undefined;
 
-  const handleMenuOpen = (menu: 'tools' | 'snap') => {
-    switch (menu){
-    case 'tools':
-      toggleToolsMenuOpened(!isToolsMenuOpened);
-      toggleSnapMenuOpened(false);
-      break;
-    case 'snap':
-      toggleSnapMenuOpened(!isSnapMenuOpened);
-      toggleToolsMenuOpened(false);
-      break;
-    default:
-      return;
-    }
+  const handleMenuOpen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, menuType: 'tools' | 'helpers') => {
+    const elementPos = e.currentTarget.getBoundingClientRect();
+    uiState.setCtxMenu(menuType, elementPos.left, elementPos.bottom);
   };
 
   //TODO: wrap in array tools
@@ -60,18 +52,14 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
 
       <div className={'topBar__main'}>
         <div className={'topBar__main--part'}>
-          <BtnBar iconKey='selector' isActive={activeTool?.id === 3}/>
-
-          <BtnBar iconKey={activeTool ? activeTool.name : 'line'} isActive={Boolean(activeTool)} onClick={() => handleMenuOpen('tools')} isExpandable/>
-          {isToolsMenuOpened && <ToolsMenu />}
-
-          <BtnBar iconKey={'helper'} isActive={false} onClick={() => handleMenuOpen('snap')} isExpandable/>
-          {isSnapMenuOpened && <HelpersMenu />}
+          <BtnBar iconKey='selector' isActive={activeTool?.id === 3} title={'Selector tool'}/>
+          <BtnBar iconKey={activeTool ? activeTool.name : 'line'} isActive={Boolean(activeTool)} onClick={(e) => handleMenuOpen(e, 'tools')} isExpandable title={'Drawing tools'}/>
+          <BtnBar iconKey={'helper'} isActive={false} onClick={(e) => handleMenuOpen(e, 'helpers')} isExpandable title={'Helpers (snaps, grid)'}/>
         </div>
 
         <div className={'topBar__main--part'}>
-          <BtnBar iconKey='cameraTop' onClick={() => {handleCameraChange(0);}} isActive={sceneState.currentCamera === 0}/>
-          <BtnBar iconKey='cameraPerspective' onClick={() => {handleCameraChange(1);}} isActive={sceneState.currentCamera === 1}/>
+          <BtnBar iconKey='cameraTop' onClick={() => {handleCameraChange(0);}} isActive={sceneState.currentCamera === 0} title={'Top View'}/>
+          <BtnBar iconKey='cameraPerspective' onClick={() => {handleCameraChange(1);}} isActive={sceneState.currentCamera === 1} title={'Perspective View'}/>
         </div>
 
         <div className={'topBar__main--part'}>

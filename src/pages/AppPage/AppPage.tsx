@@ -1,12 +1,15 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { CtxMenu } from '../../components/complex/CtxMenu/CtxMenu';
 
 import { Desk } from '../../components/Desk/Desk';
 import { RightBar, TopBar, LeftBar } from '../../components/Toolbars';
+import { uiState } from '../../state';
 
 import './appPage.scss';
 
 
-export const AppPage = (): JSX.Element => {
+export const AppPage = observer((): JSX.Element => {
 
   return (
     <div className='appPage'>
@@ -27,8 +30,10 @@ export const AppPage = (): JSX.Element => {
         <RightBar/>
       </div>
 
+      {uiState.ctxMenu.isActive && <CtxMenu />}
+
     </div>
   );
-};
+});
 
 

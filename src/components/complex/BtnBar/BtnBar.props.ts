@@ -6,5 +6,5 @@ export interface BtnBarProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTML
   iconKey?: AssetKey;
   isExpandable?: boolean;
   isActive: boolean;
-  title?: string;
+  btnName?: string;
 }

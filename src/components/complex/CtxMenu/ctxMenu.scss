@@ -1,0 +1,15 @@
+.ctxMenu {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  min-width: 240px;
+
+  background-color: var(--black);
+
+  margin-top: 8px;
+  
+  z-index: 10;
+}
+

@@ -9,7 +9,7 @@ const Card = ({ children, className, colorVariant = 'black', ...props }: CardPro
   return (
     <div className={cn('card', className, {
       ['card_white']: colorVariant === 'white'
-    })}>
+    })} {...props}>
       {children}
     </div>
   );

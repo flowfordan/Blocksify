@@ -33,7 +33,7 @@ const ToolsMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   };
 
   return (
-    <Card className={'toolsMenu'}>
+    <>
       {tools.map(t => {
         if (t.type === 'draw'){
           return (
@@ -42,7 +42,7 @@ const ToolsMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
         }
 
       })}
-    </Card>
+    </>
   );
 });
 

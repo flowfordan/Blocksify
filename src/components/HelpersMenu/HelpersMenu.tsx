@@ -43,10 +43,10 @@ const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
   };
 
   return (
-    <Card className={'helpersMenu'}>
+    <>
       <Division header="snapping">{buildItems('snap')}</Division>
       <Division header="grid">{buildItems('grid')}</Division>
-    </Card>
+    </>
   );
 });
 
