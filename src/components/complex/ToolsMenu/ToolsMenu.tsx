@@ -2,10 +2,10 @@ import React from "react";
 import { FunctionComponent } from "react";
 import { observer } from "mobx-react-lite";
 
-import { toolsState } from '../../state';
-import { ListItemCheck } from "../complex/ListItemCheck/ListItemCheck";
+import { toolsState } from '../../../state';
+import { ListItemCheck } from "../ListItemCheck/ListItemCheck";
 
-import { Card } from "../basic/Card/Card";
+import { Card } from "../../basic/Card/Card";
 
 import "./toolsMenu.scss";
 

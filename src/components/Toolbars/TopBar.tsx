@@ -8,8 +8,8 @@ import './topBar.scss';
 import { sceneState, toolsState, uiState } from '../../state';
 import { useState } from "react";
 
-import { HelpersMenu } from "../HelpersMenu/HelpersMenu";
-import { ToolsMenu } from "../ToolsMenu/ToolsMenu";
+import { HelpersMenu } from "../complex/HelpersMenu/HelpersMenu";
+import { ToolsMenu } from "../complex/ToolsMenu/ToolsMenu";
 import { BtnBar } from "../complex/BtnBar/BtnBar";
 import { TopBarProps } from "./TopBar.props";
 import { CtxMenu } from "../complex/CtxMenu/CtxMenu";

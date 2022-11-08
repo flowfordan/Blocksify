@@ -5,8 +5,8 @@ import { observer } from "mobx-react-lite";
 import { CtxMenuProps } from './CtxMenu.props';
 import { uiState } from '../../../state';
 import { Card } from '../../basic/Card/Card';
-import { HelpersMenu } from '../../HelpersMenu/HelpersMenu';
-import { ToolsMenu } from '../../ToolsMenu/ToolsMenu';
+import { HelpersMenu } from '../HelpersMenu/HelpersMenu';
+import { ToolsMenu } from '../ToolsMenu/ToolsMenu';
 
 import './ctxMenu.scss';
 
@@ -54,16 +54,8 @@ const CtxMenu = observer(({ children, className, ...props }: CtxMenuProps): JSX.
     };
   }, []);
 
-  useEffect(() => {
-    const el = document.getElementById(ctxMenuId);
-    if (el){
-      el.style.left = `${menuPosX}px`;
-      el.style.top = `${menuPosY}px`;
-    }
-  }, [ menuPosX, menuPosY ]);
-
   return (
-    <Card className={cn(className, 'ctxMenu')} id={ctxMenuId} {...props}>
+    <Card className={cn(className, 'ctxMenu')} id={ctxMenuId} style={{ left:`${menuPosX}px`, top: `${menuPosY}px` }} {...props}>
       {menuContent}
     </Card>
   );
