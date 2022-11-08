@@ -73,6 +73,13 @@ class LayersState{
     }
 
   };
+
+  setLayerVisibility = (layerId: number) => {
+    const idx = this.layers.findIndex((el) => el.id === layerId);
+    if (idx > -1){
+      this.layers[idx].visible = !this.layers[idx].visible;
+    }
+  };
 }
 
 const layersState = new LayersState();

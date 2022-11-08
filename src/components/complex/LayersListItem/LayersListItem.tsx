@@ -6,18 +6,23 @@ import './layersListItem.scss';
 
 import { AssetKey, assetsData } from '../../_data/assetsData';
 import { returnSvgNode } from '../../../helpers/returnSvgNode';
+import { layersState } from '../../../state';
 
 
-const LayersListItem = ({ children, name, isEmpty, isActive, isVisible, isBlocked = false, ...props }: LayersListItemProps): JSX.Element => {
+const LayersListItem = ({ layerId, name, isEmpty, isActive, isVisible, isBlocked = false, ...props }: LayersListItemProps): JSX.Element => {
+  const handleLayerVisibility = () => {
+    layersState.setLayerVisibility(layerId);
+  };
   return (
     <div className={cn('layersListItem', {
-      ['layersListItem_active']: isActive
+      ['layersListItem-active']: isActive,
+      ['layersListItem-hidden']: !isVisible
     })}
     {...props}>
       <span className={'layersListItem__emptyStatus'}>{isEmpty ? null : <span className={'layersListItem__nonEmptyBadge'}></span>}</span>
       <span>{name}</span>
-      <span>bl</span>
-      <span>{isVisible ? returnSvgNode('eye') : returnSvgNode('eyeClosed')}</span>
+      <span>{isBlocked ? returnSvgNode('lock'): null}</span>
+      <span onClick={() => handleLayerVisibility()}>{isVisible ? returnSvgNode('eye') : returnSvgNode('eyeClosed')}</span>
     </div>
   );
 };
