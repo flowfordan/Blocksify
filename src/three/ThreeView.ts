@@ -64,6 +64,11 @@ export class ThreeView {
       }
     );
 
+    //update visibility of layers
+    autorun(() => {
+      this.cameraController.setLayersVisibility();
+    });
+
     autorun(() => {
       this.cameraController.setCamera(this.rendererController);
     });

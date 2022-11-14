@@ -31,6 +31,19 @@ export class CameraController {
     }
   };
 
+  setLayersVisibility = (): void => {
+    //TODO rewrite - no need to iterate every time
+    //make it specific for buttoned layer
+    //ugly
+    layersState.layers.forEach(i => {
+      if (i.visible){
+        this.camera.layers.enable(i.id);
+      } else {
+        this.camera.layers.disable(i.id);
+      }
+    });
+  };
+
   updOnResize = (aspect: number, viewSize: number) => {
     //
     if (this.camera instanceof THREE.PerspectiveCamera){

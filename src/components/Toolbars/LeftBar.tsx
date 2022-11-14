@@ -33,11 +33,6 @@ export const LeftBar = observer((props:any): JSX.Element => {
       <PanelDivision header={'Layers'}>
         {constructLayersList(layersState.layers)}
       </PanelDivision>
-      {/* <div className={'leftBar__layersPanel'}>
-        <div>Layers</div>
-        <>
-        </>
-      </div> */}
 
       <PanelDivision header={'Adjust'}>
         {'There will be adjustments for selected el-s'}
