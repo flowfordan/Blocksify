@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { layersState, sceneState } from "../../state";
 import { camera } from '../camera/camera';
 import { RendererController } from "./Renderer.controller";
+import { toJS } from "mobx";
 
 export class CameraController {
   camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
@@ -31,6 +32,7 @@ export class CameraController {
     }
   };
 
+  //default layers visibility for all layers
   setLayersVisibility = (): void => {
     //TODO rewrite - no need to iterate every time
     //make it specific for buttoned layer
@@ -42,6 +44,23 @@ export class CameraController {
         this.camera.layers.disable(i.id);
       }
     });
+  };
+
+  toggleLayerVisibility = (layerId: number) => {
+    const layer = layersState.layers.find(l => l.id === layerId);
+    if (!layer){
+      throw new Error(
+        `Trying to find layer to set visibility. 
+        There is no layer with such id`
+      );
+    }
+
+    console.log(toJS(layer));
+    if (layer.visible){
+      this.camera.layers.enable(layer.id);
+    } else {
+      this.camera.layers.disable(layer.id);
+    }
   };
 
   updOnResize = (aspect: number, viewSize: number) => {

@@ -36,6 +36,8 @@ export class ThreeView {
     this.groundPlane = worldPlane;
     this.currentLayer = layersState.layers.find(l => l.active)!;
 
+
+
     //STATS
     this.stats = Stats();
     //document.body.appendChild(this.stats.dom);
@@ -64,10 +66,31 @@ export class ThreeView {
       }
     );
 
+    //layer visibility
+    reaction(
+      () => {
+        const visibles: Array<boolean> = [];
+        const layers = layersState.layers;
+        for (const layer of layers){
+          visibles.push(layer.visible);
+        }
+        return visibles;
+      },
+      (value, prevValue, reaction) => {
+        for (let i=0; i<value.length; i++){
+          if (value[i] !== prevValue[i]){
+            const layer = layersState.layers[i];
+            this.cameraController.toggleLayerVisibility(layer.id);
+            break;
+          }
+        }
+      }
+    );
+
     //update visibility of layers
-    autorun(() => {
-      this.cameraController.setLayersVisibility();
-    });
+    // autorun(() => {
+    //   this.cameraController.setLayersVisibility();
+    // });
 
     autorun(() => {
       this.cameraController.setCamera(this.rendererController);
