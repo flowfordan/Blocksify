@@ -87,10 +87,17 @@ export class ThreeView {
       }
     );
 
-    //update visibility of layers
-    // autorun(() => {
-    //   this.cameraController.setLayersVisibility();
-    // });
+    //temp reaction when obj added/removed from scene
+    reaction(
+      () => this.sceneController.scene.children,
+      (value, previousValue, reaction) => {
+        //
+        console.log('REACTION CHILDREN');
+        if (this.currentLayer){
+          layersState.checkIsLayerEmpty(this.currentLayer, value);
+        }
+      }
+    );
 
     autorun(() => {
       this.cameraController.setCamera(this.rendererController);

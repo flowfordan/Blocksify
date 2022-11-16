@@ -54,8 +54,6 @@ export class CameraController {
         There is no layer with such id`
       );
     }
-
-    console.log(toJS(layer));
     if (layer.visible){
       this.camera.layers.enable(layer.id);
     } else {

@@ -80,6 +80,23 @@ class LayersState{
       this.layers[idx].visible = !this.layers[idx].visible;
     }
   };
+
+  //TODO rewrite to not iterate all objects
+  checkIsLayerEmpty = (layer: Layer, objs: THREE.Object3D<THREE.Event>[] ) => {
+    //if current empty
+    if (layer.empty){
+      for (const obj of objs){
+        console.log(obj.layers);
+      }
+    } else {
+      //
+    }
+    //iterate objects, if one - return
+    //if not empty
+    //iterate all
+    //if not
+    //toggle empty
+  };
 }
 
 const layersState = new LayersState();

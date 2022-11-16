@@ -106,7 +106,7 @@ const layersDefPreset = [ {
   name: 'Streets',
   id: 3,
   active: false,
-  empty: false,
+  empty: true,
   editable: true,
   visible: true,
   content: {
