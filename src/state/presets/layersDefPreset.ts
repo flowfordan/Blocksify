@@ -94,6 +94,7 @@ const layersDefPreset = [ {
   empty: true,
   editable: true,
   visible: true,
+  blocked: false,
   content: {
     main: borderMainContent,
     add: {
@@ -109,6 +110,7 @@ const layersDefPreset = [ {
   empty: true,
   editable: true,
   visible: true,
+  blocked: false,
   content: {
     main: streetsMainContent,
     add: streetsAddContent
@@ -121,6 +123,7 @@ const layersDefPreset = [ {
   empty: true,
   editable: false,
   visible: true,
+  blocked: true,
   content: {
     main: null,
     add: blocksAddContent
@@ -133,6 +136,7 @@ const layersDefPreset = [ {
   empty: true,
   editable: false,
   visible: false,
+  blocked: true,
   content: {
     main: null,
     add: buildingsAddContent

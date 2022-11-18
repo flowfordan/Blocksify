@@ -59,6 +59,12 @@ type HelpersActivity = {
 };
 
 class ToolsState{
+  //currentTool
+  //name
+  //id
+  //type
+  //stage
+  //0, 1, 2, 3
 
   tools:Array<ITool>;
   selectionTool: ISelectionTool;

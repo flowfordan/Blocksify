@@ -28,6 +28,9 @@ export class Selector {
     //highlight this object
   };
 
+  //handle delete button
+  //layer state check is layer empty
+
   stop = () => {
     //null selected
     //remove event listeners

@@ -12,15 +12,11 @@ import { PanelDivision } from '../basic/PanelDivision/PanelDivision';
 
 export const LeftBar = observer((props:any): JSX.Element => {
 
-  const handleSelectLayer = (num: number) => {
-    layersState.setActiveLayer(num);
-  };
-
   const constructLayersList = (layersArr: typeof layersState.layers) => {
     return (
       layersArr.map(l => {
         return (
-          <LayersListItem layerId={l.id} name={l.name} isEmpty={l.empty} key={l.id} isActive={l.active} isVisible={l.visible} onClick={() => handleSelectLayer(l.id)}/>
+          <LayersListItem layerId={l.id} name={l.name} isEmpty={l.empty} isBlocked={l.blocked} key={l.id} isActive={l.active} isVisible={l.visible} onClick={() => handleSelectLayer(l.id)}/>
         );
       })
     );

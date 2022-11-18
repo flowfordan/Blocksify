@@ -13,6 +13,7 @@ import { SceneController } from './controllers/Scene.controller';
 import { RendererController } from './controllers/Renderer.controller';
 import { CameraController } from './controllers/Camera.controller';
 import { ToolsController } from './controllers/Tools.controller';
+import { LayersController } from './controllers/Layers.controller';
 
 export class ThreeView {
   labelRendererController: LabelRendererController;
@@ -20,11 +21,11 @@ export class ThreeView {
   rendererController: RendererController;
   cameraController: CameraController;
   toolsController: ToolsController;
+  layersController: LayersController;
 
   groundPlane: THREE.Plane;
   stats: any;
 
-  currentLayer: Layer|null;
 
   constructor(canvasRef: HTMLCanvasElement) {
     this.sceneController = new SceneController();
@@ -32,11 +33,9 @@ export class ThreeView {
     this.rendererController = new RendererController(canvasRef);
     this.cameraController = new CameraController(this.rendererController.activeElement);
     this.toolsController = new ToolsController(this.sceneController.scene, this.rendererController.activeElement);
+    this.layersController = new LayersController();
 
     this.groundPlane = worldPlane;
-    this.currentLayer = layersState.layers.find(l => l.active)!;
-
-
 
     //STATS
     this.stats = Stats();
@@ -54,14 +53,18 @@ export class ThreeView {
     });
 
     autorun(() => {
-      this.toolsController.setActiveTool(this.currentLayer, this.groundPlane, this.cameraController.camera);
+      this.toolsController.setActiveTool(this.layersController.currentLayer, this.groundPlane, this.cameraController.camera);
     });
 
     reaction(
       () => layersState.layers.find(l => l.active),
       (value, previousValue, reaction) => {
         if (value?.id !== previousValue?.id){
-          this.setLayer();
+          if (!value){
+            throw new Error('Layer not found');
+          }
+          this.layersController.setActiveLayer(value);
+          this.toolsController.setActiveTool(value, this.groundPlane, this.cameraController.camera);
         }
       }
     );
@@ -87,17 +90,17 @@ export class ThreeView {
       }
     );
 
-    //temp reaction when obj added/removed from scene
-    reaction(
-      () => this.sceneController.scene.children,
-      (value, previousValue, reaction) => {
-        //
-        console.log('REACTION CHILDREN');
-        if (this.currentLayer){
-          layersState.checkIsLayerEmpty(this.currentLayer, value);
-        }
-      }
-    );
+    // //temp reaction when obj added/removed from scene
+    // reaction(
+    //   () => this.sceneController.scene.children,
+    //   (value, previousValue, reaction) => {
+    //     //
+    //     console.log('REACTION CHILDREN');
+    //     if (this.layersController.currentLayer){
+    //       layersState.checkIsLayerEmpty(this.layersController.currentLayer, value);
+    //     }
+    //   }
+    // );
 
     autorun(() => {
       this.cameraController.setCamera(this.rendererController);
@@ -107,14 +110,6 @@ export class ThreeView {
     autorun(() => {
       this.toolsController.helpersManager.renderGrid();
     });
-  };
-
-  setLayer = () => {
-    const current = layersState.layers.find(l => l.active);
-    if (current){
-      this.currentLayer = current;
-      this.toolsController.setActiveTool(this.currentLayer, this.groundPlane, this.cameraController.camera);
-    }
   };
 
   //to show coords on ground under mouse

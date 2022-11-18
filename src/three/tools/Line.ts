@@ -58,9 +58,6 @@ export class Line extends Tool{
       } else if (this.lineMode === 1){
         this.objCoords.line.length = this.lineParts * 3;
       }
-
-
-
       //push to Line last pointer coords
       const coords: Array<number> = Object.values(this.currentPointerCoord!);
       this.objCoords.line.push.apply(this.objCoords.line, coords);
@@ -149,6 +146,7 @@ export class Line extends Tool{
 
   //private _onPLDone
   private _onDBClick = (e: MouseEvent) => {
+    e.preventDefault();
     //HANDLE SAME SPOT DBCLICK
     if (this.objCoords.line.length === 3){
       this.scene.remove(this.obj.points.form!);
@@ -168,7 +166,7 @@ export class Line extends Tool{
     this.scene.remove(this.obj.line.form!);
     this.scene.remove(this.obj.points.form!);
 
-    this._resetLoop();
+    this._resetLoop(true);
 
     //rmv EL
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
@@ -177,9 +175,8 @@ export class Line extends Tool{
     window.removeEventListener('keypress', this._onEnter);
   };
 
-  protected _resetLoop = () => {
-    super._resetLoop();
-    console.log('THIS LAYER', toJS(this.scene.children));
+  protected _resetLoop = (isDisgraceful?: boolean) => {
+    super._resetLoop(isDisgraceful);
     this.scene.remove(this.guideObj.line.form!);
 
     this.lineParts = 1;

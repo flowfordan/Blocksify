@@ -3,11 +3,11 @@
 
   display: grid;
   column-gap: 8px;
-  grid-template-columns: 8px 1fr 16px 16px;
+  grid-template-columns: 8px 1fr 16px;
   align-items: center;
 
 
-  padding: 8px 8px;
+  padding: 0 8px;
   margin: -1px 0 0 0;
 
 
@@ -18,9 +18,17 @@
 
   /* user-select: none; */
   cursor: pointer;
+  user-select: none;
 
   &:hover {
     background-color: var(--primary-overlay-superlight);
+  }
+
+  &__name {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
   }
 
   &__emptyStatus {
@@ -59,3 +67,6 @@
   }
 }
 
+.layersListItem-blocked {
+  grid-template-columns: 8px 1fr 16px 16px;
+}

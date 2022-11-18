@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
-import { Layer } from "../../state";
+import { Layer, layersState } from "../../state";
 import { SnapManager } from "../helpers/SnapManager";
 import { TagsManager } from "../helpers/TagManager";
 import { pMat } from "../objs3d";
@@ -150,7 +150,8 @@ export class Tool {
 
 
   //REFRESH LOOP
-  protected _resetLoop() {
+  //if came from STOp - disgraceful
+  protected _resetLoop(isDisgraceful?: boolean) {
     this.toolState = 1;
 
     //CLEAN UP
@@ -163,6 +164,11 @@ export class Tool {
     this.obj.points.form = null;
 
     this.objCoords.line = [];
+
+    //layerState
+    if (!isDisgraceful){
+      layersState.setIsLayerEmpty(true);
+    }
   }
 
   //STOP METHOD

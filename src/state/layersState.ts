@@ -30,12 +30,13 @@ interface LayerContent {
 }
 
 export interface Layer {
-    name: string;
-    id: number; //three layers from 0 to 32
-    active: boolean;
-    empty: boolean;
-    editable: boolean;
-    visible: boolean;
+  name: string;
+  id: number; //three layers from 0 to 32
+  active: boolean;
+  empty: boolean;
+  editable: boolean;
+  visible: boolean;
+  blocked: boolean;
   content: LayerContent
 }
 
@@ -81,21 +82,15 @@ class LayersState{
     }
   };
 
-  //TODO rewrite to not iterate all objects
-  checkIsLayerEmpty = (layer: Layer, objs: THREE.Object3D<THREE.Event>[] ) => {
-    //if current empty
-    if (layer.empty){
-      for (const obj of objs){
-        console.log(obj.layers);
-      }
-    } else {
-      //
+  //TODO case after Selector Delete
+  setIsLayerEmpty = (onDrawLoopEnd: boolean) => {
+    const currentActive = this.layers.find(item => item.active);
+    //case for ufter draw check
+    if (currentActive && currentActive.empty && onDrawLoopEnd){
+      currentActive.empty = false;
+    } else if (currentActive && !currentActive.empty && !onDrawLoopEnd){
+      console.log('search obj with layer id === current, if found 1 . - return, not found - set empty');
     }
-    //iterate objects, if one - return
-    //if not empty
-    //iterate all
-    //if not
-    //toggle empty
   };
 }
 

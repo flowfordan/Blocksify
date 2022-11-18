@@ -52,8 +52,8 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
 
       <div className={'topBar__main'}>
         <div className={'topBar__main--part'}>
-          <BtnBar iconKey='selector' isActive={activeTool?.id === 3} title={'Selector tool'}/>
-          <BtnBar iconKey={activeTool ? activeTool.name : 'line'} isActive={Boolean(activeTool)} onClick={(e) => handleMenuOpen(e, 'tools')} isExpandable title={'Drawing tools'}/>
+          <BtnBar iconKey='selector' isActive={activeTool?.id === 3} title={'Selector tool'} onClick={() => handleToolChange(3)}/>
+          <BtnBar iconKey={activeTool && activeTool.type === 'draw' ? activeTool.name : 'line'} isActive={Boolean(activeTool) && activeTool?.type === 'draw'} onClick={(e) => handleMenuOpen(e, 'tools')} isExpandable title={'Drawing tools'}/>
           <BtnBar iconKey={'helper'} isActive={false} onClick={(e) => handleMenuOpen(e, 'helpers')} isExpandable title={'Helpers (snaps, grid)'}/>
         </div>
 
