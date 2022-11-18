@@ -13,6 +13,7 @@ import { ToolsMenu } from "../complex/ToolsMenu/ToolsMenu";
 import { BtnBar } from "../complex/BtnBar/BtnBar";
 import { TopBarProps } from "./TopBar.props";
 import { CtxMenu } from "../complex/CtxMenu/CtxMenu";
+import { returnSvgNode } from "../../helpers/returnSvgNode";
 
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
@@ -45,7 +46,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
 
       <div className={'topBar__corner'}>
         <span className={'topBar__corner--logo'}>
-          BLOCKSIFY
+          {returnSvgNode('logo')}
         </span>
         <BtnBar title={'Import'} isActive={false}/>
       </div>

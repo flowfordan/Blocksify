@@ -15,8 +15,11 @@ import EyeIcon from '../../assets/icons/eye.svg';
 import EyeClosedIcon from '../../assets/icons/eye_closed.svg';
 import LockIcon from '../../assets/icons/lock.svg';
 
+import LogoIcon from '../../assets/icons/logo.svg';
+
 //
 enum Assets {
+  logo = 'logo',
   polygon = 'polygon',
   line = 'line',
   pLine = 'pLine',
@@ -41,6 +44,7 @@ type AssetsData = {
 }
 
 const assetsData: AssetsData = {
+  logo: LogoIcon,
   polygon: PolygonIcon,
   pLine: PolylineIcon,
   line: LineIcon,
