@@ -12,7 +12,7 @@ export class SceneController {
 
     //some initial 3dobjects
     this.scene.add(cube, worldPlaneMesh, worldPlaneHelper);
-    cube.material.color.setHex(0x84CBFF);
+    cube.material.color.setHex(0x686868);
 
     //lights
     this.scene.add(dirLight, dirLightHelper, hemiLight);
