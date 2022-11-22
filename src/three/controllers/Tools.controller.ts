@@ -15,38 +15,43 @@ export class ToolsController {
     // polygon: Polygon
   };
   currentTool: number | undefined;
-  constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement){
+  constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement) {
     //
     this.tools = {
       line: new Line(activeElement, scene, 0),
       pLine: new Line(activeElement, scene, 1),
       polygon: new Polygon(activeElement, scene),
-      selector: new Selector()
+      selector: new Selector(),
     };
     this.currentTool = undefined;
     this.helpersManager = new HelpersManager(scene);
   }
 
   //TODO: rewrite without many ifs elses
-  setActiveTool = (currentLayer: Layer | null, groundPlane: THREE.Plane, camera: THREE.PerspectiveCamera | THREE.OrthographicCamera) => {
-    const activeToolId = toolsState.tools.find(i => i.active)?
-        toolsState.tools.find(i => i.active)!.id : undefined;
+  setActiveTool = (
+    currentLayer: Layer | null,
+    groundPlane: THREE.Plane,
+    camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
+  ) => {
+    const activeToolId = toolsState.tools.find((i) => i.active)
+      ? toolsState.tools.find((i) => i.active)!.id
+      : undefined;
 
     const prevToolId = this.currentTool;
     let prevToolName;
     console.log('PREV TOOL', prevToolId, 'CURRENT', this.currentTool);
 
     //if there was tool in use - stop it
-    if (typeof prevToolId === 'number'){
+    if (typeof prevToolId === 'number') {
       console.log('error');
-      prevToolName = toolsState.tools.find(i => i.id === prevToolId)!.name;
+      prevToolName = toolsState.tools.find((i) => i.id === prevToolId)!.name;
       this.tools[prevToolName].stop();
     }
 
     //activate new tool
-    if (typeof activeToolId === 'number'){
+    if (typeof activeToolId === 'number') {
       console.log(activeToolId, 'LAYER', currentLayer);
-      const toolName = toolsState.tools.find(i => i.active)!.name;
+      const toolName = toolsState.tools.find((i) => i.active)!.name;
 
       this.tools[toolName].start(camera, groundPlane, currentLayer!);
       this.currentTool = activeToolId;
@@ -64,12 +69,13 @@ export class ToolsController {
   };
 
   onExit = (event: KeyboardEvent) => {
-    if (event.key === "Escape"){
-      const activeToolId = toolsState.tools.find(i => i.active)?
-        toolsState.tools.find(i => i.active)!.id : undefined;
+    if (event.key === 'Escape') {
+      const activeToolId = toolsState.tools.find((i) => i.active)
+        ? toolsState.tools.find((i) => i.active)!.id
+        : undefined;
 
-      if (typeof activeToolId === 'number'){
-        const toolName = toolsState.tools.find(i => i.active)!.name;
+      if (typeof activeToolId === 'number') {
+        const toolName = toolsState.tools.find((i) => i.active)!.name;
         this.tools[toolName].stop();
         this.tools[toolName].toolState = 0;
         this.currentTool = undefined;

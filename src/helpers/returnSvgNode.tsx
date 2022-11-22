@@ -1,8 +1,8 @@
-import React from "react";
-import { AssetKey, assetsData } from "../components/_data/assetsData";
+import React from 'react';
+import { AssetKey, assetsData } from '../components/_data/assetsData';
 
 export const returnSvgNode = (iconKey: AssetKey) => {
-  if (!iconKey){
+  if (!iconKey) {
     return <></>;
   }
   const IconToRender = assetsData[iconKey];

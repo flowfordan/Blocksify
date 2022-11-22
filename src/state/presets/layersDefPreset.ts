@@ -1,4 +1,4 @@
-import { getLineMat, getPolygonMat } from "../../three/objs3d";
+import { getLineMat, getPolygonMat } from '../../three/objs3d';
 
 //objects 3d materials
 //LAYER 2 - BORDER
@@ -10,8 +10,8 @@ const borderMainContent = {
   stage: 0,
   mat: {
     line: getLineMat(0x1d5e9a, 5, true),
-    polygon: getPolygonMat()
-  }
+    polygon: getPolygonMat(),
+  },
 };
 
 //LAYER 3 - STREETS
@@ -23,20 +23,21 @@ const streetsMainContent = {
   stage: 0,
   mat: {
     line: getLineMat(0x533931),
-    polygon: null
-  }
+    polygon: null,
+  },
 };
 
 //add
 const streetsAddContent = {
   rt: {
-    id: 0, name: 'Street sides',
+    id: 0,
+    name: 'Street sides',
     descr: 'Street sides',
     stage: 0,
     mat: {
       line: getLineMat(0x533931),
-      polygon: null
-    }
+      polygon: null,
+    },
   },
   auto: {
     id: 1,
@@ -45,9 +46,9 @@ const streetsAddContent = {
     stage: 1,
     mat: {
       line: getLineMat(0x533931),
-      polygon: getPolygonMat()
-    }
-  }
+      polygon: getPolygonMat(),
+    },
+  },
 };
 
 //LAYER 4 - BLOCKS
@@ -63,9 +64,9 @@ const blocksAddContent = {
     stage: 1,
     mat: {
       line: getLineMat(0x533931),
-      polygon: getPolygonMat()
-    }
-  }
+      polygon: getPolygonMat(),
+    },
+  },
 };
 
 //LAYER 5 - BUILDINGS
@@ -73,75 +74,77 @@ const blocksAddContent = {
 const buildingsAddContent = {
   rt: null,
   auto: {
-    id: 1, name: 'Building',
+    id: 1,
+    name: 'Building',
     descr: 'Building volume',
     stage: 1,
     mat: {
       line: getLineMat(0x533931),
-      polygon: getPolygonMat()
-    }
-  }
+      polygon: getPolygonMat(),
+    },
+  },
 };
 
 //LAYERS
 //TODO: utility layer with
 //TODO: property utility: bool
 //guides and helpers options
-const layersDefPreset = [ {
-  name: 'Border',
-  id: 2,
-  active: true,
-  empty: true,
-  editable: true,
-  visible: true,
-  blocked: false,
-  content: {
-    main: borderMainContent,
-    add: {
-      rt: null,
-      auto: null
-    }
-  }
-},
-{
-  name: 'Streets',
-  id: 3,
-  active: false,
-  empty: true,
-  editable: true,
-  visible: true,
-  blocked: false,
-  content: {
-    main: streetsMainContent,
-    add: streetsAddContent
-  }
-},
-{
-  name: 'Blocks',
-  id: 4,
-  active: false,
-  empty: true,
-  editable: false,
-  visible: true,
-  blocked: true,
-  content: {
-    main: null,
-    add: blocksAddContent
-  }
-},
-{
-  name: 'Buildings',
-  id: 5,
-  active: false,
-  empty: true,
-  editable: false,
-  visible: false,
-  blocked: true,
-  content: {
-    main: null,
-    add: buildingsAddContent
-  }
-}
+const layersDefPreset = [
+  {
+    name: 'Border',
+    id: 2,
+    active: true,
+    empty: true,
+    editable: true,
+    visible: true,
+    blocked: false,
+    content: {
+      main: borderMainContent,
+      add: {
+        rt: null,
+        auto: null,
+      },
+    },
+  },
+  {
+    name: 'Streets',
+    id: 3,
+    active: false,
+    empty: true,
+    editable: true,
+    visible: true,
+    blocked: false,
+    content: {
+      main: streetsMainContent,
+      add: streetsAddContent,
+    },
+  },
+  {
+    name: 'Blocks',
+    id: 4,
+    active: false,
+    empty: true,
+    editable: false,
+    visible: true,
+    blocked: true,
+    content: {
+      main: null,
+      add: blocksAddContent,
+    },
+  },
+  {
+    name: 'Buildings',
+    id: 5,
+    active: false,
+    empty: true,
+    editable: false,
+    visible: false,
+    blocked: true,
+    content: {
+      main: null,
+      add: buildingsAddContent,
+    },
+  },
 ];
 
 export { layersDefPreset };

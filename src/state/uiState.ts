@@ -1,5 +1,4 @@
-import { makeAutoObservable, toJS } from "mobx";
-
+import { makeAutoObservable, toJS } from 'mobx';
 
 //topBar, leftBar, rightBar, desk,
 //popup - conversation with user
@@ -15,26 +14,25 @@ interface CtxMenu {
   posY: number;
 }
 
-class UIState{
-
+class UIState {
   // layers: Array<Layer>;
   ctxMenu: CtxMenu;
 
-  constructor(){
+  constructor() {
     // this.layers = layersDefPreset;
     this.ctxMenu = {
       isActive: false,
       currentContent: null,
       posX: 0,
-      posY: 0
+      posY: 0,
     };
     makeAutoObservable(this);
   }
 
   setCtxMenu = (content: CtxMenuContent | null, posX?: number, posY?: number) => {
     const ctxMenu = this.ctxMenu;
-    if (content && posX && posY){
-      if (ctxMenu.currentContent === content){
+    if (content && posX && posY) {
+      if (ctxMenu.currentContent === content) {
         ctxMenu.isActive = false;
         ctxMenu.currentContent = null;
         ctxMenu.posX = 0;
@@ -51,9 +49,7 @@ class UIState{
       ctxMenu.posX = 0;
       ctxMenu.posY = 0;
     }
-
   };
-
 }
 
 const uiState = new UIState();

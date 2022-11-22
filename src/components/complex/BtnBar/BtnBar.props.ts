@@ -7,4 +7,5 @@ export interface BtnBarProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTML
   isExpandable?: boolean;
   isActive: boolean;
   btnName?: string;
+  isSelected?: boolean;
 }

@@ -6,8 +6,6 @@ import './panelDivision.scss';
 import { toolsState } from '../../../state';
 
 const PanelDivision = ({ children, header, ...props }: PanelDivisionProps): JSX.Element => {
-
-
   return (
     <div className={'panelDivision'}>
       <div className={'panelDivision__header'}>{header}</div>
@@ -17,4 +15,3 @@ const PanelDivision = ({ children, header, ...props }: PanelDivisionProps): JSX.
 };
 
 export { PanelDivision };
-

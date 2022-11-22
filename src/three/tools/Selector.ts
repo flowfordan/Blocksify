@@ -4,7 +4,7 @@ export class Selector {
   selectedObj: THREE.Object3D | null;
   cursor: 'pointer';
   toolState: number;
-  constructor(){
+  constructor() {
     //
     this.selectedObj = null;
     this.cursor = 'pointer';

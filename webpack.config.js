@@ -68,7 +68,19 @@ module.exports = {
     template: path.resolve(__dirname, "./public/index.html"),
     }),
     new ESLintPlugin(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    // new MiniCssExtractPlugin(),
+    // new CssMinimizerPlugin(),
+    new ESLintPlugin({
+      extensions: ['ts', 'tsx'],
+      quiet: true,
+    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [
+    //     { from: 'public/*.json', to: '[name].json' },
+    //     { from: 'public/*.png', to: '[name].png' },
+    //   ],
+    // }),
   ],
   //for imports without .js/.jsx
   resolve: {

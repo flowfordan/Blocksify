@@ -1,52 +1,57 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
-import { Layer, layersState } from "../../state";
-import { SnapManager } from "../helpers/SnapManager";
-import { TagsManager } from "../helpers/TagManager";
-import { pMat } from "../objs3d";
+import { Layer, layersState } from '../../state';
+import { SnapManager } from '../helpers/SnapManager';
+import { TagsManager } from '../helpers/TagManager';
+import { pMat } from '../objs3d';
 
 interface I3dObjPoint {
-  form: THREE.Points | null,
-  geom: THREE.BufferGeometry | null,
-  mat: THREE.PointsMaterial | null
+  form: THREE.Points | null;
+  geom: THREE.BufferGeometry | null;
+  mat: THREE.PointsMaterial | null;
 }
 
 interface I3dObjLine {
-  form: Line2 | null,
-    geom: LineGeometry | null,
-    mat: LineMaterial | null
+  form: Line2 | null;
+  geom: LineGeometry | null;
+  mat: LineMaterial | null;
 }
 
 interface I3dObjPolygon {
-  form: THREE.Mesh | null,
-    geom: THREE.Shape | null,
-    mat: THREE.MeshBasicMaterial | null
+  form: THREE.Mesh | null;
+  geom: THREE.Shape | null;
+  mat: THREE.MeshBasicMaterial | null;
 }
 
 const null3dObj = { form: null, geom: null, mat: null };
 
 const empty3dObjPoint = {
-  form: new THREE.Points(), geom: new THREE.BufferGeometry(), mat: pMat
+  form: new THREE.Points(),
+  geom: new THREE.BufferGeometry(),
+  mat: pMat,
 };
 const empty3dObjLine = {
-  form: new Line2(), geom: new LineGeometry(), mat: new LineMaterial()
+  form: new Line2(),
+  geom: new LineGeometry(),
+  mat: new LineMaterial(),
 };
 const empty3dObjPolygon = {
-  form: new THREE.Mesh(), geom: new THREE.Shape(), mat: new THREE.MeshBasicMaterial()
+  form: new THREE.Mesh(),
+  geom: new THREE.Shape(),
+  mat: new THREE.MeshBasicMaterial(),
 };
 
 //SUPERCLASS FOR TOOLS
 export class Tool {
-
   toolState: number;
   canvas: HTMLCanvasElement;
-  rect: DOMRect|null;
+  rect: DOMRect | null;
   scene: THREE.Scene;
-  layer: Layer|null;
+  layer: Layer | null;
 
-  currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera|null;
-  currentPlane: THREE.Plane|null;
+  currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera | null;
+  currentPlane: THREE.Plane | null;
   currentPointerCoord: THREE.Vector3;
 
   tagsManager: TagsManager;
@@ -55,25 +60,25 @@ export class Tool {
   cursor: 'crosshair';
 
   //objects being created
-  obj:{
-    line: I3dObjLine,
-    points: I3dObjPoint,
-    polygon: I3dObjPolygon
+  obj: {
+    line: I3dObjLine;
+    points: I3dObjPoint;
+    polygon: I3dObjPolygon;
   };
 
-  objCoords:{
-    line: Array<number>,
-    polygon: []
+  objCoords: {
+    line: Array<number>;
+    polygon: [];
   };
 
   // helper objects to show future lines/shapes
   // while drawing
   guideObj: {
-    line: I3dObjLine,
-    polygon: I3dObjPolygon
+    line: I3dObjLine;
+    polygon: I3dObjPolygon;
   };
 
-  constructor(canvas: HTMLCanvasElement, scene: THREE.Scene){
+  constructor(canvas: HTMLCanvasElement, scene: THREE.Scene) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
     this.scene = scene;
@@ -89,18 +94,19 @@ export class Tool {
       line: {
         form: null,
         geom: null,
-        mat: null
+        mat: null,
       },
       points: {
         form: null,
         geom: null,
-        mat: pMat
+        mat: pMat,
       },
       polygon: {
         form: null,
         geom: null,
-        mat: null
-      } };
+        mat: null,
+      },
+    };
 
     this.objCoords = { line: [], polygon: [] };
 
@@ -108,13 +114,13 @@ export class Tool {
       line: {
         form: new Line2(),
         geom: new LineGeometry(),
-        mat: new LineMaterial()
+        mat: new LineMaterial(),
       },
       polygon: {
         form: new THREE.Mesh(),
         geom: new THREE.Shape(),
-        mat: new THREE.MeshBasicMaterial()
-      }
+        mat: new THREE.MeshBasicMaterial(),
+      },
     };
 
     this.tagsManager = new TagsManager(scene);
@@ -124,9 +130,7 @@ export class Tool {
   }
 
   //START METHOD
-  start(camera: typeof this.currentCamera,
-    plane: typeof this.currentPlane,
-    layer: typeof this.layer) {
+  start(camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: typeof this.layer) {
     console.log('TOOL START');
 
     //set tool state
@@ -140,14 +144,13 @@ export class Tool {
 
     //guideLine
     this.guideObj.line.mat = new LineMaterial({
-      color: 0x0E89E1,
+      color: 0x0e89e1,
       linewidth: 2,
       resolution: new THREE.Vector2(1920, 1080),
       dashed: true,
-      opacity: 0.8
+      opacity: 0.8,
     });
   }
-
 
   //REFRESH LOOP
   //if came from STOp - disgraceful
@@ -166,7 +169,7 @@ export class Tool {
     this.objCoords.line = [];
 
     //layerState
-    if (!isDisgraceful){
+    if (!isDisgraceful) {
       layersState.setIsLayerEmpty(true);
     }
   }
@@ -178,5 +181,3 @@ export class Tool {
     this.toolState = 0;
   }
 }
-
-

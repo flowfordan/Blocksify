@@ -1,32 +1,32 @@
-import { makeAutoObservable } from "mobx";
-import { LineMaterial } from "three-fatline";
-import { layersDefPreset } from "./presets/layersDefPreset";
+import { makeAutoObservable } from 'mobx';
+import { LineMaterial } from 'three-fatline';
+import { layersDefPreset } from './presets/layersDefPreset';
 
 //TODO: layers structure to include additional obj props
 //TODO: include current layer property
 interface LayerContentMaterials {
-  line: LineMaterial | null,
-  polygon: THREE.MeshBasicMaterial | null
+  line: LineMaterial | null;
+  polygon: THREE.MeshBasicMaterial | null;
 }
 
 type LayerID = 'border' | 'streets' | 'blocks' | 'buildings';
 
 interface LayerContentItem {
-  id: number,
-  name: string,
-  descr: string,
-  stage: number,
-  mat: LayerContentMaterials
+  id: number;
+  name: string;
+  descr: string;
+  stage: number;
+  mat: LayerContentMaterials;
 }
 
 interface LayerContent {
   //main - manual user created
   //add - auto generated off user-created data
-  main: LayerContentItem | null,
+  main: LayerContentItem | null;
   add: {
-    rt: LayerContentItem | null,
-    auto: LayerContentItem | null
-  }
+    rt: LayerContentItem | null;
+    auto: LayerContentItem | null;
+  };
 }
 
 export interface Layer {
@@ -37,34 +37,31 @@ export interface Layer {
   editable: boolean;
   visible: boolean;
   blocked: boolean;
-  content: LayerContent
+  content: LayerContent;
 }
 
-
-class LayersState{
-
+class LayersState {
   layers: Array<Layer>;
 
-  constructor(){
+  constructor() {
     this.layers = layersDefPreset;
     makeAutoObservable(this);
   }
 
   setActiveLayer = (num: number) => {
     //set new active
-    const newActive = this.layers.find(item => item.id === num);
+    const newActive = this.layers.find((item) => item.id === num);
 
-    if (newActive){
-
-      if (!newActive.editable){
+    if (newActive) {
+      if (!newActive.editable) {
         //TODO popup window 'Layer is not editable'
         console.log('exit');
         return;
       }
 
       //set current  active to not active
-      const currentActive = this.layers.find(item => item.active);
-      if (currentActive){
+      const currentActive = this.layers.find((item) => item.active);
+      if (currentActive) {
         const idx = this.layers.indexOf(currentActive);
         this.layers[idx].active = false;
       }
@@ -72,23 +69,22 @@ class LayersState{
       const idx = this.layers.indexOf(newActive);
       this.layers[idx].active = true;
     }
-
   };
 
   setLayerVisibility = (layerId: number) => {
     const idx = this.layers.findIndex((el) => el.id === layerId);
-    if (idx > -1){
+    if (idx > -1) {
       this.layers[idx].visible = !this.layers[idx].visible;
     }
   };
 
   //TODO case after Selector Delete
   setIsLayerEmpty = (onDrawLoopEnd: boolean) => {
-    const currentActive = this.layers.find(item => item.active);
+    const currentActive = this.layers.find((item) => item.active);
     //case for ufter draw check
-    if (currentActive && currentActive.empty && onDrawLoopEnd){
+    if (currentActive && currentActive.empty && onDrawLoopEnd) {
       currentActive.empty = false;
-    } else if (currentActive && !currentActive.empty && !onDrawLoopEnd){
+    } else if (currentActive && !currentActive.empty && !onDrawLoopEnd) {
       console.log('search obj with layer id === current, if found 1 . - return, not found - set empty');
     }
   };

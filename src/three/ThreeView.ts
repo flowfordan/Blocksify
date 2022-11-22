@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
 
 import Stats from 'three/examples/jsm/libs/stats.module';
@@ -5,7 +6,7 @@ import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './geometry/worldPl
 
 import { getMouseLocation } from './utils';
 
-import { autorun, reaction, toJS } from "mobx";
+import { autorun, reaction, toJS } from 'mobx';
 import { Layer, layersState, sceneState, toolsState } from '../state';
 
 import { LabelRendererController } from './controllers/LabelRenderer.controller';
@@ -24,8 +25,8 @@ export class ThreeView {
   layersController: LayersController;
 
   groundPlane: THREE.Plane;
+  //TODO remove any
   stats: any;
-
 
   constructor(canvasRef: HTMLCanvasElement) {
     this.sceneController = new SceneController();
@@ -53,14 +54,18 @@ export class ThreeView {
     });
 
     autorun(() => {
-      this.toolsController.setActiveTool(this.layersController.currentLayer, this.groundPlane, this.cameraController.camera);
+      this.toolsController.setActiveTool(
+        this.layersController.currentLayer,
+        this.groundPlane,
+        this.cameraController.camera
+      );
     });
 
     reaction(
-      () => layersState.layers.find(l => l.active),
+      () => layersState.layers.find((l) => l.active),
       (value, previousValue, reaction) => {
-        if (value?.id !== previousValue?.id){
-          if (!value){
+        if (value?.id !== previousValue?.id) {
+          if (!value) {
             throw new Error('Layer not found');
           }
           this.layersController.setActiveLayer(value);
@@ -74,14 +79,14 @@ export class ThreeView {
       () => {
         const visibles: Array<boolean> = [];
         const layers = layersState.layers;
-        for (const layer of layers){
+        for (const layer of layers) {
           visibles.push(layer.visible);
         }
         return visibles;
       },
       (value, prevValue, reaction) => {
-        for (let i=0; i<value.length; i++){
-          if (value[i] !== prevValue[i]){
+        for (let i = 0; i < value.length; i++) {
+          if (value[i] !== prevValue[i]) {
             const layer = layersState.layers[i];
             this.cameraController.toggleLayerVisibility(layer.id);
             break;
@@ -114,25 +119,29 @@ export class ThreeView {
 
   //to show coords on ground under mouse
   updGlobalCoords = () => {
-    if (sceneState.isFetchingGlobalCoords){
-      this.rendererController.activeElement.addEventListener( 'pointermove', this.onUpdMouseLoc );
+    if (sceneState.isFetchingGlobalCoords) {
+      this.rendererController.activeElement.addEventListener('pointermove', this.onUpdMouseLoc);
     } else {
-      this.rendererController.activeElement.removeEventListener( 'pointermove', this.onUpdMouseLoc );
+      this.rendererController.activeElement.removeEventListener('pointermove', this.onUpdMouseLoc);
     }
   };
 
   //get mouse coords on "ground" plane
   onUpdMouseLoc = (event: MouseEvent) => {
     const mouseLoc = getMouseLocation(
-      event, this.rendererController.rect, this.rendererController.activeElement,
-      this.cameraController.camera, this.groundPlane);
+      event,
+      this.rendererController.rect,
+      this.rendererController.activeElement,
+      this.cameraController.camera,
+      this.groundPlane
+    );
 
     //send mouseloc to State
     //TODO:not send new obj every time
     sceneState.setGlobalCoords({
       x: mouseLoc.x,
       y: mouseLoc.y,
-      z: mouseLoc.z
+      z: mouseLoc.z,
     });
   };
 
@@ -143,7 +152,7 @@ export class ThreeView {
     //upd camera ratio depending on cam Type
     this.cameraController.updOnResize(aspect, viewSize);
 
-    this.labelRendererController.renderer.setSize( vpW, vpH );
+    this.labelRendererController.renderer.setSize(vpW, vpH);
   }
 
   // ******************* RENDER LOOP ******************* //

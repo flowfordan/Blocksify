@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import cn from 'classnames';
-import { observer } from "mobx-react-lite";
+import { observer } from 'mobx-react-lite';
 
 import { CtxMenuProps } from './CtxMenu.props';
 import { uiState } from '../../../state';
@@ -19,16 +19,16 @@ const CtxMenu = observer(({ children, className, ...props }: CtxMenuProps): JSX.
   const menuPosX = uiState.ctxMenu.posX;
   const menuPosY = uiState.ctxMenu.posY;
 
-  switch (uiState.ctxMenu.currentContent){
-  case 'helpers':
-    menuContent = <HelpersMenu />;
-    break;
-  case 'tools':
-    menuContent = <ToolsMenu />;
-    break;
-  default:
-    menuContent = null;
-    break;
+  switch (uiState.ctxMenu.currentContent) {
+    case 'helpers':
+      menuContent = <HelpersMenu />;
+      break;
+    case 'tools':
+      menuContent = <ToolsMenu />;
+      break;
+    default:
+      menuContent = null;
+      break;
   }
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -55,7 +55,12 @@ const CtxMenu = observer(({ children, className, ...props }: CtxMenuProps): JSX.
   }, []);
 
   return (
-    <Card className={cn(className, 'ctxMenu')} id={ctxMenuId} style={{ left:`${menuPosX}px`, top: `${menuPosY}px` }} {...props}>
+    <Card
+      className={cn(className, 'ctxMenu')}
+      id={ctxMenuId}
+      style={{ left: `${menuPosX}px`, top: `${menuPosY}px` }}
+      {...props}
+    >
       {menuContent}
     </Card>
   );

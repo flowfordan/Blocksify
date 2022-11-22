@@ -7,13 +7,15 @@ import { toolsState } from '../../../state';
 
 const Card = ({ children, className, colorVariant = 'black', ...props }: CardProps): JSX.Element => {
   return (
-    <div className={cn('card', className, {
-      ['card_white']: colorVariant === 'white'
-    })} {...props}>
+    <div
+      className={cn('card', className, {
+        ['card_white']: colorVariant === 'white',
+      })}
+      {...props}
+    >
       {children}
     </div>
   );
 };
 
 export { Card };
-

@@ -34,14 +34,14 @@ enum Assets {
   cameraPerspective = 'cameraPerspective',
   //
   viewAll = 'viewAll',
-  viewCenter = 'viewCenter'
+  viewCenter = 'viewCenter',
 }
 
 export type AssetKey = `${Assets}`;
 
 type AssetsData = {
-  [key in AssetKey]: React.FunctionComponent<React.SVGAttributes<SVGAElement>>
-}
+  [key in AssetKey]: React.FunctionComponent<React.SVGAttributes<SVGAElement>>;
+};
 
 const assetsData: AssetsData = {
   logo: LogoIcon,
@@ -59,7 +59,7 @@ const assetsData: AssetsData = {
   cameraPerspective: CameraPerspectiveIcon,
   //
   viewAll: ViewAllIcon,
-  viewCenter: ViewCenterIcon
+  viewCenter: ViewCenterIcon,
 };
 
 export { assetsData };
