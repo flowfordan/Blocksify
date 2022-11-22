@@ -42,13 +42,28 @@ export interface Layer {
 
 class LayersState {
   layers: Array<Layer>;
+  currentLayer: Layer;
 
   constructor() {
     this.layers = layersDefPreset;
+    this.currentLayer = this.setCurrentLayer();
     makeAutoObservable(this);
   }
 
-  setActiveLayer = (num: number) => {
+  setCurrentLayer = (layer?: Layer) => {
+    if (layer) {
+      this.currentLayer = layer;
+      return layer;
+    } else {
+      const activeLayer = this.layers.find((l) => l.active);
+      if (!activeLayer) {
+        throw new Error('Among all layers there should be 1 ACTIVE!');
+      }
+      return activeLayer;
+    }
+  };
+
+  toggleActiveLayer = (num: number) => {
     //set new active
     const newActive = this.layers.find((item) => item.id === num);
 
@@ -68,6 +83,7 @@ class LayersState {
 
       const idx = this.layers.indexOf(newActive);
       this.layers[idx].active = true;
+      this.currentLayer = this.layers[idx];
     }
   };
 

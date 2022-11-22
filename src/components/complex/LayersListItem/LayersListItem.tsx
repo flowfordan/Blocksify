@@ -22,7 +22,7 @@ const LayersListItem = ({
   };
 
   const handleSelectLayer = () => {
-    layersState.setActiveLayer(layerId);
+    layersState.toggleActiveLayer(layerId);
   };
 
   return (

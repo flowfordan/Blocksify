@@ -2,9 +2,10 @@ import React from 'react';
 import cn from 'classnames';
 
 import { BtnBarProps } from './BtnBar.props';
-import './btnBar.scss';
 import { Btn } from '../../basic/Btn/Btn';
 import { returnSvgNode } from '../../../helpers/returnSvgNode';
+
+import './btnBar.scss';
 
 const BtnBar = ({
   children,

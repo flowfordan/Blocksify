@@ -18,11 +18,11 @@ export class Polygon extends Tool {
 
     //POLYGON
     //init material
-    this.obj.polygon.mat = this.layer!.content.main!.mat.polygon!;
+    this.obj.polygon.mat = this.layer.content.main!.mat.polygon!;
 
     //POLYLINE - BORDER
     //TODO if there is contour check
-    this.obj.line.mat = this.layer!.content.main!.mat.line!;
+    this.obj.line.mat = this.layer.content.main!.mat.line!;
 
     //init guide obj
     this.guideObj.polygon.mat = new THREE.MeshBasicMaterial({
@@ -111,7 +111,7 @@ export class Polygon extends Tool {
       //LINE-BORDER SETUP
       this.obj.line.geom = new LineGeometry();
       this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
-      this.obj.line.form.layers.set(this.layer!.id);
+      this.obj.line.form.layers.set(this.layer.id);
       this.scene.add(this.obj.line.form);
 
       //GUIDE OBJS SETUP

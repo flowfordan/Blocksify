@@ -6,6 +6,7 @@ import { Tool } from './Tool';
 import { toJS } from 'mobx';
 import { Vector3 } from 'three';
 import { SnapManager } from '../helpers/SnapManager';
+import { Layer } from '../../state';
 
 export class Line extends Tool {
   lineMode: number;
@@ -19,12 +20,12 @@ export class Line extends Tool {
     this.lineParts = 1;
   }
 
-  start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: typeof this.layer) => {
+  start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
     console.log('LINE START');
     super.start(camera, plane, layer);
 
     //TODO null layer fix?
-    this.obj.line.mat = this.layer!.content.main!.mat.line!;
+    this.obj.line.mat = this.layer.content.main!.mat.line!;
 
     //helpers
     this.snapManager = new SnapManager(this.scene);
@@ -117,7 +118,7 @@ export class Line extends Tool {
 
       //if this is PL mode and segment after 1
       //modify existing polyline geometry
-      this.obj.line.form!.layers.set(this.layer!.id);
+      this.obj.line.form!.layers.set(this.layer.id);
       this.scene.add(this.obj.line.form!);
       this.obj.line.form!.computeLineDistances();
 

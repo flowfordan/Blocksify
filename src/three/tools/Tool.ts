@@ -48,7 +48,7 @@ export class Tool {
   canvas: HTMLCanvasElement;
   rect: DOMRect | null;
   scene: THREE.Scene;
-  layer: Layer | null;
+  layer: Layer;
 
   currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera | null;
   currentPlane: THREE.Plane | null;
@@ -82,7 +82,7 @@ export class Tool {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
     this.scene = scene;
-    this.layer = null;
+    this.layer = layersState.currentLayer;
     this.toolState = 0; //state from 0 to 3
 
     this.currentCamera = null;
@@ -130,7 +130,7 @@ export class Tool {
   }
 
   //START METHOD
-  start(camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: typeof this.layer) {
+  start(camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) {
     console.log('TOOL START');
 
     //set tool state

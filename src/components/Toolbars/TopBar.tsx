@@ -13,9 +13,6 @@ import { returnSvgNode } from '../../helpers/returnSvgNode';
 import './topBar.scss';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
-  const [isSnapMenuOpened, toggleSnapMenuOpened] = useState(false);
-  const [isToolsMenuOpened, toggleToolsMenuOpened] = useState(false);
-
   const { tools } = toolsState;
 
   const activeTool = tools.find((i) => i.active) ? tools.find((i) => i.active)! : undefined;

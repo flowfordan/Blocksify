@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
-
 import Stats from 'three/examples/jsm/libs/stats.module';
-import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './geometry/worldPlane';
-
-import { getMouseLocation } from './utils';
-
 import { autorun, reaction, toJS } from 'mobx';
-import { Layer, layersState, sceneState, toolsState } from '../state';
 
+import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './geometry/worldPlane';
+import { getMouseLocation } from './utils';
+import { Layer, layersState, sceneState, toolsState } from '../state';
 import { LabelRendererController } from './controllers/LabelRenderer.controller';
 import { SceneController } from './controllers/Scene.controller';
 import { RendererController } from './controllers/Renderer.controller';
@@ -54,11 +51,7 @@ export class ThreeView {
     });
 
     autorun(() => {
-      this.toolsController.setActiveTool(
-        this.layersController.currentLayer,
-        this.groundPlane,
-        this.cameraController.camera
-      );
+      this.toolsController.setActiveTool(layersState.currentLayer, this.groundPlane, this.cameraController.camera);
     });
 
     reaction(
@@ -68,7 +61,7 @@ export class ThreeView {
           if (!value) {
             throw new Error('Layer not found');
           }
-          this.layersController.setActiveLayer(value);
+          layersState.setCurrentLayer(value);
           this.toolsController.setActiveTool(value, this.groundPlane, this.cameraController.camera);
         }
       }
