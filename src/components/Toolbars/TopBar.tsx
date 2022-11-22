@@ -3,17 +3,14 @@
 import React from 'react';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
-
-import './topBar.scss';
-import { sceneState, toolsState, uiState } from '../../state';
 import { useState } from 'react';
 
-import { HelpersMenu } from '../complex/HelpersMenu/HelpersMenu';
-import { ToolsMenu } from '../complex/ToolsMenu/ToolsMenu';
+import { sceneState, toolsState, uiState } from '../../state';
 import { BtnBar } from '../complex/BtnBar/BtnBar';
 import { TopBarProps } from './TopBar.props';
-import { CtxMenu } from '../complex/CtxMenu/CtxMenu';
 import { returnSvgNode } from '../../helpers/returnSvgNode';
+
+import './topBar.scss';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   const [isSnapMenuOpened, toggleSnapMenuOpened] = useState(false);
