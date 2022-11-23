@@ -88,18 +88,6 @@ export class ThreeView {
       }
     );
 
-    // //temp reaction when obj added/removed from scene
-    // reaction(
-    //   () => this.sceneController.scene.children,
-    //   (value, previousValue, reaction) => {
-    //     //
-    //     console.log('REACTION CHILDREN');
-    //     if (this.layersController.currentLayer){
-    //       layersState.checkIsLayerEmpty(this.layersController.currentLayer, value);
-    //     }
-    //   }
-    // );
-
     autorun(() => {
       this.cameraController.setCamera(this.rendererController);
     });

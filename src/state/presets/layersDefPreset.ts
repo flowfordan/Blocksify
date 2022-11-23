@@ -23,7 +23,7 @@ const streetsMainContent = {
   stage: 0,
   mat: {
     line: getLineMat(0x533931),
-    polygon: null,
+    polygon: getPolygonMat(),
   },
 };
 
@@ -36,7 +36,7 @@ const streetsAddContent = {
     stage: 0,
     mat: {
       line: getLineMat(0x533931),
-      polygon: null,
+      polygon: getPolygonMat(),
     },
   },
   auto: {

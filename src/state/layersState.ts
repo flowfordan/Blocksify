@@ -5,8 +5,8 @@ import { layersDefPreset } from './presets/layersDefPreset';
 //TODO: layers structure to include additional obj props
 //TODO: include current layer property
 interface LayerContentMaterials {
-  line: LineMaterial | null;
-  polygon: THREE.MeshBasicMaterial | null;
+  line: LineMaterial;
+  polygon: THREE.MeshBasicMaterial;
 }
 
 type LayerID = 'border' | 'streets' | 'blocks' | 'buildings';

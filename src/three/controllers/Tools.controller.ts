@@ -10,13 +10,9 @@ export class ToolsController {
 
   tools: {
     [key in ToolName]: Line | Polygon | Selector;
-    // line: Line,
-    // pLine: Line,
-    // polygon: Polygon
   };
   currentTool: number | undefined;
   constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement) {
-    //
     this.tools = {
       line: new Line(activeElement, scene, 0),
       pLine: new Line(activeElement, scene, 1),
@@ -29,7 +25,7 @@ export class ToolsController {
 
   //TODO: rewrite without many ifs elses
   setActiveTool = (
-    currentLayer: Layer | null,
+    currentLayer: Layer,
     groundPlane: THREE.Plane,
     camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
   ) => {
@@ -50,10 +46,9 @@ export class ToolsController {
 
     //activate new tool
     if (typeof activeToolId === 'number') {
-      console.log(activeToolId, 'LAYER', currentLayer);
       const toolName = toolsState.tools.find((i) => i.active)!.name;
 
-      this.tools[toolName].start(camera, groundPlane, currentLayer!);
+      this.tools[toolName].start(camera, groundPlane, currentLayer);
       this.currentTool = activeToolId;
 
       window.addEventListener('keydown', this.onExit);
