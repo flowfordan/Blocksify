@@ -73,7 +73,7 @@ export class Tool {
 
   // helper objects to show future lines/shapes
   // while drawing
-  guideObj: {
+  trackObj: {
     line: I3dObjLine;
     polygon: I3dObjPolygon;
   };
@@ -110,7 +110,7 @@ export class Tool {
 
     this.objCoords = { line: [], polygon: [] };
 
-    this.guideObj = {
+    this.trackObj = {
       line: {
         form: new Line2(),
         geom: new LineGeometry(),
@@ -143,7 +143,7 @@ export class Tool {
     //TODO check for snapping options
 
     //guideLine
-    this.guideObj.line.mat = new LineMaterial({
+    this.trackObj.line.mat = new LineMaterial({
       color: 0x0e89e1,
       linewidth: 2,
       resolution: new THREE.Vector2(1920, 1080),

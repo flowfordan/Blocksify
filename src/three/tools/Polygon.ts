@@ -25,20 +25,20 @@ export class Polygon extends Tool {
     this.obj.line.mat = this.layer.content.main!.mat.line!;
 
     //init guide obj
-    this.guideObj.polygon.mat = new THREE.MeshBasicMaterial({
+    this.trackObj.polygon.mat = new THREE.MeshBasicMaterial({
       color: new THREE.Color('skyblue'),
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
     });
-    this.guideObj.polygon.geom = new THREE.Shape();
-    const shapeGuideGeom = new THREE.ShapeGeometry(this.guideObj.polygon.geom);
+    this.trackObj.polygon.geom = new THREE.Shape();
+    const shapeGuideGeom = new THREE.ShapeGeometry(this.trackObj.polygon.geom);
 
-    this.guideObj.polygon.form = new THREE.Mesh(shapeGuideGeom, this.guideObj.polygon.mat);
-    this.guideObj.polygon.form.name = 'guide';
+    this.trackObj.polygon.form = new THREE.Mesh(shapeGuideGeom, this.trackObj.polygon.mat);
+    this.trackObj.polygon.form.name = 'guide';
 
     //rotate(by def created on x-z plane)
-    this.guideObj.polygon.form.rotateX(Math.PI / 2);
+    this.trackObj.polygon.form.rotateX(Math.PI / 2);
 
     //add EL
     this.canvas.addEventListener('mousemove', this._onMouseMove);
@@ -58,27 +58,27 @@ export class Polygon extends Tool {
     //1, 2, currentpoint
     //show when 2 pts created
     if (this.toolState === 2 && this.objCoords.line.length >= 9) {
-      this.scene.remove(this.guideObj.polygon.form!);
+      this.scene.remove(this.trackObj.polygon.form!);
 
-      this.guideObj.polygon.geom = new THREE.Shape();
+      this.trackObj.polygon.geom = new THREE.Shape();
       const pt1 = this.obj.polygon.geom!.getPoints()[0];
-      this.guideObj.polygon.geom?.moveTo(pt1.x, pt1.y);
-      this.guideObj.polygon.geom?.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
+      this.trackObj.polygon.geom?.moveTo(pt1.x, pt1.y);
+      this.trackObj.polygon.geom?.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
       const pt2 = this.obj.polygon.geom!.getPoints()[this.obj.polygon.geom!.getPoints().length - 1];
-      this.guideObj.polygon.geom?.lineTo(pt2.x, pt2.y);
+      this.trackObj.polygon.geom?.lineTo(pt2.x, pt2.y);
 
       console.log(pt1, pt2);
 
-      this.guideObj.polygon.form = new THREE.Mesh(
-        new THREE.ShapeGeometry(this.guideObj.polygon.geom!),
-        this.guideObj.polygon.mat!
+      this.trackObj.polygon.form = new THREE.Mesh(
+        new THREE.ShapeGeometry(this.trackObj.polygon.geom!),
+        this.trackObj.polygon.mat!
       );
-      this.guideObj.polygon.form.name = 'guide';
+      this.trackObj.polygon.form.name = 'guide';
 
       //rotate(by def created on x-z plane)
-      this.guideObj.polygon.form.rotateX(Math.PI / 2);
+      this.trackObj.polygon.form.rotateX(Math.PI / 2);
 
-      this.scene.add(this.guideObj.polygon.form!);
+      this.scene.add(this.trackObj.polygon.form!);
 
       //render tag for lines
       const current2pt = this.objCoords.line.slice(-6);
@@ -115,9 +115,9 @@ export class Polygon extends Tool {
       this.scene.add(this.obj.line.form);
 
       //GUIDE OBJS SETUP
-      this.guideObj.line.geom = new LineGeometry();
-      this.guideObj.line.form = new Line2(this.guideObj.line.geom, this.guideObj.line.mat!);
-      this.scene.add(this.guideObj.line.form);
+      this.trackObj.line.geom = new LineGeometry();
+      this.trackObj.line.form = new Line2(this.trackObj.line.geom, this.trackObj.line.mat!);
+      this.scene.add(this.trackObj.line.form);
 
       this.toolState = 2;
     } else if (this.toolState === 2) {
@@ -147,7 +147,7 @@ export class Polygon extends Tool {
       this.obj.line.form!.geometry.setPositions(this.objCoords.line);
       this.obj.line.form!.computeLineDistances();
 
-      this.scene.remove(this.guideObj.polygon.form!);
+      this.scene.remove(this.trackObj.polygon.form!);
 
       console.log('POLYGON CHILD', this.scene.children);
     }
@@ -164,7 +164,7 @@ export class Polygon extends Tool {
   };
 
   protected _resetLoop = () => {
-    this.scene.remove(this.guideObj.polygon.form!);
+    this.scene.remove(this.trackObj.polygon.form!);
     super._resetLoop();
 
     this.tagsManager.stopRender();

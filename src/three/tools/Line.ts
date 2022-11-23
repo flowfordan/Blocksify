@@ -15,7 +15,6 @@ export class Line extends Tool {
   //TODO: active layer to constructor to adjust settings? like color and width
   constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, drawMode: number) {
     super(canvas, scene);
-
     this.lineMode = drawMode; //0: 2pt line, 1:polyline
     this.lineParts = 1;
   }
@@ -23,13 +22,14 @@ export class Line extends Tool {
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
     console.log('LINE START');
     super.start(camera, plane, layer);
-
-    //TODO null layer fix?
-    this.obj.line.mat = this.layer.content.main!.mat.line!;
-
-    //helpers
+    //set material from layer
+    if (!this.layer.content.main) {
+      throw new Error('Layer cant doesnt have options to enable drawing on it');
+    }
+    this.obj.line.mat = this.layer.content.main.mat.line;
+    //start snap manager
     this.snapManager = new SnapManager(this.scene);
-
+    //El set
     this.canvas.addEventListener('mousemove', this._onMouseMove);
     this.canvas.addEventListener('click', this._onDrawClick);
     this.canvas.addEventListener('dblclick', this._onDBClick);
@@ -40,8 +40,8 @@ export class Line extends Tool {
     //get coords
     const mouseLoc = getMouseLocation(e, this.rect!, this.canvas, this.currentCamera!, this.currentPlane!);
     //upd coords
-    if (this.toolState === 1) {
-      this.currentPointerCoord = this.snapManager!.snapToCoords(mouseLoc);
+    if (this.toolState === 1 && this.snapManager) {
+      this.currentPointerCoord = this.snapManager.snapToCoords(mouseLoc);
     }
 
     if (this.toolState === 2) {
@@ -53,7 +53,7 @@ export class Line extends Tool {
         this.objCoords.line.length = this.lineParts * 3;
       }
       //push to Line last pointer coords
-      const coords: Array<number> = Object.values(this.currentPointerCoord!);
+      const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.line.push(...coords);
 
       const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
@@ -64,14 +64,13 @@ export class Line extends Tool {
         new Vector3(...current2ptLineCoords.slice(0, 3))
       );
       //TODO GUIDE LINE
-      this.scene.add(this.guideObj.line.form!);
+      this.scene.add(this.trackObj.line.form!);
       //const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
       this.lineMode === 0
-        ? this.guideObj.line.geom!.setPositions(this.objCoords.line)
-        : this.guideObj.line.geom!.setPositions(current2ptLineCoords);
-      this.guideObj.line.form!.computeLineDistances();
+        ? this.trackObj.line.geom!.setPositions(this.objCoords.line)
+        : this.trackObj.line.geom!.setPositions(current2ptLineCoords);
+      this.trackObj.line.form!.computeLineDistances();
 
-      console.log('SNAP OPTION', this.snapManager!.snapOptions);
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
         this.currentPointerCoord,
@@ -83,20 +82,19 @@ export class Line extends Tool {
   private _onDrawClick = () => {
     if (this.toolState === 1) {
       console.log('Line: first pt');
-      console.log(this.obj.line);
 
       //INIT GEOM and FORM
       this.obj.line.geom = new LineGeometry();
       this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
 
-      const coords: Array<number> = Object.values(this.currentPointerCoord!);
+      const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.line.push(...coords);
 
       this.obj.points.form = pointObj(this.objCoords.line);
       this.scene.add(this.obj.points.form);
 
       //GUIDELINE
-      this.guideObj.line.form = new Line2(this.guideObj.line.geom!, this.guideObj.line.mat!);
+      this.trackObj.line.form = new Line2(this.trackObj.line.geom!, this.trackObj.line.mat!);
 
       this.toolState = 2;
     } else if (this.toolState === 2) {
@@ -106,7 +104,7 @@ export class Line extends Tool {
       if (this.lineMode === 0 || this.lineParts === 1) {
         this.obj.line.geom!.setPositions(this.objCoords.line);
 
-        this.scene.remove(this.guideObj.line.form!);
+        this.scene.remove(this.trackObj.line.form!);
       }
       //case of Polyline
       else {
@@ -177,7 +175,7 @@ export class Line extends Tool {
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
-    this.scene.remove(this.guideObj.line.form!);
+    this.scene.remove(this.trackObj.line.form!);
 
     this.lineParts = 1;
 
