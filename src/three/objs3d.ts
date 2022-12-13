@@ -2,6 +2,24 @@ import * as THREE from 'three';
 import { Vector2 } from 'three';
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
+export interface I3dObjPoint {
+  form: THREE.Points | null;
+  geom: THREE.BufferGeometry | null;
+  mat: THREE.PointsMaterial | null;
+}
+
+export interface I3dObjLine {
+  form: Line2 | null;
+  geom: LineGeometry | null;
+  mat: LineMaterial | null;
+}
+
+export interface I3dObjPolygon {
+  form: THREE.Mesh | null;
+  geom: THREE.Shape | null;
+  mat: THREE.MeshBasicMaterial | null;
+}
+
 const pointObj = (coords: Array<number>) => {
   const position = Float32Array.from(coords);
 
