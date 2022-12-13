@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
+import { toJS } from 'mobx';
 
 import { getMouseLocation } from '../utils';
 import { pointObj } from '../objs3d';
 import { Tool } from './Tool';
-import { toJS } from 'mobx';
 import { Vector3 } from 'three';
 import { Layer } from '../../state';
 
@@ -63,13 +63,8 @@ export class Line extends Tool {
         2,
         new Vector3(...current2ptLineCoords.slice(0, 3))
       );
-      //TODO GUIDE LINE
-      this.scene.add(this.trackObj.line.form!);
-      //const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
-      this.lineMode === 0
-        ? this.trackObj.line.geom!.setPositions(this.objCoords.line)
-        : this.trackObj.line.geom!.setPositions(current2ptLineCoords);
-      this.trackObj.line.form!.computeLineDistances();
+      //TODO TRACK LINE upd rewrite
+      this.trackObj.updCoords(current2ptLineCoords);
 
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
@@ -80,6 +75,7 @@ export class Line extends Tool {
   };
 
   private _onDrawClick = () => {
+    //ON FIRST CLICK
     if (this.toolState === 1) {
       console.log('Line: first pt');
 
@@ -93,18 +89,20 @@ export class Line extends Tool {
       this.obj.points.form = pointObj(this.objCoords.line);
       this.scene.add(this.obj.points.form);
 
-      //GUIDELINE
-      this.trackObj.line.form = new Line2(this.trackObj.line.geom!, this.trackObj.line.mat!);
+      //TRACK
+      this.trackObj.init();
+      this.trackObj.add();
 
       this.toolState = 2;
-    } else if (this.toolState === 2) {
+    }
+    //ON SECOND CLICK
+    else if (this.toolState === 2) {
       console.log('Line: second pt');
       //LINES HANDLE
       //case of 2-points Line
       if (this.lineMode === 0 || this.lineParts === 1) {
         this.obj.line.geom!.setPositions(this.objCoords.line);
-
-        this.scene.remove(this.trackObj.line.form!);
+        this.trackObj.remove();
       }
       //case of Polyline
       else {
@@ -175,7 +173,8 @@ export class Line extends Tool {
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
-    this.scene.remove(this.trackObj.line.form!);
+    this.trackObj.remove();
+    // this.scene.remove(this.trackObj.line.form!);
 
     this.lineParts = 1;
 

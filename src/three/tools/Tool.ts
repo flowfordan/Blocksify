@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 import { Layer, layersState } from '../../state';
 import { SnapManager } from '../helpers/SnapManager';
@@ -37,13 +36,6 @@ export class Tool {
     polygon: [];
   };
 
-  // helper objects to show future lines/shapes
-  // while drawing
-  // trackObj: {
-  //   line: I3dObjLine;
-  //   polygon: I3dObjPolygon;
-  // };
-
   constructor(canvas: HTMLCanvasElement, scene: THREE.Scene) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
@@ -73,23 +65,9 @@ export class Tool {
         mat: null,
       },
     };
-
     this.objCoords = { line: [], polygon: [] };
 
     this.trackObj = new TrackObjManager(scene);
-    // {
-    //   line: {
-    //     form: new Line2(),
-    //     geom: new LineGeometry(),
-    //     mat: new LineMaterial(),
-    //   },
-    //   polygon: {
-    //     form: new THREE.Mesh(),
-    //     geom: new THREE.Shape(),
-    //     mat: new THREE.MeshBasicMaterial(),
-    //   },
-    // };
-
     this.tagsManager = new TagsManager(scene);
     this.snapManager = new SnapManager(scene);
 
