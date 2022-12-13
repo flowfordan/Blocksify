@@ -52,20 +52,20 @@ export class Line extends Tool {
       } else if (this.lineMode === 1) {
         this.objCoords.line.length = this.lineParts * 3;
       }
-      //push to Line last pointer coords
-      const coords: Array<number> = Object.values(this.currentPointerCoord);
-      this.objCoords.line.push(...coords);
-
-      const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
-      //SNAPPING
+      //SNAP
       this.currentPointerCoord = this.snapManager.snapToCoords(
         mouseLoc,
         2,
-        new Vector3(...current2ptLineCoords.slice(0, 3))
+        new Vector3(...this.objCoords.line.slice(this.lineParts * 3 - 6))
       );
-      //TODO TRACK LINE upd rewrite
-      this.trackObj.updCoords(current2ptLineCoords);
+      //upd Line
+      const coordsCurrent: Array<number> = Object.values(this.currentPointerCoord);
+      this.objCoords.line.push(...coordsCurrent);
 
+      const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
+      //TODO TRACK LINE upd rewrite
+      this.trackObj.add();
+      this.trackObj.updCoords(current2ptLineCoords);
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
         this.currentPointerCoord,
@@ -89,9 +89,8 @@ export class Line extends Tool {
       this.obj.points.form = pointObj(this.objCoords.line);
       this.scene.add(this.obj.points.form);
 
-      //TRACK
+      //TRACK OBJ
       this.trackObj.init();
-      this.trackObj.add();
 
       this.toolState = 2;
     }
@@ -174,11 +173,8 @@ export class Line extends Tool {
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
     this.trackObj.remove();
-    // this.scene.remove(this.trackObj.line.form!);
-
-    this.lineParts = 1;
-
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();
+    this.lineParts = 1;
   };
 }

@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
-// import { I3dObjLine, I3dObjPolygon } from '../objs3d';
-
 //TODO common type for track and actual obj
 interface I3dObjPoint {
   form: THREE.Points | null;
@@ -55,6 +53,7 @@ class TrackObjManager {
     });
   }
 
+  //set obj from exact geometry & material
   init = () => {
     this.objs.line.form = new Line2(this.objs.line.geom, this.objs.line.mat);
   };
@@ -64,17 +63,16 @@ class TrackObjManager {
     this.objs.line.form.computeLineDistances();
   };
 
+  //add to scene
   add = () => {
     //
     this.scene.add(this.objs.line.form);
   };
 
+  //remove from scene
   remove = () => {
     this.scene.remove(this.objs.line.form);
   };
-  //method - update position
-  //add to scene
-  //remove from scene
 }
 
 export { TrackObjManager };
