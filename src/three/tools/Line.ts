@@ -12,10 +12,9 @@ export class Line extends Tool {
   lineMode: number;
   lineParts: number;
 
-  //TODO: active layer to constructor to adjust settings? like color and width
   constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, drawMode: number) {
     super(canvas, scene);
-    this.lineMode = drawMode; //0: 2pt line, 1:polyline
+    this.lineMode = drawMode; //0: 2-pt line, 1: polyline
     this.lineParts = 1;
   }
 
@@ -24,7 +23,7 @@ export class Line extends Tool {
     super.start(camera, plane, layer);
     //set material from layer
     if (!this.layer.content.main) {
-      throw new Error('Layer cant doesnt have options to enable drawing on it');
+      throw new Error('Layer doesnt have options to enable drawing on it');
     }
     this.obj.line.mat = this.layer.content.main.mat.line;
     //start snap manager
@@ -33,12 +32,12 @@ export class Line extends Tool {
     this.canvas.addEventListener('mousemove', this._onMouseMove);
     this.canvas.addEventListener('click', this._onDrawClick);
     this.canvas.addEventListener('dblclick', this._onDBClick);
-    window.addEventListener('keypress', this._onEnter);
+    window.addEventListener('keypress', this._onKey);
   };
 
   private _onMouseMove = (e: MouseEvent) => {
     //get coords
-    const mouseLoc = getMouseLocation(e, this.rect!, this.canvas, this.currentCamera!, this.currentPlane!);
+    const mouseLoc = getMouseLocation(e, this.rect, this.canvas, this.currentCamera!, this.currentPlane!);
     //upd coords
     if (this.toolState === 1 && this.snapManager) {
       this.currentPointerCoord = this.snapManager.snapToCoords(mouseLoc);
@@ -136,7 +135,7 @@ export class Line extends Tool {
     }
   };
 
-  private _onEnter = (event: KeyboardEvent) => {
+  private _onKey = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
       this._resetLoop();
     }
@@ -170,7 +169,7 @@ export class Line extends Tool {
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
     this.canvas.removeEventListener('click', this._onDrawClick);
     this.canvas.removeEventListener('dblclick', this._onDBClick);
-    window.removeEventListener('keypress', this._onEnter);
+    window.removeEventListener('keypress', this._onKey);
   };
 
   protected _resetLoop = (isDisgraceful?: boolean) => {

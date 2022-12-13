@@ -46,7 +46,7 @@ const empty3dObjPolygon = {
 export class Tool {
   toolState: number;
   canvas: HTMLCanvasElement;
-  rect: DOMRect | null;
+  rect: DOMRect;
   scene: THREE.Scene;
   layer: Layer;
 
