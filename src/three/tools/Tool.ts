@@ -55,7 +55,7 @@ export class Tool {
   currentPointerCoord: THREE.Vector3;
 
   tagsManager: TagsManager;
-  snapManager: SnapManager | null;
+  snapManager: SnapManager;
 
   cursor: 'crosshair';
 
@@ -124,7 +124,7 @@ export class Tool {
     };
 
     this.tagsManager = new TagsManager(scene);
-    this.snapManager = null;
+    this.snapManager = new SnapManager(scene);
 
     this.cursor = 'crosshair';
   }

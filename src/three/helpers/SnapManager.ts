@@ -49,6 +49,11 @@ class SnapManager {
     this.renderedGuidesOptions = this._loadInitGuidesOptions();
   }
 
+  //TODO refactor init func - we already loaded stuff in constructor - need only minor upd
+  start = () => {
+    this.snapOptions = this._loadInitSnapOptions();
+  };
+
   //TODO see about performance when angle snap small and mouse moving fast
   snapToCoords = (pointerCoords: THREE.Vector3, toolState = 1, lastCoords?: THREE.Vector3): THREE.Vector3 => {
     //return if non of snapping is active

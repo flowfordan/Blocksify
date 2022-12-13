@@ -20,6 +20,7 @@ export class Line extends Tool {
 
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
     console.log('LINE START');
+    console.log(this.snapManager);
     super.start(camera, plane, layer);
     //set material from layer
     if (!this.layer.content.main) {
@@ -27,7 +28,7 @@ export class Line extends Tool {
     }
     this.obj.line.mat = this.layer.content.main.mat.line;
     //start snap manager
-    this.snapManager = new SnapManager(this.scene);
+    this.snapManager.start();
     //El set
     this.canvas.addEventListener('mousemove', this._onMouseMove);
     this.canvas.addEventListener('click', this._onDrawClick);
@@ -39,7 +40,7 @@ export class Line extends Tool {
     //get coords
     const mouseLoc = getMouseLocation(e, this.rect, this.canvas, this.currentCamera!, this.currentPlane!);
     //upd coords
-    if (this.toolState === 1 && this.snapManager) {
+    if (this.toolState === 1) {
       this.currentPointerCoord = this.snapManager.snapToCoords(mouseLoc);
     }
 
@@ -57,7 +58,7 @@ export class Line extends Tool {
 
       const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
       //SNAPPING
-      this.currentPointerCoord = this.snapManager!.snapToCoords(
+      this.currentPointerCoord = this.snapManager.snapToCoords(
         mouseLoc,
         2,
         new Vector3(...current2ptLineCoords.slice(0, 3))
@@ -73,7 +74,7 @@ export class Line extends Tool {
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
         this.currentPointerCoord,
-        this.snapManager!.snapOptions
+        this.snapManager.snapOptions
       );
     }
   };
@@ -179,6 +180,6 @@ export class Line extends Tool {
     this.lineParts = 1;
 
     this.tagsManager.stopRender();
-    this.snapManager!.resetSnap();
+    this.snapManager.resetSnap();
   };
 }

@@ -48,7 +48,12 @@ interface HelperOption {
 
 type HelperOptions = Array<HelperOption>;
 
-type SnapStatus = { isActive: boolean; snappedCoords: Vector3; distToOrigin: number; isCurrent: boolean };
+type SnapStatus = {
+  isActive: boolean;
+  snappedCoords: Vector3;
+  distToOrigin: number;
+  isCurrent: boolean;
+};
 
 type SnapOptions = {
   [I in SnapType]: SnapStatus;
