@@ -10,12 +10,12 @@ import { Layer } from '../../state';
 
 export class Line extends Tool {
   lineMode: number;
-  lineParts: number;
+  lineSegments: number;
 
   constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, drawMode: number) {
     super(canvas, scene);
     this.lineMode = drawMode; //0: 2-pt line, 1: polyline
-    this.lineParts = 1;
+    this.lineSegments = 1;
   }
 
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
@@ -25,7 +25,7 @@ export class Line extends Tool {
     if (!this.layer.content.main) {
       throw new Error('Layer doesnt have options to enable drawing on it');
     }
-    this.obj.line.mat = this.layer.content.main.mat.line;
+    this.objPts.line.mat = this.layer.content.main.mat.line;
 
     //start snap manager
     this.snapManager.start();
@@ -47,22 +47,22 @@ export class Line extends Tool {
       //UPDATING LINE COORDS
       //cut pushed to right amount - 1 chunk before new push
       if (this.lineMode === 0) {
-        this.objCoords.line.length = 3;
+        this.objPtsCoords.line.length = 3;
       } else if (this.lineMode === 1) {
-        this.objCoords.line.length = this.lineParts * 3;
+        this.objPtsCoords.line.length = this.lineSegments * 3;
       }
 
       //SNAP
       this.currentPointerCoord = this.snapManager.snapToCoords(
         mouseLoc,
         2,
-        new Vector3(...this.objCoords.line.slice(this.lineParts * 3 - 3))
+        new Vector3(...this.objPtsCoords.line.slice(this.lineSegments * 3 - 3))
       );
 
       //upd Line
       const coordsCurrent: Array<number> = Object.values(this.currentPointerCoord);
-      this.objCoords.line.push(...coordsCurrent);
-      const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
+      this.objPtsCoords.line.push(...coordsCurrent);
+      const current2ptLineCoords = this.objPtsCoords.line.slice(this.lineSegments * 3 - 3);
 
       //TRACK
       this.trackObj.add();
@@ -81,14 +81,14 @@ export class Line extends Tool {
     //ON FIRST CLICK
     if (this.toolState === 1) {
       //INIT GEOM and FORM
-      this.obj.line.geom = new LineGeometry();
-      this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
+      this.objPts.line.geom = new LineGeometry();
+      this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
 
       const coords: Array<number> = Object.values(this.currentPointerCoord);
-      this.objCoords.line.push(...coords);
+      this.objPtsCoords.line.push(...coords);
 
-      this.obj.points.form = pointObj(this.objCoords.line);
-      this.scene.add(this.obj.points.form);
+      this.objPts.points.form = pointObj(this.objPtsCoords.line);
+      this.scene.add(this.objPts.points.form);
 
       //TRACK
       this.trackObj.init();
@@ -97,31 +97,34 @@ export class Line extends Tool {
     }
     //ON SECOND CLICK
     else if (this.toolState === 2) {
+      if (!this.objPts.line.geom || !this.objPts.line.form) {
+        throw new Error('There is no Obj Form or Obj Geometry in Tool');
+      }
       //LINES HANDLE
       //case of 2-points Line
-      if (this.lineMode === 0 || this.lineParts === 1) {
-        this.obj.line.geom!.setPositions(this.objCoords.line);
+      if (this.lineMode === 0 || this.lineSegments === 1) {
+        this.objPts.line.geom.setPositions(this.objPtsCoords.line);
       }
       //case of Polyline
       else {
-        this.scene.remove(this.obj.line.form!);
-        this.obj.line.geom = new LineGeometry();
-        this.obj.line.geom.setPositions(this.objCoords.line);
-        this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
+        this.scene.remove(this.objPts.line.form);
+        this.objPts.line.geom = new LineGeometry();
+        this.objPts.line.geom.setPositions(this.objPtsCoords.line);
+        this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
       }
 
       this.trackObj.remove();
 
       //if this is PL mode and segment after 1
       //modify existing polyline geometry
-      this.obj.line.form!.layers.set(this.layer.id);
-      this.scene.add(this.obj.line.form!);
-      this.obj.line.form!.computeLineDistances();
+      this.objPts.line.form.layers.set(this.layer.id);
+      this.scene.add(this.objPts.line.form);
+      this.objPts.line.form.computeLineDistances();
 
       //POINTS HANDLE
-      this.scene.remove(this.obj.points.form!);
-      this.obj.points.form = pointObj(this.objCoords.line);
-      this.scene.add(this.obj.points.form);
+      this.scene.remove(this.objPts.points.form!);
+      this.objPts.points.form = pointObj(this.objPtsCoords.line);
+      this.scene.add(this.objPts.points.form);
 
       //clear and begin new item if LINE
       //begin new segment if PLINE
@@ -129,7 +132,7 @@ export class Line extends Tool {
         this._resetLoop();
       } else {
         this.toolState = 2;
-        this.lineParts++;
+        this.lineSegments++;
       }
     }
   };
@@ -144,8 +147,8 @@ export class Line extends Tool {
   private _onDBClick = (e: MouseEvent) => {
     e.preventDefault();
     //HANDLE SAME SPOT DBCLICK
-    if (this.objCoords.line.length === 3) {
-      this.scene.remove(this.obj.points.form!);
+    if (this.objPtsCoords.line.length === 3) {
+      this.scene.remove(this.objPts.points.form!);
     }
 
     //start new line
@@ -157,8 +160,8 @@ export class Line extends Tool {
 
     //delete began forms
     //TODO check for null obj - then delete if not null
-    this.scene.remove(this.obj.line.form!);
-    this.scene.remove(this.obj.points.form!);
+    this.scene.remove(this.objPts.line.form!);
+    this.scene.remove(this.objPts.points.form!);
 
     this._resetLoop(true);
 
@@ -174,6 +177,6 @@ export class Line extends Tool {
     this.trackObj.remove();
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();
-    this.lineParts = 1;
+    this.lineSegments = 1;
   };
 }

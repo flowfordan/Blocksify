@@ -24,14 +24,17 @@ export class Tool {
 
   cursor: 'crosshair';
 
-  //objects being created
-  obj: {
+  //object being created by tool
+  objCreated: THREE.Object3D;
+
+  //object parts being created
+  objPts: {
     line: I3dObjLine;
     points: I3dObjPoint;
     polygon: I3dObjPolygon;
   };
 
-  objCoords: {
+  objPtsCoords: {
     line: Array<number>;
     polygon: [];
   };
@@ -48,7 +51,8 @@ export class Tool {
 
     this.currentPointerCoord = new THREE.Vector3();
 
-    this.obj = {
+    this.objCreated = new THREE.Object3D();
+    this.objPts = {
       line: {
         form: null,
         geom: null,
@@ -65,7 +69,7 @@ export class Tool {
         mat: null,
       },
     };
-    this.objCoords = { line: [], polygon: [] };
+    this.objPtsCoords = { line: [], polygon: [] };
 
     this.trackObj = new TrackObjManager(scene);
     this.tagsManager = new TagsManager(scene);
@@ -76,14 +80,14 @@ export class Tool {
 
   //START METHOD
   start(camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) {
-    console.log('TOOL START');
-
     //set tool state
     //assign layer, camera and plane
     this.toolState = 1;
     this.layer = layer;
     this.currentCamera = camera;
     this.currentPlane = plane;
+
+    this.objCreated = new THREE.Object3D();
 
     //TODO check for snapping options
   }
@@ -94,15 +98,17 @@ export class Tool {
     this.toolState = 1;
 
     //CLEAN UP
-    this.obj.line.form = null;
-    this.obj.line.geom = null;
+    this.objCreated = new THREE.Object3D();
 
-    this.obj.polygon.form = null;
-    this.obj.polygon.geom = null;
+    this.objPts.line.form = null;
+    this.objPts.line.geom = null;
 
-    this.obj.points.form = null;
+    this.objPts.polygon.form = null;
+    this.objPts.polygon.geom = null;
 
-    this.objCoords.line = [];
+    this.objPts.points.form = null;
+
+    this.objPtsCoords.line = [];
 
     //layerState
     if (!isDisgraceful) {
