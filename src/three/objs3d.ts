@@ -5,13 +5,13 @@ import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 export interface I3dObjPoint {
   form: THREE.Points | null;
   geom: THREE.BufferGeometry | null;
-  mat: THREE.PointsMaterial | null;
+  mat: THREE.PointsMaterial;
 }
 
 export interface I3dObjLine {
   form: Line2 | null;
   geom: LineGeometry | null;
-  mat: LineMaterial | null;
+  mat: LineMaterial;
 }
 
 export interface I3dObjPolygon {
@@ -39,6 +39,7 @@ const V2ArrToNumArr = (arr: Array<Vector2>, baseLevel: number) => {
     .flat();
 };
 
+//DEFAULT MATERIALS
 const pMat = new THREE.PointsMaterial({ color: 0x888888, size: 6, sizeAttenuation: false });
 
 //function returning fatline material with given atributes

@@ -4,7 +4,7 @@ import { Layer, layersState } from '../../state';
 import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
 import { TrackObjManager } from '../helpers/TrackObjManager';
-import { I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat } from '../objs3d';
+import { I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat, getLineMat } from '../objs3d';
 
 //SUPERCLASS FOR TOOLS
 export class Tool {
@@ -52,7 +52,7 @@ export class Tool {
       line: {
         form: null,
         geom: null,
-        mat: null,
+        mat: getLineMat(),
       },
       points: {
         form: null,

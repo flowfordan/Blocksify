@@ -19,14 +19,14 @@ export class Line extends Tool {
   }
 
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
-    console.log('LINE START');
-    console.log(this.snapManager);
     super.start(camera, plane, layer);
+
     //set material from layer
     if (!this.layer.content.main) {
       throw new Error('Layer doesnt have options to enable drawing on it');
     }
     this.obj.line.mat = this.layer.content.main.mat.line;
+
     //start snap manager
     this.snapManager.start();
     //El set
@@ -37,7 +37,6 @@ export class Line extends Tool {
   };
 
   private _onMouseMove = (e: MouseEvent) => {
-    //get coords
     const mouseLoc = getMouseLocation(e, this.rect, this.canvas, this.currentCamera!, this.currentPlane!);
     //upd coords
     if (this.toolState === 1) {
@@ -52,20 +51,24 @@ export class Line extends Tool {
       } else if (this.lineMode === 1) {
         this.objCoords.line.length = this.lineParts * 3;
       }
+
       //SNAP
       this.currentPointerCoord = this.snapManager.snapToCoords(
         mouseLoc,
         2,
-        new Vector3(...this.objCoords.line.slice(this.lineParts * 3 - 6))
+        new Vector3(...this.objCoords.line.slice(this.lineParts * 3 - 3))
       );
+
       //upd Line
       const coordsCurrent: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.line.push(...coordsCurrent);
-
       const current2ptLineCoords = this.objCoords.line.slice(this.lineParts * 3 - 3);
-      //TODO TRACK LINE upd rewrite
+
+      //TRACK
       this.trackObj.add();
       this.trackObj.updCoords(current2ptLineCoords);
+
+      //TAG
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
         this.currentPointerCoord,
@@ -77,11 +80,9 @@ export class Line extends Tool {
   private _onDrawClick = () => {
     //ON FIRST CLICK
     if (this.toolState === 1) {
-      console.log('Line: first pt');
-
       //INIT GEOM and FORM
       this.obj.line.geom = new LineGeometry();
-      this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
+      this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
 
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.line.push(...coords);
@@ -89,27 +90,27 @@ export class Line extends Tool {
       this.obj.points.form = pointObj(this.objCoords.line);
       this.scene.add(this.obj.points.form);
 
-      //TRACK OBJ
+      //TRACK
       this.trackObj.init();
 
       this.toolState = 2;
     }
     //ON SECOND CLICK
     else if (this.toolState === 2) {
-      console.log('Line: second pt');
       //LINES HANDLE
       //case of 2-points Line
       if (this.lineMode === 0 || this.lineParts === 1) {
         this.obj.line.geom!.setPositions(this.objCoords.line);
-        this.trackObj.remove();
       }
       //case of Polyline
       else {
         this.scene.remove(this.obj.line.form!);
         this.obj.line.geom = new LineGeometry();
         this.obj.line.geom.setPositions(this.objCoords.line);
-        this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
+        this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat);
       }
+
+      this.trackObj.remove();
 
       //if this is PL mode and segment after 1
       //modify existing polyline geometry
@@ -149,11 +150,9 @@ export class Line extends Tool {
 
     //start new line
     this._resetLoop();
-    console.log(this.scene.children);
   };
 
   stop = () => {
-    console.log('Line Drawing stopped');
     super.stop();
 
     //delete began forms
