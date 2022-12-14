@@ -88,7 +88,10 @@ export class Line extends Tool {
       this.objPtsCoords.line.push(...coords);
 
       this.objPts.points.form = pointObj(this.objPtsCoords.line);
-      this.scene.add(this.objPts.points.form);
+
+      //OBJ CREATED
+      this.objCreated.add(this.objPts.points.form);
+      this.scene.add(this.objCreated);
 
       //TRACK
       this.trackObj.init();
@@ -107,7 +110,9 @@ export class Line extends Tool {
       }
       //case of Polyline
       else {
-        this.scene.remove(this.objPts.line.form);
+        //RENDER
+        this.objCreated.remove(this.objPts.line.form);
+
         this.objPts.line.geom = new LineGeometry();
         this.objPts.line.geom.setPositions(this.objPtsCoords.line);
         this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
@@ -115,16 +120,19 @@ export class Line extends Tool {
 
       this.trackObj.remove();
 
-      //if this is PL mode and segment after 1
-      //modify existing polyline geometry
+      //OBJ CREATED
       this.objPts.line.form.layers.set(this.layer.id);
-      this.scene.add(this.objPts.line.form);
       this.objPts.line.form.computeLineDistances();
+      this.objCreated.layers.set(this.layer.id);
+      this.objCreated.add(this.objPts.line.form);
 
       //POINTS HANDLE
-      this.scene.remove(this.objPts.points.form!);
+      this.objCreated.remove(this.objPts.points.form!);
       this.objPts.points.form = pointObj(this.objPtsCoords.line);
-      this.scene.add(this.objPts.points.form);
+      this.objPts.points.form.layers.set(this.layer.id);
+      this.objCreated.add(this.objPts.points.form);
+
+      this.objCreated.name = this.layer.name;
 
       //clear and begin new item if LINE
       //begin new segment if PLINE
@@ -134,6 +142,7 @@ export class Line extends Tool {
         this.toolState = 2;
         this.lineSegments++;
       }
+      console.log(this.scene.children);
     }
   };
 
@@ -160,8 +169,7 @@ export class Line extends Tool {
 
     //delete began forms
     //TODO check for null obj - then delete if not null
-    this.scene.remove(this.objPts.line.form!);
-    this.scene.remove(this.objPts.points.form!);
+    this.scene.remove(this.objCreated);
 
     this._resetLoop(true);
 
