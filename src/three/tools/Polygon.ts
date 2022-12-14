@@ -18,27 +18,27 @@ export class Polygon extends Tool {
 
     //POLYGON
     //init material
-    this.obj.polygon.mat = this.layer.content.main!.mat.polygon!;
+    this.objPts.polygon.mat = this.layer.content.main!.mat.polygon!;
 
     //POLYLINE - BORDER
     //TODO if there is contour check
-    this.obj.line.mat = this.layer.content.main!.mat.line!;
+    this.objPts.line.mat = this.layer.content.main!.mat.line!;
 
     //init guide obj
-    this.trackObj.polygon.mat = new THREE.MeshBasicMaterial({
-      color: new THREE.Color('skyblue'),
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.5,
-    });
-    this.trackObj.polygon.geom = new THREE.Shape();
-    const shapeGuideGeom = new THREE.ShapeGeometry(this.trackObj.polygon.geom);
+    // this.trackObj.polygon.mat = new THREE.MeshBasicMaterial({
+    //   color: new THREE.Color('skyblue'),
+    //   side: THREE.DoubleSide,
+    //   transparent: true,
+    //   opacity: 0.5,
+    // });
+    // this.trackObj.polygon.geom = new THREE.Shape();
+    // const shapeGuideGeom = new THREE.ShapeGeometry(this.trackObj.polygon.geom);
 
-    this.trackObj.polygon.form = new THREE.Mesh(shapeGuideGeom, this.trackObj.polygon.mat);
-    this.trackObj.polygon.form.name = 'guide';
+    // this.trackObj.polygon.form = new THREE.Mesh(shapeGuideGeom, this.trackObj.polygon.mat);
+    // this.trackObj.polygon.form.name = 'guide';
 
     //rotate(by def created on x-z plane)
-    this.trackObj.polygon.form.rotateX(Math.PI / 2);
+    // this.trackObj.polygon.form.rotateX(Math.PI / 2);
 
     //add EL
     this.canvas.addEventListener('mousemove', this._onMouseMove);
@@ -57,31 +57,29 @@ export class Polygon extends Tool {
     //upd guideLine
     //1, 2, currentpoint
     //show when 2 pts created
-    if (this.toolState === 2 && this.objCoords.line.length >= 9) {
-      this.scene.remove(this.trackObj.polygon.form!);
+    if (this.toolState === 2 && this.objPtsCoords.line.length >= 9) {
+      // this.scene.remove(this.trackObj.polygon.form!);
 
-      this.trackObj.polygon.geom = new THREE.Shape();
-      const pt1 = this.obj.polygon.geom!.getPoints()[0];
-      this.trackObj.polygon.geom?.moveTo(pt1.x, pt1.y);
-      this.trackObj.polygon.geom?.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
-      const pt2 = this.obj.polygon.geom!.getPoints()[this.obj.polygon.geom!.getPoints().length - 1];
-      this.trackObj.polygon.geom?.lineTo(pt2.x, pt2.y);
+      // this.trackObj.polygon.geom = new THREE.Shape();
+      const pt1 = this.objPts.polygon.geom!.getPoints()[0];
+      // this.trackObj.polygon.geom?.moveTo(pt1.x, pt1.y);
+      // this.trackObj.polygon.geom?.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
+      const pt2 = this.objPts.polygon.geom!.getPoints()[this.objPts.polygon.geom!.getPoints().length - 1];
+      // this.trackObj.polygon.geom?.lineTo(pt2.x, pt2.y);
 
-      console.log(pt1, pt2);
-
-      this.trackObj.polygon.form = new THREE.Mesh(
-        new THREE.ShapeGeometry(this.trackObj.polygon.geom!),
-        this.trackObj.polygon.mat!
-      );
-      this.trackObj.polygon.form.name = 'guide';
+      // this.trackObj.polygon.form = new THREE.Mesh(
+      //   new THREE.ShapeGeometry(this.trackObj.polygon.geom!),
+      //   this.trackObj.polygon.mat!
+      // );
+      // this.trackObj.polygon.form.name = 'guide';
 
       //rotate(by def created on x-z plane)
-      this.trackObj.polygon.form.rotateX(Math.PI / 2);
+      // this.trackObj.polygon.form.rotateX(Math.PI / 2);
 
-      this.scene.add(this.trackObj.polygon.form!);
+      // this.scene.add(this.trackObj.polygon.form!);
 
       //render tag for lines
-      const current2pt = this.objCoords.line.slice(-6);
+      const current2pt = this.objPtsCoords.line.slice(-6);
       const p1 = current2pt.slice(0, 3);
       const p2 = current2pt.slice(3);
       this.tagsManager.renderTag([new Vector3(...p1), new Vector3(...p2)], this.currentPointerCoord);
@@ -91,63 +89,63 @@ export class Polygon extends Tool {
   _onDrawClick = () => {
     if (this.toolState === 1) {
       //POLYGON SETUP
-      this.obj.polygon.geom = new THREE.Shape();
-      const shapeGeom = new THREE.ShapeGeometry(this.obj.polygon.geom);
+      this.objPts.polygon.geom = new THREE.Shape();
+      const shapeGeom = new THREE.ShapeGeometry(this.objPts.polygon.geom);
 
-      this.obj.polygon.form = new THREE.Mesh(shapeGeom, this.obj.polygon.mat!);
-      this.obj.polygon.form.name = 'border';
+      this.objPts.polygon.form = new THREE.Mesh(shapeGeom, this.objPts.polygon.mat!);
+      this.objPts.polygon.form.name = 'border';
 
       //rotate(by def created on x-z plane)
-      this.obj.polygon.form.rotateX(Math.PI / 2);
-      this.scene.add(this.obj.polygon.form);
+      this.objPts.polygon.form.rotateX(Math.PI / 2);
+      this.scene.add(this.objPts.polygon.form);
 
-      this.obj.polygon.geom.moveTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
+      this.objPts.polygon.geom.moveTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
 
       //POINTS SETUP
       //add pt
-      this.obj.points.form = pointObj([this.currentPointerCoord.x, 0, this.currentPointerCoord.z]);
-      this.scene.add(this.obj.points.form);
+      this.objPts.points.form = pointObj([this.currentPointerCoord.x, 0, this.currentPointerCoord.z]);
+      this.scene.add(this.objPts.points.form);
 
       //LINE-BORDER SETUP
-      this.obj.line.geom = new LineGeometry();
-      this.obj.line.form = new Line2(this.obj.line.geom, this.obj.line.mat!);
-      this.obj.line.form.layers.set(this.layer.id);
-      this.scene.add(this.obj.line.form);
+      this.objPts.line.geom = new LineGeometry();
+      this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat!);
+      this.objPts.line.form.layers.set(this.layer.id);
+      this.scene.add(this.objPts.line.form);
 
       //GUIDE OBJS SETUP
-      this.trackObj.line.geom = new LineGeometry();
-      this.trackObj.line.form = new Line2(this.trackObj.line.geom, this.trackObj.line.mat!);
-      this.scene.add(this.trackObj.line.form);
+      // this.trackObj.line.geom = new LineGeometry();
+      // this.trackObj.line.form = new Line2(this.trackObj.line.geom, this.trackObj.line.mat!);
+      // this.scene.add(this.trackObj.line.form);
 
       this.toolState = 2;
     } else if (this.toolState === 2) {
-      this.obj.polygon.geom!.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
+      this.objPts.polygon.geom!.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
       //TODO find way to extend buffer & not create new geom every time
-      this.obj.polygon.form!.geometry = new THREE.ShapeGeometry(this.obj.polygon.geom!);
+      this.objPts.polygon.form!.geometry = new THREE.ShapeGeometry(this.objPts.polygon.geom!);
 
-      this.objCoords.line.length = 0;
+      this.objPtsCoords.line.length = 0;
       const currentLineCoords = V2ArrToNumArr(
-        this.obj.polygon.geom!.getPoints(),
+        this.objPts.polygon.geom!.getPoints(),
         this.currentPlane!.constant //WORLD PLANE LEVEL
       );
 
       //TODO use spread
-      this.objCoords.line.push(...currentLineCoords);
+      this.objPtsCoords.line.push(...currentLineCoords);
       //close line by pushing start point
-      this.objCoords.line.push(this.objCoords.line[0], this.objCoords.line[1], this.objCoords.line[2]);
+      this.objPtsCoords.line.push(this.objPtsCoords.line[0], this.objPtsCoords.line[1], this.objPtsCoords.line[2]);
 
       //create points
-      this.scene.remove(this.obj.points.form!);
-      this.obj.points.form = pointObj(currentLineCoords);
-      this.scene.add(this.obj.points.form);
+      this.scene.remove(this.objPts.points.form!);
+      this.objPts.points.form = pointObj(currentLineCoords);
+      this.scene.add(this.objPts.points.form);
 
       //upd polyline
       //TODO upd geom without cr new
-      this.obj.line.form!.geometry = new LineGeometry();
-      this.obj.line.form!.geometry.setPositions(this.objCoords.line);
-      this.obj.line.form!.computeLineDistances();
+      this.objPts.line.form!.geometry = new LineGeometry();
+      this.objPts.line.form!.geometry.setPositions(this.objPtsCoords.line);
+      this.objPts.line.form!.computeLineDistances();
 
-      this.scene.remove(this.trackObj.polygon.form!);
+      // this.scene.remove(this.trackObj.polygon.form!);
 
       console.log('POLYGON CHILD', this.scene.children);
     }
@@ -164,7 +162,7 @@ export class Polygon extends Tool {
   };
 
   protected _resetLoop = () => {
-    this.scene.remove(this.trackObj.polygon.form!);
+    // this.scene.remove(this.trackObj.polygon.form!);
     super._resetLoop();
 
     this.tagsManager.stopRender();
@@ -175,9 +173,9 @@ export class Polygon extends Tool {
 
     //delete began forms
     //TODO check for null obj - then delete if not null
-    this.scene.remove(this.obj.line.form!);
-    this.scene.remove(this.obj.points.form!);
-    this.scene.remove(this.obj.polygon.form!);
+    this.scene.remove(this.objPts.line.form!);
+    this.scene.remove(this.objPts.points.form!);
+    this.scene.remove(this.objPts.polygon.form!);
 
     this._resetLoop();
 

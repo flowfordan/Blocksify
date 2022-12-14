@@ -118,8 +118,6 @@ export class Tool {
 
   //STOP METHOD
   stop() {
-    console.log('TOOL STOP');
-    //tool state to 0
     this.toolState = 0;
   }
 }

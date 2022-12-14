@@ -65,7 +65,6 @@ class TrackObjManager {
 
   //add to scene
   add = () => {
-    //
     this.scene.add(this.objs.line.form);
   };
 
