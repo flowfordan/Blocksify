@@ -47,26 +47,26 @@ export class Line extends Tool {
       //UPDATING LINE COORDS
       //cut pushed to right amount - 1 chunk before new push
       if (this.lineMode === 0) {
-        this.objPtsCoords.line.length = 3;
+        this.objCoords.length = 3;
       } else if (this.lineMode === 1) {
-        this.objPtsCoords.line.length = this.lineSegments * 3;
+        this.objCoords.length = this.lineSegments * 3;
       }
 
       //SNAP
       this.currentPointerCoord = this.snapManager.snapToCoords(
         mouseLoc,
         2,
-        new Vector3(...this.objPtsCoords.line.slice(this.lineSegments * 3 - 3))
+        new Vector3(...this.objCoords.slice(this.lineSegments * 3 - 3))
       );
 
       //upd Line
       const coordsCurrent: Array<number> = Object.values(this.currentPointerCoord);
-      this.objPtsCoords.line.push(...coordsCurrent);
-      const current2ptLineCoords = this.objPtsCoords.line.slice(this.lineSegments * 3 - 3);
+      this.objCoords.push(...coordsCurrent);
+      const current2ptLineCoords = this.objCoords.slice(this.lineSegments * 3 - 3);
 
       //TRACK
-      this.trackObj.add();
       this.trackObj.updCoords(current2ptLineCoords);
+      this.trackObj.add();
 
       //TAG
       this.tagsManager.renderTag(
@@ -80,14 +80,14 @@ export class Line extends Tool {
   private _onDrawClick = () => {
     //ON FIRST CLICK
     if (this.toolState === 1) {
-      //INIT GEOM and FORM
+      //INIT GEOM & FORM
       this.objPts.line.geom = new LineGeometry();
       this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
 
       const coords: Array<number> = Object.values(this.currentPointerCoord);
-      this.objPtsCoords.line.push(...coords);
+      this.objCoords.push(...coords);
 
-      this.objPts.points.form = pointObj(this.objPtsCoords.line);
+      this.objPts.points.form = pointObj(this.objCoords);
 
       //OBJ CREATED
       this.objCreated.add(this.objPts.points.form);
@@ -106,7 +106,7 @@ export class Line extends Tool {
       //LINES HANDLE
       //case of 2-points Line
       if (this.lineMode === 0 || this.lineSegments === 1) {
-        this.objPts.line.geom.setPositions(this.objPtsCoords.line);
+        this.objPts.line.geom.setPositions(this.objCoords);
       }
       //case of Polyline
       else {
@@ -114,7 +114,7 @@ export class Line extends Tool {
         this.objCreated.remove(this.objPts.line.form);
 
         this.objPts.line.geom = new LineGeometry();
-        this.objPts.line.geom.setPositions(this.objPtsCoords.line);
+        this.objPts.line.geom.setPositions(this.objCoords);
         this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
       }
 
@@ -128,7 +128,7 @@ export class Line extends Tool {
 
       //POINTS HANDLE
       this.objCreated.remove(this.objPts.points.form!);
-      this.objPts.points.form = pointObj(this.objPtsCoords.line);
+      this.objPts.points.form = pointObj(this.objCoords);
       this.objPts.points.form.layers.set(this.layer.id);
       this.objCreated.add(this.objPts.points.form);
 
@@ -156,7 +156,7 @@ export class Line extends Tool {
   private _onDBClick = (e: MouseEvent) => {
     e.preventDefault();
     //HANDLE SAME SPOT DBCLICK
-    if (this.objPtsCoords.line.length === 3) {
+    if (this.objCoords.length === 3) {
       this.scene.remove(this.objPts.points.form!);
     }
 

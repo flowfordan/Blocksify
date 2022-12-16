@@ -17,7 +17,7 @@ export interface I3dObjLine {
 export interface I3dObjPolygon {
   form: THREE.Mesh | null;
   geom: THREE.Shape | null;
-  mat: THREE.MeshBasicMaterial | null;
+  mat: THREE.MeshBasicMaterial;
 }
 
 const pointObj = (coords: Array<number>) => {

@@ -4,7 +4,7 @@ import { Layer, layersState } from '../../state';
 import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
 import { TrackObjManager } from '../helpers/TrackObjManager';
-import { I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat, getLineMat } from '../objs3d';
+import { I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat, getLineMat, getPolygonMat } from '../objs3d';
 
 //SUPERCLASS FOR TOOLS
 export class Tool {
@@ -26,17 +26,12 @@ export class Tool {
 
   //object being created by tool
   objCreated: THREE.Object3D;
-
+  objCoords: Array<number>;
   //object parts being created
   objPts: {
     line: I3dObjLine;
     points: I3dObjPoint;
     polygon: I3dObjPolygon;
-  };
-
-  objPtsCoords: {
-    line: Array<number>;
-    polygon: [];
   };
 
   constructor(canvas: HTMLCanvasElement, scene: THREE.Scene) {
@@ -66,10 +61,10 @@ export class Tool {
       polygon: {
         form: null,
         geom: null,
-        mat: null,
+        mat: getPolygonMat(),
       },
     };
-    this.objPtsCoords = { line: [], polygon: [] };
+    this.objCoords = [];
 
     this.trackObj = new TrackObjManager(scene);
     this.tagsManager = new TagsManager(scene);
@@ -108,7 +103,7 @@ export class Tool {
 
     this.objPts.points.form = null;
 
-    this.objPtsCoords.line = [];
+    this.objCoords = [];
 
     //layerState
     if (!isDisgraceful) {

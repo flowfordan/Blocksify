@@ -43,7 +43,7 @@ class TrackObjManager {
       },
     };
 
-    //exact material
+    //default track materials
     this.objs.line.mat = new LineMaterial({
       color: 0x0e89e1,
       linewidth: 2,
@@ -51,11 +51,31 @@ class TrackObjManager {
       dashed: true,
       opacity: 0.8,
     });
+
+    this.objs.polygon.mat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color('skyblue'),
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.5,
+    });
   }
 
   //set obj from exact geometry & material
-  init = () => {
+  init = (isPolygon = false) => {
+    if (isPolygon) {
+      this.objs.polygon.geom = new THREE.Shape();
+      const shapeTrackGeom = new THREE.ShapeGeometry(this.objs.polygon.geom);
+
+      this.objs.polygon.form = new THREE.Mesh(shapeTrackGeom, this.objs.polygon.mat);
+      this.objs.polygon.form.name = 'track-polygon';
+
+      //rotate(by def created on x-z plane)
+      this.objs.polygon.form.rotateX(Math.PI / 2);
+    }
+    //line
+    this.objs.line.geom = new LineGeometry();
     this.objs.line.form = new Line2(this.objs.line.geom, this.objs.line.mat);
+    this.objs.line.form.name = 'track-line';
   };
 
   updCoords = (coords: Array<number>) => {
