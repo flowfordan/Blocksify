@@ -120,12 +120,8 @@ export class Line extends Tool {
         this.objPts.line.form.geometry = new LineGeometry();
         this.objPts.line.form.geometry.setPositions(this.objCoords);
       }
-
-      this.trackObj.remove();
-
       //line dist
       this.objPts.line.form.computeLineDistances();
-
       //POINTS UPD
       const position = Float32Array.from(this.objCoords);
       this.objPts.points.form!.geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
@@ -138,6 +134,8 @@ export class Line extends Tool {
         this.toolState = 2;
         this.lineSegments++;
       }
+
+      this.trackObj.remove();
       console.log(this.scene.children);
     }
   };

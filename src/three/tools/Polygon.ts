@@ -113,7 +113,7 @@ export class Polygon extends Tool {
       this.objPts.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
       this.objPts.polygon.form.geometry = new THREE.ShapeGeometry(this.objPts.polygon.geom);
 
-      //upd CONTOUR coords
+      //upd OBJ coords
       this.objCoords.length = 0;
       const currentLineCoords = V2ArrToNumArr(
         this.objPts.polygon.geom.getPoints(),
@@ -124,12 +124,11 @@ export class Polygon extends Tool {
       //CLOSE line by pushing start point
       this.objCoords.push(...this.objCoords.slice(0, 3));
 
-      //POINTS
-      this.scene.remove(this.objPts.points.form!);
-      this.objPts.points.form = pointObj(currentLineCoords);
-      this.scene.add(this.objPts.points.form);
+      //POINTS upd
+      const position = Float32Array.from(currentLineCoords);
+      this.objPts.points.form!.geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
 
-      //LINE
+      //LINE upd
       this.objPts.line.form.geometry = new LineGeometry();
       this.objPts.line.form.geometry.setPositions(this.objCoords);
       this.objPts.line.form.computeLineDistances();
