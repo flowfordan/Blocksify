@@ -91,7 +91,7 @@ export class Polygon extends Tool {
       //POINTS
       this.objPts.points.form = pointObj(this.objCoords);
 
-      //LINE-BORDER SETUP
+      //LINE
       this.objPts.line.geom = new LineGeometry();
       this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
 
@@ -113,29 +113,26 @@ export class Polygon extends Tool {
       this.objPts.polygon.geom.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
       this.objPts.polygon.form.geometry = new THREE.ShapeGeometry(this.objPts.polygon.geom);
 
+      //upd CONTOUR coords
       this.objCoords.length = 0;
       const currentLineCoords = V2ArrToNumArr(
         this.objPts.polygon.geom.getPoints(),
         this.currentPlane!.constant //WORLD PLANE LEVEL
       );
 
-      //TODO use spread
       this.objCoords.push(...currentLineCoords);
-      //close line by pushing start point
-      this.objCoords.push(this.objCoords[0], this.objCoords[1], this.objCoords[2]);
+      //CLOSE line by pushing start point
+      this.objCoords.push(...this.objCoords.slice(0, 3));
 
       //POINTS
       this.scene.remove(this.objPts.points.form!);
       this.objPts.points.form = pointObj(currentLineCoords);
       this.scene.add(this.objPts.points.form);
 
-      //upd polyline
-      //TODO upd geom without cr new
+      //LINE
       this.objPts.line.form.geometry = new LineGeometry();
       this.objPts.line.form.geometry.setPositions(this.objCoords);
       this.objPts.line.form.computeLineDistances();
-
-      // this.scene.remove(this.trackObj.polygon.form!);
     }
   };
 
@@ -150,7 +147,6 @@ export class Polygon extends Tool {
   };
 
   protected _resetLoop = () => {
-    // this.scene.remove(this.trackObj.polygon.form!);
     super._resetLoop();
 
     this.tagsManager.stopRender();

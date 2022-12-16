@@ -89,6 +89,12 @@ export class Line extends Tool {
 
       this.objPts.points.form = pointObj(this.objCoords);
 
+      //layers options set
+      this.objCreated.layers.set(this.layer.id);
+      this.objPts.line.form.layers.set(this.layer.id);
+      this.objPts.points.form.layers.set(this.layer.id);
+      this.objCreated.name = this.layer.name;
+
       //OBJ CREATED
       this.objCreated.add(this.objPts.points.form);
       this.objCreated.add(this.objPts.line.form);
@@ -104,33 +110,25 @@ export class Line extends Tool {
       if (!this.objPts.line.geom || !this.objPts.line.form) {
         throw new Error('There is no Obj Form or Obj Geometry in Tool');
       }
-      //LINES HANDLE
+      //LINES
       //case of 2-points Line
       if (this.lineMode === 0 || this.lineSegments === 1) {
         this.objPts.line.geom.setPositions(this.objCoords);
       }
       //case of Polyline
       else {
-        //RENDER
         this.objPts.line.form.geometry = new LineGeometry();
         this.objPts.line.form.geometry.setPositions(this.objCoords);
-        this.objPts.line.form.computeLineDistances();
       }
 
       this.trackObj.remove();
 
-      //OBJ CREATED
-      this.objPts.line.form.layers.set(this.layer.id);
+      //line dist
       this.objPts.line.form.computeLineDistances();
-      this.objCreated.layers.set(this.layer.id);
 
-      //POINTS HANDLE
-      this.objCreated.remove(this.objPts.points.form!);
-      this.objPts.points.form = pointObj(this.objCoords);
-      this.objPts.points.form.layers.set(this.layer.id);
-      this.objCreated.add(this.objPts.points.form);
-
-      this.objCreated.name = this.layer.name;
+      //POINTS UPD
+      const position = Float32Array.from(this.objCoords);
+      this.objPts.points.form!.geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
 
       //clear and begin new item if LINE
       //begin new segment if PLINE
