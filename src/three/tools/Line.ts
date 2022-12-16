@@ -78,7 +78,6 @@ export class Line extends Tool {
   };
 
   private _onDrawClick = () => {
-    console.log(this.scene.children);
     //ON FIRST CLICK
     if (this.toolState === 1) {
       //LINE
@@ -164,10 +163,8 @@ export class Line extends Tool {
     super.stop();
     //delete began forms
     this.scene.remove(this.objCreated);
-    this.objCreated = new THREE.Object3D();
 
-    // this._resetLoop(true);
-    //rmv EL
+    this._resetLoop(true);
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
     this.canvas.removeEventListener('click', this._onDrawClick);
     this.canvas.removeEventListener('dblclick', this._onDBClick);
@@ -175,10 +172,14 @@ export class Line extends Tool {
   };
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
-    super._resetLoop();
+    super._resetLoop(isDisgraceful);
+
+    this.objCreated = new THREE.Object3D();
+    //TRACK, TAG, SNAP
     this.trackObj.remove();
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();
+
     this.lineSegments = 1;
   };
 }

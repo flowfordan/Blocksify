@@ -63,9 +63,20 @@ export class Polygon extends Tool {
 
       // this.scene.add(this.trackObj.polygon.form!);
 
+      const pt1N = V2ArrToNumArr(
+        [pt1],
+        this.currentPlane!.constant //WORLD PLANE LEVEL
+      );
+      const pt2N = V2ArrToNumArr(
+        [pt2],
+        this.currentPlane!.constant //WORLD PLANE LEVEL
+      );
+      const coordsCurrent: Array<number> = Object.values(this.currentPointerCoord);
+      const track = [...pt1N, ...coordsCurrent, ...pt2N];
+
       //TRACK
-      // this.trackObj.updCoords(current2ptLineCoords);
-      // this.trackObj.add();
+      this.trackObj.updCoords(track);
+      this.trackObj.add();
 
       //TAG
       const current2pt = this.objCoords.slice(-6);
@@ -153,22 +164,24 @@ export class Polygon extends Tool {
     }
   };
 
-  protected _resetLoop = () => {
-    super._resetLoop();
-
-    this.tagsManager.stopRender();
-  };
-
   stop() {
     super.stop();
     //delete began forms
     this.scene.remove(this.objCreated);
-    this.objCreated = new THREE.Object3D();
 
-    // this._resetLoop();
+    this._resetLoop();
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
     this.canvas.removeEventListener('click', this._onDrawClick);
     this.canvas.removeEventListener('dblclick', this._onDBClick);
     window.removeEventListener('keypress', this._onEnter);
   }
+
+  protected _resetLoop = () => {
+    super._resetLoop();
+
+    this.objCreated = new THREE.Object3D();
+    //TRACK, TAG, SNAP
+    this.trackObj.remove();
+    this.tagsManager.stopRender();
+  };
 }

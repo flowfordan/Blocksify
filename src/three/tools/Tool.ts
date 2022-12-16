@@ -110,7 +110,6 @@ export class Tool {
 
   //STOP METHOD
   stop() {
-    this._resetLoop(true);
     this.toolState = 0;
   }
 }
