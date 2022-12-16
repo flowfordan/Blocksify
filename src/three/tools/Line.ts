@@ -78,27 +78,29 @@ export class Line extends Tool {
   };
 
   private _onDrawClick = () => {
+    console.log(this.scene.children);
     //ON FIRST CLICK
     if (this.toolState === 1) {
-      //INIT GEOM & FORM
+      //LINE
       this.objPts.line.geom = new LineGeometry();
       this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
 
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
 
+      //POINTS
       this.objPts.points.form = pointObj(this.objCoords);
+
+      //OBJ CREATED
+      this.objCreated.add(this.objPts.points.form);
+      this.objCreated.add(this.objPts.line.form);
+      this.scene.add(this.objCreated);
 
       //layers options set
       this.objCreated.layers.set(this.layer.id);
       this.objPts.line.form.layers.set(this.layer.id);
       this.objPts.points.form.layers.set(this.layer.id);
       this.objCreated.name = this.layer.name;
-
-      //OBJ CREATED
-      this.objCreated.add(this.objPts.points.form);
-      this.objCreated.add(this.objPts.line.form);
-      this.scene.add(this.objCreated);
 
       //TRACK
       this.trackObj.init();
@@ -160,13 +162,11 @@ export class Line extends Tool {
 
   stop = () => {
     super.stop();
-
     //delete began forms
-    //TODO check for null obj - then delete if not null
     this.scene.remove(this.objCreated);
+    this.objCreated = new THREE.Object3D();
 
-    this._resetLoop(true);
-
+    // this._resetLoop(true);
     //rmv EL
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
     this.canvas.removeEventListener('click', this._onDrawClick);
@@ -175,7 +175,7 @@ export class Line extends Tool {
   };
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
-    super._resetLoop(isDisgraceful);
+    super._resetLoop();
     this.trackObj.remove();
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();

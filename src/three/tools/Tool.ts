@@ -92,9 +92,6 @@ export class Tool {
   protected _resetLoop(isDisgraceful?: boolean) {
     this.toolState = 1;
 
-    //CLEAN UP
-    this.objCreated = new THREE.Object3D();
-
     this.objPts.line.form = null;
     this.objPts.line.geom = null;
 
@@ -113,6 +110,7 @@ export class Tool {
 
   //STOP METHOD
   stop() {
+    this._resetLoop(true);
     this.toolState = 0;
   }
 }

@@ -96,10 +96,18 @@ export class Polygon extends Tool {
       this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
 
       //RENDER
-      this.scene.add(this.objPts.polygon.form);
-      this.scene.add(this.objPts.line.form);
+      //OBJ CREATED
+      this.objCreated.add(this.objPts.points.form);
+      this.objCreated.add(this.objPts.line.form);
+      this.objCreated.add(this.objPts.polygon.form);
+      this.scene.add(this.objCreated);
 
-      this.scene.add(this.objPts.points.form);
+      //layers options set
+      this.objCreated.layers.set(this.layer.id);
+      this.objPts.line.form.layers.set(this.layer.id);
+      this.objPts.points.form.layers.set(this.layer.id);
+      this.objPts.polygon.form.layers.set(this.layer.id);
+      this.objCreated.name = this.layer.name;
 
       //TRACK
       this.trackObj.init(true);
@@ -153,15 +161,11 @@ export class Polygon extends Tool {
 
   stop() {
     super.stop();
-
     //delete began forms
-    //TODO check for null obj - then delete if not null
-    this.scene.remove(this.objPts.line.form!);
-    this.scene.remove(this.objPts.points.form!);
-    this.scene.remove(this.objPts.polygon.form!);
+    this.scene.remove(this.objCreated);
+    this.objCreated = new THREE.Object3D();
 
-    this._resetLoop();
-
+    // this._resetLoop();
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
     this.canvas.removeEventListener('click', this._onDrawClick);
     this.canvas.removeEventListener('dblclick', this._onDBClick);
