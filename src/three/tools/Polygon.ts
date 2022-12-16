@@ -39,25 +39,34 @@ export class Polygon extends Tool {
     //upd guideLine
     //1, 2, currentpoint
     //show when 2 pts created
-    if (this.toolState === 2 && this.objCoords.length >= 3) {
-      const pt1 = this.objPts.polygon.geom!.getPoints()[0]; //1st pie point
-      const pt2 = this.objPts.polygon.geom!.getPoints()[this.objPts.polygon.geom!.getPoints().length - 1]; //last pie point
-
-      const pt1N = V2ArrToNumArr([pt1], this.currentPlane!.constant);
-      const pt2N = V2ArrToNumArr([pt2], this.currentPlane!.constant);
+    if (this.toolState === 2) {
       const coordsCurrent: Array<number> = Object.values(this.currentPointerCoord);
-      const trackObjCoords = [...pt1N, ...coordsCurrent, ...pt2N];
+      //while 1point
+      if (this.objCoords.length <= 6) {
+        //TRACK
+        const trackObjCoords = [...this.objCoords, ...coordsCurrent];
+        this.trackObj.updCoords(trackObjCoords);
+        this.trackObj.add();
+        //TAG
+        this.tagsManager.renderTag([new Vector3(...this.objCoords)], this.currentPointerCoord);
+      } else {
+        const pt1 = this.objPts.polygon.geom!.getPoints()[0]; //1st pie point
+        const pt2 = this.objPts.polygon.geom!.getPoints()[this.objPts.polygon.geom!.getPoints().length - 1]; //last pie point
+        const pt1N = V2ArrToNumArr([pt1], this.currentPlane!.constant);
+        const pt2N = V2ArrToNumArr([pt2], this.currentPlane!.constant);
 
-      //TRACK
-      this.trackObj.updPolygon(pt1, pt2, this.currentPointerCoord);
-      this.trackObj.updCoords(trackObjCoords);
-      this.trackObj.add(true);
+        const trackObjCoords = [...pt1N, ...coordsCurrent, ...pt2N];
 
-      //TAG
-      const current2pt = this.objCoords.slice(-6);
-      const p1 = current2pt.slice(0, 3);
-      const p2 = current2pt.slice(3);
-      this.tagsManager.renderTag([new Vector3(...p1), new Vector3(...p2)], this.currentPointerCoord);
+        //TRACK
+        this.trackObj.updPolygon(pt1, pt2, this.currentPointerCoord);
+        this.trackObj.updCoords(trackObjCoords);
+        this.trackObj.add(true);
+        //TAG
+        const current2pt = this.objCoords.slice(-6);
+        const p1 = current2pt.slice(0, 3);
+        const p2 = current2pt.slice(3);
+        this.tagsManager.renderTag([new Vector3(...p1), new Vector3(...p2)], this.currentPointerCoord);
+      }
     }
   };
 
