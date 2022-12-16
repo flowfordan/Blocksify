@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { Vector2, Vector3 } from 'three';
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 
 //TODO common type for track and actual obj
@@ -83,13 +84,31 @@ class TrackObjManager {
     this.objs.line.form.computeLineDistances();
   };
 
+  updPolygon = (pt1: Vector2, pt2: Vector2, pointerCoords: Vector3) => {
+    this.scene.remove(this.objs.polygon.form);
+    this.objs.polygon.geom = new THREE.Shape();
+    //draw triangle track obj
+    this.objs.polygon.geom.moveTo(pt1.x, pt1.y);
+    this.objs.polygon.geom.lineTo(pointerCoords.x, pointerCoords.z);
+    this.objs.polygon.geom.lineTo(pt2.x, pt2.y);
+    this.objs.polygon.form = new THREE.Mesh(new THREE.ShapeGeometry(this.objs.polygon.geom), this.objs.polygon.mat);
+    //rotate(by def created on x-z plane)
+    this.objs.polygon.form.rotateX(Math.PI / 2);
+  };
+
   //add to scene
-  add = () => {
+  add = (isPolygon = false) => {
+    if (isPolygon) {
+      this.scene.add(this.objs.polygon.form);
+    }
     this.scene.add(this.objs.line.form);
   };
 
   //remove from scene
-  remove = () => {
+  remove = (isPolygon = false) => {
+    if (isPolygon) {
+      this.scene.remove(this.objs.polygon.form);
+    }
     this.scene.remove(this.objs.line.form);
   };
 }

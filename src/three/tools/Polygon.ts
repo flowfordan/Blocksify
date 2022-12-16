@@ -39,44 +39,19 @@ export class Polygon extends Tool {
     //upd guideLine
     //1, 2, currentpoint
     //show when 2 pts created
-    if (this.toolState === 2 && this.objCoords.length >= 9) {
-      // this.scene.remove(this.trackObj.polygon.form!);
+    if (this.toolState === 2 && this.objCoords.length >= 3) {
+      const pt1 = this.objPts.polygon.geom!.getPoints()[0]; //1st pie point
+      const pt2 = this.objPts.polygon.geom!.getPoints()[this.objPts.polygon.geom!.getPoints().length - 1]; //last pie point
 
-      // this.trackObj.polygon.geom = new THREE.Shape();
-      //initial empty point
-      const pt1 = this.objPts.polygon.geom!.getPoints()[0];
-      console.log(pt1);
-      // this.trackObj.polygon.geom?.moveTo(pt1.x, pt1.y);
-      // this.trackObj.polygon.geom?.lineTo(this.currentPointerCoord.x, this.currentPointerCoord.z);
-      const pt2 = this.objPts.polygon.geom!.getPoints()[this.objPts.polygon.geom!.getPoints().length - 1];
-      // this.trackObj.polygon.geom?.lineTo(pt2.x, pt2.y);
-      console.log(pt2);
-
-      // this.trackObj.polygon.form = new THREE.Mesh(
-      //   new THREE.ShapeGeometry(this.trackObj.polygon.geom!),
-      //   this.trackObj.polygon.mat!
-      // );
-      // this.trackObj.polygon.form.name = 'guide';
-
-      //rotate(by def created on x-z plane)
-      // this.trackObj.polygon.form.rotateX(Math.PI / 2);
-
-      // this.scene.add(this.trackObj.polygon.form!);
-
-      const pt1N = V2ArrToNumArr(
-        [pt1],
-        this.currentPlane!.constant //WORLD PLANE LEVEL
-      );
-      const pt2N = V2ArrToNumArr(
-        [pt2],
-        this.currentPlane!.constant //WORLD PLANE LEVEL
-      );
+      const pt1N = V2ArrToNumArr([pt1], this.currentPlane!.constant);
+      const pt2N = V2ArrToNumArr([pt2], this.currentPlane!.constant);
       const coordsCurrent: Array<number> = Object.values(this.currentPointerCoord);
-      const track = [...pt1N, ...coordsCurrent, ...pt2N];
+      const trackObjCoords = [...pt1N, ...coordsCurrent, ...pt2N];
 
       //TRACK
-      this.trackObj.updCoords(track);
-      this.trackObj.add();
+      this.trackObj.updPolygon(pt1, pt2, this.currentPointerCoord);
+      this.trackObj.updCoords(trackObjCoords);
+      this.trackObj.add(true);
 
       //TAG
       const current2pt = this.objCoords.slice(-6);
@@ -151,6 +126,8 @@ export class Polygon extends Tool {
       this.objPts.line.form.geometry = new LineGeometry();
       this.objPts.line.form.geometry.setPositions(this.objCoords);
       this.objPts.line.form.computeLineDistances();
+
+      this.trackObj.remove(true);
     }
   };
 
@@ -181,7 +158,7 @@ export class Polygon extends Tool {
 
     this.objCreated = new THREE.Object3D();
     //TRACK, TAG, SNAP
-    this.trackObj.remove();
+    this.trackObj.remove(true);
     this.tagsManager.stopRender();
   };
 }
