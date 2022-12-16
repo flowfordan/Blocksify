@@ -91,6 +91,7 @@ export class Line extends Tool {
 
       //OBJ CREATED
       this.objCreated.add(this.objPts.points.form);
+      this.objCreated.add(this.objPts.line.form);
       this.scene.add(this.objCreated);
 
       //TRACK
@@ -111,11 +112,9 @@ export class Line extends Tool {
       //case of Polyline
       else {
         //RENDER
-        this.objCreated.remove(this.objPts.line.form);
-
-        this.objPts.line.geom = new LineGeometry();
-        this.objPts.line.geom.setPositions(this.objCoords);
-        this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
+        this.objPts.line.form.geometry = new LineGeometry();
+        this.objPts.line.form.geometry.setPositions(this.objCoords);
+        this.objPts.line.form.computeLineDistances();
       }
 
       this.trackObj.remove();
@@ -124,7 +123,6 @@ export class Line extends Tool {
       this.objPts.line.form.layers.set(this.layer.id);
       this.objPts.line.form.computeLineDistances();
       this.objCreated.layers.set(this.layer.id);
-      this.objCreated.add(this.objPts.line.form);
 
       //POINTS HANDLE
       this.objCreated.remove(this.objPts.points.form!);

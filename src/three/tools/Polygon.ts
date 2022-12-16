@@ -131,9 +131,9 @@ export class Polygon extends Tool {
 
       //upd polyline
       //TODO upd geom without cr new
-      this.objPts.line.form!.geometry = new LineGeometry();
-      this.objPts.line.form!.geometry.setPositions(this.objCoords);
-      this.objPts.line.form!.computeLineDistances();
+      this.objPts.line.form.geometry = new LineGeometry();
+      this.objPts.line.form.geometry.setPositions(this.objCoords);
+      this.objPts.line.form.computeLineDistances();
 
       // this.scene.remove(this.trackObj.polygon.form!);
     }
