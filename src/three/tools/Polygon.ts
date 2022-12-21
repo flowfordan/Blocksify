@@ -23,6 +23,8 @@ export class Polygon extends Tool {
     this.objPts.polygon.mat = this.layer.content.main.mat.polygon;
     this.objPts.line.mat = this.layer.content.main.mat.line;
 
+    //start snap manager
+    this.snapManager.start();
     //add EL
     this.canvas.addEventListener('mousemove', this._onMouseMove);
     this.canvas.addEventListener('click', this._onDrawClick);
@@ -34,7 +36,7 @@ export class Polygon extends Tool {
     const mouseLoc = getMouseLocation(e, this.rect, this.canvas, this.currentCamera!, this.currentPlane!);
 
     //upd coords
-    this.currentPointerCoord = mouseLoc;
+    this.currentPointerCoord = this.snapManager.snapToCoords(mouseLoc);
 
     //upd guideLine
     //1, 2, currentpoint
@@ -169,5 +171,6 @@ export class Polygon extends Tool {
     //TRACK, TAG, SNAP
     this.trackObj.remove(true);
     this.tagsManager.stopRender();
+    this.snapManager.resetSnap();
   };
 }
