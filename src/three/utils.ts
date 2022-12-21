@@ -22,4 +22,30 @@ function getMouseLocation(
   return _vec3;
 }
 
-export { getMouseLocation };
+function getObjByPointer(
+  scene: THREE.Scene,
+  event: MouseEvent,
+  rect: DOMRect,
+  canvas: HTMLCanvasElement,
+  camera: THREE.PerspectiveCamera | THREE.OrthographicCamera,
+  layerId: number
+): THREE.Object3D | void {
+  event.preventDefault();
+  raycaster.layers.set(layerId);
+
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+
+  _vec2.x = (x / canvas.width) * 2 - 1;
+  _vec2.y = -(y / canvas.height) * 2 + 1;
+  raycaster.setFromCamera(_vec2, camera);
+
+  const intersects = raycaster.intersectObjects(scene.children);
+  if (intersects.length > 0) {
+    const object = intersects[0].object;
+    return object;
+  }
+  return;
+}
+
+export { getMouseLocation, getObjByPointer };

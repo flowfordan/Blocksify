@@ -17,7 +17,7 @@ export class ToolsController {
       line: new Line(activeElement, scene, 0),
       pLine: new Line(activeElement, scene, 1),
       polygon: new Polygon(activeElement, scene),
-      selector: new Selector(),
+      selector: new Selector(activeElement, scene),
     };
     this.currentTool = undefined;
     this.helpersManager = new HelpersManager(scene);

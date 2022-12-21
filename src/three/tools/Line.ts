@@ -169,6 +169,9 @@ export class Line extends Tool {
     this.canvas.removeEventListener('click', this._onDrawClick);
     this.canvas.removeEventListener('dblclick', this._onDBClick);
     window.removeEventListener('keypress', this._onKey);
+
+    console.log(this.scene.children);
+    console.log(this.currentCamera);
   };
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
