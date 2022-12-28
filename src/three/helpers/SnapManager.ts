@@ -106,6 +106,8 @@ class SnapManager {
 
       const adjustVal = (coord: number, precision: number): number => {
         let newCoord = 0;
+        //case when size<1
+        //TODO not 2 but value of 1/size
         if (precision < 1) {
           newCoord = Math.round(coord * 2) / 2;
         } else {
@@ -136,14 +138,17 @@ class SnapManager {
 
       const distToPointer = fixedCoords.distanceTo(pointerCoords);
 
+      //how much chunks(n) of given SIZE could fit in distance
       const snapsAmount = Math.round(distToPointer / snapValue);
+      //new distance considering only chunks of given size
       const snapDistance = snapsAmount * snapValue;
 
       newCoords = new THREE.Vector3();
       newCoords
+        //create vector same direction from 0;0
         .subVectors(pointerCoords, fixedCoords) //
-        .setLength(snapDistance)
-        .add(fixedCoords);
+        .setLength(snapDistance) //move end coord according tp length
+        .add(fixedCoords); //move vector to fixed from 0;0
 
       console.log('step END', newCoords);
 

@@ -70,12 +70,26 @@ export class Selector {
   };
 
   private _onClick = () => {
-    //set object to current Selected object
-    //highlight this object
-    //if intersected
-    //set selected
-    //if no intersected
-    //cleanup selected
+    this.scene.remove(this.selectedObj!);
+    //remove selected obj
+    if (this.intersectedObj) {
+      //set selected obj
+      //TODO add visual points of selected obj
+      console.log('Intersected:', this.intersectedObj);
+      this.selectedObj = this.intersectedObj.clone();
+      if (this.selectedObj instanceof Line2) {
+        this.selectedObj.renderOrder = -1;
+        this.selectedObj.layers.set(0);
+        this.selectedObj.material = new LineMaterial({
+          color: 0xfd5656,
+          linewidth: 10,
+          resolution: new THREE.Vector2(1920, 1080),
+          dashed: false,
+          opacity: 1,
+        });
+        this.scene.add(this.selectedObj);
+      }
+    }
   };
 
   private _highlightIntersected = () => {};
@@ -83,10 +97,15 @@ export class Selector {
   private _highlightSelected = () => {};
 
   //handle delete button
+  //if selected
+  //remove from scene
+  //dispose?
   //layer state check is layer empty
 
   stop = () => {
     console.log('SELECTOR END');
+    this.scene.remove(this.intersectedObj!);
+    this.scene.remove(this.selectedObj!);
     //null selected
     //remove event listeners
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
