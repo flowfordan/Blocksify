@@ -3,6 +3,7 @@ import * as THREE from 'three';
 
 import { Layer, layersState } from '../../state';
 import { getObjByPointer } from '../utils';
+import { Object3D } from 'three';
 
 export class Selector {
   rect: DOMRect;
@@ -12,6 +13,11 @@ export class Selector {
   currentLayer: Layer;
   selectedObj: THREE.Object3D | null;
   intersectedObj: THREE.Object3D | null;
+  renderedObjs: {
+    selectedObj: THREE.Object3D | null;
+    selectedPoints: THREE.Points | null;
+    intersectedObj: THREE.Object3D | null;
+  };
   cursor: 'pointer';
   toolState: number;
   constructor(canvas: HTMLCanvasElement, scene: THREE.Scene) {
@@ -24,6 +30,11 @@ export class Selector {
 
     this.selectedObj = null;
     this.intersectedObj = null;
+    this.renderedObjs = {
+      selectedObj: null,
+      selectedPoints: null,
+      intersectedObj: null,
+    };
     this.cursor = 'pointer';
     this.toolState = 0;
   }
@@ -43,51 +54,67 @@ export class Selector {
 
   private _onMouseMove = (e: MouseEvent) => {
     const obj = getObjByPointer(this.scene, e, this.rect, this.canvas, this.currentCamera, this.currentLayer.id);
-    this.scene.remove(this.intersectedObj!);
+    this.scene.remove(this.renderedObjs.intersectedObj!);
     this.intersectedObj = null;
     if (obj) {
-      // console.log(obj);
-      this.intersectedObj = obj.clone();
-      console.log('dsdsd', this.intersectedObj);
-      if (this.intersectedObj instanceof Line2) {
-        this.intersectedObj.renderOrder = -1;
-        this.intersectedObj.layers.set(0);
-        this.intersectedObj.material = new LineMaterial({
-          color: 0x81c9fc,
-          linewidth: 10,
-          resolution: new THREE.Vector2(1920, 1080),
-          dashed: false,
-          opacity: 1,
-        });
-        this.scene.add(this.intersectedObj);
+      const parent = obj.parent;
+      if (parent instanceof Object3D) {
+        this.intersectedObj = parent;
+
+        const lineToRender = parent.children.find((i) => i instanceof Line2);
+        this.renderedObjs.intersectedObj = lineToRender ? lineToRender.clone() : null;
+        if (this.renderedObjs.intersectedObj && this.renderedObjs.intersectedObj instanceof Line2) {
+          this.renderedObjs.intersectedObj.renderOrder = -1;
+          this.renderedObjs.intersectedObj.layers.set(0);
+          this.renderedObjs.intersectedObj.material = new LineMaterial({
+            color: 0x81c9fc,
+            linewidth: 10,
+            resolution: new THREE.Vector2(1920, 1080),
+            dashed: false,
+            opacity: 1,
+          });
+          this.scene.add(this.renderedObjs.intersectedObj);
+        }
       }
     } else {
-      this.scene.remove(this.intersectedObj!);
+      this.scene.remove(this.renderedObjs.intersectedObj!);
       this.intersectedObj = null;
     }
-    //intersect with objects of selected layer
-    //highlight (type 1) intersected objects
   };
 
   private _onClick = () => {
-    this.scene.remove(this.selectedObj!);
+    this.scene.remove(this.renderedObjs.selectedObj!);
+    this.scene.remove(this.renderedObjs.selectedPoints!);
+    this.selectedObj = null;
     //remove selected obj
-    if (this.intersectedObj) {
+    if (this.intersectedObj && this.renderedObjs.intersectedObj) {
       //set selected obj
-      //TODO add visual points of selected obj
-      console.log('Intersected:', this.intersectedObj);
-      this.selectedObj = this.intersectedObj.clone();
-      if (this.selectedObj instanceof Line2) {
-        this.selectedObj.renderOrder = -1;
-        this.selectedObj.layers.set(0);
-        this.selectedObj.material = new LineMaterial({
+      this.selectedObj = this.intersectedObj;
+      //line to render
+      this.renderedObjs.selectedObj = this.renderedObjs.intersectedObj.clone();
+      if (this.renderedObjs.selectedObj instanceof Line2) {
+        this.renderedObjs.selectedObj.renderOrder = 1;
+        this.renderedObjs.selectedObj.layers.set(0);
+        this.renderedObjs.selectedObj.material = new LineMaterial({
           color: 0xfd5656,
           linewidth: 10,
           resolution: new THREE.Vector2(1920, 1080),
           dashed: false,
           opacity: 1,
         });
-        this.scene.add(this.selectedObj);
+        this.scene.add(this.renderedObjs.selectedObj);
+      }
+      //points to render
+      const pointsToRender = this.selectedObj.children.find((i) => i instanceof THREE.Points);
+      if (pointsToRender && pointsToRender instanceof THREE.Points) {
+        this.renderedObjs.selectedPoints = pointsToRender.clone();
+        this.renderedObjs.selectedPoints.renderOrder = 2;
+        this.renderedObjs.selectedPoints.material = new THREE.PointsMaterial({
+          color: 0xffffff,
+          size: 9,
+          sizeAttenuation: false,
+        });
+        this.scene.add(this.renderedObjs.selectedPoints);
       }
     }
   };
@@ -104,8 +131,11 @@ export class Selector {
 
   stop = () => {
     console.log('SELECTOR END');
-    this.scene.remove(this.intersectedObj!);
-    this.scene.remove(this.selectedObj!);
+    this.scene.remove(this.renderedObjs.selectedObj!);
+    this.scene.remove(this.renderedObjs.selectedPoints!);
+    this.scene.remove(this.renderedObjs.intersectedObj!);
+    this.selectedObj = null;
+    this.intersectedObj = null;
     //null selected
     //remove event listeners
     this.canvas.removeEventListener('mousemove', this._onMouseMove);

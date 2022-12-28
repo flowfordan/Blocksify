@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { worldPlaneHelper, worldPlaneMesh } from '../geometry/worldPlane';
-import { cube } from '../geometry/geometry';
+import { cube, myLine } from '../geometry/geometry';
 import { dirLight, dirLightHelper, hemiLight } from '../lights';
 
 export class SceneController {
@@ -11,7 +11,7 @@ export class SceneController {
     this.scene.background = new THREE.Color(0xb3deff);
 
     //some initial 3dobjects
-    this.scene.add(cube, worldPlaneMesh, worldPlaneHelper);
+    this.scene.add(cube, myLine, worldPlaneMesh, worldPlaneHelper);
     cube.material.color.setHex(0x686868);
 
     //lights

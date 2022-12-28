@@ -123,6 +123,9 @@ export class Line extends Tool {
       }
       //line dist
       this.objPts.line.form.computeLineDistances();
+      //test
+      this.objPts.line.form.updateMatrixWorld(true);
+      this.objCreated.updateMatrixWorld(true);
       //POINTS UPD
       const position = Float32Array.from(this.objCoords);
       this.objPts.points.form!.geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));

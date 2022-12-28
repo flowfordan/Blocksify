@@ -12,6 +12,7 @@ const cube = new THREE.Mesh(geometry, material);
 //cube.receiveShadow = true;
 cube.castShadow = true;
 cube.position.set(0, 5, 20);
+cube.name = 'test_cube';
 
 // wireframe
 const geo = new THREE.EdgesGeometry(cube.geometry); // or WireframeGeometry
@@ -39,6 +40,7 @@ const matLine = new LineMaterial({
 });
 
 const myLine = new Line2(geomLine, matLine);
+myLine.name = 'test_line';
 
 const myLine2 = new Line2(geomLine2, matLine);
 
