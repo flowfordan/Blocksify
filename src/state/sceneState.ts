@@ -1,25 +1,23 @@
-import { makeAutoObservable, toJS } from "mobx";
+import { makeAutoObservable, toJS } from 'mobx';
 import { Vector3 } from 'three';
 
 type Coords = {
-    x: number,
-    y: number,
-    z: number
-}
-class SceneState{
-
+  x: number;
+  y: number;
+  z: number;
+};
+class SceneState {
   isFetchingGlobalCoords: boolean;
   globalCoords: Coords;
   currentCamera: number;
   baseDirection: Vector3;
 
-  constructor(){
-
+  constructor() {
     this.isFetchingGlobalCoords = true;
     this.globalCoords = {
-      x: 0.00,
-      y: 0.00,
-      z: 0.00
+      x: 0.0,
+      y: 0.0,
+      z: 0.0,
     };
     this.currentCamera = 1;
 
@@ -34,7 +32,7 @@ class SceneState{
 
   toggleCoordsFetching = (status: boolean) => {
     this.isFetchingGlobalCoords = status;
-    if (!status){
+    if (!status) {
       this.globalCoords.x = 0;
       this.globalCoords.y = 0;
       this.globalCoords.z = 0;

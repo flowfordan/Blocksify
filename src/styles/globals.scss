@@ -3,7 +3,6 @@ body {
   margin: 0;
   padding: 0;
   color: var(--black);
-  /* background: var(--grey-lightest); */
 
   font-family: 'Inter', sans-serif;
 }
@@ -90,7 +89,7 @@ button,
   --black-dark: #202020;
 
   /* greys */
-  --grey-lightest:#F5F5F5;
+  --grey-superlight:#F5F5F5;
   --grey-light:#E9E9E9;
   --grey-main:#C3C3C3;
   --grey-dark:#686868;
@@ -103,6 +102,7 @@ button,
   --primary: #3ec8ff;
   --primary-overlay: rgba(62, 176, 255, 0.5);
   --primary-overlay-light: rgba(62, 176, 255, 0.2);
+  --primary-overlay-superlight: rgba(62, 176, 255, 0.1);
   --primary-hover: #167cdb;
   
   --red: #FC836D;

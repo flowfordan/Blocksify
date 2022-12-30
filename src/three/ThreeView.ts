@@ -1,18 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
-
 import Stats from 'three/examples/jsm/libs/stats.module';
+import { autorun, reaction, toJS } from 'mobx';
+
 import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './geometry/worldPlane';
-
 import { getMouseLocation } from './utils';
-
-import { autorun, reaction, toJS } from "mobx";
 import { Layer, layersState, sceneState, toolsState } from '../state';
-
 import { LabelRendererController } from './controllers/LabelRenderer.controller';
 import { SceneController } from './controllers/Scene.controller';
 import { RendererController } from './controllers/Renderer.controller';
 import { CameraController } from './controllers/Camera.controller';
 import { ToolsController } from './controllers/Tools.controller';
+import { LayersController } from './controllers/Layers.controller';
 
 export class ThreeView {
   labelRendererController: LabelRendererController;
@@ -20,11 +19,11 @@ export class ThreeView {
   rendererController: RendererController;
   cameraController: CameraController;
   toolsController: ToolsController;
+  layersController: LayersController;
 
   groundPlane: THREE.Plane;
+  //TODO remove any
   stats: any;
-
-  currentLayer: Layer|null;
 
   constructor(canvasRef: HTMLCanvasElement) {
     this.sceneController = new SceneController();
@@ -32,9 +31,9 @@ export class ThreeView {
     this.rendererController = new RendererController(canvasRef);
     this.cameraController = new CameraController(this.rendererController.activeElement);
     this.toolsController = new ToolsController(this.sceneController.scene, this.rendererController.activeElement);
+    this.layersController = new LayersController();
 
     this.groundPlane = worldPlane;
-    this.currentLayer = layersState.layers.find(l => l.active)!;
 
     //STATS
     this.stats = Stats();
@@ -52,14 +51,39 @@ export class ThreeView {
     });
 
     autorun(() => {
-      this.toolsController.setActiveTool(this.currentLayer, this.groundPlane, this.cameraController.camera);
+      this.toolsController.setActiveTool(layersState.currentLayer, this.groundPlane, this.cameraController.camera);
     });
 
     reaction(
-      () => layersState.layers.find(l => l.active),
+      () => layersState.layers.find((l) => l.active),
       (value, previousValue, reaction) => {
-        if (value?.id !== previousValue?.id){
-          this.setLayer();
+        if (value?.id !== previousValue?.id) {
+          if (!value) {
+            throw new Error('Layer not found');
+          }
+          layersState.setCurrentLayer(value);
+          this.toolsController.setActiveTool(value, this.groundPlane, this.cameraController.camera);
+        }
+      }
+    );
+
+    //layer visibility
+    reaction(
+      () => {
+        const visibles: Array<boolean> = [];
+        const layers = layersState.layers;
+        for (const layer of layers) {
+          visibles.push(layer.visible);
+        }
+        return visibles;
+      },
+      (value, prevValue, reaction) => {
+        for (let i = 0; i < value.length; i++) {
+          if (value[i] !== prevValue[i]) {
+            const layer = layersState.layers[i];
+            this.cameraController.toggleLayerVisibility(layer.id);
+            break;
+          }
         }
       }
     );
@@ -74,35 +98,31 @@ export class ThreeView {
     });
   };
 
-  setLayer = () => {
-    const current = layersState.layers.find(l => l.active);
-    if (current){
-      this.currentLayer = current;
-      this.toolsController.setActiveTool(this.currentLayer, this.groundPlane, this.cameraController.camera);
-    }
-  };
-
   //to show coords on ground under mouse
   updGlobalCoords = () => {
-    if (sceneState.isFetchingGlobalCoords){
-      this.rendererController.activeElement.addEventListener( 'pointermove', this.onUpdMouseLoc );
+    if (sceneState.isFetchingGlobalCoords) {
+      this.rendererController.activeElement.addEventListener('pointermove', this.onUpdMouseLoc);
     } else {
-      this.rendererController.activeElement.removeEventListener( 'pointermove', this.onUpdMouseLoc );
+      this.rendererController.activeElement.removeEventListener('pointermove', this.onUpdMouseLoc);
     }
   };
 
   //get mouse coords on "ground" plane
   onUpdMouseLoc = (event: MouseEvent) => {
     const mouseLoc = getMouseLocation(
-      event, this.rendererController.rect, this.rendererController.activeElement,
-      this.cameraController.camera, this.groundPlane);
+      event,
+      this.rendererController.rect,
+      this.rendererController.activeElement,
+      this.cameraController.camera,
+      this.groundPlane
+    );
 
     //send mouseloc to State
     //TODO:not send new obj every time
     sceneState.setGlobalCoords({
       x: mouseLoc.x,
       y: mouseLoc.y,
-      z: mouseLoc.z
+      z: mouseLoc.z,
     });
   };
 
@@ -113,7 +133,7 @@ export class ThreeView {
     //upd camera ratio depending on cam Type
     this.cameraController.updOnResize(aspect, viewSize);
 
-    this.labelRendererController.renderer.setSize( vpW, vpH );
+    this.labelRendererController.renderer.setSize(vpW, vpH);
   }
 
   // ******************* RENDER LOOP ******************* //

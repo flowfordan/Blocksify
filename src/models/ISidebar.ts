@@ -1,3 +1,3 @@
 export interface ISidebar {
-    count: number;
+  count: number;
 }

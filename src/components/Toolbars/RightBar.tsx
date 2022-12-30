@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react';
-import { observer } from "mobx-react-lite";
+import { observer } from 'mobx-react-lite';
 
 import './rightBar.scss';
+import { PanelDivision } from '../basic/PanelDivision/PanelDivision';
 
-
-
-export const RightBar = observer((props:any): JSX.Element => {
-
+export const RightBar = observer((): JSX.Element => {
   return (
     <div className={'rightBar'}>
-      <div>
-        <div>Analyse</div>
-      </div>
+      <PanelDivision header={'Analysis'}>{'There will be analysis instruments'}</PanelDivision>
     </div>
   );
 });

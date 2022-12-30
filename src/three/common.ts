@@ -10,5 +10,4 @@ const raycaster = new THREE.Raycaster();
 raycaster.params.Line!.threshold = 1;
 raycaster.params.Points!.threshold = 1;
 
-
 export { _vec2, _vec3, raycaster };

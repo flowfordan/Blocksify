@@ -6,8 +6,6 @@ import './division.scss';
 import { toolsState } from '../../../state';
 
 const Division = ({ children, header, ...props }: DivisionProps): JSX.Element => {
-
-
   return (
     <div className={'division'}>
       <div className={'division__header'}>{header}</div>
@@ -17,4 +15,3 @@ const Division = ({ children, header, ...props }: DivisionProps): JSX.Element =>
 };
 
 export { Division };
-

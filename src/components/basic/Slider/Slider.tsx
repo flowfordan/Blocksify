@@ -13,8 +13,11 @@ const Slider = ({ minVal, maxVal, stepVal, val, uiItemId, ...props }: SliderProp
   };
 
   return (
-    <input className={'slider'} type="range"
-      min={minVal} max={maxVal}
+    <input
+      className={'slider'}
+      type="range"
+      min={minVal}
+      max={maxVal}
       step={stepVal}
       value={val}
       onChange={(e) => handleValueChange(e, uiItemId)}
@@ -23,4 +26,3 @@ const Slider = ({ minVal, maxVal, stepVal, val, uiItemId, ...props }: SliderProp
 };
 
 export { Slider };
-

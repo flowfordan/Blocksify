@@ -15,8 +15,11 @@ import EyeIcon from '../../assets/icons/eye.svg';
 import EyeClosedIcon from '../../assets/icons/eye_closed.svg';
 import LockIcon from '../../assets/icons/lock.svg';
 
+import LogoIcon from '../../assets/icons/logo.svg';
+
 //
 enum Assets {
+  logo = 'logo',
   polygon = 'polygon',
   line = 'line',
   pLine = 'pLine',
@@ -31,16 +34,17 @@ enum Assets {
   cameraPerspective = 'cameraPerspective',
   //
   viewAll = 'viewAll',
-  viewCenter = 'viewCenter'
+  viewCenter = 'viewCenter',
 }
 
 export type AssetKey = `${Assets}`;
 
 type AssetsData = {
-  [key in AssetKey]: React.FunctionComponent<React.SVGAttributes<SVGAElement>>
-}
+  [key in AssetKey]: React.FunctionComponent<React.SVGAttributes<SVGAElement>>;
+};
 
 const assetsData: AssetsData = {
+  logo: LogoIcon,
   polygon: PolygonIcon,
   pLine: PolylineIcon,
   line: LineIcon,
@@ -55,7 +59,7 @@ const assetsData: AssetsData = {
   cameraPerspective: CameraPerspectiveIcon,
   //
   viewAll: ViewAllIcon,
-  viewCenter: ViewCenterIcon
+  viewCenter: ViewCenterIcon,
 };
 
 export { assetsData };
