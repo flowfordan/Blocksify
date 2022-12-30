@@ -48,7 +48,7 @@ export class Selector {
     //add event listeners
     this.canvas.addEventListener('mousemove', this._onMouseMove);
     this.canvas.addEventListener('click', this._onClick);
-    //'del' window
+    window.addEventListener('keydown', this._onKey);
     this.toolState = 1;
   };
 
@@ -119,6 +119,17 @@ export class Selector {
     }
   };
 
+  private _onKey = (event: KeyboardEvent) => {
+    if (event.key === 'Delete' || event.key === 'Backspace') {
+      if (this.selectedObj) {
+        this.scene.remove(this.selectedObj);
+        this.scene.remove(this.renderedObjs.selectedObj!);
+        this.scene.remove(this.renderedObjs.selectedPoints!);
+        this.selectedObj = null;
+      }
+    }
+  };
+
   private _highlightIntersected = () => {};
 
   private _highlightSelected = () => {};
@@ -140,6 +151,6 @@ export class Selector {
     //remove event listeners
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
     this.canvas.removeEventListener('click', this._onClick);
-    // window.removeEventListener('keypress', this._onKey);
+    window.removeEventListener('keydown', this._onKey);
   };
 }
