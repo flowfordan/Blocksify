@@ -172,10 +172,16 @@ class SnapManager {
         return;
       }
 
-      const basedV3 = fixedCoords.clone().add(pointerCoords.clone().multiplyScalar(-1));
+      //const basedV3 = fixedCoords.clone().add(pointerCoords.clone().multiplyScalar(-1));
+      const basedV3 = pointerCoords.clone().sub(fixedCoords.clone());
 
       const currentAngleRad = this.baseVector.angleTo(basedV3);
       const currentAngleDeg = currentAngleRad * (180 / Math.PI);
+      //
+      // const currentAngleRad_2 = this.baseVector.angleTo(basedV3_2);
+      // const currentAngleDeg_2 = currentAngleRad_2 * (180 / Math.PI);
+      // console.log(`First, RAD: ${currentAngleRad}, DEG: ${currentAngleDeg}`);
+      // console.log(`Second, RAD: ${currentAngleRad_2}, DEG: ${currentAngleDeg_2}`);
 
       const isYDirectionPositive = pointerCoords.z > fixedCoords.z;
 
@@ -184,16 +190,18 @@ class SnapManager {
       };
 
       let closestV3 = new Vector3();
-      let threshold = 360;
+      let angleThreshold = 360;
 
       for (const [key, value] of Object.entries(closestV3collection)) {
         //choosing closest snapped option angle from collection
         //getting absolute value - delta
         //TODO rename stuff
-        const newThreshold = Math.abs(currentAngleDeg - parseInt(key));
+        const newAngleThreshold = Math.abs(currentAngleDeg - parseInt(key));
 
-        if (newThreshold < threshold) {
-          threshold = newThreshold;
+        //finding smallest angle threshold
+        //use angle-key to get snapping values
+        if (newAngleThreshold < angleThreshold) {
+          angleThreshold = newAngleThreshold;
           //check 'side' from main NJS Vector
           //assign V3 from snapped angle
           //TODO remove V3 array & change just z for -1 * z

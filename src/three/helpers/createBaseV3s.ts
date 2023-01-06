@@ -38,7 +38,7 @@ const createBaseV3s = (snapAngles: Array<number>): AnglePts => {
   for (const angle of anglesSteps) {
     const angleRad = angle * (Math.PI / 180);
 
-    const V3x = parseFloat((-1 * baseRadius * Math.cos(angleRad)).toFixed(9));
+    const V3x = parseFloat((baseRadius * Math.cos(angleRad)).toFixed(9));
     const V3z = parseFloat((baseRadius * Math.sin(angleRad)).toFixed(9)); //y in model
 
     //positive and negative V3s around z (around y in model)
