@@ -4,7 +4,8 @@ import { Vector3 } from 'three';
 import { helpersDefPreset } from './presets/helpersPreset';
 
 //Drawing Tool
-//Selection Tool
+//Selector Tool
+//Cleaner Tool
 
 export enum ToolName {
   Line = 'line',
@@ -71,6 +72,7 @@ class ToolsState {
   //stage
   //0, 1, 2, 3
 
+  //tool in use
   tools: Array<ITool>;
   selectionTool: ISelectionTool;
 
