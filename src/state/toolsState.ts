@@ -3,29 +3,38 @@ import { makeAutoObservable, toJS } from 'mobx';
 import { Vector3 } from 'three';
 import { helpersDefPreset } from './presets/helpersPreset';
 
-//Drawing Tool
+//Drawing Tools: Line, Polyline, Polygon
 //Selector Tool
 //Cleaner Tool
+//PropsEditor Tool
+//Generator Tool
+//Inspector Tool
+//Camera Tool
 
 export enum ToolName {
   Line = 'line',
   PLine = 'pLine',
   Polygon = 'polygon',
   Selector = 'selector',
+  PropsEditor = 'propsEditor',
+  Inspector = 'inspector',
+  Cleaner = 'cleaner',
+  Generator = 'generator',
+  Cinematographer = 'cinematographer',
 }
 
 interface ITool {
   id: number;
   name: ToolName;
   active: boolean;
-  type: 'draw' | 'select';
+  type: 'draw' | 'select' | 'propEdit' | 'visualize' | 'remove' | 'camera' | 'generate' | 'other';
 }
 
-interface ISelectionTool {
-  id: number;
-  name: 'selection';
-  active: boolean;
-}
+// interface ISelectionTool {
+//   id: number;
+//   name: 'selection';
+//   active: boolean;
+// }
 
 type HelperType = 'snap' | 'grid';
 
@@ -65,16 +74,10 @@ type HelpersActivity = {
 };
 
 class ToolsState {
-  //currentTool
-  //name
-  //id
-  //type
-  //stage
-  //0, 1, 2, 3
-
-  //tool in use
   tools: Array<ITool>;
-  selectionTool: ISelectionTool;
+  utilities: Array<ITool>;
+  currentTool: ITool | null;
+  // selectionTool: ISelectionTool;
 
   anglesSnapV3s: AnglePts;
 
@@ -88,9 +91,18 @@ class ToolsState {
       { id: 1, name: ToolName.PLine, active: false, type: 'draw' },
       { id: 2, name: ToolName.Polygon, active: false, type: 'draw' },
       { id: 3, name: ToolName.Selector, active: false, type: 'select' },
+      { id: 4, name: ToolName.Cleaner, active: false, type: 'other' },
+      { id: 5, name: ToolName.Generator, active: false, type: 'other' },
+      { id: 6, name: ToolName.PropsEditor, active: false, type: 'other' },
+    ];
+    this.currentTool = null;
+
+    this.utilities = [
+      { id: 0, name: ToolName.Inspector, active: false, type: 'other' },
+      { id: 1, name: ToolName.Cinematographer, active: false, type: 'other' },
     ];
 
-    this.selectionTool = { id: 0, name: 'selection', active: false };
+    // this.selectionTool = { id: 0, name: 'selection', active: false };
 
     /* HELPERS */
     this.helpersOptions = helpersDefPreset as HelperOptions;
@@ -105,14 +117,21 @@ class ToolsState {
 
   //activating defined Tool and deact other Tools
   setActiveTool = (id: number) => {
+    let isAnyActive = false;
     //find current active, deactivate
     this.tools.forEach((item, idx, arr) => {
       if (item.active) {
         arr[idx].active = false;
       } else if (!item.active && item.id === id) {
         arr[idx].active = true;
+        isAnyActive = true;
+        this.currentTool = arr[idx];
       }
     });
+    //case when no tool is active
+    if (!isAnyActive) {
+      this.currentTool = null;
+    }
   };
 
   //toggle activity of Helper

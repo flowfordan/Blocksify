@@ -86,6 +86,13 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
         <div className={'topBar__main--part'}>
           <BtnBar iconKey="viewAll" isActive={false} />
           <BtnBar iconKey="viewCenter" isActive={false} />
+          <BtnBar
+            iconKey="viewAll"
+            isActive={activeTool?.id === 4}
+            title={'Clear Scene'}
+            onClick={() => handleToolChange(4)}
+            //disable case
+          />
         </div>
       </div>
 
