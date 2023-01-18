@@ -1,4 +1,4 @@
-import { Layer, ToolName, toolsState } from '../../state';
+import { Layer, ToolName, instrumentsState } from '../../state';
 import { HelpersManager } from '../helpers/HelpersManager';
 import { Line } from '../tools/Line';
 import { Polygon } from '../tools/Polygon';
@@ -29,8 +29,8 @@ export class ToolsController {
     groundPlane: THREE.Plane,
     camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
   ) => {
-    const activeToolId = toolsState.tools.find((i) => i.active)
-      ? toolsState.tools.find((i) => i.active)!.id
+    const activeToolId = instrumentsState.tools.find((i) => i.active)
+      ? instrumentsState.tools.find((i) => i.active)!.id
       : undefined;
 
     const prevToolId = this.currentTool;
@@ -40,13 +40,13 @@ export class ToolsController {
     //if there was tool in use - stop it
     if (typeof prevToolId === 'number') {
       console.log('error');
-      prevToolName = toolsState.tools.find((i) => i.id === prevToolId)!.name;
+      prevToolName = instrumentsState.tools.find((i) => i.id === prevToolId)!.name;
       this.tools[prevToolName].stop();
     }
 
     //activate new tool
     if (typeof activeToolId === 'number') {
-      const toolName = toolsState.tools.find((i) => i.active)!.name;
+      const toolName = instrumentsState.tools.find((i) => i.active)!.name;
 
       this.tools[toolName].start(camera, groundPlane, currentLayer);
       this.currentTool = activeToolId;
@@ -65,17 +65,17 @@ export class ToolsController {
 
   onExit = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
-      const activeToolId = toolsState.tools.find((i) => i.active)
-        ? toolsState.tools.find((i) => i.active)!.id
+      const activeToolId = instrumentsState.tools.find((i) => i.active)
+        ? instrumentsState.tools.find((i) => i.active)!.id
         : undefined;
 
       if (typeof activeToolId === 'number') {
-        const toolName = toolsState.tools.find((i) => i.active)!.name;
+        const toolName = instrumentsState.tools.find((i) => i.active)!.name;
         this.tools[toolName].stop();
         this.tools[toolName].toolState = 0;
         this.currentTool = undefined;
 
-        toolsState.setActiveTool(activeToolId);
+        instrumentsState.setActiveTool(activeToolId);
 
         window.removeEventListener('keydown', this.onExit);
       }

@@ -1,4 +1,4 @@
 export * from './sceneState';
-export * from './toolsState';
+export * from './instrumentsState';
 export * from './layersState';
 export * from './uiState';

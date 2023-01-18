@@ -2,7 +2,7 @@ import React from 'react';
 import { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { toolsState } from '../../../state';
+import { instrumentsState } from '../../../state';
 import { ListItemCheck } from '../ListItemCheck/ListItemCheck';
 
 import { Card } from '../../basic/Card/Card';
@@ -14,21 +14,21 @@ interface HelpersMenuProps {
 }
 
 const ToolsMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
-  const helperOptions = toolsState.helpersOptions;
+  const helperOptions = instrumentsState.helpersOptions;
 
-  const tools = toolsState.tools;
+  const tools = instrumentsState.tools;
 
   const handleActiveToggle = (helperID: number) => {
-    toolsState.toggleHelperActive(helperID);
+    instrumentsState.toggleHelperActive(helperID);
   };
 
   const handleCollectionChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number, value: number) => {
     const isIncluded = e.target.checked;
-    toolsState.setValuesCollection(itemId, value, isIncluded);
+    instrumentsState.setValuesCollection(itemId, value, isIncluded);
   };
 
   const handleToolChange = (id: number) => {
-    toolsState.setActiveTool(id);
+    instrumentsState.setActiveTool(id);
   };
 
   return (

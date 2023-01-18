@@ -2,7 +2,7 @@
 import { LineMaterial, Line2, LineGeometry } from 'three-fatline';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
-import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, toolsState } from '../../state';
+import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, instrumentsState } from '../../state';
 import { getLineMat, pointObj } from '../objs3d';
 import { createBaseV3s } from './createBaseV3s';
 
@@ -37,7 +37,7 @@ class SnapManager {
 
   constructor(scene: THREE.Scene) {
     this.scene = scene;
-    this.options = toolsState.helpersOptions;
+    this.options = instrumentsState.helpersOptions;
     this.currentSnapping = null;
 
     this.snapOptions = this._loadInitSnapOptions();
@@ -166,7 +166,7 @@ class SnapManager {
     if (fixedCoords) {
       //SAFETY check if angles are not chosen
       //but snapping is active
-      const closestV3collection: V3Collection = toolsState.anglesSnapV3s;
+      const closestV3collection: V3Collection = instrumentsState.anglesSnapV3s;
       if (Object.keys(closestV3collection).length === 0) {
         console.log('Angles for snapping werent chosen, angle snap is off');
         return;

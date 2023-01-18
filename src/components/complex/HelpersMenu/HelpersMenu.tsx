@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import './helpersMenu.scss';
 
-import { toolsState } from '../../../state';
+import { instrumentsState } from '../../../state';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Slider } from '../../basic/Slider/Slider';
@@ -16,15 +16,15 @@ interface HelpersMenuProps {
 }
 
 const HelpersMenu: FunctionComponent<HelpersMenuProps> = observer(() => {
-  const helperOptions = toolsState.helpersOptions;
+  const helperOptions = instrumentsState.helpersOptions;
 
   const handleActiveToggle = (helperID: number) => {
-    toolsState.toggleHelperActive(helperID);
+    instrumentsState.toggleHelperActive(helperID);
   };
 
   const handleCollectionChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number, value: number) => {
     const isIncluded = e.target.checked;
-    toolsState.setValuesCollection(itemId, value, isIncluded);
+    instrumentsState.setValuesCollection(itemId, value, isIncluded);
   };
 
   const buildItems = (type: string) => {

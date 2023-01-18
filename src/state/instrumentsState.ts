@@ -30,12 +30,6 @@ interface ITool {
   type: 'draw' | 'select' | 'propEdit' | 'visualize' | 'remove' | 'camera' | 'generate' | 'other';
 }
 
-// interface ISelectionTool {
-//   id: number;
-//   name: 'selection';
-//   active: boolean;
-// }
-
 type HelperType = 'snap' | 'grid';
 
 type SnapType = 'step' | 'grid' | 'angle';
@@ -73,11 +67,11 @@ type HelpersActivity = {
   [id: number]: boolean;
 };
 
-class ToolsState {
+class InstrumentsState {
   tools: Array<ITool>;
   utilities: Array<ITool>;
   currentTool: ITool | null;
-  // selectionTool: ISelectionTool;
+  currentUtilities: Array<ITool> | null;
 
   anglesSnapV3s: AnglePts;
 
@@ -101,8 +95,7 @@ class ToolsState {
       { id: 0, name: ToolName.Inspector, active: false, type: 'other' },
       { id: 1, name: ToolName.Cinematographer, active: false, type: 'other' },
     ];
-
-    // this.selectionTool = { id: 0, name: 'selection', active: false };
+    this.currentUtilities = null;
 
     /* HELPERS */
     this.helpersOptions = helpersDefPreset as HelperOptions;
@@ -195,7 +188,7 @@ class ToolsState {
   };
 }
 
-const toolsState = new ToolsState();
+const instrumentsState = new InstrumentsState();
 
-export { toolsState };
+export { instrumentsState };
 export type { HelperOptions, SnapOptions, SnapType, SnapStatus, HelperOption };

@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 
-import { sceneState, toolsState, uiState } from '../../state';
+import { sceneState, instrumentsState, uiState } from '../../state';
 import { BtnBar } from '../complex/BtnBar/BtnBar';
 import { TopBarProps } from './TopBar.props';
 import { returnSvgNode } from '../../helpers/returnSvgNode';
@@ -13,7 +13,7 @@ import { returnSvgNode } from '../../helpers/returnSvgNode';
 import './topBar.scss';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
-  const { tools } = toolsState;
+  const { tools } = instrumentsState;
 
   const activeTool = tools.find((i) => i.active) ? tools.find((i) => i.active)! : undefined;
 
@@ -28,7 +28,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
   };
 
   const handleToolChange = (id: number) => {
-    toolsState.setActiveTool(id);
+    instrumentsState.setActiveTool(id);
   };
 
   return (

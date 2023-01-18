@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { PanelDivisionProps } from './PanelDivision.props';
 import './panelDivision.scss';
-import { toolsState } from '../../../state';
+import { instrumentsState } from '../../../state';
 
 const PanelDivision = ({ children, header, ...props }: PanelDivisionProps): JSX.Element => {
   return (

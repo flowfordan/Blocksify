@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { CheckMatrixProps } from './CheckMatrix.props';
 import './checkMatrix.scss';
-import { toolsState } from '../../../state';
+import { instrumentsState } from '../../../state';
 
 import { observer } from 'mobx-react-lite';
 
@@ -20,7 +20,7 @@ const CheckMatrix = observer(({ items, selected, ...props }: CheckMatrixProps): 
 
   const handleCollectionUpd = (value: number) => {
     console.log('upd collect', 'item', value);
-    toolsState.setValuesCollection(1, value);
+    instrumentsState.setValuesCollection(1, value);
   };
 
   return (

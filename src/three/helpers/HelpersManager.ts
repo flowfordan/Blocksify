@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { sceneState, HelperOption, toolsState } from '../../state';
+import { sceneState, HelperOption, instrumentsState } from '../../state';
 
 //new instance is created when Tool's startDrawing() called
 class HelpersManager {
@@ -8,7 +8,7 @@ class HelpersManager {
   grid: THREE.GridHelper | null;
 
   constructor(scene: THREE.Scene) {
-    this.options = toolsState.helpersOptions;
+    this.options = instrumentsState.helpersOptions;
     this.grid = null;
     this.scene = scene;
   }
