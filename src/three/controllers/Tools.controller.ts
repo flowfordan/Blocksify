@@ -3,14 +3,16 @@ import { HelpersManager } from '../helpers/HelpersManager';
 import { Line } from '../tools/Line';
 import { Polygon } from '../tools/Polygon';
 import { Selector } from '../tools/Selector';
+import { Cleaner } from '../tools/Cleaner';
 
 export class ToolsController {
   //
   helpersManager: HelpersManager;
 
   tools: {
-    [key in ToolName]: Line | Polygon | Selector;
+    [key in ToolName]?: Line | Polygon | Selector | Cleaner;
   };
+  cleaner: Cleaner;
   currentTool: number | undefined;
   constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement) {
     this.tools = {
@@ -18,10 +20,19 @@ export class ToolsController {
       pLine: new Line(activeElement, scene, 1),
       polygon: new Polygon(activeElement, scene),
       selector: new Selector(activeElement, scene),
+      //other tools
+      // cleaner: new Cleaner(scene),
     };
+    this.cleaner = new Cleaner(scene);
     this.currentTool = undefined;
     this.helpersManager = new HelpersManager(scene);
   }
+
+  //temp
+  activateCleanUp = () => {
+    console.log('CLEANUP ACTIVATED');
+    this.cleaner.cleanUp('scene');
+  };
 
   //TODO: rewrite without many ifs elses
   setActiveTool = (

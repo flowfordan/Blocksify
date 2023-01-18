@@ -52,6 +52,7 @@ export class ThreeView {
 
     autorun(() => {
       this.toolsController.setActiveTool(layersState.currentLayer, this.groundPlane, this.cameraController.camera);
+      this.toolsController.activateCleanUp();
     });
 
     reaction(

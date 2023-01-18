@@ -1,3 +1,5 @@
+import { SceneLurker } from './SceneLurker';
+import * as THREE from 'three';
 /*
 Disposer
 recieves objs data to remove
@@ -9,14 +11,20 @@ obj id
 export class Disposer {
   //
   objIds: Array<string> | null;
+  private lurker: SceneLurker;
 
   constructor() {
     this.objIds = null;
+    this.lurker = new SceneLurker();
   }
 
   //remove object(s)
   //call sceneModifier
   //cleanup prop
+  removeObjs = (scene: THREE.Scene) => {
+    console.log('DISPOSER ON');
+    this.lurker.getAllSceneObjs(scene);
+  };
 
   //clear scene
   //remove all objects with fitting userData
