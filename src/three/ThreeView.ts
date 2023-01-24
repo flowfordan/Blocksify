@@ -30,7 +30,11 @@ export class ThreeView {
     this.labelRendererController = new LabelRendererController();
     this.rendererController = new RendererController(canvasRef);
     this.cameraController = new CameraController(this.rendererController.activeElement);
-    this.toolsController = new ToolsController(this.sceneController.scene, this.rendererController.activeElement);
+    this.toolsController = new ToolsController(
+      this.sceneController.scene,
+      this.rendererController.activeElement,
+      this.sceneController
+    );
     this.layersController = new LayersController();
 
     this.groundPlane = worldPlane;

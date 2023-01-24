@@ -16,6 +16,7 @@ export class Disposer {
   constructor() {
     this.objIds = null;
     this.sceneGetter = new SceneGetter();
+    // this.sceneController
   }
 
   //remove object(s)

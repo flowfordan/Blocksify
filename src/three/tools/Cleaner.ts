@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { instrumentsState } from '../../state';
 import { Disposer } from '../services/Disposer';
 import { Tool } from './Tool';
 /* 
@@ -21,7 +22,8 @@ export class Cleaner implements Tool {
   //clean scene
   //cleanUp
   start = () => {
-    this.cleanUp();
+    console.log('CLEANER WORKING');
+    this.cleanUp('scene');
   };
 
   private cleanUp = (type: 'scene' | 'layer', layerId?: number) => {
@@ -35,6 +37,15 @@ export class Cleaner implements Tool {
       //clean layer
     } else {
       throw new Error('Cleaner. Layer ID was not defined');
+    }
+    this.endCleanUp();
+  };
+
+  private endCleanUp = () => {
+    console.log('END CLEANUP');
+    const cleaner = instrumentsState.tools.find((t) => t.name === 'cleaner');
+    if (cleaner) {
+      // instrumentsState.setActiveTool(cleaner.id);
     }
   };
 

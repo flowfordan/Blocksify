@@ -1,3 +1,4 @@
+import { SceneController } from './Scene.controller';
 import { Layer, ToolName, instrumentsState } from '../../state';
 import { HelpersManager } from '../helpers/HelpersManager';
 import { Line } from '../tools/Line';
@@ -15,7 +16,7 @@ export class ToolsController {
   // cleaner: Cleaner;
   currentToolId: number | undefined;
 
-  constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement) {
+  constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement, sceneController: SceneController) {
     this.tools = {
       line: new Line(activeElement, scene, 0),
       pLine: new Line(activeElement, scene, 1),
@@ -23,7 +24,7 @@ export class ToolsController {
       selector: new Selector(activeElement, scene),
       cleaner: new Cleaner(scene),
     };
-    // this.cleaner = new Cleaner(scene);
+    //builder = new Builder(sceneController)
     this.currentToolId = undefined;
     this.helpersManager = new HelpersManager(scene);
   }
@@ -73,10 +74,6 @@ export class ToolsController {
       const activeTool = instrumentsState.tools.find((i) => i.active);
 
       if (activeTool) {
-        // this.tools[activeTool.name].stop();
-        // this.tools[activeTool.name].toolState = 0;
-        // this.currentToolId = undefined;
-
         instrumentsState.setActiveTool(activeTool.id);
 
         window.removeEventListener('keydown', this.onExit);

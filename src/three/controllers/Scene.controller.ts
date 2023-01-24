@@ -21,4 +21,12 @@ export class SceneController {
     const axesHelper = new THREE.AxesHelper(10);
     this.scene.add(axesHelper);
   }
+
+  addObj = () => {
+    console.log('ADDED OBJECT');
+  };
+
+  removeObj = () => {
+    console.log('REMOVED OBJECT');
+  };
 }
