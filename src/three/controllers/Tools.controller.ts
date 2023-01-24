@@ -10,83 +10,74 @@ export class ToolsController {
   helpersManager: HelpersManager;
 
   tools: {
-    [key in ToolName]?: Line | Polygon | Selector | Cleaner;
+    [key in ToolName]: Line | Polygon | Selector | Cleaner;
   };
-  cleaner: Cleaner;
-  currentTool: number | undefined;
+  // cleaner: Cleaner;
+  currentToolId: number | undefined;
+
   constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement) {
     this.tools = {
       line: new Line(activeElement, scene, 0),
       pLine: new Line(activeElement, scene, 1),
       polygon: new Polygon(activeElement, scene),
       selector: new Selector(activeElement, scene),
-      //other tools
-      // cleaner: new Cleaner(scene),
+      cleaner: new Cleaner(scene),
     };
-    this.cleaner = new Cleaner(scene);
-    this.currentTool = undefined;
+    // this.cleaner = new Cleaner(scene);
+    this.currentToolId = undefined;
     this.helpersManager = new HelpersManager(scene);
   }
 
-  //temp
-  activateCleanUp = () => {
-    console.log('CLEANUP ACTIVATED');
-    this.cleaner.cleanUp('scene');
-  };
-
-  //TODO: rewrite without many ifs elses
   setActiveTool = (
     currentLayer: Layer,
     groundPlane: THREE.Plane,
     camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
   ) => {
-    const activeToolId = instrumentsState.tools.find((i) => i.active)
-      ? instrumentsState.tools.find((i) => i.active)!.id
-      : undefined;
+    let activeToolId: number | undefined;
 
-    const prevToolId = this.currentTool;
-    let prevToolName;
-    console.log('PREV TOOL', prevToolId, 'CURRENT', this.currentTool);
-
-    //if there was tool in use - stop it
-    if (typeof prevToolId === 'number') {
-      console.log('error');
-      prevToolName = instrumentsState.tools.find((i) => i.id === prevToolId)!.name;
-      this.tools[prevToolName].stop();
-    }
-
-    //activate new tool
-    if (typeof activeToolId === 'number') {
-      const toolName = instrumentsState.tools.find((i) => i.active)!.name;
-
-      this.tools[toolName].start(camera, groundPlane, currentLayer);
-      this.currentTool = activeToolId;
-
-      window.addEventListener('keydown', this.onExit);
-
-      document.body.style.cursor = this.tools[toolName].cursor;
-    } else {
-      // if(typeof prevToolId === 'number'){
-      this.currentTool = undefined;
+    //STOP whatever is running
+    //check if it is defined
+    if (this.currentToolId !== undefined) {
+      //find running tool
+      //call stop() method
+      const currentTool = instrumentsState.tools.find((i) => i.id === this.currentToolId);
+      if (!currentTool) {
+        throw new Error('No current tool found with this ID');
+      }
+      //stop and cleanup
+      this.tools[currentTool.name].stop();
       window.removeEventListener('keydown', this.onExit);
-
       document.body.style.cursor = 'auto';
+      this.currentToolId = undefined;
     }
+
+    //ACTIVATE new tool if needed
+    //check if new tool should be activated
+    //find active tool
+    const activeTool = instrumentsState.tools.find((i) => i.active);
+    if (activeTool) {
+      activeToolId = activeTool.id;
+      this.tools[activeTool.name].start(camera, groundPlane, currentLayer);
+      this.currentToolId = activeToolId;
+
+      //cursor set
+      document.body.style.cursor = activeTool.cursorType;
+      window.addEventListener('keydown', this.onExit);
+    }
+
+    console.log('CURRENT TOOL ID:', this.currentToolId);
   };
 
   onExit = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
-      const activeToolId = instrumentsState.tools.find((i) => i.active)
-        ? instrumentsState.tools.find((i) => i.active)!.id
-        : undefined;
+      const activeTool = instrumentsState.tools.find((i) => i.active);
 
-      if (typeof activeToolId === 'number') {
-        const toolName = instrumentsState.tools.find((i) => i.active)!.name;
-        this.tools[toolName].stop();
-        this.tools[toolName].toolState = 0;
-        this.currentTool = undefined;
+      if (activeTool) {
+        // this.tools[activeTool.name].stop();
+        // this.tools[activeTool.name].toolState = 0;
+        // this.currentToolId = undefined;
 
-        instrumentsState.setActiveTool(activeToolId);
+        instrumentsState.setActiveTool(activeTool.id);
 
         window.removeEventListener('keydown', this.onExit);
       }

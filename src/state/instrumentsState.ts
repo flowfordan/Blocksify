@@ -16,11 +16,11 @@ export enum ToolName {
   PLine = 'pLine',
   Polygon = 'polygon',
   Selector = 'selector',
-  PropsEditor = 'propsEditor',
-  Inspector = 'inspector',
+  // PropsEditor = 'propsEditor',
+  // Inspector = 'inspector', - UTIL
   Cleaner = 'cleaner',
-  Generator = 'generator',
-  Cinematographer = 'cinematographer',
+  // Generator = 'generator',
+  // Cinematographer = 'cinematographer', - UTIL
 }
 
 interface ITool {
@@ -28,6 +28,7 @@ interface ITool {
   name: ToolName;
   active: boolean;
   type: 'draw' | 'select' | 'propEdit' | 'visualize' | 'remove' | 'camera' | 'generate' | 'other';
+  cursorType: 'auto' | 'wait' | 'crosshair' | 'pointer';
 }
 
 type HelperType = 'snap' | 'grid';
@@ -81,19 +82,19 @@ class InstrumentsState {
   constructor() {
     /* TOOLS */
     this.tools = [
-      { id: 0, name: ToolName.Line, active: false, type: 'draw' },
-      { id: 1, name: ToolName.PLine, active: false, type: 'draw' },
-      { id: 2, name: ToolName.Polygon, active: false, type: 'draw' },
-      { id: 3, name: ToolName.Selector, active: false, type: 'select' },
-      { id: 4, name: ToolName.Cleaner, active: false, type: 'other' },
-      { id: 5, name: ToolName.Generator, active: false, type: 'other' },
-      { id: 6, name: ToolName.PropsEditor, active: false, type: 'other' },
+      { id: 0, name: ToolName.Line, active: false, type: 'draw', cursorType: 'crosshair' },
+      { id: 1, name: ToolName.PLine, active: false, type: 'draw', cursorType: 'crosshair' },
+      { id: 2, name: ToolName.Polygon, active: false, type: 'draw', cursorType: 'crosshair' },
+      { id: 3, name: ToolName.Selector, active: false, type: 'select', cursorType: 'pointer' },
+      { id: 4, name: ToolName.Cleaner, active: false, type: 'other', cursorType: 'wait' },
+      // { id: 5, name: ToolName.Generator, active: false, type: 'other' },
+      // { id: 6, name: ToolName.PropsEditor, active: false, type: 'other' },
     ];
     this.currentTool = null;
 
     this.utilities = [
-      { id: 0, name: ToolName.Inspector, active: false, type: 'other' },
-      { id: 1, name: ToolName.Cinematographer, active: false, type: 'other' },
+      // { id: 0, name: ToolName.Inspector, active: false, type: 'other' },
+      // { id: 1, name: ToolName.Cinematographer, active: false, type: 'other' },
     ];
     this.currentUtilities = null;
 
