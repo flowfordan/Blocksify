@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { pointObj, V2ArrToNumArr } from '../objs3d';
 import { getMouseLocation } from '../utils';
-import { Tool } from './Tool';
+import { Tool } from './DrawingTool';
 import { Line2, LineGeometry } from 'three-fatline';
 import { Vector3 } from 'three';
 

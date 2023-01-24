@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export class SceneLurker {
+export class SceneGetter {
   constructor() {}
 
   getAllSceneObjs = (scene: THREE.Scene): Array<THREE.Object3D> => {

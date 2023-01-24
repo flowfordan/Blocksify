@@ -1,4 +1,4 @@
-import { SceneLurker } from './SceneLurker';
+import { SceneGetter } from './SceneGetter';
 import * as THREE from 'three';
 /*
 Disposer
@@ -11,11 +11,11 @@ obj id
 export class Disposer {
   //
   objIds: Array<string> | null;
-  private lurker: SceneLurker;
+  private sceneGetter: SceneGetter;
 
   constructor() {
     this.objIds = null;
-    this.lurker = new SceneLurker();
+    this.sceneGetter = new SceneGetter();
   }
 
   //remove object(s)
@@ -23,7 +23,7 @@ export class Disposer {
   //cleanup prop
   removeObjs = (scene: THREE.Scene) => {
     console.log('DISPOSER ON');
-    this.lurker.getAllSceneObjs(scene);
+    this.sceneGetter.getAllSceneObjs(scene);
   };
 
   //clear scene

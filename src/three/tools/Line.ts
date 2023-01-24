@@ -4,7 +4,7 @@ import { toJS } from 'mobx';
 
 import { getMouseLocation } from '../utils';
 import { pointObj } from '../objs3d';
-import { Tool } from './Tool';
+import { Tool } from './DrawingTool';
 import { Vector3 } from 'three';
 import { Layer } from '../../state';
 

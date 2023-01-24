@@ -6,8 +6,8 @@ import { TagsManager } from '../helpers/TagManager';
 import { TrackObjManager } from '../helpers/TrackObjManager';
 import { I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat, getLineMat, getPolygonMat } from '../objs3d';
 
-//SUPERCLASS FOR TOOLS
-export class Tool {
+//SUPERCLASS FOR DRAWING TOOLS
+export class DrawingTool {
   toolState: number;
   canvas: HTMLCanvasElement;
   rect: DOMRect;
