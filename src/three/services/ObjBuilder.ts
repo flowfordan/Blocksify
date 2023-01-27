@@ -75,6 +75,14 @@ export class ObjBuilder {
 
   reset = () => {
     this.objCreated = new THREE.Object3D();
+
+    this.objParts.line.form = null;
+    this.objParts.line.geom = null;
+
+    this.objParts.polygon.form = null;
+    this.objParts.polygon.geom = null;
+
+    this.objParts.points.form = null;
   };
 
   //

@@ -22,13 +22,6 @@ export class Line extends DrawingTool {
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
     super.start(camera, plane, layer);
 
-    //set material from layer
-    if (!this.layer.content.main) {
-      throw new Error('Layer doesnt have options to enable drawing on it');
-    }
-    this.objPts.line.mat = this.layer.content.main.mat.line;
-    //
-
     //start snap manager
     this.snapManager.start();
     //El set
@@ -82,32 +75,15 @@ export class Line extends DrawingTool {
   private _onDrawClick = () => {
     //ON FIRST CLICK
     if (this.toolState === 1) {
-      //BUILDER
+      //create obj
       this.builder.createObj('line', this.objCoords, this.layer);
-      //LINE---------
-      this.objPts.line.geom = new LineGeometry();
-      this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
-      //---------
+
+      //update coordinates
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
 
-      //POINTS
-      this.objPts.points.form = pointObj(this.objCoords);
-
-      //OBJ CREATED-------
-      this.objCreated.add(this.objPts.points.form);
-      this.objCreated.add(this.objPts.line.form);
-      //--BUILDER
+      //render
       this.builder.renderObj();
-      //
-      this.scene.add(this.objCreated);
-      //--------
-
-      //layers options set-------part of builder creation
-      this.objCreated.layers.set(this.layer.id);
-      this.objPts.line.form.layers.set(this.layer.id);
-      this.objPts.points.form.layers.set(this.layer.id);
-      this.objCreated.name = this.layer.name;
 
       //TRACK
       this.trackObj.init();
@@ -116,30 +92,7 @@ export class Line extends DrawingTool {
     }
     //ON SECOND CLICK
     else if (this.toolState === 2) {
-      //----------
-      if (!this.objPts.line.geom || !this.objPts.line.form) {
-        throw new Error('There is no Obj Form or Obj Geometry in Tool');
-      }
-      //LINES
-      //case of 2-points Line
-      if (this.lineMode === 0 || this.lineSegments === 1) {
-        this.objPts.line.geom.setPositions(this.objCoords);
-      }
-      //case of Polyline
-      else {
-        this.objPts.line.form.geometry = new LineGeometry();
-        this.objPts.line.form.geometry.setPositions(this.objCoords);
-      }
-      //line dist
-      this.objPts.line.form.computeLineDistances();
-      //test
-      // this.objPts.line.form.updateMatrixWorld(true);
-      // this.objCreated.updateMatrixWorld(true);
-      //POINTS UPD
-      const position = Float32Array.from(this.objCoords);
-      this.objPts.points.form!.geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
-      //---------
-      //BUILDER
+      //update line or polyline
       if (this.lineMode === 0) {
         this.builder.updObj('line', this.objCoords);
       } else {
@@ -180,10 +133,7 @@ export class Line extends DrawingTool {
 
   stop = () => {
     super.stop();
-    //delete began forms--------
-    this.scene.remove(this.objCreated);
-
-    //BUILDER
+    //delete began forms
     this.builder.removeObj();
 
     this._resetLoop(true);
@@ -198,9 +148,8 @@ export class Line extends DrawingTool {
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
+    this.builder.reset();
 
-    //---------
-    this.objCreated = new THREE.Object3D();
     //TRACK, TAG, SNAP
     this.trackObj.remove();
     this.tagsManager.stopRender();
