@@ -70,7 +70,6 @@ export class FXBuilder {
   };
 
   updTrack = (coords: Array<number>) => {
-    //
     this.trackObjs.line.geom.setPositions(coords);
     this.trackObjs.line.form.computeLineDistances();
   };

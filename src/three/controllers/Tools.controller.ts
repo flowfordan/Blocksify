@@ -20,7 +20,7 @@ export class ToolsController {
     this.tools = {
       line: new Line(activeElement, scene, 0, sceneController),
       pLine: new Line(activeElement, scene, 1, sceneController),
-      polygon: new Polygon(activeElement, scene),
+      polygon: new Polygon(activeElement, scene, sceneController),
       selector: new Selector(activeElement, scene),
       cleaner: new Cleaner(scene),
     };
