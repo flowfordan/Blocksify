@@ -20,18 +20,15 @@ export class Builder {
     this.sceneController = sceneController;
   }
 
+  //OBJECTS
+
   createObj = (type: 'line' | 'polygon', objCoords: Array<number>, currentLayer: Layer) => {
-    //type of obj
-    //get coords
-    //get layer props (material)
     if (type === 'line') {
-      //
       this.objBuilder.createLine(objCoords, currentLayer);
     }
   };
 
   updObj = (type: 'line' | 'pline' | 'polygon', objCoords: Array<number>) => {
-    //
     if (type === 'line') {
       this.objBuilder.updateLine(0, objCoords);
     } else if (type === 'pline') {
@@ -55,14 +52,30 @@ export class Builder {
     this.objBuilder.reset();
   };
 
-  //FXBuilder
-  //tags end all temp renders
-  //ObjsBuilder
-  //objs to add to scene
-  //createLine
-  //createPolygon
-  //render
-  //removeCurrent
-  //create trace obj
-  //create tags
+  //TRACK OBJECTS
+  createTrack = (isPolygon?: boolean) => {
+    //
+    this.fxBuilder.initTrack(isPolygon);
+  };
+
+  updTrack = (coords: Array<number>) => {
+    //
+    this.fxBuilder.updTrack(coords);
+  };
+
+  renderTrack = (isPolygon = false) => {
+    //
+    if (isPolygon) {
+      this.sceneController.addObj(this.fxBuilder.trackObjs.polygon.form);
+    }
+    this.sceneController.addObj(this.fxBuilder.trackObjs.line.form);
+  };
+
+  removeTrack = (isPolygon = false) => {
+    //
+    if (isPolygon) {
+      this.sceneController.removeObj(this.fxBuilder.trackObjs.polygon.form);
+    }
+    this.sceneController.removeObj(this.fxBuilder.trackObjs.line.form);
+  };
 }

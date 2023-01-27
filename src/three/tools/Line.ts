@@ -1,10 +1,8 @@
 import { SceneController } from './../controllers/Scene.controller';
 import * as THREE from 'three';
-import { Line2, LineGeometry } from 'three-fatline';
 import { toJS } from 'mobx';
 
 import { getMouseLocation } from '../utils';
-import { pointObj } from '../objs3d';
 import { DrawingTool } from './DrawingTool';
 import { Vector3 } from 'three';
 import { Layer } from '../../state';
@@ -58,11 +56,9 @@ export class Line extends DrawingTool {
       const coordsCurrent: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coordsCurrent);
       const current2ptLineCoords = this.objCoords.slice(this.lineSegments * 3 - 3);
-
       //TRACK
-      this.trackObj.updCoords(current2ptLineCoords);
-      this.trackObj.add();
-
+      this.builder.updTrack(current2ptLineCoords);
+      this.builder.renderTrack();
       //TAG
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
@@ -84,9 +80,8 @@ export class Line extends DrawingTool {
 
       //render
       this.builder.renderObj();
-
       //TRACK
-      this.trackObj.init();
+      this.builder.createTrack();
 
       this.toolState = 2;
     }
@@ -107,8 +102,7 @@ export class Line extends DrawingTool {
         this.toolState = 2;
         this.lineSegments++;
       }
-
-      this.trackObj.remove();
+      this.builder.removeTrack();
       console.log(this.scene.children);
     }
   };
@@ -149,9 +143,8 @@ export class Line extends DrawingTool {
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
     this.builder.reset();
-
-    //TRACK, TAG, SNAP
-    this.trackObj.remove();
+    this.builder.removeTrack();
+    //
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();
 
