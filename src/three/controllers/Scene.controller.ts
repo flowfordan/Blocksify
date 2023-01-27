@@ -22,11 +22,13 @@ export class SceneController {
     this.scene.add(axesHelper);
   }
 
-  addObj = () => {
+  addObj = (object: THREE.Object3D) => {
     console.log('ADDED OBJECT');
+    this.scene.add(object);
   };
 
   removeObj = () => {
     console.log('REMOVED OBJECT');
+    //scene.remove...
   };
 }

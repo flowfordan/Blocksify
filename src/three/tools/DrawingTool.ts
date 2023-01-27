@@ -1,3 +1,4 @@
+import { SceneController } from './../controllers/Scene.controller';
 import * as THREE from 'three';
 
 import { Layer, layersState } from '../../state';
@@ -5,6 +6,7 @@ import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
 import { TrackObjManager } from '../helpers/TrackObjManager';
 import { I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat, getLineMat, getPolygonMat } from '../objs3d';
+import { Builder } from '../services/Builder';
 
 //SUPERCLASS FOR DRAWING TOOLS
 export class DrawingTool {
@@ -22,8 +24,6 @@ export class DrawingTool {
   snapManager: SnapManager;
   trackObj: TrackObjManager;
 
-  cursor: 'crosshair';
-
   //object being created by tool
   objCreated: THREE.Object3D;
   objCoords: Array<number>;
@@ -34,7 +34,9 @@ export class DrawingTool {
     polygon: I3dObjPolygon;
   };
 
-  constructor(canvas: HTMLCanvasElement, scene: THREE.Scene) {
+  builder: Builder;
+
+  constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, sceneController: SceneController) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
     this.scene = scene;
@@ -69,8 +71,7 @@ export class DrawingTool {
     this.trackObj = new TrackObjManager(scene);
     this.tagsManager = new TagsManager(scene);
     this.snapManager = new SnapManager(scene);
-
-    this.cursor = 'crosshair';
+    this.builder = new Builder(sceneController);
   }
 
   //START METHOD

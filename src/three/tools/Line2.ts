@@ -1,4 +1,3 @@
-import { SceneController } from './../controllers/Scene.controller';
 import * as THREE from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
 import { toJS } from 'mobx';
@@ -13,8 +12,8 @@ export class Line extends DrawingTool {
   lineMode: number;
   lineSegments: number;
 
-  constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, drawMode: number, sceneController: SceneController) {
-    super(canvas, scene, sceneController);
+  constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, drawMode: number) {
+    super(canvas, scene);
     this.lineMode = drawMode; //0: 2-pt line, 1: polyline
     this.lineSegments = 1;
   }
@@ -27,7 +26,6 @@ export class Line extends DrawingTool {
       throw new Error('Layer doesnt have options to enable drawing on it');
     }
     this.objPts.line.mat = this.layer.content.main.mat.line;
-    //
 
     //start snap manager
     this.snapManager.start();
@@ -82,28 +80,22 @@ export class Line extends DrawingTool {
   private _onDrawClick = () => {
     //ON FIRST CLICK
     if (this.toolState === 1) {
-      //BUILDER
-      this.builder.createObj('line', this.objCoords, this.layer);
-      //LINE---------
+      //LINE
       this.objPts.line.geom = new LineGeometry();
       this.objPts.line.form = new Line2(this.objPts.line.geom, this.objPts.line.mat);
-      //---------
+
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
 
       //POINTS
       this.objPts.points.form = pointObj(this.objCoords);
 
-      //OBJ CREATED-------
+      //OBJ CREATED
       this.objCreated.add(this.objPts.points.form);
       this.objCreated.add(this.objPts.line.form);
-      //--BUILDER
-      this.builder.renderObj();
-      //
       this.scene.add(this.objCreated);
-      //--------
 
-      //layers options set-------part of builder creation
+      //layers options set
       this.objCreated.layers.set(this.layer.id);
       this.objPts.line.form.layers.set(this.layer.id);
       this.objPts.points.form.layers.set(this.layer.id);
@@ -116,7 +108,6 @@ export class Line extends DrawingTool {
     }
     //ON SECOND CLICK
     else if (this.toolState === 2) {
-      //----------
       if (!this.objPts.line.geom || !this.objPts.line.form) {
         throw new Error('There is no Obj Form or Obj Geometry in Tool');
       }
@@ -133,12 +124,11 @@ export class Line extends DrawingTool {
       //line dist
       this.objPts.line.form.computeLineDistances();
       //test
-      // this.objPts.line.form.updateMatrixWorld(true);
-      // this.objCreated.updateMatrixWorld(true);
+      this.objPts.line.form.updateMatrixWorld(true);
+      this.objCreated.updateMatrixWorld(true);
       //POINTS UPD
       const position = Float32Array.from(this.objCoords);
       this.objPts.points.form!.geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
-      //---------
 
       //clear and begin new item if LINE
       //begin new segment if PLINE

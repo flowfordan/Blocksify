@@ -18,8 +18,8 @@ export class ToolsController {
 
   constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement, sceneController: SceneController) {
     this.tools = {
-      line: new Line(activeElement, scene, 0),
-      pLine: new Line(activeElement, scene, 1),
+      line: new Line(activeElement, scene, 0, sceneController),
+      pLine: new Line(activeElement, scene, 1, sceneController),
       polygon: new Polygon(activeElement, scene),
       selector: new Selector(activeElement, scene),
       cleaner: new Cleaner(scene),
