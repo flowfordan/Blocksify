@@ -139,6 +139,12 @@ export class Line extends DrawingTool {
       const position = Float32Array.from(this.objCoords);
       this.objPts.points.form!.geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
       //---------
+      //BUILDER
+      if (this.lineMode === 0) {
+        this.builder.updObj('line', this.objCoords);
+      } else {
+        this.builder.updObj('pline', this.objCoords);
+      }
 
       //clear and begin new item if LINE
       //begin new segment if PLINE
@@ -174,8 +180,11 @@ export class Line extends DrawingTool {
 
   stop = () => {
     super.stop();
-    //delete began forms
+    //delete began forms--------
     this.scene.remove(this.objCreated);
+
+    //BUILDER
+    this.builder.removeObj();
 
     this._resetLoop(true);
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
@@ -190,6 +199,7 @@ export class Line extends DrawingTool {
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
 
+    //---------
     this.objCreated = new THREE.Object3D();
     //TRACK, TAG, SNAP
     this.trackObj.remove();

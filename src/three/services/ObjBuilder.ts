@@ -73,5 +73,9 @@ export class ObjBuilder {
     this.objParts.points.form!.geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
   };
 
+  reset = () => {
+    this.objCreated = new THREE.Object3D();
+  };
+
   //
 }

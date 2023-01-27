@@ -47,6 +47,14 @@ export class Builder {
     this.sceneController.addObj(this.objBuilder.objCreated);
   };
 
+  removeObj = () => {
+    this.sceneController.removeObj(this.objBuilder.objCreated);
+  };
+
+  reset = () => {
+    this.objBuilder.reset();
+  };
+
   //FXBuilder
   //tags end all temp renders
   //ObjsBuilder

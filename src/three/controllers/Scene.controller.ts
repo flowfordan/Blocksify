@@ -27,8 +27,9 @@ export class SceneController {
     this.scene.add(object);
   };
 
-  removeObj = () => {
+  removeObj = (object: THREE.Object3D) => {
     console.log('REMOVED OBJECT');
     //scene.remove...
+    this.scene.remove(object);
   };
 }
