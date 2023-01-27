@@ -118,7 +118,7 @@ export class Line extends DrawingTool {
     e.preventDefault();
     //HANDLE SAME SPOT DBCLICK
     if (this.objCoords.length === 3) {
-      this.scene.remove(this.objPts.points.form!);
+      //this.scene.remove(this.objPts.points.form!);
     }
 
     //start new line

@@ -5,7 +5,6 @@ import { Layer, layersState } from '../../state';
 import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
 import { TrackObjManager } from '../helpers/TrackObjManager';
-import { I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat, getLineMat, getPolygonMat } from '../objs3d';
 import { Builder } from '../services/Builder';
 
 //SUPERCLASS FOR DRAWING TOOLS
@@ -24,15 +23,7 @@ export class DrawingTool {
   snapManager: SnapManager;
   trackObj: TrackObjManager;
 
-  //object being created by tool
-  objCreated: THREE.Object3D;
   objCoords: Array<number>;
-  //object parts being created
-  objPts: {
-    line: I3dObjLine;
-    points: I3dObjPoint;
-    polygon: I3dObjPolygon;
-  };
 
   builder: Builder;
 
@@ -48,24 +39,6 @@ export class DrawingTool {
 
     this.currentPointerCoord = new THREE.Vector3();
 
-    this.objCreated = new THREE.Object3D();
-    this.objPts = {
-      line: {
-        form: null,
-        geom: null,
-        mat: getLineMat(),
-      },
-      points: {
-        form: null,
-        geom: null,
-        mat: pMat,
-      },
-      polygon: {
-        form: null,
-        geom: null,
-        mat: getPolygonMat(),
-      },
-    };
     this.objCoords = [];
 
     this.trackObj = new TrackObjManager(scene);
@@ -82,25 +55,12 @@ export class DrawingTool {
     this.layer = layer;
     this.currentCamera = camera;
     this.currentPlane = plane;
-
-    this.objCreated = new THREE.Object3D();
-
-    //TODO check for snapping options
   }
 
   //REFRESH LOOP
   //if came from STOp - disgraceful
   protected _resetLoop(isDisgraceful?: boolean) {
     this.toolState = 1;
-
-    this.objPts.line.form = null;
-    this.objPts.line.geom = null;
-
-    this.objPts.polygon.form = null;
-    this.objPts.polygon.geom = null;
-
-    this.objPts.points.form = null;
-
     this.objCoords = [];
 
     //layerState
