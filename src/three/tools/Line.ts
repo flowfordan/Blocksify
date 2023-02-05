@@ -142,6 +142,8 @@ export class Line extends DrawingTool {
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
+    // this.builder.renderObj();
+    // this.builder.renderObj();
     this.builder.reset();
     this.builder.removeTrack();
     //

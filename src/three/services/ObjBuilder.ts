@@ -163,6 +163,4 @@ export class ObjBuilder {
 
     this.objParts.points.form = null;
   };
-
-  //
 }

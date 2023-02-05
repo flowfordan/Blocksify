@@ -19,10 +19,10 @@ export class Builder {
     this.objBuilder = new ObjBuilder();
     this.fxBuilder = new FXBuilder();
     this.sceneController = sceneController;
+    //generator
   }
 
   //OBJECTS
-
   createObj = (
     type: 'line' | 'polygon',
     objCoords: Array<number>,
@@ -58,6 +58,8 @@ export class Builder {
   renderObj = () => {
     //get current from objBuilder
     //call scene controller
+    //generate auto-objects
+    //this.generator.generateAutoObject
     this.sceneController.addObj(this.objBuilder.objCreated);
   };
 
@@ -66,6 +68,8 @@ export class Builder {
   };
 
   reset = () => {
+    //confirm obj adding to scene
+    //check layer emptiness
     this.objBuilder.reset();
   };
 
