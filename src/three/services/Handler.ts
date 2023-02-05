@@ -31,6 +31,8 @@ export class Handler {
   ) => {
     if (type === 'line') {
       this.objBuilder.createLine(objCoords, currentLayer);
+      //create temp
+      this.createTemp();
     } else if (type === 'polygon' && currentPointerCoords) {
       //
       this.objBuilder.createPolygon(objCoords, currentLayer, currentPointerCoords);
@@ -50,6 +52,8 @@ export class Handler {
       this.objBuilder.updateLine(0, objCoords);
     } else if (type === 'pline') {
       this.objBuilder.updateLine(1, objCoords);
+      //upd temp
+      this.updTemp('pline');
     } else if (type === 'polygon' && currentPointerCoords) {
       this.objBuilder.updatePolygon(objCoords, currentPointerCoords);
     }
@@ -60,7 +64,9 @@ export class Handler {
     //call scene controller
     //generate auto-objects
     //this.generator.generateAutoObject
-    this.sceneController.addObj(this.objBuilder.objCreated);
+    if (this.objBuilder.isRenderable) {
+      this.sceneController.addObj(this.objBuilder.objCreated);
+    }
   };
 
   removeObj = () => {
@@ -71,6 +77,7 @@ export class Handler {
     //confirm obj adding to scene
     //check layer emptiness
     this.objBuilder.reset();
+    this.removeTemp();
   };
 
   //TRACK OBJECTS
@@ -98,5 +105,30 @@ export class Handler {
       this.sceneController.removeObj(this.fxBuilder.trackObjs.polygon.form);
     }
     this.sceneController.removeObj(this.fxBuilder.trackObjs.line.form);
+  };
+
+  //TEMP OBJ
+  private createTemp = (isPolygon?: boolean) => {
+    this.fxBuilder.initTemp(this.objBuilder.objParts.line, isPolygon);
+  };
+
+  private updTemp = (type: 'pline' | 'polygon') => {
+    if (type === 'pline') {
+      this.removeTemp();
+      this.fxBuilder.tempObjs.line.form = this.objBuilder.objParts.line.form.clone();
+      console.log(this.fxBuilder.tempObjs.line);
+      this.fxBuilder.tempObjs.line.form.name = 'temp';
+      this.renderTemp();
+    } else if (type === 'polygon') {
+      //this.objBuilder.updatePolygon(objCoords, currentPointerCoords);
+    }
+  };
+
+  private renderTemp = () => {
+    this.sceneController.addObj(this.fxBuilder.tempObjs.line.form);
+  };
+
+  private removeTemp = () => {
+    this.sceneController.removeObj(this.fxBuilder.tempObjs.line.form);
   };
 }

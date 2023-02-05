@@ -23,13 +23,14 @@ export class ObjBuilder {
     points: I3dObjPoint;
     polygon: I3dObjPolygon;
   };
+  isRenderable: boolean;
 
   constructor() {
     this.objCreated = new THREE.Object3D();
     this.objParts = {
       line: {
-        form: null,
-        geom: null,
+        form: new Line2(),
+        geom: new LineGeometry(),
         mat: getLineMat(),
       },
       points: {
@@ -43,6 +44,7 @@ export class ObjBuilder {
         mat: getPolygonMat(),
       },
     };
+    this.isRenderable = false;
   }
 
   createLine = (objCoords: Array<number>, layer: Layer) => {
@@ -113,6 +115,7 @@ export class ObjBuilder {
     //points
     const position = Float32Array.from(newCoords);
     this.objParts.points.form!.geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
+    this.isRenderable = true;
   };
 
   updatePolygon = (newCoords: Array<number>, currentPointerCoord: THREE.Vector3) => {
@@ -150,17 +153,20 @@ export class ObjBuilder {
       this.objParts.line.form.geometry.setPositions(newCoords);
       this.objParts.line.form.computeLineDistances();
     }
+    this.isRenderable = true;
   };
 
   reset = () => {
     this.objCreated = new THREE.Object3D();
 
-    this.objParts.line.form = null;
-    this.objParts.line.geom = null;
+    this.objParts.line.form = new Line2();
+    this.objParts.line.geom = new LineGeometry();
 
     this.objParts.polygon.form = null;
     this.objParts.polygon.geom = null;
 
     this.objParts.points.form = null;
+
+    this.isRenderable = false;
   };
 }

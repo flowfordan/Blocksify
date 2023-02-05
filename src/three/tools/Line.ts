@@ -15,6 +15,8 @@ export class Line extends DrawingTool {
     super(canvas, scene, sceneController);
     this.lineMode = drawMode; //0: 2-pt line, 1: polyline
     this.lineSegments = 1;
+
+    console.log('SCENE INIT', this.scene.children);
   }
 
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
@@ -78,10 +80,10 @@ export class Line extends DrawingTool {
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
 
-      //render
-      // this.handler.renderObj();
       //TRACK
       this.handler.createTrack();
+
+      console.log('SCENE 1 click', this.scene.children);
 
       this.toolState = 2;
     }
@@ -102,7 +104,7 @@ export class Line extends DrawingTool {
         this.toolState = 2;
         this.lineSegments++;
       }
-      //this.handler.removeTrack();
+      this.handler.removeTrack();
       console.log(this.scene.children);
     }
   };
@@ -136,13 +138,15 @@ export class Line extends DrawingTool {
     this.canvas.removeEventListener('dblclick', this._onDBClick);
     window.removeEventListener('keypress', this._onKey);
 
-    console.log(this.scene.children);
+    console.log('SCENE ON STOP', this.scene.children);
     console.log(this.currentCamera);
   };
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
-    this.handler.renderObj();
+    if (!isDisgraceful) {
+      this.handler.renderObj();
+    }
     this.handler.reset();
     this.handler.removeTrack();
     //

@@ -9,8 +9,8 @@ export interface I3dObjPoint {
 }
 
 export interface I3dObjLine {
-  form: Line2 | null;
-  geom: LineGeometry | null;
+  form: Line2;
+  geom: LineGeometry;
   mat: LineMaterial;
 }
 

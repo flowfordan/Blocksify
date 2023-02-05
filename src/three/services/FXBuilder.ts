@@ -90,4 +90,22 @@ export class FXBuilder {
     this.trackObjs.line.geom.setPositions(coords);
     this.trackObjs.line.form.computeLineDistances();
   };
+
+  //initTemp
+  initTemp = (obj: I3dObjLine, isPolygon = false) => {
+    if (isPolygon) {
+      this.trackObjs.polygon.geom = new THREE.Shape();
+      const shapeTrackGeom = new THREE.ShapeGeometry(this.trackObjs.polygon.geom);
+
+      this.trackObjs.polygon.form = new THREE.Mesh(shapeTrackGeom, this.trackObjs.polygon.mat);
+      this.trackObjs.polygon.form.name = 'track-polygon';
+
+      //rotate(by def created on x-z plane)
+      this.trackObjs.polygon.form.rotateX(Math.PI / 2);
+    }
+    //line
+    // this.tempObjs.line.geom = new LineGeometry();
+    this.tempObjs.line.form = obj.form.clone();
+    this.tempObjs.line.form.name = 'temp';
+  };
 }
