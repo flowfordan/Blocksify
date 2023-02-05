@@ -13,15 +13,32 @@ interface I3dObjPolygon {
   mat: THREE.MeshBasicMaterial;
 }
 export class FXBuilder {
-  //
+  //effect to show actual object part to be created or changed
   trackObjs: {
+    line: I3dObjLine;
+    polygon: I3dObjPolygon;
+  };
+  //effect to show what rendered object will look like whule creating
+  //or interceted selected object
+  tempObjs: {
     line: I3dObjLine;
     polygon: I3dObjPolygon;
   };
 
   constructor() {
-    //
     this.trackObjs = {
+      line: {
+        form: new Line2(),
+        geom: new LineGeometry(),
+        mat: new LineMaterial(),
+      },
+      polygon: {
+        form: new THREE.Mesh(),
+        geom: new THREE.Shape(),
+        mat: new THREE.MeshBasicMaterial(),
+      },
+    };
+    this.tempObjs = {
       line: {
         form: new Line2(),
         geom: new LineGeometry(),

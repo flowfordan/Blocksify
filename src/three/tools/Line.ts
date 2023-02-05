@@ -57,8 +57,8 @@ export class Line extends DrawingTool {
       this.objCoords.push(...coordsCurrent);
       const current2ptLineCoords = this.objCoords.slice(this.lineSegments * 3 - 3);
       //TRACK
-      this.builder.updTrack(current2ptLineCoords);
-      this.builder.renderTrack();
+      this.handler.updTrack(current2ptLineCoords);
+      this.handler.renderTrack();
       //TAG
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
@@ -72,16 +72,16 @@ export class Line extends DrawingTool {
     //ON FIRST CLICK
     if (this.toolState === 1) {
       //create obj
-      this.builder.createObj('line', this.objCoords, this.layer);
+      this.handler.createObj('line', this.objCoords, this.layer);
 
       //update coordinates
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
 
       //render
-      this.builder.renderObj();
+      // this.handler.renderObj();
       //TRACK
-      this.builder.createTrack();
+      this.handler.createTrack();
 
       this.toolState = 2;
     }
@@ -89,9 +89,9 @@ export class Line extends DrawingTool {
     else if (this.toolState === 2) {
       //update line or polyline
       if (this.lineMode === 0) {
-        this.builder.updObj('line', this.objCoords);
+        this.handler.updObj('line', this.objCoords);
       } else {
-        this.builder.updObj('pline', this.objCoords);
+        this.handler.updObj('pline', this.objCoords);
       }
 
       //clear and begin new item if LINE
@@ -102,7 +102,7 @@ export class Line extends DrawingTool {
         this.toolState = 2;
         this.lineSegments++;
       }
-      this.builder.removeTrack();
+      //this.handler.removeTrack();
       console.log(this.scene.children);
     }
   };
@@ -128,7 +128,7 @@ export class Line extends DrawingTool {
   stop = () => {
     super.stop();
     //delete began forms
-    this.builder.removeObj();
+    this.handler.removeObj();
 
     this._resetLoop(true);
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
@@ -142,10 +142,9 @@ export class Line extends DrawingTool {
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
-    // this.builder.renderObj();
-    // this.builder.renderObj();
-    this.builder.reset();
-    this.builder.removeTrack();
+    this.handler.renderObj();
+    this.handler.reset();
+    this.handler.removeTrack();
     //
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();

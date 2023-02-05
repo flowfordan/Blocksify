@@ -5,7 +5,7 @@ import { Layer, layersState } from '../../state';
 import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
 import { TrackObjManager } from '../helpers/TrackObjManager';
-import { Builder } from '../services/Builder';
+import { Handler } from '../services/Handler';
 
 //SUPERCLASS FOR DRAWING TOOLS
 export class DrawingTool {
@@ -25,7 +25,7 @@ export class DrawingTool {
 
   objCoords: Array<number>;
 
-  builder: Builder;
+  handler: Handler;
 
   constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, sceneController: SceneController) {
     this.canvas = canvas;
@@ -44,7 +44,7 @@ export class DrawingTool {
     this.trackObj = new TrackObjManager(scene);
     this.tagsManager = new TagsManager(scene);
     this.snapManager = new SnapManager(scene);
-    this.builder = new Builder(sceneController);
+    this.handler = new Handler(sceneController);
   }
 
   //START METHOD

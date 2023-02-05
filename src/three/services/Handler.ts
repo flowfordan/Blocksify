@@ -1,4 +1,4 @@
-import { SceneController } from './../controllers/Scene.controller';
+import { SceneController } from '../controllers/Scene.controller';
 import { FXBuilder } from './FXBuilder';
 import * as THREE from 'three';
 import { getLineMat, getPolygonMat, I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat } from '../objs3d';
@@ -10,7 +10,7 @@ import { Vector3 } from 'three';
 //stores objs created
 //commands to render
 
-export class Builder {
+export class Handler {
   objBuilder: ObjBuilder;
   fxBuilder: FXBuilder;
   sceneController: SceneController;
