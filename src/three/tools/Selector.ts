@@ -1,7 +1,7 @@
 import { Line2, LineMaterial } from 'three-fatline';
 import * as THREE from 'three';
 
-import { Layer, layersState } from '../../state';
+import { Layer, layersState } from '../../shared/model';
 import { getObjByPointer } from '../utils';
 import { Object3D } from 'three';
 

@@ -1,15 +1,15 @@
 import { FunctionComponent } from 'react';
 import './helpersMenu.scss';
 
-import { instrumentsState } from '../../../state';
+import { instrumentsState } from '../../../shared/model';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Slider } from '../../basic/Slider/Slider';
+import { Slider } from '../../../shared/ui/Slider/Slider';
 import { ComplexSlider } from '../ComplexSlider/ComplexSlider';
 import { ListItemCheck } from '../ListItemCheck/ListItemCheck';
-import { CheckMatrix } from '../../basic/CheckMatrix/CheckMatrix';
-import { Division } from '../../basic/Division/Division';
-import { Card } from '../../basic/Card/Card';
+import { CheckMatrix } from '../../../shared/ui/CheckMatrix/CheckMatrix';
+import { Division } from '../../../shared/ui/Division/Division';
+import { Card } from '../../../shared/ui/Card/Card';
 
 interface HelpersMenuProps {
   test?: boolean;

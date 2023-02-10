@@ -6,7 +6,7 @@ import { getMouseLocation } from '../utils';
 import { pointObj } from '../objs3d';
 import { DrawingTool } from './DrawingTool';
 import { Vector3 } from 'three';
-import { Layer } from '../../state';
+import { Layer } from '../../shared/model';
 
 export class Line extends DrawingTool {
   lineMode: number;

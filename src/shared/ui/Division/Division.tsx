@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { DivisionProps } from './Division.props';
 import './division.scss';
-import { instrumentsState } from '../../../state';
+import { instrumentsState } from '../../model';
 
 const Division = ({ children, header, ...props }: DivisionProps): JSX.Element => {
   return (

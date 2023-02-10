@@ -1,4 +1,4 @@
-import { getLineMat, getPolygonMat } from '../../three/objs3d';
+import { getLineMat, getPolygonMat } from '../../../three/objs3d';
 
 //objects 3d materials
 //LAYER 2 - BORDER

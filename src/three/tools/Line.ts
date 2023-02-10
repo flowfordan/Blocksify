@@ -5,7 +5,7 @@ import { toJS } from 'mobx';
 import { getMouseLocation } from '../utils';
 import { DrawingTool } from './DrawingTool';
 import { Vector3 } from 'three';
-import { Layer } from '../../state';
+import { Layer } from '../../shared/model';
 
 export class Line extends DrawingTool {
   lineMode: number;
@@ -15,8 +15,6 @@ export class Line extends DrawingTool {
     super(canvas, scene, sceneController);
     this.lineMode = drawMode; //0: 2-pt line, 1: polyline
     this.lineSegments = 1;
-
-    console.log('SCENE INIT', this.scene.children);
   }
 
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
@@ -82,9 +80,6 @@ export class Line extends DrawingTool {
 
       //TRACK
       this.handler.createTrack();
-
-      console.log('SCENE 1 click', this.scene.children);
-
       this.toolState = 2;
     }
     //ON SECOND CLICK

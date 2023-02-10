@@ -2,10 +2,10 @@ import React from 'react';
 import { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { instrumentsState } from '../../../state';
+import { instrumentsState } from '../../../shared/model';
 import { ListItemCheck } from '../ListItemCheck/ListItemCheck';
 
-import { Card } from '../../basic/Card/Card';
+import { Card } from '../../../shared/ui/Card/Card';
 
 import './toolsMenu.scss';
 

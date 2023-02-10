@@ -3,8 +3,8 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 
 import { CtxMenuProps } from './CtxMenu.props';
-import { uiState } from '../../../state';
-import { Card } from '../../basic/Card/Card';
+import { uiState } from '../../../shared/model';
+import { Card } from '../../../shared/ui/Card/Card';
 import { HelpersMenu } from '../HelpersMenu/HelpersMenu';
 import { ToolsMenu } from '../ToolsMenu/ToolsMenu';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { sceneState } from '../../../state';
+import { sceneState } from '../../../shared/model';
 import './coordsPanel.scss';
 
 interface UICoords {

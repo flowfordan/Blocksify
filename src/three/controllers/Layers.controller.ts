@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Layer, layersState } from '../../state';
+import { Layer, layersState } from '../../shared/model';
 
 export class LayersController {
   // currentLayer: Layer;

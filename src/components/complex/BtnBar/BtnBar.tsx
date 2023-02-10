@@ -2,8 +2,8 @@ import React from 'react';
 import cn from 'classnames';
 
 import { BtnBarProps } from './BtnBar.props';
-import { Btn } from '../../basic/Btn/Btn';
-import { returnSvgNode } from '../../../helpers/returnSvgNode';
+import { Btn } from '../../../shared/ui/Btn/Btn';
+import { returnSvgNode } from '../../../shared/lib/returnSvgNode';
 
 import './btnBar.scss';
 

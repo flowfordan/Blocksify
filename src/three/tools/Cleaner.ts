@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { instrumentsState } from '../../state';
+import { instrumentsState } from '../../shared/model';
 import { Disposer } from '../services/Disposer';
 import { Tool } from './Tool';
 /* 

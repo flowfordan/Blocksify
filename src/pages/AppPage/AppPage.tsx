@@ -4,7 +4,7 @@ import { CtxMenu } from '../../components/complex/CtxMenu/CtxMenu';
 
 import { Desk } from '../../components/Desk/Desk';
 import { RightBar, TopBar, LeftBar } from '../../components/Toolbars';
-import { uiState } from '../../state';
+import { uiState } from '../../shared/model';
 
 import './appPage.scss';
 

@@ -5,8 +5,8 @@ import { LayersListItemProps } from './LayersListItem.props';
 import './layersListItem.scss';
 
 import { AssetKey, assetsData } from '../../_data/assetsData';
-import { returnSvgNode } from '../../../helpers/returnSvgNode';
-import { layersState } from '../../../state';
+import { returnSvgNode } from '../../../shared/lib/returnSvgNode';
+import { layersState } from '../../../shared/model';
 
 const LayersListItem = ({
   layerId,

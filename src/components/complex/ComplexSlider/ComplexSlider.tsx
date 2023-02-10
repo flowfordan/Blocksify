@@ -3,7 +3,7 @@ import React from 'react';
 import { ComplexSliderProps } from './ComplexSlider.props';
 import './complexSlider.scss';
 
-import { Slider } from '../../basic/Slider/Slider';
+import { Slider } from '../../../shared/ui/Slider/Slider';
 
 const ComplexSlider = ({
   minVal,

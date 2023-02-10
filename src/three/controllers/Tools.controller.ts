@@ -1,5 +1,5 @@
 import { SceneController } from './Scene.controller';
-import { Layer, ToolName, instrumentsState } from '../../state';
+import { Layer, ToolName, instrumentsState } from '../../shared/model';
 import { HelpersManager } from '../helpers/HelpersManager';
 import { Line } from '../tools/Line';
 import { Polygon } from '../tools/Polygon';

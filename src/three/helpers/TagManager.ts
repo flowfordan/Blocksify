@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
-import { sceneState, SnapOptions } from '../../state';
+import { sceneState, SnapOptions } from '../../shared/model';
 
 class TagsManager {
   // tagContainers: Array<HTMLDivElement>;

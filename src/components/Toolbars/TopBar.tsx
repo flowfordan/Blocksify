@@ -5,10 +5,10 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 
-import { sceneState, instrumentsState, uiState } from '../../state';
+import { sceneState, instrumentsState, uiState } from '../../shared/model';
 import { BtnBar } from '../complex/BtnBar/BtnBar';
 import { TopBarProps } from './TopBar.props';
-import { returnSvgNode } from '../../helpers/returnSvgNode';
+import { returnSvgNode } from '../../shared/lib/returnSvgNode';
 
 import './topBar.scss';
 

@@ -1,4 +1,4 @@
-import { AnglePts, createBaseV3s } from '../three/helpers/createBaseV3s';
+import { AnglePts, createBaseV3s } from '../../three/helpers/createBaseV3s';
 import { makeAutoObservable, toJS } from 'mobx';
 import { Vector3 } from 'three';
 import { helpersDefPreset } from './presets/helpersPreset';

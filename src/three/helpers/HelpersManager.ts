@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { sceneState, HelperOption, instrumentsState } from '../../state';
+import { sceneState, HelperOption, instrumentsState } from '../../shared/model';
 
 //new instance is created when Tool's startDrawing() called
 class HelpersManager {

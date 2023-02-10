@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SliderProps } from './Slider.props';
 import './slider.scss';
-import { instrumentsState } from '../../../state';
+import { instrumentsState } from '../../model';
 
 const Slider = ({ minVal, maxVal, stepVal, val, uiItemId, ...props }: SliderProps): JSX.Element => {
   //connect to state?

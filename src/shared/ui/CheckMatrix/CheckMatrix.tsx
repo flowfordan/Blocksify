@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { CheckMatrixProps } from './CheckMatrix.props';
 import './checkMatrix.scss';
-import { instrumentsState } from '../../../state';
+import { instrumentsState } from '../../model';
 
 import { observer } from 'mobx-react-lite';
 

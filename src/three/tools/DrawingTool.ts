@@ -1,7 +1,7 @@
 import { SceneController } from './../controllers/Scene.controller';
 import * as THREE from 'three';
 
-import { Layer, layersState } from '../../state';
+import { Layer, layersState } from '../../shared/model';
 import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
 import { TrackObjManager } from '../helpers/TrackObjManager';

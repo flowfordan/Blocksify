@@ -4,11 +4,11 @@ import { observer } from 'mobx-react-lite';
 import cn from 'classnames';
 
 import './leftBar.scss';
-import { sceneState, layersState } from '../../state';
+import { sceneState, layersState } from '../../shared/model';
 import { CoordsDisplay } from '../complex/CoordsPanel/CoordsPanel';
 
 import { LayersListItem } from '../complex/LayersListItem/LayersListItem';
-import { PanelDivision } from '../basic/PanelDivision/PanelDivision';
+import { PanelDivision } from '../../shared/ui/PanelDivision/PanelDivision';
 
 export const LeftBar = observer((): JSX.Element => {
   const constructLayersList = (layersArr: typeof layersState.layers) => {
