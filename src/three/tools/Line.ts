@@ -19,7 +19,6 @@ export class Line extends DrawingTool {
 
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
     super.start(camera, plane, layer);
-
     //start snap manager
     this.snapManager.start();
     //El set
@@ -73,11 +72,9 @@ export class Line extends DrawingTool {
     if (this.toolState === 1) {
       //create obj
       this.handler.createObj('line', this.objCoords, this.layer);
-
       //update coordinates
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
-
       //TRACK
       this.handler.createTrack();
       this.toolState = 2;
@@ -90,7 +87,6 @@ export class Line extends DrawingTool {
       } else {
         this.handler.updObj('pline', this.objCoords);
       }
-
       //clear and begin new item if LINE
       //begin new segment if PLINE
       if (this.lineMode === 0) {
@@ -100,7 +96,6 @@ export class Line extends DrawingTool {
         this.lineSegments++;
       }
       this.handler.removeTrack();
-      console.log(this.scene.children);
     }
   };
 
@@ -117,7 +112,6 @@ export class Line extends DrawingTool {
     if (this.objCoords.length === 3) {
       //this.scene.remove(this.objPts.points.form!);
     }
-
     //start new line
     this._resetLoop();
   };
@@ -139,12 +133,13 @@ export class Line extends DrawingTool {
 
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
+    //RENDER of actual created object
     if (!isDisgraceful) {
       this.handler.renderObj();
     }
     this.handler.reset();
     this.handler.removeTrack();
-    //
+
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();
 
