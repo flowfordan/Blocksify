@@ -1,4 +1,4 @@
-import { Layer } from './../../state/layersState';
+import { Layer } from '../../shared/model';
 import * as THREE from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
 import {
@@ -39,8 +39,8 @@ export class ObjBuilder {
         mat: pMat,
       },
       polygon: {
-        form: null,
-        geom: null,
+        form: new THREE.Mesh(),
+        geom: new THREE.Shape(),
         mat: getPolygonMat(),
       },
     };
@@ -162,8 +162,8 @@ export class ObjBuilder {
     this.objParts.line.form = new Line2();
     this.objParts.line.geom = new LineGeometry();
 
-    this.objParts.polygon.form = null;
-    this.objParts.polygon.geom = null;
+    this.objParts.polygon.form = new THREE.Mesh();
+    this.objParts.polygon.geom = new THREE.Shape();
 
     this.objParts.points.form = null;
 

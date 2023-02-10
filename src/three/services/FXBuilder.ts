@@ -92,20 +92,16 @@ export class FXBuilder {
   };
 
   //initTemp
-  initTemp = (obj: I3dObjLine, isPolygon = false) => {
+  initTemp = (obj: I3dObjLine | I3dObjPolygon, isPolygon = false) => {
     if (isPolygon) {
-      this.trackObjs.polygon.geom = new THREE.Shape();
-      const shapeTrackGeom = new THREE.ShapeGeometry(this.trackObjs.polygon.geom);
-
-      this.trackObjs.polygon.form = new THREE.Mesh(shapeTrackGeom, this.trackObjs.polygon.mat);
-      this.trackObjs.polygon.form.name = 'track-polygon';
-
-      //rotate(by def created on x-z plane)
-      this.trackObjs.polygon.form.rotateX(Math.PI / 2);
+      const polygon = obj as I3dObjPolygon;
+      this.tempObjs.polygon.form = polygon.form.clone();
+      this.tempObjs.polygon.form.name = 'temp';
+    } else {
+      //line
+      const line = obj as I3dObjLine;
+      this.tempObjs.line.form = line.form.clone();
+      this.tempObjs.line.form.name = 'temp';
     }
-    //line
-    // this.tempObjs.line.geom = new LineGeometry();
-    this.tempObjs.line.form = obj.form.clone();
-    this.tempObjs.line.form.name = 'temp';
   };
 }

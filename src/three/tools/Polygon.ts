@@ -16,7 +16,6 @@ export class Polygon extends DrawingTool {
 
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: typeof this.layer) => {
     super.start(camera, plane, layer);
-
     //start snap manager
     this.snapManager.start();
     //add EL
@@ -28,7 +27,6 @@ export class Polygon extends DrawingTool {
 
   _onMouseMove = (e: MouseEvent) => {
     const mouseLoc = getMouseLocation(e, this.rect, this.canvas, this.currentCamera!, this.currentPlane!);
-
     //upd coords
     this.currentPointerCoord = this.snapManager.snapToCoords(mouseLoc);
 
@@ -46,7 +44,7 @@ export class Polygon extends DrawingTool {
         //TAG
         this.tagsManager.renderTag([new Vector3(...this.objCoords)], this.currentPointerCoord);
       } else {
-        const points = this.builder.getObjPolygonPoints();
+        const points = this.handler.getObjPolygonPoints();
         const pt1 = points[0];
         const pt2 = points[points.length - 1]; //last pie point
         const pt1N = V2ArrToNumArr([pt1], this.currentPlane!.constant);
@@ -73,8 +71,8 @@ export class Polygon extends DrawingTool {
       this.objCoords.push(...coords);
 
       //create and render
-      this.builder.createObj('polygon', this.objCoords, this.layer, this.currentPointerCoord);
-      this.builder.renderObj();
+      this.handler.createObj('polygon', this.objCoords, this.layer, this.currentPointerCoord);
+      // this.handler.renderObj();
 
       //TRACK
       this.trackObj.init(true);
@@ -82,20 +80,20 @@ export class Polygon extends DrawingTool {
       this.toolState = 2;
     } else if (this.toolState === 2) {
       //first upd - only polygon form
-      this.builder.updObj('polygon', this.objCoords, this.currentPointerCoord);
+      this.handler.updObj('polygon', this.objCoords, this.currentPointerCoord);
 
       //upd OBJ coords
       this.objCoords.length = 0;
       const currentLineCoords = V2ArrToNumArr(
-        this.builder.getObjPolygonPoints(),
+        this.handler.getObjPolygonPoints(),
         this.currentPlane!.constant //WORLD PLANE LEVEL
       );
-      console.log('POINTS FROM POLYGON', this.builder.getObjPolygonPoints());
+      console.log('POINTS FROM POLYGON', this.handler.getObjPolygonPoints());
       this.objCoords.push(...currentLineCoords);
       //CLOSE line by pushing start point
       this.objCoords.push(...this.objCoords.slice(0, 3));
       //updating
-      this.builder.updObj('polygon', this.objCoords, this.currentPointerCoord);
+      this.handler.updObj('polygon', this.objCoords, this.currentPointerCoord);
 
       this.trackObj.remove(true);
     }
@@ -114,7 +112,7 @@ export class Polygon extends DrawingTool {
   stop() {
     super.stop();
     //delete began forms
-    this.builder.removeObj();
+    this.handler.removeObj();
 
     this._resetLoop();
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
@@ -125,7 +123,7 @@ export class Polygon extends DrawingTool {
 
   protected _resetLoop = () => {
     super._resetLoop();
-    this.builder.reset();
+    this.handler.reset();
     //TRACK, TAG, SNAP
     this.trackObj.remove(true);
     this.tagsManager.stopRender();

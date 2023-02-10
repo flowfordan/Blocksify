@@ -36,6 +36,7 @@ export class Handler {
     } else if (type === 'polygon' && currentPointerCoords) {
       //
       this.objBuilder.createPolygon(objCoords, currentLayer, currentPointerCoords);
+      this.createTemp(true);
     }
   };
 
@@ -107,9 +108,12 @@ export class Handler {
     this.sceneController.removeObj(this.fxBuilder.trackObjs.line.form);
   };
 
-  //TEMP OBJ
+  //TEMP OBJECT SHOWING RESULT OF TOOL
   private createTemp = (isPolygon?: boolean) => {
-    this.fxBuilder.initTemp(this.objBuilder.objParts.line, isPolygon);
+    this.fxBuilder.initTemp(this.objBuilder.objParts.line);
+    if (isPolygon) {
+      this.fxBuilder.initTemp(this.objBuilder.objParts.polygon, isPolygon);
+    }
   };
 
   private updTemp = (type: 'pline' | 'polygon') => {

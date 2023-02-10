@@ -15,8 +15,8 @@ export interface I3dObjLine {
 }
 
 export interface I3dObjPolygon {
-  form: THREE.Mesh | null;
-  geom: THREE.Shape | null;
+  form: THREE.Mesh;
+  geom: THREE.Shape;
   mat: THREE.MeshBasicMaterial;
 }
 
