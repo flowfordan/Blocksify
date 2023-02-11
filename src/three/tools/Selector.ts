@@ -61,7 +61,7 @@ export class Selector {
       this.currentCamera,
       this.currentLayer.id
     );
-    this.handler.removeOverlayObj();
+    this.handler.removeOverlayObj('temp');
     this.intersectedObj = null;
     if (obj) {
       const parent = obj.parent;
@@ -70,7 +70,7 @@ export class Selector {
 
         const lineToRender = parent.children.find((i) => i instanceof Line2);
         // this.renderedObjs.intersectedObj = lineToRender ? lineToRender.clone() : null;
-        this.handler.createOverlayObj(lineToRender);
+        this.handler.createOverlayObj(lineToRender, 'temp');
       }
     }
   };
@@ -78,43 +78,34 @@ export class Selector {
   private _onClick = () => {
     // this.scene.remove(this.renderedObjs.selectedObj!);
     // this.scene.remove(this.renderedObjs.selectedPoints!);
+    this.handler.removeOverlayObj('perm');
     this.selectedObj = null;
     //remove selected obj
-    if (this.intersectedObj && this.renderedObjs.intersectedObj) {
+    if (this.intersectedObj) {
       //set selected obj
       this.selectedObj = this.intersectedObj;
+      const lineToRender = this.selectedObj.children.find((i) => i instanceof Line2);
       //line to render
-      this.renderedObjs.selectedObj = this.renderedObjs.intersectedObj.clone();
-      if (this.renderedObjs.selectedObj instanceof Line2) {
-        this.renderedObjs.selectedObj.renderOrder = 1;
-        this.renderedObjs.selectedObj.layers.set(0);
-        this.renderedObjs.selectedObj.material = new LineMaterial({
-          color: 0xfd5656,
-          linewidth: 10,
-          resolution: new THREE.Vector2(1920, 1080),
-          dashed: false,
-          opacity: 1,
-        });
-        // this.scene.add(this.renderedObjs.selectedObj);
-      }
+      this.handler.createOverlayObj(lineToRender, 'perm');
       //points to render
-      const pointsToRender = this.selectedObj.children.find((i) => i instanceof THREE.Points);
-      if (pointsToRender instanceof THREE.Points) {
-        this.renderedObjs.selectedPoints = pointsToRender.clone();
-        this.renderedObjs.selectedPoints.renderOrder = 2;
-        this.renderedObjs.selectedPoints.material = new THREE.PointsMaterial({
-          color: 0xffffff,
-          size: 9,
-          sizeAttenuation: false,
-        });
-        // this.scene.add(this.renderedObjs.selectedPoints);
-      }
+      // const pointsToRender = this.selectedObj.children.find((i) => i instanceof THREE.Points);
+      // if (pointsToRender instanceof THREE.Points) {
+      //   this.renderedObjs.selectedPoints = pointsToRender.clone();
+      //   this.renderedObjs.selectedPoints.renderOrder = 2;
+      //   this.renderedObjs.selectedPoints.material = new THREE.PointsMaterial({
+      //     color: 0xffffff,
+      //     size: 9,
+      //     sizeAttenuation: false,
+      //   });
+      // this.scene.add(this.renderedObjs.selectedPoints);
     }
   };
 
   private _onKey = (event: KeyboardEvent) => {
     if (event.key === 'Delete' || event.key === 'Backspace') {
       if (this.selectedObj) {
+        this.handler.sceneController.removeObj(this.selectedObj);
+        this.handler.removeOverlayObj('all');
         // this.scene.remove(this.selectedObj);
         // this.scene.remove(this.renderedObjs.selectedObj!);
         // this.scene.remove(this.renderedObjs.selectedPoints!);
@@ -125,6 +116,7 @@ export class Selector {
 
   stop = () => {
     console.log('SELECTOR END');
+    this.handler.removeOverlayObj('all');
     // this.scene.remove(this.renderedObjs.selectedObj!);
     // this.scene.remove(this.renderedObjs.selectedPoints!);
     // this.scene.remove(this.renderedObjs.intersectedObj!);

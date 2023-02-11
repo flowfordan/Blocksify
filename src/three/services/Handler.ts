@@ -143,18 +143,29 @@ export class Handler {
   };
 
   //OVERLAY OBJECTS
-  createOverlayObj = (baseObj: THREE.Object3D<THREE.Event> | undefined) => {
+  createOverlayObj = (baseObj: THREE.Object3D<THREE.Event> | undefined, type: 'temp' | 'perm') => {
     if (baseObj) {
-      this.fxBuilder.initOverlayObj(baseObj);
-      this.renderOverlayObj();
+      this.fxBuilder.initOverlayObj(baseObj, type);
+      this.renderOverlayObj(type);
     }
   };
 
-  private renderOverlayObj = () => {
-    this.sceneController.addObj(this.fxBuilder.overlayObj.form);
+  private renderOverlayObj = (type: 'temp' | 'perm') => {
+    if (type === 'temp') {
+      this.sceneController.addObj(this.fxBuilder.overlayObjTemp.form);
+    } else {
+      this.sceneController.addObj(this.fxBuilder.overlayObjPerm.form);
+    }
   };
 
-  removeOverlayObj = () => {
-    this.sceneController.removeObj(this.fxBuilder.overlayObj.form);
+  removeOverlayObj = (type: 'temp' | 'perm' | 'all') => {
+    if (type === 'temp') {
+      this.sceneController.removeObj(this.fxBuilder.overlayObjTemp.form);
+    } else if (type === 'perm') {
+      this.sceneController.removeObj(this.fxBuilder.overlayObjPerm.form);
+    } else {
+      this.sceneController.removeObj(this.fxBuilder.overlayObjTemp.form);
+      this.sceneController.removeObj(this.fxBuilder.overlayObjPerm.form);
+    }
   };
 }

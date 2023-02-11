@@ -25,7 +25,8 @@ export class FXBuilder {
     polygon: I3dObjPolygon;
   };
 
-  overlayObj: I3dObjLine;
+  overlayObjTemp: I3dObjLine;
+  overlayObjPerm: I3dObjLine;
 
   constructor() {
     this.trackObjs = {
@@ -52,7 +53,12 @@ export class FXBuilder {
         mat: new THREE.MeshBasicMaterial(),
       },
     };
-    this.overlayObj = {
+    this.overlayObjTemp = {
+      form: new Line2(),
+      geom: new LineGeometry(),
+      mat: new LineMaterial(),
+    };
+    this.overlayObjPerm = {
       form: new Line2(),
       geom: new LineGeometry(),
       mat: new LineMaterial(),
@@ -74,8 +80,16 @@ export class FXBuilder {
       opacity: 0.5,
     });
 
-    this.overlayObj.mat = new LineMaterial({
+    this.overlayObjTemp.mat = new LineMaterial({
       color: 0x81c9fc,
+      linewidth: 10,
+      resolution: new THREE.Vector2(1920, 1080),
+      dashed: false,
+      opacity: 1,
+    });
+
+    this.overlayObjPerm.mat = new LineMaterial({
+      color: 0xfd5656,
       linewidth: 10,
       resolution: new THREE.Vector2(1920, 1080),
       dashed: false,
@@ -134,13 +148,19 @@ export class FXBuilder {
     }
   };
 
-  initOverlayObj = (obj: THREE.Object3D<THREE.Event>) => {
+  //overlay obj
+  initOverlayObj = (obj: THREE.Object3D<THREE.Event>, type: 'temp' | 'perm') => {
     if (obj instanceof Line2) {
-      this.overlayObj.form = obj.clone();
-
-      this.overlayObj.form.renderOrder = -1;
-      this.overlayObj.form.layers.set(0);
-      this.overlayObj.form.material = this.overlayObj.mat;
+      let overlayObj: I3dObjLine;
+      if (type === 'temp') {
+        overlayObj = this.overlayObjTemp;
+      } else {
+        overlayObj = this.overlayObjPerm;
+      }
+      overlayObj.form = obj.clone();
+      overlayObj.form.renderOrder = -1;
+      overlayObj.form.layers.set(0);
+      overlayObj.form.material = overlayObj.mat;
     }
   };
 }
