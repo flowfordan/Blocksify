@@ -21,7 +21,7 @@ export class ToolsController {
       line: new Line(activeElement, 0, sceneController),
       pLine: new Line(activeElement, 1, sceneController),
       polygon: new Polygon(activeElement, scene, sceneController),
-      selector: new Selector(activeElement, scene),
+      selector: new Selector(activeElement, sceneController),
       cleaner: new Cleaner(scene),
     };
     //builder = new Builder(sceneController)

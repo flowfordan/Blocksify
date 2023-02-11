@@ -141,4 +141,20 @@ export class Handler {
     this.sceneController.removeObj(this.fxBuilder.tempObjs.line.form);
     this.sceneController.removeObj(this.fxBuilder.tempObjs.polygon.form);
   };
+
+  //OVERLAY OBJECTS
+  createOverlayObj = (baseObj: THREE.Object3D<THREE.Event> | undefined) => {
+    if (baseObj) {
+      this.fxBuilder.initOverlayObj(baseObj);
+      this.renderOverlayObj();
+    }
+  };
+
+  private renderOverlayObj = () => {
+    this.sceneController.addObj(this.fxBuilder.overlayObj.form);
+  };
+
+  removeOverlayObj = () => {
+    this.sceneController.removeObj(this.fxBuilder.overlayObj.form);
+  };
 }

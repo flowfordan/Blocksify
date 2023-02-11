@@ -25,6 +25,8 @@ export class FXBuilder {
     polygon: I3dObjPolygon;
   };
 
+  overlayObj: I3dObjLine;
+
   constructor() {
     this.trackObjs = {
       line: {
@@ -50,6 +52,11 @@ export class FXBuilder {
         mat: new THREE.MeshBasicMaterial(),
       },
     };
+    this.overlayObj = {
+      form: new Line2(),
+      geom: new LineGeometry(),
+      mat: new LineMaterial(),
+    };
 
     //default track materials
     this.trackObjs.line.mat = new LineMaterial({
@@ -65,6 +72,14 @@ export class FXBuilder {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
+    });
+
+    this.overlayObj.mat = new LineMaterial({
+      color: 0x81c9fc,
+      linewidth: 10,
+      resolution: new THREE.Vector2(1920, 1080),
+      dashed: false,
+      opacity: 1,
     });
   }
 
@@ -116,6 +131,16 @@ export class FXBuilder {
       const line = obj as I3dObjLine;
       this.tempObjs.line.form = line.form.clone();
       this.tempObjs.line.form.name = 'temp';
+    }
+  };
+
+  initOverlayObj = (obj: THREE.Object3D<THREE.Event>) => {
+    if (obj instanceof Line2) {
+      this.overlayObj.form = obj.clone();
+
+      this.overlayObj.form.renderOrder = -1;
+      this.overlayObj.form.layers.set(0);
+      this.overlayObj.form.material = this.overlayObj.mat;
     }
   };
 }
