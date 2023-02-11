@@ -1,3 +1,4 @@
+import { SceneWatcher } from './SceneWatcher';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module';
@@ -20,13 +21,15 @@ export class ThreeView {
   cameraController: CameraController;
   toolsController: ToolsController;
   layersController: LayersController;
+  sceneWatcher: SceneWatcher;
 
   groundPlane: THREE.Plane;
   //TODO remove any
   stats: any;
 
   constructor(canvasRef: HTMLCanvasElement) {
-    this.sceneController = new SceneController();
+    this.sceneWatcher = new SceneWatcher();
+    this.sceneController = new SceneController(this.sceneWatcher); //scene init
     this.labelRendererController = new LabelRendererController();
     this.rendererController = new RendererController(canvasRef);
     this.cameraController = new CameraController(this.rendererController.activeElement);

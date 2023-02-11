@@ -8,19 +8,7 @@ export class LayersController {
     // this.currentLayer = this.findActiveLayer();
   }
 
-  // findActiveLayer = () => {
-  //   const layer = layersState.layers.find((l) => l.active);
-
-  //   if (!layer) {
-  //     throw new Error('Among all layers there should be 1 ACTIVE!');
-  //   }
-
-  //   return layer;
-  // };
-
-  // setActiveLayer = (layer: Layer) => {
-  //   if (layer) {
-  //     this.currentLayer = layer;
-  //   }
-  // };
+  setIsLayerEmpty = (operation: 'add' | 'remove', layerId: number) => {
+    //
+  };
 }

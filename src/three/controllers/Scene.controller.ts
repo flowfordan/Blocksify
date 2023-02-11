@@ -1,3 +1,4 @@
+import { SceneWatcher } from './../SceneWatcher';
 import * as THREE from 'three';
 import { worldPlaneHelper, worldPlaneMesh } from '../geometry/worldPlane';
 import { cube, myLine } from '../geometry/geometry';
@@ -5,8 +6,9 @@ import { dirLight, dirLightHelper, hemiLight } from '../lights';
 
 export class SceneController {
   scene: THREE.Scene;
-  constructor() {
-    //
+  watcher: SceneWatcher;
+  constructor(watcher: SceneWatcher) {
+    this.watcher = watcher;
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xb3deff);
 
@@ -23,13 +25,12 @@ export class SceneController {
   }
 
   addObj = (object: THREE.Object3D) => {
-    console.log('ADDED OBJECT');
+    this.watcher.onObjAdded(object);
     this.scene.add(object);
   };
 
   removeObj = (object: THREE.Object3D) => {
-    console.log('REMOVED OBJECT');
-    //scene.remove...
+    this.watcher.onObjRemoved(object);
     this.scene.remove(object);
   };
 }

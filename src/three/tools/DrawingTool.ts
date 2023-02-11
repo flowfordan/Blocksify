@@ -11,7 +11,6 @@ export class DrawingTool {
   toolState: number;
   canvas: HTMLCanvasElement;
   rect: DOMRect;
-  scene: THREE.Scene;
   layer: Layer;
 
   currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera | null;
@@ -25,10 +24,9 @@ export class DrawingTool {
 
   handler: Handler;
 
-  constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, sceneController: SceneController) {
+  constructor(canvas: HTMLCanvasElement, sceneController: SceneController) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
-    this.scene = scene;
     this.layer = layersState.currentLayer;
     this.toolState = 0; //state from 0 to 3
 
@@ -39,8 +37,8 @@ export class DrawingTool {
 
     this.objCoords = [];
 
-    this.tagsManager = new TagsManager(scene);
-    this.snapManager = new SnapManager(scene);
+    this.tagsManager = new TagsManager(sceneController.scene);
+    this.snapManager = new SnapManager(sceneController.scene);
     this.handler = new Handler(sceneController);
   }
 
@@ -59,11 +57,6 @@ export class DrawingTool {
   protected _resetLoop(isDisgraceful?: boolean) {
     this.toolState = 1;
     this.objCoords = [];
-
-    //layerState
-    if (!isDisgraceful) {
-      layersState.setIsLayerEmpty(true);
-    }
   }
 
   //STOP METHOD

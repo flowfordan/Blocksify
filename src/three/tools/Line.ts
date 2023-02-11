@@ -11,8 +11,8 @@ export class Line extends DrawingTool {
   lineMode: number;
   lineSegments: number;
 
-  constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, drawMode: number, sceneController: SceneController) {
-    super(canvas, scene, sceneController);
+  constructor(canvas: HTMLCanvasElement, drawMode: number, sceneController: SceneController) {
+    super(canvas, sceneController);
     this.lineMode = drawMode; //0: 2-pt line, 1: polyline
     this.lineSegments = 1;
   }
@@ -128,9 +128,6 @@ export class Line extends DrawingTool {
     this.canvas.removeEventListener('click', this._onDrawClick);
     this.canvas.removeEventListener('dblclick', this._onDBClick);
     window.removeEventListener('keypress', this._onKey);
-
-    console.log('SCENE ON STOP', this.scene.children);
-    console.log(this.currentCamera);
   };
 
   protected _resetLoop = (isDisgraceful?: boolean) => {

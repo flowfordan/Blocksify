@@ -11,6 +11,7 @@ class SceneState {
   globalCoords: Coords;
   currentCamera: number;
   baseDirection: Vector3;
+  stage: number; //0 - 4
 
   constructor() {
     this.isFetchingGlobalCoords = true;
@@ -22,6 +23,8 @@ class SceneState {
     this.currentCamera = 1;
 
     this.baseDirection = new Vector3(1, 0, 0);
+
+    this.stage = 0;
 
     makeAutoObservable(this);
   }
