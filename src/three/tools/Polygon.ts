@@ -38,9 +38,8 @@ export class Polygon extends DrawingTool {
       //while 1point
       if (this.objCoords.length <= 6) {
         //TRACK
-        const trackObjCoords = [...this.objCoords, ...coordsCurrent];
-        // this.trackObj.updCoords(trackObjCoords);
-        // this.trackObj.add();
+        //repetition to create buffer for 3points array
+        const trackObjCoords = [...this.objCoords, ...coordsCurrent, ...coordsCurrent];
         this.handler.updTrack(trackObjCoords);
         this.handler.renderTrack();
         //TAG
@@ -55,16 +54,11 @@ export class Polygon extends DrawingTool {
         const trackObjCoords = [...pt1N, ...coordsCurrent, ...pt2N];
 
         //TRACK
-        // this.trackObj.updPolygon(pt1, pt2, this.currentPointerCoord);
-        // this.trackObj.updCoords(trackObjCoords);
-        // this.trackObj.add(true);
+        this.handler.updTrackPolygon(pt1, pt2, this.currentPointerCoord);
         this.handler.updTrack(trackObjCoords);
-        this.handler.renderTrack();
+        this.handler.renderTrack(true);
         //TAG
-        const current2pt = this.objCoords.slice(-6);
-        const p1 = current2pt.slice(0, 3);
-        const p2 = current2pt.slice(3);
-        this.tagsManager.renderTag([new Vector3(...p1), new Vector3(...p2)], this.currentPointerCoord);
+        this.tagsManager.renderTag([new Vector3(...pt1N), new Vector3(...pt2N)], this.currentPointerCoord);
       }
     }
   };
@@ -73,18 +67,14 @@ export class Polygon extends DrawingTool {
     if (this.toolState === 1) {
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
-
-      //create and render
+      //create obj
       this.handler.createObj('polygon', this.objCoords, this.layer, this.currentPointerCoord);
-      // this.handler.renderObj();
-
       //TRACK
-      // this.trackObj.init(true);
       this.handler.createTrack(true);
-
       this.toolState = 2;
     } else if (this.toolState === 2) {
       //first upd - only polygon form
+      //will fire only if 1 pt created
       this.handler.updObj('polygon', this.objCoords, this.currentPointerCoord);
 
       //upd OBJ coords
@@ -93,15 +83,14 @@ export class Polygon extends DrawingTool {
         this.handler.getObjPolygonPoints(),
         this.currentPlane!.constant //WORLD PLANE LEVEL
       );
-      console.log('POINTS FROM POLYGON', this.handler.getObjPolygonPoints());
       this.objCoords.push(...currentLineCoords);
       //CLOSE line by pushing start point
       this.objCoords.push(...this.objCoords.slice(0, 3));
       //updating
       this.handler.updObj('polygon', this.objCoords, this.currentPointerCoord);
 
-      // this.trackObj.remove(true);
-      this.handler.removeTrack(true);
+      this.tagsManager.stopRender();
+      this.handler.removeTrack();
     }
   };
 
@@ -135,7 +124,6 @@ export class Polygon extends DrawingTool {
     this.handler.reset();
     this.handler.removeTrack();
     //TRACK, TAG, SNAP
-    // this.trackObj.remove(true);
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();
   };

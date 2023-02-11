@@ -94,6 +94,8 @@ export class Line extends DrawingTool {
       } else {
         this.toolState = 2;
         this.lineSegments++;
+        //remove tag
+        this.tagsManager.stopRender();
       }
       this.handler.removeTrack();
     }

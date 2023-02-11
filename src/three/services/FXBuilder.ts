@@ -91,6 +91,20 @@ export class FXBuilder {
     this.trackObjs.line.form.computeLineDistances();
   };
 
+  updTrackPolygon = (pt1: Vector2, pt2: Vector2, pointerCoords: Vector3) => {
+    this.trackObjs.polygon.geom = new THREE.Shape();
+    //draw triangle track obj
+    this.trackObjs.polygon.geom.moveTo(pt1.x, pt1.y);
+    this.trackObjs.polygon.geom.lineTo(pointerCoords.x, pointerCoords.z);
+    this.trackObjs.polygon.geom.lineTo(pt2.x, pt2.y);
+    this.trackObjs.polygon.form = new THREE.Mesh(
+      new THREE.ShapeGeometry(this.trackObjs.polygon.geom),
+      this.trackObjs.polygon.mat
+    );
+    //rotate(by def created on x-z plane)
+    this.trackObjs.polygon.form.rotateX(Math.PI / 2);
+  };
+
   //initTemp
   initTemp = (obj: I3dObjLine | I3dObjPolygon, isPolygon = false) => {
     if (isPolygon) {

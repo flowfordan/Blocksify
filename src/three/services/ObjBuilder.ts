@@ -119,7 +119,6 @@ export class ObjBuilder {
   };
 
   updatePolygon = (newCoords: Array<number>, currentPointerCoord: THREE.Vector3) => {
-    //
     if (
       !this.objParts.line.geom ||
       !this.objParts.line.form ||

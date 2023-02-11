@@ -4,15 +4,15 @@ import * as THREE from 'three';
 import { getLineMat, getPolygonMat, I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat } from '../objs3d';
 import { ObjBuilder } from './ObjBuilder';
 import { Layer } from '../../shared/model';
-import { Vector3 } from 'three';
+import { Vector2, Vector3 } from 'three';
 
 //objs handler
 //stores objs created
 //commands to render
 
 export class Handler {
-  objBuilder: ObjBuilder;
-  fxBuilder: FXBuilder;
+  objBuilder: ObjBuilder; //actual main objects
+  fxBuilder: FXBuilder; //temporal effect-objects
   sceneController: SceneController;
 
   constructor(sceneController: SceneController) {
@@ -83,7 +83,7 @@ export class Handler {
     this.removeTemp();
   };
 
-  //TRACK OBJECTS
+  //TRACK OBJECTS SHOWING REAL TIME MOVING
   createTrack = (isPolygon?: boolean) => {
     this.fxBuilder.initTrack(isPolygon);
   };
@@ -92,23 +92,25 @@ export class Handler {
     this.fxBuilder.updTrack(coords);
   };
 
+  updTrackPolygon = (pt1: Vector2, pt2: Vector2, pointerCoords: Vector3) => {
+    //remove track poly
+    this.sceneController.removeObj(this.fxBuilder.trackObjs.polygon.form);
+    this.fxBuilder.updTrackPolygon(pt1, pt2, pointerCoords);
+  };
+
   renderTrack = (isPolygon = false) => {
-    //
     if (isPolygon) {
       this.sceneController.addObj(this.fxBuilder.trackObjs.polygon.form);
     }
     this.sceneController.addObj(this.fxBuilder.trackObjs.line.form);
   };
 
-  removeTrack = (isPolygon = false) => {
-    //
-    if (isPolygon) {
-      this.sceneController.removeObj(this.fxBuilder.trackObjs.polygon.form);
-    }
+  removeTrack = () => {
     this.sceneController.removeObj(this.fxBuilder.trackObjs.line.form);
+    this.sceneController.removeObj(this.fxBuilder.trackObjs.polygon.form);
   };
 
-  //TEMP OBJECT SHOWING RESULT OF TOOL
+  //TEMP OBJECT SHOWING FUTURE RESULT OF TOOL
   private createTemp = (isPolygon?: boolean) => {
     this.fxBuilder.initTemp(this.objBuilder.objParts.line);
     if (isPolygon) {
