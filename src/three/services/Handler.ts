@@ -57,6 +57,8 @@ export class Handler {
       this.updTemp('pline');
     } else if (type === 'polygon' && currentPointerCoords) {
       this.objBuilder.updatePolygon(objCoords, currentPointerCoords);
+      //upd temp
+      this.updTemp('polygon');
     }
   };
 
@@ -83,12 +85,10 @@ export class Handler {
 
   //TRACK OBJECTS
   createTrack = (isPolygon?: boolean) => {
-    //
     this.fxBuilder.initTrack(isPolygon);
   };
 
   updTrack = (coords: Array<number>) => {
-    //
     this.fxBuilder.updTrack(coords);
   };
 
@@ -117,22 +117,28 @@ export class Handler {
   };
 
   private updTemp = (type: 'pline' | 'polygon') => {
-    if (type === 'pline') {
-      this.removeTemp();
-      this.fxBuilder.tempObjs.line.form = this.objBuilder.objParts.line.form.clone();
-      console.log(this.fxBuilder.tempObjs.line);
-      this.fxBuilder.tempObjs.line.form.name = 'temp';
-      this.renderTemp();
-    } else if (type === 'polygon') {
-      //this.objBuilder.updatePolygon(objCoords, currentPointerCoords);
+    this.removeTemp();
+    //upd LINE pt
+    this.fxBuilder.tempObjs.line.form = this.objBuilder.objParts.line.form.clone();
+    this.fxBuilder.tempObjs.line.form.name = 'temp';
+    if (type === 'polygon') {
+      //POLYGON pt
+      this.fxBuilder.tempObjs.polygon.form = this.objBuilder.objParts.polygon.form.clone();
+      this.fxBuilder.tempObjs.polygon.form.name = 'temp';
     }
+    const isPolygon = type === 'polygon' ? true : false;
+    this.renderTemp(isPolygon);
   };
 
-  private renderTemp = () => {
+  private renderTemp = (isPolygon?: boolean) => {
     this.sceneController.addObj(this.fxBuilder.tempObjs.line.form);
+    if (isPolygon) {
+      this.sceneController.addObj(this.fxBuilder.tempObjs.polygon.form);
+    }
   };
 
   private removeTemp = () => {
     this.sceneController.removeObj(this.fxBuilder.tempObjs.line.form);
+    this.sceneController.removeObj(this.fxBuilder.tempObjs.polygon.form);
   };
 }

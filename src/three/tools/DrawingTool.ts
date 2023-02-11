@@ -21,7 +21,7 @@ export class DrawingTool {
 
   tagsManager: TagsManager;
   snapManager: SnapManager;
-  trackObj: TrackObjManager;
+  // trackObj: TrackObjManager;
 
   objCoords: Array<number>;
 
@@ -41,7 +41,7 @@ export class DrawingTool {
 
     this.objCoords = [];
 
-    this.trackObj = new TrackObjManager(scene);
+    // this.trackObj = new TrackObjManager(scene);
     this.tagsManager = new TagsManager(scene);
     this.snapManager = new SnapManager(scene);
     this.handler = new Handler(sceneController);

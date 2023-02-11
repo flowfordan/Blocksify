@@ -39,8 +39,10 @@ export class Polygon extends DrawingTool {
       if (this.objCoords.length <= 6) {
         //TRACK
         const trackObjCoords = [...this.objCoords, ...coordsCurrent];
-        this.trackObj.updCoords(trackObjCoords);
-        this.trackObj.add();
+        // this.trackObj.updCoords(trackObjCoords);
+        // this.trackObj.add();
+        this.handler.updTrack(trackObjCoords);
+        this.handler.renderTrack();
         //TAG
         this.tagsManager.renderTag([new Vector3(...this.objCoords)], this.currentPointerCoord);
       } else {
@@ -53,9 +55,11 @@ export class Polygon extends DrawingTool {
         const trackObjCoords = [...pt1N, ...coordsCurrent, ...pt2N];
 
         //TRACK
-        this.trackObj.updPolygon(pt1, pt2, this.currentPointerCoord);
-        this.trackObj.updCoords(trackObjCoords);
-        this.trackObj.add(true);
+        // this.trackObj.updPolygon(pt1, pt2, this.currentPointerCoord);
+        // this.trackObj.updCoords(trackObjCoords);
+        // this.trackObj.add(true);
+        this.handler.updTrack(trackObjCoords);
+        this.handler.renderTrack();
         //TAG
         const current2pt = this.objCoords.slice(-6);
         const p1 = current2pt.slice(0, 3);
@@ -75,7 +79,8 @@ export class Polygon extends DrawingTool {
       // this.handler.renderObj();
 
       //TRACK
-      this.trackObj.init(true);
+      // this.trackObj.init(true);
+      this.handler.createTrack(true);
 
       this.toolState = 2;
     } else if (this.toolState === 2) {
@@ -95,11 +100,12 @@ export class Polygon extends DrawingTool {
       //updating
       this.handler.updObj('polygon', this.objCoords, this.currentPointerCoord);
 
-      this.trackObj.remove(true);
+      // this.trackObj.remove(true);
+      this.handler.removeTrack(true);
     }
   };
 
-  _onDBClick = () => {
+  private _onDBClick = () => {
     console.log('Double CLICK? What did you expect?');
   };
 
@@ -114,18 +120,22 @@ export class Polygon extends DrawingTool {
     //delete began forms
     this.handler.removeObj();
 
-    this._resetLoop();
+    this._resetLoop(true);
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
     this.canvas.removeEventListener('click', this._onDrawClick);
     this.canvas.removeEventListener('dblclick', this._onDBClick);
     window.removeEventListener('keypress', this._onEnter);
   }
 
-  protected _resetLoop = () => {
-    super._resetLoop();
+  protected _resetLoop = (isDisgraceful?: boolean) => {
+    super._resetLoop(isDisgraceful);
+    if (!isDisgraceful) {
+      this.handler.renderObj();
+    }
     this.handler.reset();
+    this.handler.removeTrack();
     //TRACK, TAG, SNAP
-    this.trackObj.remove(true);
+    // this.trackObj.remove(true);
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();
   };
