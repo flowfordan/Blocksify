@@ -34,14 +34,12 @@ export class Handler {
       //create temp
       this.createTemp();
     } else if (type === 'polygon' && currentPointerCoords) {
-      //
       this.objBuilder.createPolygon(objCoords, currentLayer, currentPointerCoords);
       this.createTemp(true);
     }
   };
 
   getObjPolygonPoints = (): Array<THREE.Vector2> => {
-    //
     if (!this.objBuilder.objParts.polygon.geom) {
       throw new Error('No current Polygon was created');
     }

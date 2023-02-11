@@ -4,7 +4,6 @@ import * as THREE from 'three';
 import { Layer, layersState } from '../../shared/model';
 import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
-import { TrackObjManager } from '../helpers/TrackObjManager';
 import { Handler } from '../services/Handler';
 
 //SUPERCLASS FOR DRAWING TOOLS
@@ -21,7 +20,6 @@ export class DrawingTool {
 
   tagsManager: TagsManager;
   snapManager: SnapManager;
-  // trackObj: TrackObjManager;
 
   objCoords: Array<number>;
 
@@ -41,7 +39,6 @@ export class DrawingTool {
 
     this.objCoords = [];
 
-    // this.trackObj = new TrackObjManager(scene);
     this.tagsManager = new TagsManager(scene);
     this.snapManager = new SnapManager(scene);
     this.handler = new Handler(sceneController);
