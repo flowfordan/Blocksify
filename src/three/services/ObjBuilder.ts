@@ -67,7 +67,7 @@ export class ObjBuilder {
     this.objParts.points.form.layers.set(layer.id);
     this.objCreated.name = layer.name;
     //obj data
-    this.objCreated.userData = { type: 'main' };
+    this.objCreated.userData = { type: 'main', layerId: layer.id };
   };
 
   createPolygon = (objCoords: Array<number>, layer: Layer, currentPointerCoord: THREE.Vector3) => {
@@ -102,7 +102,7 @@ export class ObjBuilder {
     this.objParts.polygon.form.layers.set(layer.id);
     this.objCreated.name = layer.name;
 
-    this.objCreated.userData = { type: 'main' };
+    this.objCreated.userData = { type: 'main', layerId: layer.id };
   };
 
   updateLine = (type: 0 | 1, newCoords: Array<number>) => {

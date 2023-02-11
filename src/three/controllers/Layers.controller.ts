@@ -8,7 +8,20 @@ export class LayersController {
     // this.currentLayer = this.findActiveLayer();
   }
 
-  setIsLayerEmpty = (operation: 'add' | 'remove', layerId: number) => {
-    //
+  setIsLayerEmpty = (layerId: number) => {
+    const currentLayer = layersState.layers.find((l) => l.id === layerId);
+    if (!currentLayer) {
+      throw new Error('Cant find Layer');
+    }
+    const layerObjsToRemain = currentLayer.objectsQuantity;
+    if (layerObjsToRemain < 1) {
+      layersState.setIsLayerEmpty(true, layerId);
+    } else {
+      layersState.setIsLayerEmpty(false, layerId);
+    }
+  };
+
+  setObjectsQuantity = (toAdd: boolean, quant: number, layerId: number) => {
+    layersState.setLayerObjectsNumber(toAdd, layerId, quant);
   };
 }

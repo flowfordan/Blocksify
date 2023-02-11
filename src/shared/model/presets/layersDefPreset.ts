@@ -105,6 +105,7 @@ const layersDefPreset = [
         auto: null,
       },
     },
+    objectsQuantity: 0,
   },
   {
     name: 'Streets',
@@ -118,6 +119,7 @@ const layersDefPreset = [
       main: streetsMainContent,
       add: streetsAddContent,
     },
+    objectsQuantity: 0,
   },
   {
     name: 'Blocks',
@@ -131,6 +133,7 @@ const layersDefPreset = [
       main: null,
       add: blocksAddContent,
     },
+    objectsQuantity: 0,
   },
   {
     name: 'Buildings',
@@ -144,6 +147,7 @@ const layersDefPreset = [
       main: null,
       add: buildingsAddContent,
     },
+    objectsQuantity: 0,
   },
 ];
 

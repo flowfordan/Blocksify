@@ -28,7 +28,8 @@ export class ThreeView {
   stats: any;
 
   constructor(canvasRef: HTMLCanvasElement) {
-    this.sceneWatcher = new SceneWatcher();
+    this.layersController = new LayersController();
+    this.sceneWatcher = new SceneWatcher(this.layersController);
     this.sceneController = new SceneController(this.sceneWatcher); //scene init
     this.labelRendererController = new LabelRendererController();
     this.rendererController = new RendererController(canvasRef);
@@ -38,7 +39,6 @@ export class ThreeView {
       this.rendererController.activeElement,
       this.sceneController
     );
-    this.layersController = new LayersController();
 
     this.groundPlane = worldPlane;
 

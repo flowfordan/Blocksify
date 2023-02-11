@@ -30,7 +30,7 @@ export class SceneController {
   };
 
   removeObj = (object: THREE.Object3D) => {
-    this.watcher.onObjRemoved(object);
+    this.watcher.onObjRemoved(object, this.scene);
     this.scene.remove(object);
   };
 }

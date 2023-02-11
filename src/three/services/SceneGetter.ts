@@ -18,8 +18,12 @@ export class SceneGetter {
   };
 
   getObjsByLayer = (scene: THREE.Scene, layerId: number): Array<THREE.Object3D> => {
-    //
     const objects: Array<THREE.Object3D> = [];
+    scene.children.forEach((obj) => {
+      if (obj.layers.mask === layerId) {
+        objects.push(obj);
+      }
+    });
     return objects;
   };
 }

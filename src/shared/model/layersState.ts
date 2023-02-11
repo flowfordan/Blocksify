@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, toJS } from 'mobx';
 import { LineMaterial } from 'three-fatline';
 import { layersDefPreset } from './presets/layersDefPreset';
 
@@ -38,6 +38,7 @@ export interface Layer {
   visible: boolean;
   blocked: boolean;
   content: LayerContent;
+  objectsQuantity: number;
 }
 
 class LayersState {
@@ -95,14 +96,23 @@ class LayersState {
   };
 
   //TODO case after Selector Delete
-  setIsLayerEmpty = (onDrawLoopEnd: boolean) => {
-    const currentActive = this.layers.find((item) => item.active);
-    //case for ufter draw check
-    if (currentActive && currentActive.empty && onDrawLoopEnd) {
-      currentActive.empty = false;
-    } else if (currentActive && !currentActive.empty && !onDrawLoopEnd) {
-      console.log('search obj with layer id === current, if found 1 . - return, not found - set empty');
+  setIsLayerEmpty = (isEmpty: boolean, id: number) => {
+    const layer = this.layers.find((l) => l.id === id);
+    if (layer) {
+      layer.empty = isEmpty;
     }
+  };
+
+  setLayerObjectsNumber = (toAdd: boolean, layerId: number, num: number) => {
+    const layer = this.layers.find((l) => l.id === layerId);
+    if (layer) {
+      if (toAdd) {
+        layer.objectsQuantity = layer.objectsQuantity + num;
+      } else {
+        layer.objectsQuantity = layer.objectsQuantity - num;
+      }
+    }
+    console.log('NUMBERS', toJS(this.layers));
   };
 }
 
