@@ -1,4 +1,5 @@
 import { getLineMat, getPolygonMat } from '../../../three/objs3d';
+import { Layer } from '../../types/layers';
 
 //objects 3d materials
 //LAYER 2 - BORDER
@@ -89,9 +90,9 @@ const buildingsAddContent = {
 //TODO: utility layer with
 //TODO: property utility: bool
 //guides and helpers options
-const layersDefPreset = [
+const layersDefPreset: Array<Layer> = [
   {
-    name: 'Border',
+    name: 'Borders',
     id: 2,
     active: true,
     empty: true,

@@ -1,11 +1,12 @@
 import { Line2, LineMaterial } from 'three-fatline';
 import * as THREE from 'three';
 
-import { Layer, layersState } from '../../shared/model';
+import { layersState } from '../../shared/model';
 import { getObjByPointer } from '../utils';
 import { Object3D } from 'three';
 import { Handler } from '../services/Handler';
 import { SceneController } from '../controllers/Scene.controller';
+import { Layer } from '../../shared/types/layers';
 
 export class Selector {
   rect: DOMRect;
