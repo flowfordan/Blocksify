@@ -44,5 +44,5 @@ export interface Layer {
   blocked: boolean;
   content: LayerContent;
   objectsQuantity: number; //only main objects
-  objData?: IObjProperties;
+  objData: IObjProperties[keyof IObjProperties];
 }
