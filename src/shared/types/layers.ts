@@ -1,14 +1,16 @@
 import { LineMaterial } from 'three-fatline';
 import { IObjProperties } from './objsData';
 
-export interface ILayerIDs {
-  borders: 2;
-  streets: 3;
-  blocks: 4;
-  buildings: 5;
+export enum ILayerIDs {
+  borders = 2,
+  streets = 3,
+  blocks = 4,
+  buildings = 5,
 }
 
-type ILayerName = Capitalize<keyof ILayerIDs>;
+type LayerID = `${ILayerIDs}` extends `${infer T extends number}` ? T : never;
+
+type ILayerName = Capitalize<keyof typeof ILayerIDs>;
 
 //TODO: include current layer property
 interface LayerContentMaterials {
@@ -36,7 +38,7 @@ interface LayerContent {
 
 export interface Layer {
   name: ILayerName;
-  id: number; //three layers from 0 to 32
+  id: LayerID; //three layers from 0 to 32
   active: boolean;
   empty: boolean;
   editable: boolean;

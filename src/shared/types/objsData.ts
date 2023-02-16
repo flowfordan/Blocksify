@@ -43,12 +43,22 @@ interface IBuildingObjProperties<I, N> extends ICommonObjProperties<I, N> {
   objFloors: IObjPropertyData<number>;
 }
 
+//test various
+interface IVariousObjProperties<I, N> extends ICommonObjProperties<I, N> {
+  objFloors: IObjPropertyData<number>;
+  objArea: IObjPropertyData<number>;
+  objLength: IObjPropertyData<number>;
+  objWidth: IObjPropertyData<number>;
+  objMaxFloors: IObjPropertyData<number>;
+  objMinFloors: IObjPropertyData<number>;
+}
+
 //Layer Id
 export interface IObjProperties {
-  border: IBorderObjProperties<ILayerIDs['borders'], 'Border'>;
-  street: IStreetObjProperties<ILayerIDs['streets'], 'Street'>;
-  block: IBlockObjProperties<ILayerIDs['blocks'], 'Block'>;
-  building: IBuildingObjProperties<ILayerIDs['buildings'], 'Building'>;
+  [ILayerIDs.borders]: IBorderObjProperties<ILayerIDs.borders, 'Border'>;
+  [ILayerIDs.streets]: IStreetObjProperties<ILayerIDs.streets, 'Street'>;
+  [ILayerIDs.blocks]: IBlockObjProperties<ILayerIDs.blocks, 'Block'>;
+  [ILayerIDs.buildings]: IBuildingObjProperties<ILayerIDs.buildings, 'Building'>;
 }
 
 //OBJS - SEGMENTS OF COMMON OBJS

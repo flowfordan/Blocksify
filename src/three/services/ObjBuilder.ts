@@ -1,6 +1,7 @@
-import { Layer } from '../../shared/model';
+import { PropsEditor } from './PropsEditor';
 import * as THREE from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
+import { Layer } from '../../shared/types/layers';
 import {
   getLineMat,
   getPolygonMat,
@@ -24,6 +25,7 @@ export class ObjBuilder {
     polygon: I3dObjPolygon;
   };
   isRenderable: boolean;
+  propsEditor: PropsEditor;
 
   constructor() {
     this.objCreated = new THREE.Object3D();
@@ -45,6 +47,7 @@ export class ObjBuilder {
       },
     };
     this.isRenderable = false;
+    this.propsEditor = new PropsEditor();
   }
 
   createLine = (objCoords: Array<number>, layer: Layer) => {
@@ -67,7 +70,8 @@ export class ObjBuilder {
     this.objParts.points.form.layers.set(layer.id);
     this.objCreated.name = layer.name;
     //obj data
-    this.objCreated.userData = { type: 'main', layerId: layer.id };
+    // this.objCreated.userData = { type: 'main', layerId: layer.id };
+    this.propsEditor.setObjInitProperties(this.objCreated, layer, 'layer_joined');
   };
 
   createPolygon = (objCoords: Array<number>, layer: Layer, currentPointerCoord: THREE.Vector3) => {

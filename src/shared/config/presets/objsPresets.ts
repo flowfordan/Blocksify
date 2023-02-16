@@ -1,7 +1,7 @@
 import { IObjProperties } from '../../types/objsData';
 
 //OBJS DATA PRESETS FOR LAYERS
-export const borderObjPreset: IObjProperties['border'] = {
+export const borderObjPreset: IObjProperties[2] = {
   layerId: {
     modType: 'constant',
     value: 2,
@@ -24,7 +24,7 @@ export const borderObjPreset: IObjProperties['border'] = {
   },
 };
 
-export const streetsObjPreset: IObjProperties['street'] = {
+export const streetsObjPreset: IObjProperties[3] = {
   layerId: {
     modType: 'constant',
     value: 3,
@@ -43,7 +43,7 @@ export const streetsObjPreset: IObjProperties['street'] = {
   },
 };
 
-export const blocksObjPreset: IObjProperties['block'] = {
+export const blocksObjPreset: IObjProperties[4] = {
   layerId: {
     modType: 'constant',
     value: 4,
@@ -58,7 +58,7 @@ export const blocksObjPreset: IObjProperties['block'] = {
   },
 };
 
-export const buildingsObjPreset: IObjProperties['building'] = {
+export const buildingsObjPreset: IObjProperties[5] = {
   layerId: {
     modType: 'constant',
     value: 5,

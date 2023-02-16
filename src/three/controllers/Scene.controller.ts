@@ -25,6 +25,7 @@ export class SceneController {
   }
 
   addObj = (object: THREE.Object3D) => {
+    console.log(this.scene.children);
     this.watcher.onObjAdded(object);
     this.scene.add(object);
   };

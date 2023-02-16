@@ -1,7 +1,6 @@
 import { SceneController } from '../controllers/Scene.controller';
 import { FXBuilder } from './FXBuilder';
 import * as THREE from 'three';
-import { getLineMat, getPolygonMat, I3dObjLine, I3dObjPoint, I3dObjPolygon, pMat } from '../objs3d';
 import { ObjBuilder } from './ObjBuilder';
 
 import { Vector2, Vector3 } from 'three';

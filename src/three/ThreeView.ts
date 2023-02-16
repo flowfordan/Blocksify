@@ -6,7 +6,7 @@ import { autorun, reaction, toJS } from 'mobx';
 
 import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './geometry/worldPlane';
 import { getMouseLocation } from './utils';
-import { Layer, layersState, sceneState, instrumentsState } from '../shared/model';
+import { layersState, sceneState } from '../shared/model';
 import { LabelRendererController } from './controllers/LabelRenderer.controller';
 import { SceneController } from './controllers/Scene.controller';
 import { RendererController } from './controllers/Renderer.controller';
