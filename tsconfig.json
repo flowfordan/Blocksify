@@ -11,6 +11,7 @@
     "jsx": "react",
     "noEmit": true,    
     "sourceMap": true,
+    "baseUrl": "./src",
 
     "allowJs": true,
     "skipLibCheck": true,
@@ -24,7 +25,7 @@
 
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-  "downlevelIteration": true,
+    "downlevelIteration": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,

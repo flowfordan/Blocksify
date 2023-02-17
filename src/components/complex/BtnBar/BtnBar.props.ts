@@ -3,7 +3,7 @@ import { AssetKey } from '../../_data/assetsData';
 
 export interface BtnBarProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   children?: ReactNode;
-  iconKey?: AssetKey;
+  iconKey?: AssetKey | string;
   isExpandable?: boolean;
   isActive: boolean;
   btnName?: string;
