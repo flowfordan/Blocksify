@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import './rightBar.scss';
-import { PanelDivision } from 'shared/ui/PanelDivision/PanelDivision';
+import { PanelDivision } from 'shared/ui';
 
 export const RightBar = observer((): JSX.Element => {
   return (

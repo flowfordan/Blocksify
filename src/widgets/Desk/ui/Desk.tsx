@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { ThreeView } from 'three/ThreeView';
 import './desk.scss';
-import { ThreeView } from '../../three/ThreeView';
 
 export const Desk = (): JSX.Element => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });

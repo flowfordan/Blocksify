@@ -6,8 +6,8 @@ import cn from 'classnames';
 import './leftBar.scss';
 import { layersState } from 'shared/model';
 import { LayersListItem } from 'components/complex/LayersListItem/LayersListItem';
-import { PanelDivision } from 'shared/ui/PanelDivision/PanelDivision';
 import { CoordsDisplay } from 'components/complex/CoordsPanel/CoordsPanel';
+import { PanelDivision } from 'shared/ui';
 
 export const LeftBar = observer((): JSX.Element => {
   const constructLayersList = (layersArr: typeof layersState.layers) => {

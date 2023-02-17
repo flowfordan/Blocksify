@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { Desk } from 'widgets/Desk';
 import { LeftBar } from 'widgets/LeftBar';
 import { RightBar } from 'widgets/RightBar';
 import { TopBar } from 'widgets/TopBar';
 import { CtxMenu } from '../../components/complex/CtxMenu/CtxMenu';
 
-import { Desk } from '../../components/Desk/Desk';
 import { uiState } from '../../shared/model';
 
 import './appPage.scss';
