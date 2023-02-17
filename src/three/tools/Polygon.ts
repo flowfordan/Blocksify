@@ -9,8 +9,8 @@ import { SceneController } from '../controllers/Scene.controller';
 export class Polygon extends DrawingTool {
   polygonParts: number;
 
-  constructor(canvas: HTMLCanvasElement, scene: THREE.Scene, sceneController: SceneController) {
-    super(canvas, scene, sceneController);
+  constructor(canvas: HTMLCanvasElement, sceneController: SceneController) {
+    super(canvas, sceneController);
     this.polygonParts = 1;
   }
 

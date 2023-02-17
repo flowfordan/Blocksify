@@ -2,6 +2,7 @@ import { AnglePts, createBaseV3s } from '../../three/helpers/createBaseV3s';
 import { makeAutoObservable, toJS } from 'mobx';
 import { Vector3 } from 'three';
 import { helpersDefPreset } from '../config/presets/helpersPreset';
+import { IObjProperties } from 'shared/types/objsData';
 
 //Drawing Tools: Line, Polyline, Polygon
 //Selector Tool
@@ -68,8 +69,20 @@ type HelpersActivity = {
   [id: number]: boolean;
 };
 
+type ToolNameOne = `${ToolName}`;
+
+type ToolsData = {
+  [ToolName.Selector]: SelectorToolData;
+};
+
+type SelectorToolData = {
+  selectedObjData: IObjProperties[keyof IObjProperties] | null;
+  intersectedObjData: IObjProperties[keyof IObjProperties] | null;
+};
+
 class InstrumentsState {
   tools: Array<ITool>;
+  toolsData: ToolsData;
   utilities: Array<ITool>;
   currentTool: ITool | null;
   currentUtilities: Array<ITool> | null;
@@ -90,7 +103,16 @@ class InstrumentsState {
       // { id: 5, name: ToolName.Generator, active: false, type: 'other' },
       // { id: 6, name: ToolName.PropsEditor, active: false, type: 'other' },
     ];
+    this.toolsData = {
+      selector: {
+        selectedObjData: null,
+        intersectedObjData: null,
+      },
+    };
     this.currentTool = null;
+
+    //toolsdata
+    //[toolname.line]: line data
 
     this.utilities = [
       // { id: 0, name: ToolName.Inspector, active: false, type: 'other' },

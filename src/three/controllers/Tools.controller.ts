@@ -1,13 +1,16 @@
 import { SceneController } from './Scene.controller';
-import { Layer, ToolName, instrumentsState } from '../../shared/model';
+
 import { HelpersManager } from '../helpers/HelpersManager';
 import { Line } from '../tools/Line';
 import { Polygon } from '../tools/Polygon';
 import { Selector } from '../tools/Selector';
 import { Cleaner } from '../tools/Cleaner';
+import { InstrumentsAcceptor } from 'three/acceptors/InstrumentsAcceptor';
+import { instrumentsState, ToolName } from 'shared/model';
+import { Layer } from 'shared/types/layers';
 
 export class ToolsController {
-  //
+  acceptor: InstrumentsAcceptor;
   helpersManager: HelpersManager;
 
   tools: {
@@ -17,14 +20,15 @@ export class ToolsController {
   currentToolId: number | undefined;
 
   constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement, sceneController: SceneController) {
+    this.acceptor = new InstrumentsAcceptor();
     this.tools = {
       line: new Line(activeElement, 0, sceneController),
       pLine: new Line(activeElement, 1, sceneController),
-      polygon: new Polygon(activeElement, scene, sceneController),
-      selector: new Selector(activeElement, sceneController),
+      polygon: new Polygon(activeElement, sceneController),
+      selector: new Selector(activeElement, sceneController, this.acceptor),
       cleaner: new Cleaner(scene),
     };
-    //builder = new Builder(sceneController)
+    //toolsData = {selector: {selectedObj: {...}, intersectedObj: {...} }}
     this.currentToolId = undefined;
     this.helpersManager = new HelpersManager(scene);
   }
@@ -80,4 +84,6 @@ export class ToolsController {
       }
     }
   };
+
+  //observe selector tool
 }

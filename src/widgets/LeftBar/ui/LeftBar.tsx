@@ -26,6 +26,9 @@ export const LeftBar = observer((): JSX.Element => {
     });
   };
 
+  //get properties list
+  //if public - render 2 columns - prop - value
+
   return (
     <div className={'leftBar'}>
       <PanelDivision header={'Layers'}>{constructLayersList(layersState.layers)}</PanelDivision>

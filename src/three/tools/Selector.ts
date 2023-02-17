@@ -1,3 +1,4 @@
+import { InstrumentsAcceptor } from './../acceptors/InstrumentsAcceptor';
 import { Line2, LineMaterial } from 'three-fatline';
 import * as THREE from 'three';
 
@@ -13,8 +14,8 @@ export class Selector {
   canvas: HTMLCanvasElement;
   currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   currentLayer: Layer;
-  selectedObj: THREE.Object3D | null;
-  intersectedObj: THREE.Object3D | null;
+  _selectedObj: THREE.Object3D | null;
+  _intersectedObj: THREE.Object3D | null;
   renderedObjs: {
     selectedObj: THREE.Object3D | null;
     selectedPoints: THREE.Points | null;
@@ -22,15 +23,17 @@ export class Selector {
   };
   toolState: number;
   handler: Handler;
-  constructor(canvas: HTMLCanvasElement, sceneController: SceneController) {
+  acceptor: InstrumentsAcceptor;
+  constructor(canvas: HTMLCanvasElement, sceneController: SceneController, acceptor: InstrumentsAcceptor) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
     this.currentCamera = new THREE.PerspectiveCamera();
 
     this.currentLayer = layersState.currentLayer;
 
-    this.selectedObj = null;
-    this.intersectedObj = null;
+    this._selectedObj = null;
+    this._intersectedObj = null;
+
     this.renderedObjs = {
       selectedObj: null,
       selectedPoints: null,
@@ -39,6 +42,19 @@ export class Selector {
     this.toolState = 0;
 
     this.handler = new Handler(sceneController);
+    this.acceptor = acceptor;
+  }
+
+  set selectedObj(obj: THREE.Object3D | null) {
+    this._selectedObj = obj;
+    //notify state
+    this.acceptor.setSelectorSelectedObjData(obj);
+  }
+
+  set intersectedObj(obj: THREE.Object3D | null) {
+    this._intersectedObj = obj;
+    //notify state
+    // this.acceptor.setSelectorSelectedObjData(obj);
   }
 
   //startTool
