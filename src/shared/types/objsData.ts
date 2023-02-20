@@ -1,52 +1,61 @@
 import { ILayerIDs } from './layers';
 
 //COMMON PROPS FOR ALL CREATED AND ADDED OBJS
-type GeneralObjType = 'joined_title_obj' | 'main_pt_obj' | 'sub_pt_obj' | 'temp_obj';
-interface IObjCommonData {
-  objGeneralType: GeneralObjType;
+export enum CommonObjPropNames {
+  objGeneralType = 'objGeneralType',
+}
+
+export enum CommonObjGeneralTypeNames {
+  JoinedObjType = 'joined_title_obj',
+}
+type JoinedObjType = 'joined_title_obj';
+type PtObjType = 'main_pt_obj' | 'sub_pt_obj';
+type GeneralObjType = JoinedObjType | PtObjType | 'temp_obj';
+export interface IObjCommonData {
+  [CommonObjPropNames.objGeneralType]: GeneralObjType;
 }
 
 type ModType = 'constant' | 'calculated' | 'editable';
 
 //COMMON LAYER OBJS (JOINED) - USER DATA
-interface IObjPropertyData<T extends number | string> {
+export interface IObj_PROP_Data<T extends number | string> {
   modType: ModType; //modification type
   value: T;
 }
 
-interface IObjIdData<T> {
-  modType: Extract<ModType, 'constant'>; //modification type
+interface IObj_ID_Data<T extends number> extends IObj_PROP_Data<T> {
+  modType: Extract<ModType, 'constant'>;
   value: T;
 }
 
-interface IObjNameData<T> {
-  modType: Extract<ModType, 'constant'>; //modification type
+interface IObj_NAME_Data<T extends string> extends IObj_PROP_Data<T> {
+  modType: Extract<ModType, 'constant'>;
   value: T;
 }
 
-interface ICommonObjProperties<T, K> extends IObjCommonData {
-  layerId: IObjIdData<T>;
-  name: IObjNameData<K>;
+interface ICommonObjProperties<T extends number, K extends string> extends IObjCommonData {
+  layerId: IObj_ID_Data<T>;
+  name: IObj_NAME_Data<K>;
 }
 
 //objs
-interface IBorderObjProperties<I, N> extends ICommonObjProperties<I, N> {
-  objArea: IObjPropertyData<number>;
-  objMaxFloors: IObjPropertyData<number>;
-  objMinFloors: IObjPropertyData<number>;
+interface IBorderObjProperties<I extends number, N extends string> extends ICommonObjProperties<I, N> {
+  objArea: IObj_PROP_Data<number>;
+  objMaxFloors: IObj_PROP_Data<number>;
+  objMinFloors: IObj_PROP_Data<number>;
 }
 
-interface IStreetObjProperties<I, N> extends ICommonObjProperties<I, N> {
-  objLength: IObjPropertyData<number>;
-  objWidth: IObjPropertyData<number>;
+interface IStreetObjProperties<I extends number, N extends string> extends ICommonObjProperties<I, N> {
+  objLength: IObj_PROP_Data<number>;
+  objWidth: IObj_PROP_Data<number>;
 }
 
-interface IBlockObjProperties<I, N> extends ICommonObjProperties<I, N> {
-  objArea: IObjPropertyData<number>;
+interface IBlockObjProperties<I extends number, N extends string> extends ICommonObjProperties<I, N> {
+  objArea: IObj_PROP_Data<number>;
 }
 
-interface IBuildingObjProperties<I, N> extends ICommonObjProperties<I, N> {
-  objFloors: IObjPropertyData<number>;
+interface IBuildingObjProperties<I extends number, N extends string> extends ICommonObjProperties<I, N> {
+  objFloors: IObj_PROP_Data<number>;
 }
 
 export interface IObjProperties {

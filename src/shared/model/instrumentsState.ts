@@ -195,8 +195,10 @@ class InstrumentsState {
     //
   };
 
-  updSelectorData = (data: unknown, selectorStatus: 'selected' | 'intersected') => {
-    //
+  updSelectorData = (data: IObjProperties[keyof IObjProperties], selectorStatus: 'selected' | 'intersected') => {
+    if (selectorStatus === 'selected') {
+      this.toolsData['selector'].selectedObjData = data;
+    }
   };
 
   //TODO define

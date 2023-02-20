@@ -2,6 +2,7 @@ import { IObjProperties } from '../../types/objsData';
 
 //OBJS DATA PRESETS FOR LAYERS
 export const borderObjPreset: IObjProperties[2] = {
+  objGeneralType: 'joined_title_obj',
   layerId: {
     modType: 'constant',
     value: 2,
@@ -25,6 +26,7 @@ export const borderObjPreset: IObjProperties[2] = {
 };
 
 export const streetsObjPreset: IObjProperties[3] = {
+  objGeneralType: 'joined_title_obj',
   layerId: {
     modType: 'constant',
     value: 3,
@@ -44,6 +46,7 @@ export const streetsObjPreset: IObjProperties[3] = {
 };
 
 export const blocksObjPreset: IObjProperties[4] = {
+  objGeneralType: 'joined_title_obj',
   layerId: {
     modType: 'constant',
     value: 4,
@@ -59,6 +62,7 @@ export const blocksObjPreset: IObjProperties[4] = {
 };
 
 export const buildingsObjPreset: IObjProperties[5] = {
+  objGeneralType: 'joined_title_obj',
   layerId: {
     modType: 'constant',
     value: 5,
