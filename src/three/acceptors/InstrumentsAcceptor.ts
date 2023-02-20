@@ -8,8 +8,13 @@ export class InstrumentsAcceptor {
   }
 
   setSelectorSelectedObjData = (obj: THREE.Object3D | null) => {
-    console.log('SET SELECTOR OBJ DATA');
+    console.log('SET SELECTOR OBJ DATA:', obj?.userData);
     //checks
+    //obj.userData
+    if (obj) {
+      //check props - joined layer obj
+      //check layer id
+    }
 
     //set state
     //call

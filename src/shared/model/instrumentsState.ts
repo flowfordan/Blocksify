@@ -191,6 +191,14 @@ class InstrumentsState {
     this.anglesSnapV3s = createBaseV3s(this.helpersOptions[idx].numbers);
   };
 
+  updToolData = () => {
+    //
+  };
+
+  updSelectorData = (data: unknown, selectorStatus: 'selected' | 'intersected') => {
+    //
+  };
+
   //TODO define
   private _updHelpersActivity = (id?: number) => {
     //upd exist value in exist obj

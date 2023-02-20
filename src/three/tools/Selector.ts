@@ -45,10 +45,19 @@ export class Selector {
     this.acceptor = acceptor;
   }
 
+  get selectedObj() {
+    return this._selectedObj;
+  }
+
   set selectedObj(obj: THREE.Object3D | null) {
+    console.log('SETTER of SELECTOR');
     this._selectedObj = obj;
     //notify state
     this.acceptor.setSelectorSelectedObjData(obj);
+  }
+
+  get intersectedObj() {
+    return this._intersectedObj;
   }
 
   set intersectedObj(obj: THREE.Object3D | null) {
@@ -93,28 +102,15 @@ export class Selector {
   };
 
   private _onClick = () => {
-    // this.scene.remove(this.renderedObjs.selectedObj!);
-    // this.scene.remove(this.renderedObjs.selectedPoints!);
     this.handler.removeOverlayObj('perm');
     this.selectedObj = null;
-    //remove selected obj
+    console.log('ON CLICK inters obj:', this.intersectedObj);
     if (this.intersectedObj) {
       //set selected obj
       this.selectedObj = this.intersectedObj;
       const lineToRender = this.selectedObj.children.find((i) => i instanceof Line2);
       //line to render
       this.handler.createOverlayObj(lineToRender, 'perm');
-      //points to render
-      // const pointsToRender = this.selectedObj.children.find((i) => i instanceof THREE.Points);
-      // if (pointsToRender instanceof THREE.Points) {
-      //   this.renderedObjs.selectedPoints = pointsToRender.clone();
-      //   this.renderedObjs.selectedPoints.renderOrder = 2;
-      //   this.renderedObjs.selectedPoints.material = new THREE.PointsMaterial({
-      //     color: 0xffffff,
-      //     size: 9,
-      //     sizeAttenuation: false,
-      //   });
-      // this.scene.add(this.renderedObjs.selectedPoints);
     }
   };
 

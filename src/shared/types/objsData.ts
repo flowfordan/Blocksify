@@ -1,5 +1,11 @@
 import { ILayerIDs } from './layers';
 
+//COMMON PROPS FOR ALL CREATED AND ADDED OBJS
+type GeneralObjType = 'joined_title_obj' | 'main_pt_obj' | 'sub_pt_obj' | 'temp_obj';
+interface IObjCommonData {
+  objGeneralType: GeneralObjType;
+}
+
 type ModType = 'constant' | 'calculated' | 'editable';
 
 //COMMON LAYER OBJS (JOINED) - USER DATA
@@ -18,7 +24,7 @@ interface IObjNameData<T> {
   value: T;
 }
 
-interface ICommonObjProperties<T, K> {
+interface ICommonObjProperties<T, K> extends IObjCommonData {
   layerId: IObjIdData<T>;
   name: IObjNameData<K>;
 }
@@ -43,29 +49,9 @@ interface IBuildingObjProperties<I, N> extends ICommonObjProperties<I, N> {
   objFloors: IObjPropertyData<number>;
 }
 
-//test various
-interface IVariousObjProperties<I, N> extends ICommonObjProperties<I, N> {
-  objFloors: IObjPropertyData<number>;
-  objArea: IObjPropertyData<number>;
-  objLength: IObjPropertyData<number>;
-  objWidth: IObjPropertyData<number>;
-  objMaxFloors: IObjPropertyData<number>;
-  objMinFloors: IObjPropertyData<number>;
-}
-
-//Layer Id
 export interface IObjProperties {
   [ILayerIDs.borders]: IBorderObjProperties<ILayerIDs.borders, 'Border'>;
   [ILayerIDs.streets]: IStreetObjProperties<ILayerIDs.streets, 'Street'>;
   [ILayerIDs.blocks]: IBlockObjProperties<ILayerIDs.blocks, 'Block'>;
   [ILayerIDs.buildings]: IBuildingObjProperties<ILayerIDs.buildings, 'Building'>;
 }
-
-//OBJS - SEGMENTS OF COMMON OBJS
-//userdata
-//main
-interface IObjSegmentData {
-  objType: 'main' | 'sub';
-}
-
-export {};
