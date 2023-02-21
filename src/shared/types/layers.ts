@@ -1,5 +1,5 @@
 import { LineMaterial } from 'three-fatline';
-import { IObjProperties } from './objsData';
+import { IObjDataProps } from './objs';
 
 export enum ILayerIDs {
   borders = 2,
@@ -46,5 +46,5 @@ export interface Layer {
   blocked: boolean;
   content: LayerContent;
   objectsQuantity: number; //only main objects
-  objDefaultData: IObjProperties[keyof IObjProperties];
+  objDefaultData: IObjDataProps[keyof IObjDataProps];
 }

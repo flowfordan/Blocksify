@@ -1,6 +1,6 @@
 import { SceneGetter } from './services/SceneGetter';
 import { LayersController } from './controllers/Layers.controller';
-import { IsObjDataOfJoinedObj } from 'shared/types/objsData';
+import { IsObjDataOfObjMain } from 'shared/types/objs';
 export class SceneWatcher {
   layersController: LayersController;
   sceneGetter: SceneGetter;
@@ -8,17 +8,15 @@ export class SceneWatcher {
     this.layersController = layersController;
     this.sceneGetter = new SceneGetter();
   }
-  //onObjAdded - upd layer status
-  //onObjRemoved
-  //onPropChanged
+
   onObjAdded = (obj: THREE.Object3D) => {
-    if (IsObjDataOfJoinedObj(obj.userData)) {
+    if (IsObjDataOfObjMain(obj.userData)) {
       this.updLayerStatus('add', obj.userData.layerId.value);
     }
   };
 
-  onObjRemoved = (obj: THREE.Object3D, scene: THREE.Scene) => {
-    if (IsObjDataOfJoinedObj(obj.userData)) {
+  onObjRemoved = (obj: THREE.Object3D) => {
+    if (IsObjDataOfObjMain(obj.userData)) {
       this.updLayerStatus('remove', obj.userData.layerId.value);
     }
   };

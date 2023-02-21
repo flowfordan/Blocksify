@@ -1,89 +1,89 @@
-import { IObjProperties } from '../../types/objsData';
+import { IObjDataProps, OBJ_GENERAL_TYPE } from 'shared/types/objs';
 
 //OBJS DATA PRESETS FOR LAYERS
-export const borderObjPreset: IObjProperties[2] = {
-  objGeneralType: 'joined_title_obj',
+export const borderObjPreset: IObjDataProps[2] = {
+  OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_MAIN,
   layerId: {
-    modType: 'constant',
+    editType: 'constant',
     value: 2,
   },
-  name: {
-    modType: 'constant',
+  objName: {
+    editType: 'constant',
     value: 'Border',
-    pubPropTitle: 'name',
+    pubTitle: 'name',
   },
   objArea: {
-    modType: 'calculated',
+    editType: 'calculated',
     value: 0,
-    pubPropTitle: 'area',
+    pubTitle: 'area',
   },
   objMaxFloors: {
-    modType: 'editable',
+    editType: 'editable',
     value: 0,
-    pubPropTitle: 'max floors',
+    pubTitle: 'max floors',
   },
   objMinFloors: {
-    modType: 'editable',
+    editType: 'editable',
     value: 0,
-    pubPropTitle: 'min floors',
+    pubTitle: 'min floors',
   },
 };
 
-export const streetsObjPreset: IObjProperties[3] = {
-  objGeneralType: 'joined_title_obj',
+export const streetsObjPreset: IObjDataProps[3] = {
+  OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_MAIN,
   layerId: {
-    modType: 'constant',
+    editType: 'constant',
     value: 3,
   },
-  name: {
-    modType: 'constant',
+  objName: {
+    editType: 'constant',
     value: 'Street',
-    pubPropTitle: 'name',
+    pubTitle: 'name',
   },
   objLength: {
-    modType: 'calculated',
+    editType: 'calculated',
     value: 0,
-    pubPropTitle: 'length',
+    pubTitle: 'length',
   },
   objWidth: {
-    modType: 'editable',
+    editType: 'editable',
     value: 0,
-    pubPropTitle: 'width',
+    pubTitle: 'width',
   },
 };
 
-export const blocksObjPreset: IObjProperties[4] = {
-  objGeneralType: 'joined_title_obj',
+export const blocksObjPreset: IObjDataProps[4] = {
+  OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_MAIN,
   layerId: {
-    modType: 'constant',
+    editType: 'constant',
     value: 4,
   },
-  name: {
-    modType: 'constant',
+  objName: {
+    editType: 'constant',
     value: 'Block',
-    pubPropTitle: 'name',
+    pubTitle: 'name',
   },
   objArea: {
-    modType: 'calculated',
+    editType: 'calculated',
     value: 0,
-    pubPropTitle: 'area',
+    pubTitle: 'area',
   },
 };
 
-export const buildingsObjPreset: IObjProperties[5] = {
-  objGeneralType: 'joined_title_obj',
+export const buildingsObjPreset: IObjDataProps[5] = {
+  OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_MAIN,
   layerId: {
-    modType: 'constant',
+    editType: 'constant',
     value: 5,
   },
-  name: {
-    modType: 'constant',
+  objName: {
+    editType: 'constant',
     value: 'Building',
-    pubPropTitle: 'name',
+    pubTitle: 'name',
   },
   objFloors: {
-    modType: 'calculated',
+    editType: 'calculated',
     value: 0,
-    pubPropTitle: 'floors',
+    pubTitle: 'floors',
   },
 };

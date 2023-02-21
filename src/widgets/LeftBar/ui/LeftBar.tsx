@@ -7,9 +7,9 @@ import './leftBar.scss';
 import { instrumentsState, layersState } from 'shared/model';
 import { CoordsDisplay } from 'components/complex/CoordsPanel/CoordsPanel';
 import { PanelDivision } from 'shared/ui';
-import { IObjProperties, IObj_PROP_Data } from 'shared/types/objsData';
 import { LayerItem } from 'entities/layer';
 import { ObjDataProp } from 'entities/sceneObj';
+import { IObjData_Joined, IsObjDataOfObjMain, IsPropIsPropData } from 'shared/types/objs';
 
 export const LeftBar = observer((): JSX.Element => {
   const constructLayersList = (layersArr: typeof layersState.layers) => {
@@ -30,15 +30,13 @@ export const LeftBar = observer((): JSX.Element => {
 
   const constructSelectedObjData = () => {
     const data = instrumentsState.toolsData['selector'].selectedObjData;
-    if (data) {
+    if (data && IsObjDataOfObjMain(data)) {
       return (
         <>
           {Object.keys(data).map((key, idx) => {
-            const propValue = data[key as keyof IObjProperties[keyof IObjProperties]] as IObj_PROP_Data<
-              string | number
-            >;
-            if (propValue.pubPropTitle) {
-              return <ObjDataProp key={key} propName={propValue.pubPropTitle} propValue={propValue.value} />;
+            const propValue = data[key as keyof typeof data];
+            if (IsPropIsPropData(propValue) && propValue.pubTitle) {
+              return <ObjDataProp key={key} propName={propValue.pubTitle} propValue={propValue.value} />;
             }
           })}
         </>
@@ -49,7 +47,8 @@ export const LeftBar = observer((): JSX.Element => {
   };
 
   const constructIntersectedObjData = () => {
-    const data = instrumentsState.toolsData['selector'].intersectedObjData?.name.value;
+    // const data = instrumentsState.toolsData['selector'].intersectedObjData?[''];
+    const data = 55;
     if (data) {
       return <div>{data}</div>;
     } else return <div>no data</div>;

@@ -61,14 +61,14 @@ interface IBuildingObjProperties<I extends number, N extends string> extends ICo
   objFloors: IObj_PROP_Data<number>;
 }
 
-export interface IObjProperties {
+interface IObjProperties {
   [ILayerIDs.borders]: IBorderObjProperties<ILayerIDs.borders, 'Border'>;
   [ILayerIDs.streets]: IStreetObjProperties<ILayerIDs.streets, 'Street'>;
   [ILayerIDs.blocks]: IBlockObjProperties<ILayerIDs.blocks, 'Block'>;
   [ILayerIDs.buildings]: IBuildingObjProperties<ILayerIDs.buildings, 'Building'>;
 }
 
-export function IsObjDataOfJoinedObj(objUD: Record<any, any>): objUD is IObjProperties[keyof IObjProperties] {
+function IsObjDataOfJoinedObj(objUD: Record<any, any>): objUD is IObjProperties[keyof IObjProperties] {
   if (
     objUD[CommonObjPropNames.objGeneralType] &&
     objUD[CommonObjPropNames.objGeneralType] === CommonObjGeneralTypeNames.JoinedObjType

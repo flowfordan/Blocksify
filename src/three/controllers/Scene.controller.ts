@@ -25,13 +25,12 @@ export class SceneController {
   }
 
   addObj = (object: THREE.Object3D) => {
-    console.log(this.scene.children);
     this.watcher.onObjAdded(object);
     this.scene.add(object);
   };
 
   removeObj = (object: THREE.Object3D) => {
-    this.watcher.onObjRemoved(object, this.scene);
+    this.watcher.onObjRemoved(object);
     this.scene.remove(object);
   };
 }
