@@ -1,22 +1,12 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { LayersListItemProps } from './LayersListItem.props';
-import './layersListItem.scss';
+import { layersState } from 'shared/model';
+import { returnSvgNode } from 'shared/lib';
+import './layerItem.scss';
+import { LayerItemProps } from './LayerItem.prop';
 
-import { AssetKey, assetsData } from '../../_data/assetsData';
-import { returnSvgNode } from '../../../shared/lib/returnSvgNode';
-import { layersState } from '../../../shared/model';
-
-const LayersListItem = ({
-  layerId,
-  name,
-  isEmpty,
-  isActive,
-  isVisible,
-  isBlocked,
-  ...props
-}: LayersListItemProps): JSX.Element => {
+const LayerItem = ({ layerId, name, isEmpty, isActive, isVisible, isBlocked, ...props }: LayerItemProps) => {
   const handleLayerVisibility = () => {
     layersState.setLayerVisibility(layerId);
   };
@@ -24,7 +14,6 @@ const LayersListItem = ({
   const handleSelectLayer = () => {
     layersState.toggleActiveLayer(layerId);
   };
-
   return (
     <div
       className={cn('layersListItem', {
@@ -48,4 +37,4 @@ const LayersListItem = ({
   );
 };
 
-export { LayersListItem };
+export { LayerItem };
