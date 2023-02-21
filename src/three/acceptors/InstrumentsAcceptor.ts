@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { instrumentsState, ToolName } from 'shared/model';
-import { CommonObjGeneralTypeNames, CommonObjPropNames, IObjCommonData, IObjProperties } from 'shared/types/objsData';
+import {
+  CommonObjGeneralTypeNames,
+  CommonObjPropNames,
+  IObjCommonData,
+  IObjProperties,
+  IsObjDataOfJoinedObj,
+} from 'shared/types/objsData';
 //connect with InstrumentsState
 //recieve data from Instruments, pass data to State
 
@@ -24,15 +30,4 @@ export class InstrumentsAcceptor {
       instrumentsState.updSelectorData(null, 'selected');
     }
   };
-}
-
-function IsObjDataOfJoinedObj(objUD: Record<any, any>): objUD is IObjProperties[keyof IObjProperties] {
-  if (
-    objUD[CommonObjPropNames.objGeneralType] &&
-    objUD[CommonObjPropNames.objGeneralType] === CommonObjGeneralTypeNames.JoinedObjType
-  ) {
-    return true;
-  } else {
-    return false;
-  }
 }

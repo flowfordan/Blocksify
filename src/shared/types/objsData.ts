@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ILayerIDs } from './layers';
 
 //COMMON PROPS FOR ALL CREATED AND ADDED OBJS
@@ -65,4 +66,15 @@ export interface IObjProperties {
   [ILayerIDs.streets]: IStreetObjProperties<ILayerIDs.streets, 'Street'>;
   [ILayerIDs.blocks]: IBlockObjProperties<ILayerIDs.blocks, 'Block'>;
   [ILayerIDs.buildings]: IBuildingObjProperties<ILayerIDs.buildings, 'Building'>;
+}
+
+export function IsObjDataOfJoinedObj(objUD: Record<any, any>): objUD is IObjProperties[keyof IObjProperties] {
+  if (
+    objUD[CommonObjPropNames.objGeneralType] &&
+    objUD[CommonObjPropNames.objGeneralType] === CommonObjGeneralTypeNames.JoinedObjType
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 }

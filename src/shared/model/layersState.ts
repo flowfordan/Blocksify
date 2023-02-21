@@ -65,16 +65,11 @@ class LayersState {
     }
   };
 
-  setLayerObjectsNumber = (toAdd: boolean, layerId: number, num: number) => {
+  setLayerObjectsNumber = (layerId: number, num: number) => {
     const layer = this.layers.find((l) => l.id === layerId);
     if (layer) {
-      if (toAdd) {
-        layer.objectsQuantity = layer.objectsQuantity + num;
-      } else {
-        layer.objectsQuantity = layer.objectsQuantity - num;
-      }
+      layer.objectsQuantity = layer.objectsQuantity + num;
     }
-    console.log('NUMBERS', toJS(this.layers));
   };
 }
 

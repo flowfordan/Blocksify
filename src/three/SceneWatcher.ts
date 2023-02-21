@@ -1,5 +1,6 @@
 import { SceneGetter } from './services/SceneGetter';
 import { LayersController } from './controllers/Layers.controller';
+import { IsObjDataOfJoinedObj } from 'shared/types/objsData';
 export class SceneWatcher {
   layersController: LayersController;
   sceneGetter: SceneGetter;
@@ -11,17 +12,14 @@ export class SceneWatcher {
   //onObjRemoved
   //onPropChanged
   onObjAdded = (obj: THREE.Object3D) => {
-    if (obj.userData['type'] === 'main' && typeof obj.userData['layerId'] === 'number') {
-      console.log('RENDERED:', obj.name, 'Layer ID:', obj.userData.layerId);
-      //upd Layer status
-      this.updLayerStatus('add', obj.userData.layerId);
+    if (IsObjDataOfJoinedObj(obj.userData)) {
+      this.updLayerStatus('add', obj.userData.layerId.value);
     }
   };
 
   onObjRemoved = (obj: THREE.Object3D, scene: THREE.Scene) => {
-    if (obj.userData['type'] === 'main' && typeof obj.userData['layerId'] === 'number') {
-      console.log('REMOVED:', obj.name, 'Layer ID:', obj.userData.layerId);
-      this.updLayerStatus('remove', obj.userData.layerId);
+    if (IsObjDataOfJoinedObj(obj.userData)) {
+      this.updLayerStatus('remove', obj.userData.layerId.value);
     }
   };
 
@@ -30,12 +28,8 @@ export class SceneWatcher {
   };
 
   private updLayerStatus = (operation: 'add' | 'remove', layerId: number) => {
-    //upd objects count
-    if (operation === 'add') {
-      this.layersController.setObjectsQuantity(true, 1, layerId);
-    } else {
-      this.layersController.setObjectsQuantity(false, 1, layerId);
-    }
+    const multiplier = operation === 'add' ? 1 : -1;
+    this.layersController.setObjectsQuantity(multiplier, layerId);
 
     //check emptiness
     this.layersController.setIsLayerEmpty(layerId);

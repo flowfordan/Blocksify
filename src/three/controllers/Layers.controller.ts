@@ -21,7 +21,7 @@ export class LayersController {
     }
   };
 
-  setObjectsQuantity = (toAdd: boolean, quant: number, layerId: number) => {
-    layersState.setLayerObjectsNumber(toAdd, layerId, quant);
+  setObjectsQuantity = (quant: number, layerId: number) => {
+    layersState.setLayerObjectsNumber(layerId, quant);
   };
 }
