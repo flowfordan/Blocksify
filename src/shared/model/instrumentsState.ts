@@ -195,9 +195,17 @@ class InstrumentsState {
     //
   };
 
-  updSelectorData = (data: IObjProperties[keyof IObjProperties], selectorStatus: 'selected' | 'intersected') => {
-    if (selectorStatus === 'selected') {
-      this.toolsData['selector'].selectedObjData = data;
+  updSelectorData = (data: IObjProperties[keyof IObjProperties] | null, selectorStatus: 'selected' | 'intersected') => {
+    const selectorData = this.toolsData['selector'];
+    switch (selectorStatus) {
+      case 'intersected':
+        data ? (selectorData.intersectedObjData = data) : (selectorData.intersectedObjData = null);
+        break;
+      case 'selected':
+        data ? (selectorData.selectedObjData = data) : (selectorData.selectedObjData = null);
+        break;
+      default:
+        return;
     }
   };
 

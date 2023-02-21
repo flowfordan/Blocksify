@@ -33,20 +33,30 @@ export const LeftBar = observer((): JSX.Element => {
       return (
         <>
           {Object.keys(data).map((key, idx) => {
-            const value = data[key as keyof IObjProperties[keyof IObjProperties]] as IObj_PROP_Data<string | number>;
-            console.log(value);
-            return (
-              <div key={idx}>
-                <span>{key}</span>
-                <span>{value.value !== undefined ? value.value : 'no data'}</span>
-              </div>
-            );
+            const propValue = data[key as keyof IObjProperties[keyof IObjProperties]] as IObj_PROP_Data<
+              string | number
+            >;
+            if (propValue.pubPropTitle) {
+              return (
+                <div key={propValue.pubPropTitle}>
+                  <span>{propValue.pubPropTitle}</span>
+                  <span>{propValue.value}</span>
+                </div>
+              );
+            }
           })}
         </>
       );
     } else {
       return <>No obj selected</>;
     }
+  };
+
+  const constructIntersectedObjData = () => {
+    const data = instrumentsState.toolsData['selector'].intersectedObjData?.name.value;
+    if (data) {
+      return <div>{data}</div>;
+    } else return null;
   };
 
   //get properties list
@@ -57,6 +67,8 @@ export const LeftBar = observer((): JSX.Element => {
       <PanelDivision header={'Layers'}>{constructLayersList(layersState.layers)}</PanelDivision>
 
       <PanelDivision header={'Object Properties'}>{constructSelectedObjData()}</PanelDivision>
+
+      <PanelDivision>{constructIntersectedObjData()}</PanelDivision>
 
       <div className={'leftBar__coordsPanel'}>
         <CoordsDisplay />

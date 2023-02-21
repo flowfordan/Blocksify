@@ -21,6 +21,7 @@ type ModType = 'constant' | 'calculated' | 'editable';
 export interface IObj_PROP_Data<T extends number | string> {
   modType: ModType; //modification type
   value: T;
+  pubPropTitle?: string;
 }
 
 interface IObj_ID_Data<T extends number> extends IObj_PROP_Data<T> {
@@ -33,6 +34,7 @@ interface IObj_NAME_Data<T extends string> extends IObj_PROP_Data<T> {
   value: T;
 }
 
+//TODO add public prop_title
 interface ICommonObjProperties<T extends number, K extends string> extends IObjCommonData {
   layerId: IObj_ID_Data<T>;
   name: IObj_NAME_Data<K>;

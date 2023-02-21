@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { instrumentsState } from 'shared/model';
+import { instrumentsState, ToolName } from 'shared/model';
 import { CommonObjGeneralTypeNames, CommonObjPropNames, IObjCommonData, IObjProperties } from 'shared/types/objsData';
 //connect with InstrumentsState
 //recieve data from Instruments, pass data to State
@@ -9,18 +9,19 @@ export class InstrumentsAcceptor {
     //
   }
 
+  setSelectorIntersectedObjData = (obj: THREE.Object3D | null) => {
+    if (obj && IsObjDataOfJoinedObj(obj.userData)) {
+      instrumentsState.updSelectorData(obj.userData, 'intersected');
+    } else if (instrumentsState.toolsData['selector'].intersectedObjData) {
+      instrumentsState.updSelectorData(null, 'intersected');
+    }
+  };
+
   setSelectorSelectedObjData = (obj: THREE.Object3D | null) => {
-    console.log('SET SELECTOR OBJ DATA:', obj?.userData);
-    //checks
-    //obj.userData
-    if (!obj) return;
-    const data = obj.userData;
-    //check if object JOINED_TITLE_OBJ
-    if (IsObjDataOfJoinedObj(data)) {
-      //set data to state
-      instrumentsState.updSelectorData(data, 'selected');
-    } else {
-      return;
+    if (obj && IsObjDataOfJoinedObj(obj.userData)) {
+      instrumentsState.updSelectorData(obj.userData, 'selected');
+    } else if (instrumentsState.toolsData['selector'].selectedObjData) {
+      instrumentsState.updSelectorData(null, 'selected');
     }
   };
 }

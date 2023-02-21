@@ -63,7 +63,7 @@ export class Selector {
   set intersectedObj(obj: THREE.Object3D | null) {
     this._intersectedObj = obj;
     //notify state
-    // this.acceptor.setSelectorSelectedObjData(obj);
+    this.acceptor.setSelectorIntersectedObjData(obj);
   }
 
   //startTool

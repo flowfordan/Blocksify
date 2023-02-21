@@ -8,7 +8,7 @@ import { instrumentsState } from '../../model';
 const PanelDivision = ({ children, header, ...props }: PanelDivisionProps): JSX.Element => {
   return (
     <div className={'panelDivision'}>
-      <div className={'panelDivision__header'}>{header}</div>
+      <div className={'panelDivision__header'}>{header && header}</div>
       <div className={'panelDivision__content'}>{children}</div>
     </div>
   );
