@@ -1,13 +1,15 @@
+@use 'src/app/styles/consts.scss' as *;
+
 .layersListItem {
-  height: 32px;
+  height: $module * 4;
 
   display: grid;
-  column-gap: 8px;
-  grid-template-columns: 8px 1fr 16px;
+  column-gap: $module;
+  grid-template-columns: $module 1fr $module * 2;
   align-items: center;
 
 
-  padding: 0 8px;
+  padding: 0 $module;
   margin: -1px 0 0 0;
 
 

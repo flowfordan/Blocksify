@@ -9,6 +9,7 @@ import { CoordsDisplay } from 'components/complex/CoordsPanel/CoordsPanel';
 import { PanelDivision } from 'shared/ui';
 import { IObjProperties, IObj_PROP_Data } from 'shared/types/objsData';
 import { LayerItem } from 'entities/layer';
+import { ObjDataProp } from 'entities/sceneObj';
 
 export const LeftBar = observer((): JSX.Element => {
   const constructLayersList = (layersArr: typeof layersState.layers) => {
@@ -37,18 +38,13 @@ export const LeftBar = observer((): JSX.Element => {
               string | number
             >;
             if (propValue.pubPropTitle) {
-              return (
-                <div key={propValue.pubPropTitle}>
-                  <span>{propValue.pubPropTitle}</span>
-                  <span>{propValue.value}</span>
-                </div>
-              );
+              return <ObjDataProp key={key} propName={propValue.pubPropTitle} propValue={propValue.value} />;
             }
           })}
         </>
       );
     } else {
-      return <>No obj selected</>;
+      return <>Select object</>;
     }
   };
 
@@ -56,7 +52,7 @@ export const LeftBar = observer((): JSX.Element => {
     const data = instrumentsState.toolsData['selector'].intersectedObjData?.name.value;
     if (data) {
       return <div>{data}</div>;
-    } else return null;
+    } else return <div>no data</div>;
   };
 
   //get properties list
@@ -66,9 +62,13 @@ export const LeftBar = observer((): JSX.Element => {
     <div className={'leftBar'}>
       <PanelDivision header={'Layers'}>{constructLayersList(layersState.layers)}</PanelDivision>
 
-      <PanelDivision header={'Object Properties'}>{constructSelectedObjData()}</PanelDivision>
+      <PanelDivision header={'Object Properties'}>
+        {instrumentsState.currentTool?.name === 'selector' && constructSelectedObjData()}
+      </PanelDivision>
 
-      <PanelDivision>{constructIntersectedObjData()}</PanelDivision>
+      <PanelDivision>
+        {instrumentsState.currentTool?.name === 'selector' && constructIntersectedObjData()}
+      </PanelDivision>
 
       <div className={'leftBar__coordsPanel'}>
         <CoordsDisplay />

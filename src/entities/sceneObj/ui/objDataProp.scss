@@ -1,0 +1,27 @@
+@use 'src/app/styles/consts.scss' as *;
+
+.objDataProp {
+  height: $module * 4;
+
+  display: grid;
+  // column-gap: $module;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+
+
+  padding: 0 $module;
+  margin: -1px 0 0 0;
+
+
+  border-top: 1px solid var(--grey-light);
+  border-bottom: 1px solid var(--grey-light);
+
+  user-select: none;
+
+  &__name {}
+
+  &__value {
+    display: flex;
+    justify-content: right;
+  }
+}

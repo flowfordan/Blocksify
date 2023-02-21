@@ -1,10 +1,12 @@
 import React from 'react';
+import { ObjDataPropProps } from './ObjDataProp.prop';
+import './objDataProp.scss';
 
-const ObjDataProp = () => {
+const ObjDataProp = ({ propName, propValue, ...props }: ObjDataPropProps) => {
   return (
-    <div>
-      <span>Prop Name</span>
-      <span>Prop Value placeholder</span>
+    <div className="objDataProp">
+      <span className="objDataProp__name">{propName}</span>
+      <span className="objDataProp__value">{propValue}</span>
     </div>
   );
 };
