@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { renderer as initRenderer } from '../renderer/renderer';
+import { renderer as initRenderer } from '../config/renderer/renderer';
 
 const camera = (renderer = initRenderer, id = 1): THREE.PerspectiveCamera | THREE.OrthographicCamera => {
   switch (id) {

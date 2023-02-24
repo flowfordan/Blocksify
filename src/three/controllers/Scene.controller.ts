@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { dirLight, dirLightHelper, hemiLight } from '../lights';
+import { dirLight, dirLightHelper, hemiLight } from '../config/lights';
 import { SceneModifier } from 'three/services/SceneModifier';
 
 //CONTROLLER

@@ -3,8 +3,8 @@ import { LineMaterial, Line2, LineGeometry } from 'three-fatline';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, instrumentsState } from '../../shared/model';
-import { getLineMat, pointObj } from '../objs3d';
 import { createBaseV3s } from './createBaseV3s';
+import { getLineMat } from 'three/config/objs3d';
 
 type RenderedGuidesOptions = {
   points: {

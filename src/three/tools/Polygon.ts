@@ -1,9 +1,9 @@
 import { SceneModifier } from 'three/services/SceneModifier';
 import * as THREE from 'three';
-import { pointObj, V2ArrToNumArr } from '../objs3d';
 import { getMouseLocation } from '../utils';
 import { DrawingTool } from './DrawingTool';
 import { Vector3 } from 'three';
+import { V2ArrToNumArr } from 'three/config/objs3d';
 
 export class Polygon extends DrawingTool {
   polygonParts: number;

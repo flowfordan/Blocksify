@@ -3,15 +3,15 @@ import * as THREE from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
 import { Layer } from '../../shared/types/layers';
 import {
+  I3dObjLine,
   getLineMat,
   getPolygonMat,
-  I3dObjLine,
   I3dObjPoint,
   I3dObjPolygon,
   pMat,
   pointObj,
   V2ArrToNumArr,
-} from '../objs3d';
+} from 'three/config/objs3d';
 
 export class ObjBuilder {
   //

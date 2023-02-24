@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { autorun, reaction, toJS } from 'mobx';
 
-import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './geometry/worldPlane';
+import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './config/geometry/worldPlane';
 import { getMouseLocation } from './utils';
 import { layersState, sceneState } from '../shared/model';
 import { LabelRendererController } from './controllers/LabelRenderer.controller';
@@ -61,6 +61,7 @@ export class ThreeView {
     });
   };
 
+  //TODO incapsulate in controller
   //to show coords on ground under mouse
   updGlobalCoords = () => {
     if (sceneState.isFetchingGlobalCoords) {

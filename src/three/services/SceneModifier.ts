@@ -1,7 +1,7 @@
 import { SceneObjsWatcher } from './SceneObjsWatcher';
 import * as THREE from 'three';
-import { cube, myLine } from 'three/geometry/geometry';
-import { worldPlaneHelper, worldPlaneMesh } from 'three/geometry/worldPlane';
+import { cube, myLine } from 'three/config/geometry/geometry';
+import { worldPlaneHelper, worldPlaneMesh } from 'three/config/geometry/worldPlane';
 
 export class SceneModifier {
   scene: THREE.Scene;

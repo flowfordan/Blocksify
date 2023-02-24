@@ -1,4 +1,4 @@
-import { getLineMat, getPolygonMat } from '../../../three/objs3d';
+import { getLineMat, getPolygonMat } from 'three/config/objs3d';
 import { Layer } from '../../types/layers';
 import { blocksObjPreset, borderObjPreset, buildingsObjPreset, streetsObjPreset } from './objsPresets';
 
@@ -108,7 +108,7 @@ const layersDefPreset: Array<Layer> = [
       },
     },
     objectsQuantity: 0,
-    objData: borderObjPreset,
+    objDefaultData: borderObjPreset,
   },
   {
     name: 'Streets',
@@ -123,7 +123,7 @@ const layersDefPreset: Array<Layer> = [
       add: streetsAddContent,
     },
     objectsQuantity: 0,
-    objData: streetsObjPreset,
+    objDefaultData: streetsObjPreset,
   },
   {
     name: 'Blocks',
@@ -138,7 +138,7 @@ const layersDefPreset: Array<Layer> = [
       add: blocksAddContent,
     },
     objectsQuantity: 0,
-    objData: blocksObjPreset,
+    objDefaultData: blocksObjPreset,
   },
   {
     name: 'Buildings',
@@ -153,7 +153,7 @@ const layersDefPreset: Array<Layer> = [
       add: buildingsAddContent,
     },
     objectsQuantity: 0,
-    objData: buildingsObjPreset,
+    objDefaultData: buildingsObjPreset,
   },
 ];
 
