@@ -1,5 +1,4 @@
-import { SceneController } from './Scene.controller';
-
+import { SceneModifier } from 'three/services/SceneModifier';
 import { HelpersManager } from '../helpers/HelpersManager';
 import { Line } from '../tools/Line';
 import { Polygon } from '../tools/Polygon';
@@ -19,18 +18,18 @@ export class ToolsController {
   // cleaner: Cleaner;
   currentToolId: number | undefined;
 
-  constructor(scene: THREE.Scene, activeElement: HTMLCanvasElement, sceneController: SceneController) {
+  constructor(activeElement: HTMLCanvasElement, sceneModifier: SceneModifier) {
     this.acceptor = new InstrumentsAcceptor();
     this.tools = {
-      line: new Line(activeElement, 0, sceneController),
-      pLine: new Line(activeElement, 1, sceneController),
-      polygon: new Polygon(activeElement, sceneController),
-      selector: new Selector(activeElement, sceneController, this.acceptor),
-      cleaner: new Cleaner(scene),
+      line: new Line(activeElement, 0, sceneModifier),
+      pLine: new Line(activeElement, 1, sceneModifier),
+      polygon: new Polygon(activeElement, sceneModifier),
+      selector: new Selector(activeElement, sceneModifier, this.acceptor),
+      cleaner: new Cleaner(sceneModifier.scene),
     };
     //toolsData = {selector: {selectedObj: {...}, intersectedObj: {...} }}
     this.currentToolId = undefined;
-    this.helpersManager = new HelpersManager(scene);
+    this.helpersManager = new HelpersManager(sceneModifier.scene);
   }
 
   setActiveTool = (

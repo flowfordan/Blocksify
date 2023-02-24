@@ -15,30 +15,28 @@ import { ToolsController } from './controllers/Tools.controller';
 import { LayersController } from './controllers/Layers.controller';
 
 export class ThreeView {
+  //utility controllers
   labelRendererController: LabelRendererController;
-  sceneController: SceneController;
   rendererController: RendererController;
+  //scene parts controllers
+  sceneController: SceneController;
   cameraController: CameraController;
   toolsController: ToolsController;
   layersController: LayersController;
-  sceneWatcher: SceneWatcher;
 
   groundPlane: THREE.Plane;
   //TODO remove any
   stats: any;
 
   constructor(canvasRef: HTMLCanvasElement) {
-    this.layersController = new LayersController();
-    this.sceneWatcher = new SceneWatcher(this.layersController);
-    this.sceneController = new SceneController(this.sceneWatcher); //scene init
-    this.labelRendererController = new LabelRendererController();
+    //utility
     this.rendererController = new RendererController(canvasRef);
+    this.labelRendererController = new LabelRendererController();
+    //scene
+    this.sceneController = new SceneController();
+    this.layersController = new LayersController();
     this.cameraController = new CameraController(this.rendererController.activeElement);
-    this.toolsController = new ToolsController(
-      this.sceneController.scene,
-      this.rendererController.activeElement,
-      this.sceneController
-    );
+    this.toolsController = new ToolsController(this.rendererController.activeElement, this.sceneController.modifier);
 
     this.groundPlane = worldPlane;
 
@@ -63,6 +61,7 @@ export class ThreeView {
       this.toolsController.setActiveTool(layersState.currentLayer, this.groundPlane, this.cameraController.camera);
     });
 
+    //layer swap
     reaction(
       () => layersState.layers.find((l) => l.active),
       (value, previousValue, reaction) => {
@@ -147,8 +146,8 @@ export class ThreeView {
 
   // ******************* RENDER LOOP ******************* //
   update() {
-    this.labelRendererController.renderer.render(this.sceneController.scene, this.cameraController.camera);
-    this.rendererController.renderer.render(this.sceneController.scene, this.cameraController.camera);
+    this.labelRendererController.renderer.render(this.sceneController.modifier.scene, this.cameraController.camera);
+    this.rendererController.renderer.render(this.sceneController.modifier.scene, this.cameraController.camera);
 
     requestAnimationFrame(this.update.bind(this));
 

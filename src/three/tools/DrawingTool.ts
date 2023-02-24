@@ -1,10 +1,12 @@
 import { SceneController } from './../controllers/Scene.controller';
 import * as THREE from 'three';
 
-import { Layer, layersState } from '../../shared/model';
 import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
 import { Handler } from '../services/Handler';
+import { SceneModifier } from 'three/services/SceneModifier';
+import { Layer } from 'shared/types/layers';
+import { layersState } from 'shared/model';
 
 //SUPERCLASS FOR DRAWING TOOLS
 export class DrawingTool {
@@ -24,7 +26,7 @@ export class DrawingTool {
 
   handler: Handler;
 
-  constructor(canvas: HTMLCanvasElement, sceneController: SceneController) {
+  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
     this.layer = layersState.currentLayer;
@@ -37,9 +39,9 @@ export class DrawingTool {
 
     this.objCoords = [];
 
-    this.tagsManager = new TagsManager(sceneController.scene);
-    this.snapManager = new SnapManager(sceneController.scene);
-    this.handler = new Handler(sceneController);
+    this.tagsManager = new TagsManager(sceneModifier.scene);
+    this.snapManager = new SnapManager(sceneModifier.scene);
+    this.handler = new Handler(sceneModifier);
   }
 
   //START METHOD

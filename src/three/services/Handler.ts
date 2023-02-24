@@ -1,4 +1,4 @@
-import { SceneController } from '../controllers/Scene.controller';
+import { SceneModifier } from 'three/services/SceneModifier';
 import { FXBuilder } from './FXBuilder';
 import * as THREE from 'three';
 import { ObjBuilder } from './ObjBuilder';
@@ -13,12 +13,12 @@ import { Layer } from '../../shared/types/layers';
 export class Handler {
   objBuilder: ObjBuilder; //actual main objects
   fxBuilder: FXBuilder; //temporal effect-objects
-  sceneController: SceneController;
+  sceneModifier: SceneModifier;
 
-  constructor(sceneController: SceneController) {
+  constructor(modifier: SceneModifier) {
     this.objBuilder = new ObjBuilder();
     this.fxBuilder = new FXBuilder();
-    this.sceneController = sceneController;
+    this.sceneModifier = modifier;
     //generator
   }
 
@@ -66,12 +66,12 @@ export class Handler {
     //generate auto-objects
     //this.generator.generateAutoObject
     if (this.objBuilder.isRenderable) {
-      this.sceneController.addObj(this.objBuilder.objCreated);
+      this.sceneModifier.addObj(this.objBuilder.objCreated);
     }
   };
 
   removeObj = () => {
-    this.sceneController.removeObj(this.objBuilder.objCreated);
+    this.sceneModifier.removeObj(this.objBuilder.objCreated);
   };
 
   reset = () => {
@@ -92,20 +92,20 @@ export class Handler {
 
   updTrackPolygon = (pt1: Vector2, pt2: Vector2, pointerCoords: Vector3) => {
     //remove track poly
-    this.sceneController.removeObj(this.fxBuilder.trackObjs.polygon.form);
+    this.sceneModifier.removeObj(this.fxBuilder.trackObjs.polygon.form);
     this.fxBuilder.updTrackPolygon(pt1, pt2, pointerCoords);
   };
 
   renderTrack = (isPolygon = false) => {
     if (isPolygon) {
-      this.sceneController.addObj(this.fxBuilder.trackObjs.polygon.form);
+      this.sceneModifier.addObj(this.fxBuilder.trackObjs.polygon.form);
     }
-    this.sceneController.addObj(this.fxBuilder.trackObjs.line.form);
+    this.sceneModifier.addObj(this.fxBuilder.trackObjs.line.form);
   };
 
   removeTrack = () => {
-    this.sceneController.removeObj(this.fxBuilder.trackObjs.line.form);
-    this.sceneController.removeObj(this.fxBuilder.trackObjs.polygon.form);
+    this.sceneModifier.removeObj(this.fxBuilder.trackObjs.line.form);
+    this.sceneModifier.removeObj(this.fxBuilder.trackObjs.polygon.form);
   };
 
   //TEMP OBJECT SHOWING FUTURE RESULT OF TOOL
@@ -131,15 +131,15 @@ export class Handler {
   };
 
   private renderTemp = (isPolygon?: boolean) => {
-    this.sceneController.addObj(this.fxBuilder.tempObjs.line.form);
+    this.sceneModifier.addObj(this.fxBuilder.tempObjs.line.form);
     if (isPolygon) {
-      this.sceneController.addObj(this.fxBuilder.tempObjs.polygon.form);
+      this.sceneModifier.addObj(this.fxBuilder.tempObjs.polygon.form);
     }
   };
 
   private removeTemp = () => {
-    this.sceneController.removeObj(this.fxBuilder.tempObjs.line.form);
-    this.sceneController.removeObj(this.fxBuilder.tempObjs.polygon.form);
+    this.sceneModifier.removeObj(this.fxBuilder.tempObjs.line.form);
+    this.sceneModifier.removeObj(this.fxBuilder.tempObjs.polygon.form);
   };
 
   //OVERLAY OBJECTS
@@ -152,20 +152,20 @@ export class Handler {
 
   private renderOverlayObj = (type: 'temp' | 'perm') => {
     if (type === 'temp') {
-      this.sceneController.addObj(this.fxBuilder.overlayObjTemp.form);
+      this.sceneModifier.addObj(this.fxBuilder.overlayObjTemp.form);
     } else {
-      this.sceneController.addObj(this.fxBuilder.overlayObjPerm.form);
+      this.sceneModifier.addObj(this.fxBuilder.overlayObjPerm.form);
     }
   };
 
   removeOverlayObj = (type: 'temp' | 'perm' | 'all') => {
     if (type === 'temp') {
-      this.sceneController.removeObj(this.fxBuilder.overlayObjTemp.form);
+      this.sceneModifier.removeObj(this.fxBuilder.overlayObjTemp.form);
     } else if (type === 'perm') {
-      this.sceneController.removeObj(this.fxBuilder.overlayObjPerm.form);
+      this.sceneModifier.removeObj(this.fxBuilder.overlayObjPerm.form);
     } else {
-      this.sceneController.removeObj(this.fxBuilder.overlayObjTemp.form);
-      this.sceneController.removeObj(this.fxBuilder.overlayObjPerm.form);
+      this.sceneModifier.removeObj(this.fxBuilder.overlayObjTemp.form);
+      this.sceneModifier.removeObj(this.fxBuilder.overlayObjPerm.form);
     }
   };
 }

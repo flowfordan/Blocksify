@@ -1,16 +1,15 @@
+import { SceneModifier } from 'three/services/SceneModifier';
 import * as THREE from 'three';
 import { pointObj, V2ArrToNumArr } from '../objs3d';
 import { getMouseLocation } from '../utils';
 import { DrawingTool } from './DrawingTool';
-import { Line2, LineGeometry } from 'three-fatline';
 import { Vector3 } from 'three';
-import { SceneController } from '../controllers/Scene.controller';
 
 export class Polygon extends DrawingTool {
   polygonParts: number;
 
-  constructor(canvas: HTMLCanvasElement, sceneController: SceneController) {
-    super(canvas, sceneController);
+  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier) {
+    super(canvas, sceneModifier);
     this.polygonParts = 1;
   }
 

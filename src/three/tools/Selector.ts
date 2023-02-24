@@ -1,3 +1,4 @@
+import { SceneModifier } from 'three/services/SceneModifier';
 import { InstrumentsAcceptor } from './../acceptors/InstrumentsAcceptor';
 import { Line2, LineMaterial } from 'three-fatline';
 import * as THREE from 'three';
@@ -6,7 +7,6 @@ import { layersState } from '../../shared/model';
 import { getObjByPointer } from '../utils';
 import { Object3D } from 'three';
 import { Handler } from '../services/Handler';
-import { SceneController } from '../controllers/Scene.controller';
 import { Layer } from '../../shared/types/layers';
 
 export class Selector {
@@ -24,7 +24,7 @@ export class Selector {
   toolState: number;
   handler: Handler;
   acceptor: InstrumentsAcceptor;
-  constructor(canvas: HTMLCanvasElement, sceneController: SceneController, acceptor: InstrumentsAcceptor) {
+  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, acceptor: InstrumentsAcceptor) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
     this.currentCamera = new THREE.PerspectiveCamera();
@@ -41,7 +41,7 @@ export class Selector {
     };
     this.toolState = 0;
 
-    this.handler = new Handler(sceneController);
+    this.handler = new Handler(sceneModifier);
     this.acceptor = acceptor;
   }
 
@@ -80,7 +80,7 @@ export class Selector {
 
   private _onMouseMove = (e: MouseEvent) => {
     const obj = getObjByPointer(
-      this.handler.sceneController.scene,
+      this.handler.sceneModifier.scene,
       e,
       this.rect,
       this.canvas,
@@ -117,7 +117,7 @@ export class Selector {
   private _onKey = (event: KeyboardEvent) => {
     if (event.key === 'Delete' || event.key === 'Backspace') {
       if (this.selectedObj) {
-        this.handler.sceneController.removeObj(this.selectedObj);
+        this.handler.sceneModifier.removeObj(this.selectedObj);
         this.handler.removeOverlayObj('all');
         // this.scene.remove(this.selectedObj);
         // this.scene.remove(this.renderedObjs.selectedObj!);

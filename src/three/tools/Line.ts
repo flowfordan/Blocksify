@@ -5,14 +5,15 @@ import { toJS } from 'mobx';
 import { getMouseLocation } from '../utils';
 import { DrawingTool } from './DrawingTool';
 import { Vector3 } from 'three';
-import { Layer } from '../../shared/model';
+import { SceneModifier } from 'three/services/SceneModifier';
+import { Layer } from 'shared/types/layers';
 
 export class Line extends DrawingTool {
   lineMode: number;
   lineSegments: number;
 
-  constructor(canvas: HTMLCanvasElement, drawMode: number, sceneController: SceneController) {
-    super(canvas, sceneController);
+  constructor(canvas: HTMLCanvasElement, drawMode: number, sceneModifier: SceneModifier) {
+    super(canvas, sceneModifier);
     this.lineMode = drawMode; //0: 2-pt line, 1: polyline
     this.lineSegments = 1;
   }
