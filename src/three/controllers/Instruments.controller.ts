@@ -1,12 +1,14 @@
+import { DrawObjModel } from './../../features/sceneObj/model/drawObjModel';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { HelpersManager } from '../helpers/HelpersManager';
 import { Line } from '../tools/Line';
 import { Polygon } from '../tools/Polygon';
 import { Selector } from '../tools/Selector';
 import { Cleaner } from '../tools/Cleaner';
-import { instrumentsState, ToolName } from 'shared/model';
+import { instrumentsState, layersState, ToolName } from 'shared/model';
 import { Layer } from 'shared/types/layers';
 import { InstrumentsMediator } from 'three/mediators';
+import { autorun, reaction } from 'mobx';
 
 export class InstrumentsController {
   mediator: InstrumentsMediator;
@@ -18,7 +20,18 @@ export class InstrumentsController {
   // cleaner: Cleaner;
   currentToolId: number | undefined;
 
-  constructor(activeElement: HTMLCanvasElement, sceneModifier: SceneModifier) {
+  currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
+  currentPlane: THREE.Plane;
+
+  //TEST
+  // drawModel: DrawObjModel;
+
+  constructor(
+    activeElement: HTMLCanvasElement,
+    sceneModifier: SceneModifier,
+    camera: THREE.PerspectiveCamera | THREE.OrthographicCamera,
+    plane: THREE.Plane
+  ) {
     this.mediator = new InstrumentsMediator();
     this.tools = {
       line: new Line(activeElement, 0, sceneModifier),
@@ -30,6 +43,15 @@ export class InstrumentsController {
     //toolsData = {selector: {selectedObj: {...}, intersectedObj: {...} }}
     this.currentToolId = undefined;
     this.helpersManager = new HelpersManager(sceneModifier.scene);
+
+    //ground
+    //camera
+    this.currentCamera = camera;
+    this.currentPlane = plane;
+    //test
+    // this.drawModel = drawModel;
+    //subscribe to state changes
+    this._storeSubscribe();
   }
 
   setActiveTool = (
@@ -70,6 +92,8 @@ export class InstrumentsController {
     }
 
     console.log('CURRENT TOOL ID:', this.currentToolId);
+    //TEST
+    // this.drawModel.setActiveDrawingTool(2);
   };
 
   onExit = (event: KeyboardEvent) => {
@@ -78,11 +102,35 @@ export class InstrumentsController {
 
       if (activeTool) {
         instrumentsState.setActiveTool(activeTool.id);
-
         window.removeEventListener('keydown', this.onExit);
       }
     }
   };
 
   //observe selector tool
+  private _storeSubscribe = () => {
+    //TOOL CHANGE
+    autorun(() => {
+      this.setActiveTool(layersState.currentLayer, this.currentPlane, this.currentCamera);
+    });
+
+    //STOP TOOL IF LAYER SWAP WHILE TOOL ACTIVE
+    reaction(
+      () => layersState.layers.find((l) => l.active),
+      (layer, previousLayer, reaction) => {
+        const activeTool = instrumentsState.tools.find((i) => i.active);
+        if (layer?.id !== previousLayer?.id && activeTool) {
+          console.log('WHAT ARE YOU2');
+          instrumentsState.setActiveTool(activeTool.id);
+        }
+      }
+    );
+
+    //TODO concrete conditions
+    //TODO is this place for grid render?
+    //Rerender grid when its size changed
+    autorun(() => {
+      this.helpersManager.renderGrid();
+    });
+  };
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ThreeView } from 'three/ThreeView';
 import './desk.scss';
+import { drawObjModel } from 'features/sceneObj';
 
 export const Desk = (): JSX.Element => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
@@ -40,6 +41,8 @@ export const Desk = (): JSX.Element => {
       });
     }
   }, []);
+
+  console.log('DESK RERENDERED!!!!!');
 
   return (
     <div ref={canvasContainer} className={'desk'}>

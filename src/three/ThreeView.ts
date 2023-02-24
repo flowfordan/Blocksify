@@ -12,6 +12,7 @@ import { RendererController } from './controllers/Renderer.controller';
 import { CameraController } from './controllers/Camera.controller';
 import { InstrumentsController } from './controllers/Instruments.controller';
 import { LayersController } from './controllers/Layers.controller';
+import { DrawObjModel } from 'features/sceneObj/model/drawObjModel';
 
 export class ThreeView {
   //utility controllers
@@ -28,19 +29,21 @@ export class ThreeView {
   stats: any;
 
   constructor(canvasRef: HTMLCanvasElement) {
+    this.groundPlane = worldPlane;
     //utility
     this.rendererController = new RendererController(canvasRef);
     this.labelRendererController = new LabelRendererController();
     //scene
     this.sceneController = new SceneController();
     this.layersController = new LayersController();
-    this.cameraController = new CameraController(this.rendererController.activeElement);
+    this.cameraController = new CameraController(this.rendererController);
     this.instrumentsController = new InstrumentsController(
       this.rendererController.activeElement,
-      this.sceneController.modifier
+      this.sceneController.modifier,
+      this.cameraController.camera,
+      this.groundPlane
+      // drawObjModel
     );
-
-    this.groundPlane = worldPlane;
 
     //STATS
     this.stats = Stats();
@@ -55,60 +58,6 @@ export class ThreeView {
   updState = () => {
     autorun(() => {
       this.updGlobalCoords();
-    });
-
-    //observe change in isActive property status
-    //fire when changed
-    autorun(() => {
-      this.instrumentsController.setActiveTool(
-        layersState.currentLayer,
-        this.groundPlane,
-        this.cameraController.camera
-      );
-    });
-
-    //layer swap
-    reaction(
-      () => layersState.layers.find((l) => l.active),
-      (value, previousValue, reaction) => {
-        if (value?.id !== previousValue?.id) {
-          if (!value) {
-            throw new Error('Layer not found');
-          }
-          layersState.setCurrentLayer(value);
-          this.instrumentsController.setActiveTool(value, this.groundPlane, this.cameraController.camera);
-        }
-      }
-    );
-
-    //layer visibility
-    reaction(
-      () => {
-        const visibles: Array<boolean> = [];
-        const layers = layersState.layers;
-        for (const layer of layers) {
-          visibles.push(layer.visible);
-        }
-        return visibles;
-      },
-      (value, prevValue, reaction) => {
-        for (let i = 0; i < value.length; i++) {
-          if (value[i] !== prevValue[i]) {
-            const layer = layersState.layers[i];
-            this.cameraController.toggleLayerVisibility(layer.id);
-            break;
-          }
-        }
-      }
-    );
-
-    autorun(() => {
-      this.cameraController.setCamera(this.rendererController);
-    });
-
-    //TODO concrete conditions
-    autorun(() => {
-      this.instrumentsController.helpersManager.renderGrid();
     });
   };
 

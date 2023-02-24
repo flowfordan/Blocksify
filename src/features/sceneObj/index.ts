@@ -1,1 +1,1 @@
-export {};
+export { drawObjModel } from './model/drawObjModel';

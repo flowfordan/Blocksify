@@ -3,15 +3,18 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { layersState, sceneState } from '../../shared/model';
 import { camera } from '../camera/camera';
 import { RendererController } from './Renderer.controller';
-import { toJS } from 'mobx';
+import { autorun, reaction, toJS } from 'mobx';
 
 export class CameraController {
   camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   controls: OrbitControls;
-  constructor(activeElement: HTMLCanvasElement) {
-    //
+  rendererController: RendererController;
+  constructor(rendererController: RendererController) {
+    this.rendererController = rendererController;
     this.camera = camera();
-    this.controls = new OrbitControls(this.camera, activeElement);
+    this.controls = new OrbitControls(this.camera, rendererController.activeElement);
+
+    this._storeSubscribe();
   }
 
   setCamera = (rendererController: RendererController) => {
@@ -73,5 +76,32 @@ export class CameraController {
     }
 
     this.camera.updateProjectionMatrix();
+  };
+
+  private _storeSubscribe = () => {
+    //camera change
+    autorun(() => {
+      this.setCamera(this.rendererController);
+    });
+    //layer visibility change
+    reaction(
+      () => {
+        const visibles: Array<boolean> = [];
+        const layers = layersState.layers;
+        for (const layer of layers) {
+          visibles.push(layer.visible);
+        }
+        return visibles;
+      },
+      (value, prevValue, reaction) => {
+        for (let i = 0; i < value.length; i++) {
+          if (value[i] !== prevValue[i]) {
+            const layer = layersState.layers[i];
+            this.toggleLayerVisibility(layer.id);
+            break;
+          }
+        }
+      }
+    );
   };
 }
