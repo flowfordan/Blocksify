@@ -4,7 +4,7 @@ import { IsObjDataOfObjMain } from 'shared/types/objs';
 //connect with InstrumentsState
 //recieve data from Instruments, pass data to State
 
-export class InstrumentsAcceptor {
+export class InstrumentsMediator {
   constructor() {
     //
   }

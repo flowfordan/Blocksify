@@ -1,4 +1,3 @@
-import { SceneWatcher } from './SceneWatcher';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module';
@@ -11,7 +10,7 @@ import { LabelRendererController } from './controllers/LabelRenderer.controller'
 import { SceneController } from './controllers/Scene.controller';
 import { RendererController } from './controllers/Renderer.controller';
 import { CameraController } from './controllers/Camera.controller';
-import { ToolsController } from './controllers/Tools.controller';
+import { InstrumentsController } from './controllers/Instruments.controller';
 import { LayersController } from './controllers/Layers.controller';
 
 export class ThreeView {
@@ -21,7 +20,7 @@ export class ThreeView {
   //scene parts controllers
   sceneController: SceneController;
   cameraController: CameraController;
-  toolsController: ToolsController;
+  instrumentsController: InstrumentsController;
   layersController: LayersController;
 
   groundPlane: THREE.Plane;
@@ -36,7 +35,10 @@ export class ThreeView {
     this.sceneController = new SceneController();
     this.layersController = new LayersController();
     this.cameraController = new CameraController(this.rendererController.activeElement);
-    this.toolsController = new ToolsController(this.rendererController.activeElement, this.sceneController.modifier);
+    this.instrumentsController = new InstrumentsController(
+      this.rendererController.activeElement,
+      this.sceneController.modifier
+    );
 
     this.groundPlane = worldPlane;
 
@@ -58,7 +60,11 @@ export class ThreeView {
     //observe change in isActive property status
     //fire when changed
     autorun(() => {
-      this.toolsController.setActiveTool(layersState.currentLayer, this.groundPlane, this.cameraController.camera);
+      this.instrumentsController.setActiveTool(
+        layersState.currentLayer,
+        this.groundPlane,
+        this.cameraController.camera
+      );
     });
 
     //layer swap
@@ -70,7 +76,7 @@ export class ThreeView {
             throw new Error('Layer not found');
           }
           layersState.setCurrentLayer(value);
-          this.toolsController.setActiveTool(value, this.groundPlane, this.cameraController.camera);
+          this.instrumentsController.setActiveTool(value, this.groundPlane, this.cameraController.camera);
         }
       }
     );
@@ -102,7 +108,7 @@ export class ThreeView {
 
     //TODO concrete conditions
     autorun(() => {
-      this.toolsController.helpersManager.renderGrid();
+      this.instrumentsController.helpersManager.renderGrid();
     });
   };
 

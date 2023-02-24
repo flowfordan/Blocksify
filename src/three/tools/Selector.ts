@@ -1,5 +1,4 @@
 import { SceneModifier } from 'three/services/SceneModifier';
-import { InstrumentsAcceptor } from './../acceptors/InstrumentsAcceptor';
 import { Line2, LineMaterial } from 'three-fatline';
 import * as THREE from 'three';
 
@@ -8,6 +7,7 @@ import { getObjByPointer } from '../utils';
 import { Object3D } from 'three';
 import { Handler } from '../services/Handler';
 import { Layer } from '../../shared/types/layers';
+import { InstrumentsMediator } from 'three/mediators/InstrumentsMediator';
 
 export class Selector {
   rect: DOMRect;
@@ -23,12 +23,13 @@ export class Selector {
   };
   toolState: number;
   handler: Handler;
-  acceptor: InstrumentsAcceptor;
-  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, acceptor: InstrumentsAcceptor) {
+  mediator: InstrumentsMediator;
+  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, mediator: InstrumentsMediator) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
     this.currentCamera = new THREE.PerspectiveCamera();
 
+    //TODO pass currentLayer on start
     this.currentLayer = layersState.currentLayer;
 
     this._selectedObj = null;
@@ -42,7 +43,7 @@ export class Selector {
     this.toolState = 0;
 
     this.handler = new Handler(sceneModifier);
-    this.acceptor = acceptor;
+    this.mediator = mediator;
   }
 
   get selectedObj() {
@@ -53,7 +54,7 @@ export class Selector {
     console.log('SETTER of SELECTOR');
     this._selectedObj = obj;
     //notify state
-    this.acceptor.setSelectorSelectedObjData(obj);
+    this.mediator.setSelectorSelectedObjData(obj);
   }
 
   get intersectedObj() {
@@ -63,7 +64,7 @@ export class Selector {
   set intersectedObj(obj: THREE.Object3D | null) {
     this._intersectedObj = obj;
     //notify state
-    this.acceptor.setSelectorIntersectedObjData(obj);
+    this.mediator.setSelectorIntersectedObjData(obj);
   }
 
   //startTool
@@ -119,9 +120,6 @@ export class Selector {
       if (this.selectedObj) {
         this.handler.sceneModifier.removeObj(this.selectedObj);
         this.handler.removeOverlayObj('all');
-        // this.scene.remove(this.selectedObj);
-        // this.scene.remove(this.renderedObjs.selectedObj!);
-        // this.scene.remove(this.renderedObjs.selectedPoints!);
         this.selectedObj = null;
       }
     }
@@ -130,9 +128,6 @@ export class Selector {
   stop = () => {
     console.log('SELECTOR END');
     this.handler.removeOverlayObj('all');
-    // this.scene.remove(this.renderedObjs.selectedObj!);
-    // this.scene.remove(this.renderedObjs.selectedPoints!);
-    // this.scene.remove(this.renderedObjs.intersectedObj!);
     this.selectedObj = null;
     this.intersectedObj = null;
     //null selected

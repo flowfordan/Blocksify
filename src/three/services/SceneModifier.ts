@@ -1,5 +1,7 @@
 import { SceneObjsWatcher } from './SceneObjsWatcher';
 import * as THREE from 'three';
+import { cube, myLine } from 'three/geometry/geometry';
+import { worldPlaneHelper, worldPlaneMesh } from 'three/geometry/worldPlane';
 
 export class SceneModifier {
   scene: THREE.Scene;
@@ -17,5 +19,11 @@ export class SceneModifier {
   removeObj = (object: THREE.Object3D) => {
     this.objWatcher.onObjRemoved(object);
     this.scene.remove(object);
+  };
+
+  _initSceneTempGeometry = () => {
+    //some initial 3dobjects
+    this.scene.add(cube, myLine, worldPlaneMesh, worldPlaneHelper);
+    cube.material.color.setHex(0x686868);
   };
 }

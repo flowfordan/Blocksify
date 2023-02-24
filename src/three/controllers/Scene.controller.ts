@@ -1,6 +1,4 @@
 import * as THREE from 'three';
-import { worldPlaneHelper, worldPlaneMesh } from '../geometry/worldPlane';
-import { cube, myLine } from '../geometry/geometry';
 import { dirLight, dirLightHelper, hemiLight } from '../lights';
 import { SceneModifier } from 'three/services/SceneModifier';
 
@@ -14,10 +12,6 @@ export class SceneController {
     this._scene = new THREE.Scene();
     this._scene.background = new THREE.Color(0xb3deff);
 
-    //some initial 3dobjects
-    this._scene.add(cube, myLine, worldPlaneMesh, worldPlaneHelper);
-    cube.material.color.setHex(0x686868);
-
     //lights
     this._scene.add(dirLight, dirLightHelper, hemiLight);
 
@@ -26,6 +20,7 @@ export class SceneController {
     this._scene.add(axesHelper);
 
     this.modifier = new SceneModifier(this._scene);
+    this.modifier._initSceneTempGeometry();
   }
 
   //watch for state changes

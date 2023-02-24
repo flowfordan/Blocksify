@@ -1,11 +1,12 @@
+import { LayersMediator } from './../mediators/LayersMediator';
 import { IsObjDataOfObjMain } from 'shared/types/objs';
 import { SceneGetter } from './SceneGetter';
 
 export class SceneObjsWatcher {
-  // layersController: LayersController;
+  layersMediator: LayersMediator;
   sceneGetter: SceneGetter;
   constructor() {
-    // this.layersController = layersController;
+    this.layersMediator = new LayersMediator();
     //layersMediator
     this.sceneGetter = new SceneGetter();
   }
@@ -13,24 +14,23 @@ export class SceneObjsWatcher {
   onObjAdded = (obj: THREE.Object3D) => {
     if (IsObjDataOfObjMain(obj.userData)) {
       console.log('ADDED USER OBJ');
+      this._registerLayerObjsChange('remove', obj.userData.layerId.value);
     }
   };
 
   onObjRemoved = (obj: THREE.Object3D) => {
     if (IsObjDataOfObjMain(obj.userData)) {
       console.log('ADDED USER OBJ');
+      this._registerLayerObjsChange('remove', obj.userData.layerId.value);
     }
   };
 
-  // onObjPropChanged = (obj: THREE.Object3D) => {
-  //   console.log('PROP CHANGED:', obj);
-  // };
+  onObjPropChanged = (obj: THREE.Object3D) => {
+    console.log('PROP CHANGED:', obj);
+  };
 
-  // private updLayerStatus = (operation: 'add' | 'remove', layerId: number) => {
-  //   const multiplier = operation === 'add' ? 1 : -1;
-  //   this.layersController.setObjectsQuantity(multiplier, layerId);
-
-  //   //check emptiness
-  //   this.layersController.setIsLayerEmpty(layerId);
-  // };
+  private _registerLayerObjsChange = (operation: 'add' | 'remove', layerId: number) => {
+    const multiplier = operation === 'add' ? 1 : -1;
+    this.layersMediator.updLayerObjsCount(multiplier, layerId);
+  };
 }

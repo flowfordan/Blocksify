@@ -4,12 +4,12 @@ import { Line } from '../tools/Line';
 import { Polygon } from '../tools/Polygon';
 import { Selector } from '../tools/Selector';
 import { Cleaner } from '../tools/Cleaner';
-import { InstrumentsAcceptor } from 'three/acceptors/InstrumentsAcceptor';
 import { instrumentsState, ToolName } from 'shared/model';
 import { Layer } from 'shared/types/layers';
+import { InstrumentsMediator } from 'three/mediators';
 
-export class ToolsController {
-  acceptor: InstrumentsAcceptor;
+export class InstrumentsController {
+  mediator: InstrumentsMediator;
   helpersManager: HelpersManager;
 
   tools: {
@@ -19,12 +19,12 @@ export class ToolsController {
   currentToolId: number | undefined;
 
   constructor(activeElement: HTMLCanvasElement, sceneModifier: SceneModifier) {
-    this.acceptor = new InstrumentsAcceptor();
+    this.mediator = new InstrumentsMediator();
     this.tools = {
       line: new Line(activeElement, 0, sceneModifier),
       pLine: new Line(activeElement, 1, sceneModifier),
       polygon: new Polygon(activeElement, sceneModifier),
-      selector: new Selector(activeElement, sceneModifier, this.acceptor),
+      selector: new Selector(activeElement, sceneModifier, this.mediator),
       cleaner: new Cleaner(sceneModifier.scene),
     };
     //toolsData = {selector: {selectedObj: {...}, intersectedObj: {...} }}
