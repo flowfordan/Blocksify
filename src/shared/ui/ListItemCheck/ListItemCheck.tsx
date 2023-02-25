@@ -5,8 +5,8 @@ import { ListItemCheckProps } from './ListItemCheck.props';
 import './listItemCheck.scss';
 
 import TickIcon from '../../../assets/icons/tick.svg';
-import { AssetKey, assetsData } from '../../_data/assetsData';
-import { returnSvgNode } from '../../../shared/lib/returnSvgNode';
+import { AssetKey, assetsData } from '../../../components/_data/assetsData';
+import { returnSvgNode } from '../../lib/returnSvgNode';
 
 const ListItemCheck = ({ title, isChecked, icon, children, ...props }: ListItemCheckProps): JSX.Element => {
   return (

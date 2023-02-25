@@ -1,5 +1,5 @@
 import { DetailedHTMLProps, HTMLAttributes, ReactNode } from 'react';
-import { AssetKey } from '../../_data/assetsData';
+import { AssetKey } from '../../../components/_data/assetsData';
 
 export interface ListItemCheckProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   error?: string;

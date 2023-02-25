@@ -2,7 +2,7 @@ import { AnglePts, createBaseV3s } from '../../three/helpers/createBaseV3s';
 import { makeAutoObservable, toJS } from 'mobx';
 import { Vector3 } from 'three';
 import { helpersDefPreset } from '../config/presets/helpersPreset';
-import { IObjProperties } from 'shared/types/objsData';
+import { IObjDataProps } from 'shared/types/objs';
 
 //Drawing Tools: Line, Polyline, Polygon
 //Selector Tool
@@ -76,8 +76,8 @@ type ToolsData = {
 };
 
 type SelectorToolData = {
-  selectedObjData: IObjProperties[keyof IObjProperties] | null;
-  intersectedObjData: IObjProperties[keyof IObjProperties] | null;
+  selectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+  intersectedObjData: IObjDataProps[keyof IObjDataProps] | null;
 };
 
 class InstrumentsState {
@@ -195,7 +195,7 @@ class InstrumentsState {
     //
   };
 
-  updSelectorData = (data: IObjProperties[keyof IObjProperties] | null, selectorStatus: 'selected' | 'intersected') => {
+  updSelectorData = (data: IObjDataProps[keyof IObjDataProps] | null, selectorStatus: 'selected' | 'intersected') => {
     const selectorData = this.toolsData['selector'];
     switch (selectorStatus) {
       case 'intersected':

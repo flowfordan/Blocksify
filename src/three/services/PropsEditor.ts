@@ -1,6 +1,5 @@
 import { toJS } from 'mobx';
 import { Layer } from '../../shared/types/layers';
-import { IObjProperties } from '../../shared/types/objsData';
 
 export class PropsEditor {
   constructor() {
@@ -13,7 +12,7 @@ export class PropsEditor {
     objType: 'layer_joined' | 'part_main' | 'part_sub'
   ) => {
     if (objType === 'layer_joined') {
-      const propertiesToSet = toJS(objLayer.objData);
+      const propertiesToSet = toJS(objLayer.objDefaultData);
       obj.userData = Object.assign(propertiesToSet);
     }
   };

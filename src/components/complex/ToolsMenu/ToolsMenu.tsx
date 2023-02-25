@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { instrumentsState } from '../../../shared/model';
-import { ListItemCheck } from '../ListItemCheck/ListItemCheck';
+import { ListItemCheck } from '../../../shared/ui/ListItemCheck/ListItemCheck';
 
 import { Card } from '../../../shared/ui/Card/Card';
 

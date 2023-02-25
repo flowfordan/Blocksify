@@ -1,3 +1,3 @@
-// export * from './AppPage';
-// export * from './StartPage';
-export {};
+export * from './AppPage/AppPage';
+export * from './StartPage/StartPage';
+export * from './TestPage/TestPage';

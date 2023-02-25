@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Slider } from '../../../shared/ui/Slider/Slider';
 import { ComplexSlider } from '../ComplexSlider/ComplexSlider';
-import { ListItemCheck } from '../ListItemCheck/ListItemCheck';
+import { ListItemCheck } from '../../../shared/ui/ListItemCheck/ListItemCheck';
 import { CheckMatrix } from '../../../shared/ui/CheckMatrix/CheckMatrix';
 import { Division } from '../../../shared/ui/Division/Division';
 import { Card } from '../../../shared/ui/Card/Card';

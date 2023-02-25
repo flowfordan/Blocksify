@@ -12,7 +12,8 @@ module.exports = {
   target: isProd ? "browserslist" : "web",
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -30,6 +31,7 @@ module.exports = {
         warnings: false,
       },
     },
+    historyApiFallback: true,
   },
   module: {
     rules: [
