@@ -4,13 +4,13 @@ import { DrawInstrItemProps } from './draw.props';
 import { observer } from 'mobx-react-lite';
 import { ListItemCheck } from 'shared/ui';
 
-export const DrawInstrItem = observer(({ tool }: DrawInstrItemProps) => {
-  const toolData = instrumentsModel.getToolData(tool);
+export const DrawInstrItem = observer(({ instrId }: DrawInstrItemProps) => {
+  const toolData = instrumentsModel._getInstrument(instrId);
   if (!toolData) return null;
   const onItemClick = () => {
-    instrumentsModel.toggleActiveTool(toolData.name);
+    instrumentsModel.toggleInstrumentActive(instrId);
   };
   return (
-    <ListItemCheck title={toolData.name} isChecked={toolData.isActive} icon={'line'} onClick={() => onItemClick()} />
+    <ListItemCheck title={toolData.title} isChecked={toolData.isActive} icon={'line'} onClick={() => onItemClick()} />
   );
 });

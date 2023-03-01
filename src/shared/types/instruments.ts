@@ -3,22 +3,40 @@ export enum InstrumentsId {
   PLINE = 'pLine',
   POLYGON = 'polygon',
   SELECTOR = 'selector',
-  EDITOR = 'objEditor',
-  INSPECTOR = 'objInspector',
+  EDITOR = 'editor',
+  INSPECTOR = 'inspector',
   CLEANER = 'cleaner',
 }
 
-export type InstrumentsTitle = 'Line' | 'Polyline' | 'Polygon' | 'Inspector' | 'Generator' | 'name';
+export type InstrumentsTitle =
+  | 'Line'
+  | 'Polyline'
+  | 'Polygon'
+  | 'Editor'
+  | 'Selector'
+  | 'Inspector'
+  | 'Generator'
+  | 'name';
 
-interface Instrument {
+type IntrumentLvl = 'top' | 'middle' | 'low';
+export interface Instrument {
   id: InstrumentsId;
   title: InstrumentsTitle;
-  active: boolean;
+  isActive: boolean;
+  isAvailable: boolean;
   type: 'draw' | 'select' | 'inspect' | 'remove' | 'generate' | 'other';
-  lvl: 1 | 2 | 3;
-  cursorType: 'auto' | 'wait' | 'crosshair' | 'pointer';
+  lvl: IntrumentLvl;
+  activeCursor: 'auto' | 'wait' | 'crosshair' | 'pointer';
+  autoTriggerFor?: InstrumentsId;
 }
 
-const test: Instrument = {
-  id: InstrumentsId.LINE
-}
+export type InstrumentsData = {
+  [InstrumentsId.SELECTOR]: { selectedObjData: ''; intersectedObjData: '' };
+  [InstrumentsId.INSPECTOR]: { currentObj: '' };
+  [InstrumentsId.EDITOR]: { currentData: ''; newData: '' };
+  ////...generator
+};
+
+export type LvlActiveInstrument = {
+  [K in IntrumentLvl]: Instrument | null;
+};

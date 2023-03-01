@@ -1,40 +1,57 @@
+import { DefInstrumentsData } from './../config/instruments';
 import { makeAutoObservable } from 'mobx';
-
-export type ToolNameTest = 'line' | 'pline' | 'polygon';
-
-interface ToolData {
-  id: number;
-  name: ToolNameTest;
-  icon: string;
-  isActive: boolean;
-}
-
+import { Instrument, InstrumentsData, InstrumentsId, LvlActiveInstrument } from 'shared/types';
+import { DefInstruments } from '../config/instruments';
 class InstrumentsModel {
-  drawingTools: Array<ToolData>;
+  instruments: Array<Instrument>;
+  instrumentsData: InstrumentsData;
+  currentLvlInstrument: LvlActiveInstrument;
   constructor() {
-    this.drawingTools = [
-      { id: 0, name: 'line', icon: 'lIcon', isActive: false },
-      { id: 1, name: 'pline', icon: 'PLicon', isActive: false },
-      { id: 2, name: 'polygon', icon: 'polIcon', isActive: false },
-    ];
+    this.instruments = DefInstruments;
+    this.instrumentsData = DefInstrumentsData;
+    this.currentLvlInstrument = {
+      top: null,
+      middle: null,
+      low: null,
+    };
 
     makeAutoObservable(this);
   }
 
-  getToolData = (toolName: ToolNameTest) => {
-    const toolData = this.drawingTools.find((el) => {
-      return el.name === toolName;
-    });
-
-    return toolData ? toolData : null;
+  toggleInstrumentActive = (instrId: InstrumentsId) => {
+    const instr = this._getInstrument(instrId);
+    if (instr) {
+      //toggle one
+      instr.isActive = !instr.isActive;
+      //check all on the same lvl
+      if (instr.isActive) {
+        const lvl = instr.lvl;
+        //toggle instr same level
+        for (const i of this.instruments) {
+          if (i.lvl === lvl && i.isActive && i.id !== instrId) {
+            i.isActive = false;
+          }
+        }
+      } else {
+        //deactivate all dependands
+        const dependand = instr.autoTriggerFor;
+        if (dependand) this.toggleInstrumentActive(dependand);
+      }
+    }
   };
 
-  toggleActiveTool = (tool: ToolNameTest) => {
-    const toolData = this.drawingTools.find((el) => el.name === tool);
-    if (toolData) {
-      toolData.isActive = !toolData.isActive;
-      console.log(toolData.isActive);
+  toggleInstrumentAvailable = (instrId: InstrumentsId) => {
+    const instr = this._getInstrument(instrId);
+    if (instr) {
+      instr.isAvailable = !instr.isAvailable;
     }
+  };
+
+  _getInstrument = (instrId: InstrumentsId) => {
+    const toolData = this.instruments.find((el) => {
+      return el.id === instrId;
+    });
+    return toolData ? toolData : null;
   };
 }
 

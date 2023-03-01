@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { Card } from 'shared/ui';
 
 export const ToolMenu = observer(({ menuType }: ToolMenuProps) => {
-  const items = instrumentsModel.drawingTools;
+  const items = instrumentsModel.instruments.filter((el) => el.type === 'draw');
   //connect to config?
   //get list of these items
   //return list
@@ -13,7 +13,7 @@ export const ToolMenu = observer(({ menuType }: ToolMenuProps) => {
   return (
     <Card>
       {items.map((i) => {
-        return <DrawInstrItem key={i.name} tool={i.name} />;
+        return <DrawInstrItem key={i.id} instrId={i.id} />;
       })}
     </Card>
   );
