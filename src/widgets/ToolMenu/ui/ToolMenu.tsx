@@ -1,20 +1,27 @@
 import React from 'react';
 import { ToolMenuProps } from './ToolMenu.props';
-import { DrawInstrItem, instrumentsModel } from 'entities/sceneInstrument';
+import { DrawInstrItem, HelperInstrItem, instrumentsModel, instrumentsHelpersModel } from 'entities/sceneInstrument';
 import { observer } from 'mobx-react-lite';
 import { Card } from 'shared/ui';
+import { Instrument, InstrumentHelper } from 'shared/types';
 
 export const ToolMenu = observer(({ menuType }: ToolMenuProps) => {
-  const items = instrumentsModel.instruments.filter((el) => el.type === 'draw');
-  //connect to config?
-  //get list of these items
-  //return list
-  console.log('Tool Menu');
-  return (
-    <Card>
-      {items.map((i) => {
-        return <DrawInstrItem key={i.id} instrId={i.id} />;
-      })}
-    </Card>
-  );
+  const items =
+    menuType === 'drawing'
+      ? instrumentsModel.instruments.filter((el) => el.type === 'draw')
+      : instrumentsHelpersModel.helpers;
+
+  const RenderDrawItems = () => {
+    return (items as Instrument[]).map((i) => {
+      return <DrawInstrItem key={i.id} instrId={i.id} />;
+    });
+  };
+
+  const RenderHelperItems = () => {
+    return (items as InstrumentHelper[]).map((i) => {
+      return <HelperInstrItem key={i.id} helperId={i.id} />;
+    });
+  };
+
+  return <Card>{menuType === 'drawing' ? RenderDrawItems() : RenderHelperItems()}</Card>;
 });
