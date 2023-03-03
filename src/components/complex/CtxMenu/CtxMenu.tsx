@@ -27,7 +27,7 @@ const CtxMenu = observer(({ children, className, ...props }: CtxMenuProps): JSX.
       menuContent = <ToolsMenu />;
       break;
     default:
-      menuContent = null;
+      menuContent = <div>Test</div>;
       break;
   }
 

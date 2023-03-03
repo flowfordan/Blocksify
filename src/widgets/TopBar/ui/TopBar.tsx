@@ -10,8 +10,9 @@ import { TopBarProps } from './TopBar.props';
 import './topBar.scss';
 import { instrumentsState, sceneState, uiState } from 'shared/model';
 import { returnSvgNode } from 'shared/lib/returnSvgNode';
-import { BtnBar } from 'shared/ui';
+import { BtnBar, DropDown } from 'shared/ui';
 import { DrawInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
+import { CtxMenu } from 'components/complex/CtxMenu/CtxMenu';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   const { tools } = instrumentsState;
@@ -58,6 +59,14 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
             isExpandable
             title={'Helpers'}
             isSelected={uiState.ctxMenu.currentContent === 'helpers'}
+          />
+          <DropDown
+            btn={<DrawInstrMenu />}
+            list={
+              <CtxMenu>
+                <div>Test</div>
+              </CtxMenu>
+            }
           />
         </div>
 
