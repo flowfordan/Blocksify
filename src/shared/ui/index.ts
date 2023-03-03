@@ -1,4 +1,5 @@
 export * from './Btn/Btn';
+export * from './BtnBar/BtnBar';
 export * from './Card/Card';
 export * from './CheckMatrix/CheckMatrix';
 export * from './Division/Division';

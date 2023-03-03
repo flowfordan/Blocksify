@@ -10,7 +10,8 @@ import { TopBarProps } from './TopBar.props';
 import './topBar.scss';
 import { instrumentsState, sceneState, uiState } from 'shared/model';
 import { returnSvgNode } from 'shared/lib/returnSvgNode';
-import { BtnBar } from 'components/complex/BtnBar/BtnBar';
+import { BtnBar } from 'shared/ui';
+import { SelectorInstr } from 'entities/sceneInstrument';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   const { tools } = instrumentsState;
@@ -40,12 +41,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
 
       <div className={'topBar__main'}>
         <div className={'topBar__main--part'}>
-          <BtnBar
-            iconKey="selector"
-            isActive={activeTool?.id === 3}
-            title={'Selector tool'}
-            onClick={() => handleToolChange(3)}
-          />
+          <SelectorInstr />
           <BtnBar
             iconKey={activeTool && activeTool.type === 'draw' ? activeTool.name : 'line'}
             isActive={Boolean(activeTool) && activeTool?.type === 'draw'}
