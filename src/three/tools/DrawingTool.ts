@@ -6,14 +6,13 @@ import { TagsManager } from '../helpers/TagManager';
 import { Handler } from '../services/Handler';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { Layer } from 'shared/types/layers';
-import { layersState } from 'shared/model';
 
 //SUPERCLASS FOR DRAWING TOOLS
 export class DrawingTool {
   toolState: number;
   canvas: HTMLCanvasElement;
   rect: DOMRect;
-  layer: Layer;
+  layer: Layer | null;
 
   currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera | null;
   currentPlane: THREE.Plane | null;
@@ -29,7 +28,7 @@ export class DrawingTool {
   constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
-    this.layer = layersState.currentLayer;
+    this.layer = null;
     this.toolState = 0; //state from 0 to 3
 
     this.currentCamera = null;

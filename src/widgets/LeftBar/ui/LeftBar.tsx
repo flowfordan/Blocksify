@@ -4,15 +4,17 @@ import { observer } from 'mobx-react-lite';
 import cn from 'classnames';
 
 import './leftBar.scss';
-import { instrumentsState, layersState } from 'shared/model';
+import { layersModel } from 'entities/layer';
+import { instrumentsModel } from 'entities/sceneInstrument';
 import { CoordsDisplay } from 'components/complex/CoordsPanel/CoordsPanel';
 import { PanelDivision } from 'shared/ui';
 import { LayerItem } from 'entities/layer';
 import { ObjDataProp } from 'entities/sceneObj';
 import { IObjData_Joined, IsObjDataOfObjMain, IsPropIsPropData } from 'shared/types/objs';
+import { Layer } from 'shared/types';
 
 export const LeftBar = observer((): JSX.Element => {
-  const constructLayersList = (layersArr: typeof layersState.layers) => {
+  const constructLayersList = (layersArr: Array<Layer>) => {
     return layersArr.map((l) => {
       return (
         <LayerItem
@@ -29,16 +31,16 @@ export const LeftBar = observer((): JSX.Element => {
   };
 
   const constructSelectedObjData = () => {
-    const data = instrumentsState.toolsData['selector'].selectedObjData;
+    const data = instrumentsModel.instrumentsData['selector'].selectedObjData;
     if (data && IsObjDataOfObjMain(data)) {
       return (
         <>
-          {Object.keys(data).map((key, idx) => {
+          {/* {Object.keys(data).map((key, idx) => {
             const propValue = data[key as keyof typeof data];
             if (IsPropIsPropData(propValue) && propValue.pubTitle) {
               return <ObjDataProp key={key} propName={propValue.pubTitle} propValue={propValue.value} />;
             }
-          })}
+          })} */}
         </>
       );
     } else {
@@ -59,14 +61,14 @@ export const LeftBar = observer((): JSX.Element => {
 
   return (
     <div className={'leftBar'}>
-      <PanelDivision header={'Layers'}>{constructLayersList(layersState.layers)}</PanelDivision>
+      <PanelDivision header={'Layers'}>{constructLayersList(layersModel.layers)}</PanelDivision>
 
       <PanelDivision header={'Object Properties'}>
-        {instrumentsState.currentTool?.name === 'selector' && constructSelectedObjData()}
+        {/* {instrumentsModel.currentTool?.name === 'selector' && constructSelectedObjData()} */}
       </PanelDivision>
 
       <PanelDivision>
-        {instrumentsState.currentTool?.name === 'selector' && constructIntersectedObjData()}
+        {/* {instrumentsModel.currentTool?.name === 'selector' && constructIntersectedObjData()} */}
       </PanelDivision>
 
       <div className={'leftBar__coordsPanel'}>

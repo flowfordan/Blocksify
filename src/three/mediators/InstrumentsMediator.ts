@@ -1,27 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { instrumentsState, ToolName } from 'shared/model';
+import { ToolName } from 'shared/model';
 import { IsObjDataOfObjMain } from 'shared/types/objs';
-//connect with InstrumentsState
+import { InstrumentsModel } from 'three/shared';
+//connect with this.instrumentsModel
 //recieve data from Instruments, pass data to State
 
 export class InstrumentsMediator {
-  constructor() {
-    //
+  instrumentsModel: InstrumentsModel;
+  constructor(instrumentsModel: InstrumentsModel) {
+    this.instrumentsModel = instrumentsModel;
   }
 
   setSelectorIntersectedObjData = (obj: THREE.Object3D | null) => {
-    if (obj && IsObjDataOfObjMain(obj.userData)) {
-      instrumentsState.updSelectorData(obj.userData, 'intersected');
-    } else if (instrumentsState.toolsData['selector'].intersectedObjData) {
-      instrumentsState.updSelectorData(null, 'intersected');
-    }
+    // if (obj && IsObjDataOfObjMain(obj.userData)) {
+    //   this.instrumentsModel.updSelectorData(obj.userData, 'intersected');
+    // } else if (this.instrumentsModel.toolsData['selector'].intersectedObjData) {
+    //   this.instrumentsModel.updSelectorData(null, 'intersected');
+    // }
   };
 
   setSelectorSelectedObjData = (obj: THREE.Object3D | null) => {
-    if (obj && IsObjDataOfObjMain(obj.userData)) {
-      instrumentsState.updSelectorData(obj.userData, 'selected');
-    } else if (instrumentsState.toolsData['selector'].selectedObjData) {
-      instrumentsState.updSelectorData(null, 'selected');
-    }
+    // if (obj && IsObjDataOfObjMain(obj.userData)) {
+    //   this.instrumentsModel.updSelectorData(obj.userData, 'selected');
+    // } else if (this.instrumentsModel.toolsData['selector'].selectedObjData) {
+    //   this.instrumentsModel.updSelectorData(null, 'selected');
+    // }
   };
 }

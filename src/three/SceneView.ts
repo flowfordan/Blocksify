@@ -6,13 +6,15 @@ import { autorun, reaction, toJS } from 'mobx';
 import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './config/geometry/worldPlane';
 import { getMouseLocation } from './utils';
 import { sceneState } from '../shared/model';
-import { LabelRendererController } from './controllers/LabelRenderer.controller';
-import { SceneController } from './controllers/Scene.controller';
-import { RendererController } from './controllers/Renderer.controller';
-import { CameraController } from './controllers/Camera.controller';
-import { InstrumentsController } from './controllers/Instruments.controller';
-import { LayersController } from './controllers/Layers.controller';
-import { DrawObjModel } from 'features/sceneObj/model/drawObjModel';
+import {
+  LabelRendererController,
+  RendererController,
+  SceneController,
+  CameraController,
+  InstrumentsController,
+  LayersController,
+} from './controllers';
+import { InstrumentsModel, LayersModel } from './shared';
 
 export class SceneView {
   //utility controllers
@@ -28,20 +30,22 @@ export class SceneView {
   //TODO remove any
   stats: any;
 
-  constructor(canvasRef: HTMLCanvasElement) {
+  constructor(canvasRef: HTMLCanvasElement, layersModel: LayersModel, instrumentsModel: InstrumentsModel) {
     this.groundPlane = worldPlane;
     //utility
     this.rendererController = new RendererController(canvasRef);
     this.labelRendererController = new LabelRendererController();
     //scene
     this.sceneController = new SceneController();
-    this.layersController = new LayersController();
-    this.cameraController = new CameraController(this.rendererController);
+    this.layersController = new LayersController(layersModel);
+    this.cameraController = new CameraController(this.rendererController, layersModel);
     this.instrumentsController = new InstrumentsController(
       this.rendererController.activeElement,
       this.sceneController.modifier,
       this.cameraController.camera,
-      this.groundPlane
+      this.groundPlane,
+      layersModel,
+      instrumentsModel
     );
 
     //STATS

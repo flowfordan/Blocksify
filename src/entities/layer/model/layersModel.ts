@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { Layer } from 'shared/types';
 import { DefLayers } from '../config/layers';
 
-class LayersModel {
+export class LayersModel {
   layers: Array<Layer>;
   currentLayer: Layer;
 

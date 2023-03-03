@@ -1,10 +1,10 @@
-import { layersState } from 'shared/model';
 import * as THREE from 'three';
+import { LayersModel } from 'three/shared';
 
 export class LayersController {
   // currentLayer: Layer;
 
-  constructor() {
+  constructor(layersModel: LayersModel) {
     // this.currentLayer = this.findActiveLayer();
   }
 

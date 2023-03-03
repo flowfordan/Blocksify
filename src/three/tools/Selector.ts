@@ -2,7 +2,6 @@ import { SceneModifier } from 'three/services/SceneModifier';
 import { Line2, LineMaterial } from 'three-fatline';
 import * as THREE from 'three';
 
-import { layersState } from '../../shared/model';
 import { getObjByPointer } from '../utils';
 import { Object3D } from 'three';
 import { Handler } from '../services/Handler';
@@ -13,7 +12,7 @@ export class Selector {
   rect: DOMRect;
   canvas: HTMLCanvasElement;
   currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
-  currentLayer: Layer;
+  currentLayer: Layer | null;
   _selectedObj: THREE.Object3D | null;
   _intersectedObj: THREE.Object3D | null;
   renderedObjs: {
@@ -30,7 +29,7 @@ export class Selector {
     this.currentCamera = new THREE.PerspectiveCamera();
 
     //TODO pass currentLayer on start
-    this.currentLayer = layersState.currentLayer;
+    this.currentLayer = null;
 
     this._selectedObj = null;
     this._intersectedObj = null;
@@ -80,6 +79,7 @@ export class Selector {
   };
 
   private _onMouseMove = (e: MouseEvent) => {
+    if (!this.currentLayer) throw new Error('Layer is not specified');
     const obj = getObjByPointer(
       this.handler.sceneModifier.scene,
       e,

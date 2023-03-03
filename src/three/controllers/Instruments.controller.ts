@@ -5,10 +5,11 @@ import { Line } from '../tools/Line';
 import { Polygon } from '../tools/Polygon';
 import { Selector } from '../tools/Selector';
 import { Cleaner } from '../tools/Cleaner';
-import { instrumentsState, layersState, ToolName } from 'shared/model';
+import { instrumentsState, ToolName } from 'shared/model';
 import { Layer } from 'shared/types/layers';
 import { InstrumentsMediator } from 'three/mediators';
 import { autorun, reaction } from 'mobx';
+import { LayersModel, InstrumentsModel } from 'three/shared';
 
 export class InstrumentsController {
   mediator: InstrumentsMediator;
@@ -22,6 +23,7 @@ export class InstrumentsController {
 
   currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   currentPlane: THREE.Plane;
+  layersModel: LayersModel;
 
   //TEST
   // drawModel: DrawObjModel;
@@ -30,9 +32,12 @@ export class InstrumentsController {
     activeElement: HTMLCanvasElement,
     sceneModifier: SceneModifier,
     camera: THREE.PerspectiveCamera | THREE.OrthographicCamera,
-    plane: THREE.Plane
+    plane: THREE.Plane,
+    layersModel: LayersModel,
+    instrumentsModel: InstrumentsModel
   ) {
-    this.mediator = new InstrumentsMediator();
+    this.layersModel = layersModel;
+    this.mediator = new InstrumentsMediator(instrumentsModel);
     this.tools = {
       line: new Line(activeElement, 0, sceneModifier),
       pLine: new Line(activeElement, 1, sceneModifier),
@@ -111,12 +116,12 @@ export class InstrumentsController {
   private _storeSubscribe = () => {
     //TOOL CHANGE
     autorun(() => {
-      this.setActiveTool(layersState.currentLayer, this.currentPlane, this.currentCamera);
+      this.setActiveTool(this.layersModel.currentLayer, this.currentPlane, this.currentCamera);
     });
 
     //STOP TOOL IF LAYER SWAP WHILE TOOL ACTIVE
     reaction(
-      () => layersState.layers.find((l) => l.active),
+      () => this.layersModel.layers.find((l) => l.active),
       (layer, previousLayer, reaction) => {
         const activeTool = instrumentsState.tools.find((i) => i.active);
         if (layer?.id !== previousLayer?.id && activeTool) {

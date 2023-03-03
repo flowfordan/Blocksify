@@ -1,18 +1,21 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { layersState, sceneState } from '../../shared/model';
+import { sceneState } from '../../shared/model';
 import { camera } from '../camera/camera';
 import { RendererController } from './Renderer.controller';
 import { autorun, reaction, toJS } from 'mobx';
+import { LayersModel } from 'three/shared';
 
 export class CameraController {
   camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   controls: OrbitControls;
   rendererController: RendererController;
-  constructor(rendererController: RendererController) {
+  layersModel: LayersModel;
+  constructor(rendererController: RendererController, layersModel: LayersModel) {
     this.rendererController = rendererController;
     this.camera = camera();
     this.controls = new OrbitControls(this.camera, rendererController.activeElement);
+    this.layersModel = layersModel;
 
     this._storeSubscribe();
   }
@@ -26,12 +29,12 @@ export class CameraController {
       //this.controls.enableDamping = true;
       this.controls.enableRotate = false;
       //enable all existing layers
-      layersState.layers.forEach((i) => this.camera.layers.enable(i.id));
+      this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
     } else if (curCamId === 1) {
       this.camera = camera(rendererController.renderer, curCamId);
       this.controls = new OrbitControls(this.camera, rendererController.activeElement);
       //enable all existing layers
-      layersState.layers.forEach((i) => this.camera.layers.enable(i.id));
+      this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
     }
   };
 
@@ -40,7 +43,7 @@ export class CameraController {
     //TODO rewrite - no need to iterate every time
     //make it specific for buttoned layer
     //ugly
-    layersState.layers.forEach((i) => {
+    this.layersModel.layers.forEach((i) => {
       if (i.visible) {
         this.camera.layers.enable(i.id);
       } else {
@@ -50,7 +53,7 @@ export class CameraController {
   };
 
   toggleLayerVisibility = (layerId: number) => {
-    const layer = layersState.layers.find((l) => l.id === layerId);
+    const layer = this.layersModel.layers.find((l) => l.id === layerId);
     if (!layer) {
       throw new Error(
         `Trying to find layer to set visibility. 
@@ -87,7 +90,7 @@ export class CameraController {
     reaction(
       () => {
         const visibles: Array<boolean> = [];
-        const layers = layersState.layers;
+        const layers = this.layersModel.layers;
         for (const layer of layers) {
           visibles.push(layer.visible);
         }
@@ -96,7 +99,7 @@ export class CameraController {
       (value, prevValue, reaction) => {
         for (let i = 0; i < value.length; i++) {
           if (value[i] !== prevValue[i]) {
-            const layer = layersState.layers[i];
+            const layer = this.layersModel.layers[i];
             this.toggleLayerVisibility(layer.id);
             break;
           }

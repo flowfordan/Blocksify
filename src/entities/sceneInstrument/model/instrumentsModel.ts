@@ -2,7 +2,7 @@ import { DefInstrumentsData } from './../config/instruments';
 import { makeAutoObservable } from 'mobx';
 import { Instrument, InstrumentsData, InstrumentsId, LvlActiveInstrument } from 'shared/types';
 import { DefInstruments } from '../config/instruments';
-class InstrumentsModel {
+export class InstrumentsModel {
   instruments: Array<Instrument>;
   instrumentsData: InstrumentsData;
   currentLvlInstrument: LvlActiveInstrument;

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from 'three/SceneView';
 import './desk.scss';
-import { drawObjModel } from 'features/sceneObj';
 import { layersModel } from 'entities/layer';
 import { instrumentsModel } from 'entities/sceneInstrument';
 
@@ -27,7 +26,7 @@ export const Desk = (): JSX.Element => {
   //on Mount
   useEffect(() => {
     const innerTreeRef = canvasScene.current!;
-    sceneView = new SceneView(innerTreeRef);
+    sceneView = new SceneView(innerTreeRef, layersModel, instrumentsModel);
 
     resizeObserver.observe(innerTreeRef, { box: 'content-box' });
 
