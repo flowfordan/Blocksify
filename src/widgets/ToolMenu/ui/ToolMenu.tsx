@@ -12,16 +12,24 @@ export const ToolMenu = observer(({ menuType }: ToolMenuProps) => {
       : instrumentsHelpersModel.helpers;
 
   const RenderDrawItems = () => {
-    return (items as Instrument[]).map((i) => {
-      return <DrawInstrItem key={i.id} instrId={i.id} />;
-    });
+    return (
+      <>
+        {(items as Instrument[]).map((i) => {
+          return <DrawInstrItem key={i.id} instrId={i.id} />;
+        })}
+      </>
+    );
   };
 
   const RenderHelperItems = () => {
-    return (items as InstrumentHelper[]).map((i) => {
-      return <HelperInstrItem key={i.id} helperId={i.id} />;
-    });
+    return (
+      <>
+        {(items as InstrumentHelper[]).map((i) => {
+          return <HelperInstrItem key={i.id} helperId={i.id} />;
+        })}
+      </>
+    );
   };
 
-  return <Card>{menuType === 'drawing' ? RenderDrawItems() : RenderHelperItems()}</Card>;
+  return <Card>{menuType === 'drawing' ? <RenderDrawItems /> : <RenderHelperItems />}</Card>;
 });

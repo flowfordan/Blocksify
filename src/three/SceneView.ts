@@ -5,7 +5,7 @@ import { autorun, reaction, toJS } from 'mobx';
 
 import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './config/geometry/worldPlane';
 import { getMouseLocation } from './utils';
-import { layersState, sceneState } from '../shared/model';
+import { sceneState } from '../shared/model';
 import { LabelRendererController } from './controllers/LabelRenderer.controller';
 import { SceneController } from './controllers/Scene.controller';
 import { RendererController } from './controllers/Renderer.controller';
@@ -14,7 +14,7 @@ import { InstrumentsController } from './controllers/Instruments.controller';
 import { LayersController } from './controllers/Layers.controller';
 import { DrawObjModel } from 'features/sceneObj/model/drawObjModel';
 
-export class ThreeView {
+export class SceneView {
   //utility controllers
   labelRendererController: LabelRendererController;
   rendererController: RendererController;
@@ -42,7 +42,6 @@ export class ThreeView {
       this.sceneController.modifier,
       this.cameraController.camera,
       this.groundPlane
-      // drawObjModel
     );
 
     //STATS

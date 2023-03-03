@@ -1,18 +1,18 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { layersState } from 'shared/model';
 import { returnSvgNode } from 'shared/lib';
 import './layerItem.scss';
 import { LayerItemProps } from './LayerItem.prop';
+import { layersModel } from '../model/layersModel';
 
 const LayerItem = ({ layerId, name, isEmpty, isActive, isVisible, isBlocked, ...props }: LayerItemProps) => {
   const handleLayerVisibility = () => {
-    layersState.setLayerVisibility(layerId);
+    layersModel.setLayerVisibility(layerId);
   };
 
   const handleSelectLayer = () => {
-    layersState.toggleActiveLayer(layerId);
+    layersModel.toggleActiveLayer(layerId);
   };
   return (
     <div

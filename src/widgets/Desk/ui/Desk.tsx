@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ThreeView } from 'three/ThreeView';
+import { SceneView } from 'three/SceneView';
 import './desk.scss';
 import { drawObjModel } from 'features/sceneObj';
+import { layersModel } from 'entities/layer';
+import { instrumentsModel } from 'entities/sceneInstrument';
 
 export const Desk = (): JSX.Element => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
 
   //TODO remove any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let threeView: any;
+  let sceneView: any;
   const canvasScene = useRef<null | HTMLCanvasElement>(null);
   const canvasUI = useRef<null | HTMLCanvasElement>(null);
   const canvasContainer = useRef<null | HTMLDivElement>(null);
@@ -16,8 +18,8 @@ export const Desk = (): JSX.Element => {
   const resizeObserver = new ResizeObserver((entries) => {
     entries.forEach((entry) => {
       //on view params change
-      if (threeView) {
-        threeView.onWindowResize(entry.contentRect.width, entry.contentRect.height);
+      if (sceneView) {
+        sceneView.onWindowResize(entry.contentRect.width, entry.contentRect.height);
       }
     });
   });
@@ -25,7 +27,7 @@ export const Desk = (): JSX.Element => {
   //on Mount
   useEffect(() => {
     const innerTreeRef = canvasScene.current!;
-    threeView = new ThreeView(innerTreeRef);
+    sceneView = new SceneView(innerTreeRef);
 
     resizeObserver.observe(innerTreeRef, { box: 'content-box' });
 
