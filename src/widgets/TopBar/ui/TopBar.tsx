@@ -11,7 +11,7 @@ import './topBar.scss';
 import { instrumentsState, sceneState, uiState } from 'shared/model';
 import { returnSvgNode } from 'shared/lib/returnSvgNode';
 import { BtnBar } from 'shared/ui';
-import { SelectorInstr } from 'entities/sceneInstrument';
+import { DrawInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   const { tools } = instrumentsState;
@@ -42,20 +42,21 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
       <div className={'topBar__main'}>
         <div className={'topBar__main--part'}>
           <SelectorInstr />
-          <BtnBar
+          <DrawInstrMenu />
+          {/* <BtnBar
             iconKey={activeTool && activeTool.type === 'draw' ? activeTool.name : 'line'}
             isActive={Boolean(activeTool) && activeTool?.type === 'draw'}
             onClick={(e) => handleMenuOpen(e, 'tools')}
             isExpandable
             title={'Drawing tools'}
             isSelected={uiState.ctxMenu.currentContent === 'tools'}
-          />
+          /> */}
           <BtnBar
             iconKey={'helper'}
             isActive={false}
             onClick={(e) => handleMenuOpen(e, 'helpers')}
             isExpandable
-            title={'Helpers (snaps, grid)'}
+            title={'Helpers'}
             isSelected={uiState.ctxMenu.currentContent === 'helpers'}
           />
         </div>

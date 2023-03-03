@@ -11,7 +11,7 @@ export const SelectorInstr = observer(() => {
     <BtnBar
       iconKey="selector"
       isActive={selector.isActive}
-      title={'Selector tool'}
+      title={selector.title}
       onClick={() => instrumentsModel.toggleInstrumentActive(InstrumentsId.SELECTOR)}
     />
   );
