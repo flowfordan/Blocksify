@@ -3,15 +3,22 @@ import { DropDownProps } from './DropDown.props';
 import './dropDown.scss';
 
 export const DropDown = ({ btn, list, ...props }: DropDownProps) => {
-  //state
   const [isOpened, setIsOpened] = useState(false);
   const triggerEl = useRef<HTMLDivElement>(null);
+  //menuPos
+  const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
   const handleBtnClick = () => {
+    //set position
+    if (!isOpened && triggerEl.current) {
+      const rect = triggerEl.current.getBoundingClientRect();
+      setMenuPos((prevVal) => {
+        return { ...prevVal, x: rect.left, y: rect.bottom };
+      });
+    }
     setIsOpened(!isOpened);
   };
 
   const handleClickWhenOpened = useCallback((e: MouseEvent) => {
-    console.log('CLICK OUTSIDE');
     const clickTarget = e.target;
     //check if click inside trigger
     if (triggerEl.current && triggerEl.current.contains(clickTarget as Node)) {
@@ -38,20 +45,21 @@ export const DropDown = ({ btn, list, ...props }: DropDownProps) => {
       window.addEventListener('keydown', handleKeyWhenOpened);
     } else {
       //remove EL
-      console.log('REMOVE EL');
       window.removeEventListener('click', handleClickWhenOpened);
       window.removeEventListener('keydown', handleKeyWhenOpened);
     }
   }, [handleClickWhenOpened, handleKeyWhenOpened, isOpened]);
-
-  console.log(isOpened);
 
   return (
     <>
       <span onClick={() => handleBtnClick()} ref={triggerEl}>
         {btn}
       </span>
-      {isOpened && <span className="dropDown__list">{list}</span>}
+      {isOpened && (
+        <span className="dropDown__list" style={{ left: `${menuPos.x}px`, top: `${menuPos.y}px` }}>
+          {list}
+        </span>
+      )}
     </>
   );
 };

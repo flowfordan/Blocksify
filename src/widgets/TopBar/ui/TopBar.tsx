@@ -44,7 +44,8 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
       <div className={'topBar__main'}>
         <div className={'topBar__main--part'}>
           <SelectorInstr />
-          <DrawInstrMenu />
+          <DropDown btn={<DrawInstrMenu />} list={<ToolMenu menuType="drawing" />} />
+          {/* <DrawInstrMenu /> */}
           <BtnBar
             iconKey={'helper'}
             isActive={false}
@@ -53,7 +54,6 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
             title={'Helpers'}
             isSelected={uiState.ctxMenu.currentContent === 'helpers'}
           />
-          <DropDown btn={<DrawInstrMenu />} list={<ToolMenu menuType="drawing" />} />
         </div>
 
         <div className={'topBar__main--part'}>
