@@ -13,6 +13,7 @@ import { returnSvgNode } from 'shared/lib/returnSvgNode';
 import { BtnBar, DropDown } from 'shared/ui';
 import { DrawInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
 import { CtxMenu } from 'components/complex/CtxMenu/CtxMenu';
+import { ToolMenu } from 'widgets/ToolMenu';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   const { tools } = instrumentsState;
@@ -44,14 +45,6 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
         <div className={'topBar__main--part'}>
           <SelectorInstr />
           <DrawInstrMenu />
-          {/* <BtnBar
-            iconKey={activeTool && activeTool.type === 'draw' ? activeTool.name : 'line'}
-            isActive={Boolean(activeTool) && activeTool?.type === 'draw'}
-            onClick={(e) => handleMenuOpen(e, 'tools')}
-            isExpandable
-            title={'Drawing tools'}
-            isSelected={uiState.ctxMenu.currentContent === 'tools'}
-          /> */}
           <BtnBar
             iconKey={'helper'}
             isActive={false}
@@ -60,14 +53,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
             title={'Helpers'}
             isSelected={uiState.ctxMenu.currentContent === 'helpers'}
           />
-          <DropDown
-            btn={<DrawInstrMenu />}
-            list={
-              <CtxMenu>
-                <div>Test</div>
-              </CtxMenu>
-            }
-          />
+          <DropDown btn={<DrawInstrMenu />} list={<ToolMenu menuType="drawing" />} />
         </div>
 
         <div className={'topBar__main--part'}>
