@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { DropDownProps } from './DropDown.props';
 import './dropDown.scss';
 
-export const DropDown = ({ btn, list, ...props }: DropDownProps) => {
+export const DropDown = ({ list, ...props }: DropDownProps) => {
   const [isOpened, setIsOpened] = useState(false);
   const triggerEl = useRef<HTMLDivElement>(null);
   //menuPos
@@ -29,7 +29,6 @@ export const DropDown = ({ btn, list, ...props }: DropDownProps) => {
   }, []);
 
   const handleKeyWhenOpened = useCallback((e: KeyboardEvent) => {
-    console.log(e.key);
     if (e.key === 'Escape') {
       setIsOpened(false);
     }

@@ -7,3 +7,4 @@ export * from './PanelDivision/PanelDivision';
 export * from './Slider/Slider';
 export * from './ListItemCheck/ListItemCheck';
 export * from './DropDown/DropDown';
+export * from './DropDown/withDropDown';

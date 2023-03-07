@@ -10,7 +10,7 @@ import { TopBarProps } from './TopBar.props';
 import './topBar.scss';
 import { instrumentsState, sceneState, uiState } from 'shared/model';
 import { returnSvgNode } from 'shared/lib/returnSvgNode';
-import { BtnBar, DropDown } from 'shared/ui';
+import { BtnBar, DropDown, withDropDown } from 'shared/ui';
 import { DrawInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
 import { CtxMenu } from 'components/complex/CtxMenu/CtxMenu';
 import { ToolMenu } from 'widgets/ToolMenu';
@@ -34,6 +34,8 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
     instrumentsState.setActiveTool(id);
   };
 
+  const DropDownDrawInstr = withDropDown(DrawInstrMenu);
+
   return (
     <div className={cn(className, 'topBar')} {...props}>
       <div className={'topBar__corner'}>
@@ -44,8 +46,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
       <div className={'topBar__main'}>
         <div className={'topBar__main--part'}>
           <SelectorInstr />
-          <DropDown btn={<DrawInstrMenu />} list={<ToolMenu menuType="drawing" />} />
-          {/* <DrawInstrMenu /> */}
+          <DropDownDrawInstr list={<ToolMenu menuType="drawing" />} />
           <BtnBar
             iconKey={'helper'}
             isActive={false}
