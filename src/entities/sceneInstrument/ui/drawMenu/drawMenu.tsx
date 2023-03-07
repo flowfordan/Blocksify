@@ -5,7 +5,7 @@ import { InstrumentsId } from 'shared/types';
 import { observer } from 'mobx-react-lite';
 
 export const DrawInstrMenu = observer((props: { isOpened: boolean }) => {
-  const activeTool = instrumentsModel.instruments.find((i) => i.isActive);
+  const activeTool = instrumentsModel.instruments.find((i) => i.isActive && i.type === 'draw');
   //open/close menu widget - common for page
 
   return (

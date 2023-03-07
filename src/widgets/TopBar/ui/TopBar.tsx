@@ -11,7 +11,7 @@ import './topBar.scss';
 import { instrumentsState, sceneState } from 'shared/model';
 import { returnSvgNode } from 'shared/lib/returnSvgNode';
 import { BtnBar, withDropDown } from 'shared/ui';
-import { DrawInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
+import { DrawInstrMenu, HelpersInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
 import { ToolMenu } from 'widgets/ToolMenu';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
@@ -29,6 +29,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
   };
 
   const DropDownDrawInstr = withDropDown(DrawInstrMenu);
+  const DropDownHelpersInstr = withDropDown(HelpersInstrMenu);
 
   return (
     <div className={cn(className, 'topBar')} {...props}>
@@ -41,6 +42,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
         <div className={'topBar__main--part'}>
           <SelectorInstr />
           <DropDownDrawInstr list={<ToolMenu menuType="drawing" />} />
+          <DropDownHelpersInstr list={<ToolMenu menuType="drawing" />} />
           <BtnBar
             iconKey={'helper'}
             isActive={false}
