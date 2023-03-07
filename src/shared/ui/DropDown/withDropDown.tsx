@@ -57,7 +57,6 @@ export const withDropDown =
       }
     }, [handleClickWhenOpened, handleKeyWhenOpened, isOpened]);
 
-    console.log(menuPos);
     return (
       <>
         <span onClick={() => handleBtnClick()} ref={triggerEl}>

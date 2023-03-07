@@ -8,22 +8,16 @@ import { useState } from 'react';
 import { TopBarProps } from './TopBar.props';
 
 import './topBar.scss';
-import { instrumentsState, sceneState, uiState } from 'shared/model';
+import { instrumentsState, sceneState } from 'shared/model';
 import { returnSvgNode } from 'shared/lib/returnSvgNode';
-import { BtnBar, DropDown, withDropDown } from 'shared/ui';
+import { BtnBar, withDropDown } from 'shared/ui';
 import { DrawInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
-import { CtxMenu } from 'components/complex/CtxMenu/CtxMenu';
 import { ToolMenu } from 'widgets/ToolMenu';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   const { tools } = instrumentsState;
 
   const activeTool = tools.find((i) => i.active) ? tools.find((i) => i.active)! : undefined;
-
-  const handleMenuOpen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, menuType: 'tools' | 'helpers') => {
-    const elementPos = e.currentTarget.getBoundingClientRect();
-    uiState.setCtxMenu(menuType, elementPos.left, elementPos.bottom);
-  };
 
   //TODO: wrap in array tools
   const handleCameraChange = (id: number) => {
@@ -50,10 +44,10 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
           <BtnBar
             iconKey={'helper'}
             isActive={false}
-            onClick={(e) => handleMenuOpen(e, 'helpers')}
+            onClick={(e) => {}}
             isExpandable
             title={'Helpers'}
-            isSelected={uiState.ctxMenu.currentContent === 'helpers'}
+            isSelected={false}
           />
         </div>
 

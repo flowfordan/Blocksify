@@ -4,9 +4,6 @@ import { Desk } from 'widgets/Desk';
 import { LeftBar } from 'widgets/LeftBar';
 import { RightBar } from 'widgets/RightBar';
 import { TopBar } from 'widgets/TopBar';
-import { CtxMenu } from '../../components/complex/CtxMenu/CtxMenu';
-
-import { uiState } from '../../shared/model';
 
 import './appPage.scss';
 
@@ -26,8 +23,6 @@ export const AppPage = observer((): JSX.Element => {
       <div className={`appPage__rightBar`}>
         <RightBar />
       </div>
-
-      {uiState.ctxMenu.isActive && <CtxMenu />}
     </div>
   );
 });

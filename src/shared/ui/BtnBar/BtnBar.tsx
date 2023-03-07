@@ -28,7 +28,7 @@ const BtnBar = ({
       {...props}
     >
       {btnName && <span className={'btnBar__main'}>{btnName}</span>}
-      {iconKey && <span className={'btnBar__main'}>{returnSvgNode('selector')}</span>}
+      {iconKey && <span className={'btnBar__main'}>{returnSvgNode(iconKey)}</span>}
       {isExpandable && <span className={'btnBar__arrow'}>{returnSvgNode('arrowHead')}</span>}
     </Btn>
   );
