@@ -12,7 +12,14 @@ export const HelperInstrItem = observer(({ helperId }: HelperInstrItemProps) => 
     instrumentsHelpersModel.toggleHelperActive(helperId);
   };
 
-  const ItemBody = () => {
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(e.target.value);
+    console.log(newValue);
+    if (isNaN(newValue)) return;
+    instrumentsHelpersModel.setHelperValue(helperId, newValue);
+  };
+
+  const ItemBody = observer(() => {
     if (itemData.options.controller === 'range') {
       return (
         <ComplexSlider
@@ -21,12 +28,14 @@ export const HelperInstrItem = observer(({ helperId }: HelperInstrItemProps) => 
           stepVal={itemData.options.rangeStep}
           val={itemData.options.value}
           valName={itemData.options.rangeTitle}
+          onSliderChange={handleSliderChange}
         />
       );
     } else if (itemData.options.controller === 'selection') {
       return <CheckMatrix items={itemData.options.selVariants!} selected={itemData.options.selValues!} />;
     } else return null;
-  };
+  });
+
   return (
     <ListItemCheck title={itemData.title} isChecked={itemData.isActive} onDoubleClick={() => onItemClick()}>
       <ItemBody />

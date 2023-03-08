@@ -3,12 +3,13 @@ import React from 'react';
 import { SliderProps } from './Slider.props';
 import './slider.scss';
 import { instrumentsState } from '../../model';
+import { observer } from 'mobx-react-lite';
 
-const Slider = ({ minVal, maxVal, stepVal, val, ...props }: SliderProps): JSX.Element => {
+const Slider = ({ minVal, maxVal, stepVal, val, onSliderChange, ...props }: SliderProps): JSX.Element => {
   //connect to state?
   //TODO connect thru UI manager
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('slider change');
+    console.log('slider change', e.target.value);
   };
 
   return (
@@ -19,7 +20,7 @@ const Slider = ({ minVal, maxVal, stepVal, val, ...props }: SliderProps): JSX.El
       max={maxVal}
       step={stepVal}
       value={val}
-      onChange={(e) => handleValueChange(e)}
+      onChange={(e) => onSliderChange(e)}
     />
   );
 };

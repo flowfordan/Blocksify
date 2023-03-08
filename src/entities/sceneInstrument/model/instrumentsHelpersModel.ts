@@ -37,6 +37,14 @@ class InstrumentsHelpersModel {
       this.isHelpersActive[item.id] = item.isActive;
     }
   };
+
+  setHelperValue = (id: InstrumentHelpersId, value: number) => {
+    const item = this._getItem(id);
+    if (item) {
+      item.options.value = value;
+      console.log(item.options.value);
+    }
+  };
 }
 
 export const instrumentsHelpersModel = new InstrumentsHelpersModel();

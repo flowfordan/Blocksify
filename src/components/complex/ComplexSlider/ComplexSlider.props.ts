@@ -8,4 +8,5 @@ export interface ComplexSliderProps extends DetailedHTMLProps<HTMLAttributes<HTM
   val: number;
   uiItemId?: number;
   valName?: string;
+  onSliderChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

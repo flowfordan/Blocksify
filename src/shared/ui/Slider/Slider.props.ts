@@ -7,4 +7,5 @@ export interface SliderProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLI
   stepVal: number;
   val: number;
   uiItemId?: number;
+  onSliderChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
