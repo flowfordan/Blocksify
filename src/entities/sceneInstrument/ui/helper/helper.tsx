@@ -18,6 +18,10 @@ export const HelperInstrItem = observer(({ helperId }: HelperInstrItemProps) => 
     instrumentsHelpersModel.setHelperValue(helperId, newValue);
   };
 
+  const handleCollectionUpd = (value: number) => {
+    instrumentsHelpersModel.setHelperValue(helperId, value);
+  };
+
   const ItemBody = observer(() => {
     if (itemData.options.controller === 'range') {
       return (
@@ -31,7 +35,13 @@ export const HelperInstrItem = observer(({ helperId }: HelperInstrItemProps) => 
         />
       );
     } else if (itemData.options.controller === 'selection') {
-      return <CheckMatrix items={itemData.options.selVariants!} selected={itemData.options.selValues!} />;
+      return (
+        <CheckMatrix
+          items={itemData.options.selVariants!}
+          selected={itemData.options.selValues!}
+          handleCollectionUpd={handleCollectionUpd}
+        />
+      );
     } else return null;
   });
 

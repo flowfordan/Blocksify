@@ -3,13 +3,15 @@ import cn from 'classnames';
 
 import { CheckMatrixProps } from './CheckMatrix.props';
 import './checkMatrix.scss';
-import { instrumentsState } from '../../model';
 
 import { observer } from 'mobx-react-lite';
 
-const CheckMatrix = observer(({ items, selected, ...props }: CheckMatrixProps): JSX.Element => {
+const CheckMatrix = observer(({ items, selected, handleCollectionUpd, ...props }: CheckMatrixProps): JSX.Element => {
+  //items - whole colleaction
+  //selected - items selected from collection
   const closed: Array<number> = [];
 
+  //TODO rewrite
   for (const choice of selected) {
     for (const item of items) {
       if (item % choice === 0 && item > choice && !selected.includes(item)) {
@@ -18,18 +20,18 @@ const CheckMatrix = observer(({ items, selected, ...props }: CheckMatrixProps): 
     }
   }
 
-  const handleCollectionUpd = (value: number) => {
+  const updValues = (value: number) => {
     console.log('upd collect', 'item', value);
-    instrumentsState.setValuesCollection(1, value);
+    handleCollectionUpd(value);
   };
 
   return (
-    <div className={'checkMatrix'}>
+    <div className={'checkMatrix'} {...props}>
       {items.map((i, idx) => {
         return (
           <span
             key={idx}
-            onClick={() => handleCollectionUpd(i)}
+            onClick={() => updValues(i)}
             className={cn('checkMatrix__item', {
               ['checkMatrix__itemClosed']: closed.includes(i),
               ['checkMatrix__itemSelected']: selected.includes(i),

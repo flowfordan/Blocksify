@@ -4,4 +4,5 @@ export interface CheckMatrixProps extends DetailedHTMLProps<HTMLAttributes<HTMLD
   error?: string;
   items: Array<number>;
   selected: Array<number>;
+  handleCollectionUpd: (value: number) => void;
 }

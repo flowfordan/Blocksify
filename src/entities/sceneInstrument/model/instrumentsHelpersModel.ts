@@ -40,8 +40,19 @@ class InstrumentsHelpersModel {
 
   setHelperValue = (id: InstrumentHelpersId, value: number) => {
     const item = this._getItem(id);
-    if (item) {
+    if (!item) return;
+
+    if (item.options.controller === 'range') {
       item.options.value = value;
+    } else if (item.options.controller === 'selection') {
+      const idx = item.options.selValues.indexOf(value);
+      if (idx > -1) {
+        //remove
+        item.options.selValues = [...item.options.selValues.slice(0, idx), ...item.options.selValues.slice(idx + 1)];
+      } else {
+        //add
+        item.options.selValues.push(value);
+      }
     }
   };
 }

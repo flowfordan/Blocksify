@@ -13,6 +13,8 @@ export const DefInstrHelpers: Array<InstrumentHelper> = [
       rangeMin: 0.5,
       rangeMax: 5,
       rangeStep: 0.5,
+      selValues: [],
+      selVariants: [],
     },
   },
   {
@@ -41,6 +43,8 @@ export const DefInstrHelpers: Array<InstrumentHelper> = [
       rangeMin: 0,
       rangeMax: 0,
       rangeStep: 0,
+      selValues: [],
+      selVariants: [],
     },
   },
   // {

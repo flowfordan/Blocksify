@@ -41,8 +41,8 @@ export interface InstrumentHelper {
     rangeMin: number;
     rangeMax: number;
     rangeStep: number;
-    selVariants?: Array<number>;
-    selValues?: Array<number>;
+    selVariants: Array<number>;
+    selValues: Array<number>;
   };
 }
 
