@@ -25,6 +25,7 @@ export interface Instrument {
   isActive: boolean;
   isAvailable: boolean;
   type: 'draw' | 'select' | 'inspect' | 'remove' | 'generate' | 'other';
+  activity: 'continous' | 'one-click';
   lvl: IntrumentLvl;
   activeCursor: 'auto' | 'wait' | 'crosshair' | 'pointer';
   autoTriggerFor?: InstrumentsId;

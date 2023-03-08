@@ -19,7 +19,7 @@ export class DrawingTool {
   currentPointerCoord: THREE.Vector3;
 
   tagsManager: TagsManager;
-  snapManager: SnapManager;
+  // snapManager: SnapManager;
 
   objCoords: Array<number>;
 
@@ -39,7 +39,7 @@ export class DrawingTool {
     this.objCoords = [];
 
     this.tagsManager = new TagsManager(sceneModifier.scene);
-    this.snapManager = new SnapManager(sceneModifier.scene);
+    // this.snapManager = new SnapManager(sceneModifier.scene);
     this.handler = new Handler(sceneModifier);
   }
 

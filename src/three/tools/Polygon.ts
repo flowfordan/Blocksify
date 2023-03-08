@@ -14,9 +14,9 @@ export class Polygon extends DrawingTool {
   }
 
   start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: typeof this.layer) => {
-    super.start(camera, plane, layer);
+    super.start(camera, plane, layer!);
     //start snap manager
-    this.snapManager.start();
+    // this.snapManager.start();
     //add EL
     this.canvas.addEventListener('mousemove', this._onMouseMove);
     this.canvas.addEventListener('click', this._onDrawClick);
@@ -27,7 +27,9 @@ export class Polygon extends DrawingTool {
   _onMouseMove = (e: MouseEvent) => {
     const mouseLoc = getMouseLocation(e, this.rect, this.canvas, this.currentCamera!, this.currentPlane!);
     //upd coords
-    this.currentPointerCoord = this.snapManager.snapToCoords(mouseLoc);
+    // this.currentPointerCoord = this.snapManager.snapToCoords(mouseLoc);
+    //TODO temp
+    this.currentPointerCoord = mouseLoc;
 
     //upd guideLine
     //1, 2, currentpoint
@@ -67,7 +69,7 @@ export class Polygon extends DrawingTool {
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
       //create obj
-      this.handler.createObj('polygon', this.objCoords, this.layer, this.currentPointerCoord);
+      this.handler.createObj('polygon', this.objCoords, this.layer!, this.currentPointerCoord);
       //TRACK
       this.handler.createTrack(true);
       this.toolState = 2;
@@ -124,6 +126,6 @@ export class Polygon extends DrawingTool {
     this.handler.removeTrack();
     //TRACK, TAG, SNAP
     this.tagsManager.stopRender();
-    this.snapManager.resetSnap();
+    // this.snapManager.resetSnap();
   };
 }

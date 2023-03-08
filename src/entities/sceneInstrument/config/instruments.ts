@@ -8,6 +8,7 @@ export const DefInstruments: Array<Instrument> = [
     isAvailable: true,
     lvl: 'top',
     type: 'draw',
+    activity: 'continous',
     activeCursor: 'crosshair',
   },
   {
@@ -17,6 +18,7 @@ export const DefInstruments: Array<Instrument> = [
     isAvailable: true,
     lvl: 'top',
     type: 'draw',
+    activity: 'continous',
     activeCursor: 'crosshair',
   },
   {
@@ -26,6 +28,7 @@ export const DefInstruments: Array<Instrument> = [
     isAvailable: true,
     lvl: 'top',
     type: 'draw',
+    activity: 'continous',
     activeCursor: 'crosshair',
   },
   {
@@ -35,6 +38,7 @@ export const DefInstruments: Array<Instrument> = [
     isAvailable: true,
     lvl: 'top',
     type: 'select',
+    activity: 'continous',
     activeCursor: 'pointer',
     autoTriggerFor: InstrumentsId.INSPECTOR,
   },
@@ -45,6 +49,7 @@ export const DefInstruments: Array<Instrument> = [
     isAvailable: false,
     lvl: 'middle',
     type: 'other',
+    activity: 'continous',
     activeCursor: 'wait',
   },
   {
@@ -54,6 +59,7 @@ export const DefInstruments: Array<Instrument> = [
     isAvailable: false,
     lvl: 'low',
     type: 'other',
+    activity: 'continous',
     activeCursor: 'wait',
   },
 ];

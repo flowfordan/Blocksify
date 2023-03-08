@@ -14,7 +14,7 @@ import {
   InstrumentsController,
   LayersController,
 } from './controllers';
-import { InstrumentsModel, LayersModel } from './shared';
+import { type InstrumentsModel, type LayersModel } from './shared';
 
 export class SceneView {
   //utility controllers

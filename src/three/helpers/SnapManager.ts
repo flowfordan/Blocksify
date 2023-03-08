@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { LineMaterial, Line2, LineGeometry } from 'three-fatline';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
