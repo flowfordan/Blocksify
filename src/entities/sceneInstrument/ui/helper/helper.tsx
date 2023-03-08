@@ -2,8 +2,7 @@ import { instrumentsHelpersModel } from 'entities/sceneInstrument';
 import React from 'react';
 import { HelperInstrItemProps } from './helper.props';
 import { observer } from 'mobx-react-lite';
-import { CheckMatrix, ListItemCheck } from 'shared/ui';
-import { ComplexSlider } from 'components/complex/ComplexSlider/ComplexSlider';
+import { CheckMatrix, ComplexSlider, ListItemCheck } from 'shared/ui';
 
 export const HelperInstrItem = observer(({ helperId }: HelperInstrItemProps) => {
   const itemData = instrumentsHelpersModel._getItem(helperId);

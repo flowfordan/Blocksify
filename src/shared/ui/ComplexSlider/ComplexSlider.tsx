@@ -1,12 +1,10 @@
 import React from 'react';
+import { Slider } from '../Slider/Slider';
 
 import { ComplexSliderProps } from './ComplexSlider.props';
 import './complexSlider.scss';
 
-import { Slider } from '../../../shared/ui/Slider/Slider';
-import { observer } from 'mobx-react-lite';
-
-const ComplexSlider = ({
+export const ComplexSlider = ({
   minVal,
   maxVal,
   stepVal,
@@ -29,4 +27,3 @@ const ComplexSlider = ({
     </div>
   );
 };
-export { ComplexSlider };
