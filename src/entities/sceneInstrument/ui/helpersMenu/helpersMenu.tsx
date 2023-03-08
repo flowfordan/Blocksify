@@ -8,7 +8,8 @@ export const HelpersInstrMenu = observer((props: { isOpened: boolean }) => {
   const helpersActivity = instrumentsHelpersModel.isHelpersActive;
   //open/close menu widget - common for page
 
-  const isAnyActive = Object.values(helpersActivity).some((item) => item);
+  const isAnyActive = Object.values(helpersActivity).includes(true);
+  console.log('IS ANY', isAnyActive);
 
   return (
     <BtnBar

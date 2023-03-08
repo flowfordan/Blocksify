@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, autorun, toJS } from 'mobx';
 import { InstrumentHelper, InstrumentHelpersId, InstrumentsHelpersActivity } from 'shared/types/instrumentsHelpers';
 import { Vector3 } from 'three';
 import { createBaseV3s } from 'three/helpers/createBaseV3s';
@@ -32,6 +32,9 @@ class InstrumentsHelpersModel {
     const item = this._getItem(id);
     if (item) {
       item.isActive = !item.isActive;
+
+      //change in activities
+      this.isHelpersActive[item.id] = item.isActive;
     }
   };
 }
