@@ -5,17 +5,17 @@ import './dropDown.scss';
 
 interface IDropDownInject {
   isOpened: boolean;
-  // onClick(): void;
 }
 
 export const withDropDown =
   <P extends object>(TriggerComponent: React.ComponentType<P & IDropDownInject>) =>
-  ({ list, ...props }: DropDownProps) => {
+  ({ content, contentClickType = 'regular', ...props }: DropDownProps) => {
     const [isOpened, setIsOpened] = useState(false);
     const triggerEl = useRef<HTMLDivElement>(null);
-    //menuPos
+    const contentEl = useRef<HTMLSpanElement>(null);
     const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
-    const handleBtnClick = () => {
+
+    const handleTriggerClick = () => {
       //set position
       if (!isOpened && triggerEl.current) {
         const rect = triggerEl.current.getBoundingClientRect();
@@ -31,7 +31,11 @@ export const withDropDown =
       //check if click inside trigger
       if (triggerEl.current && triggerEl.current.contains(clickTarget as Node)) {
         //
+      } else if (contentEl.current && contentEl.current.contains(clickTarget as Node)) {
+        //click inside CONTENT list
+        if (contentClickType === 'regular') setIsOpened(false);
       } else {
+        //click OUTSIDE of dropdown
         setIsOpened(false);
       }
     }, []);
@@ -50,21 +54,23 @@ export const withDropDown =
         //set EL
         window.addEventListener('click', handleClickWhenOpened);
         window.addEventListener('keydown', handleKeyWhenOpened);
+        // window.addEventListener('dblclick', handleDBClickWhenOpened);
       } else {
         //remove EL
         window.removeEventListener('click', handleClickWhenOpened);
         window.removeEventListener('keydown', handleKeyWhenOpened);
+        // window.removeEventListener('dblclick', handleDBClickWhenOpened);
       }
     }, [handleClickWhenOpened, handleKeyWhenOpened, isOpened]);
 
     return (
       <>
-        <span onClick={() => handleBtnClick()} ref={triggerEl}>
+        <span onClick={() => handleTriggerClick()} ref={triggerEl}>
           <TriggerComponent isOpened={isOpened} {...(props as P)} />
         </span>
         {isOpened && (
-          <span className="dropDown__list" style={{ left: `${menuPos.x}px`, top: `${menuPos.y}px` }}>
-            {list}
+          <span className="dropDown__list" style={{ left: `${menuPos.x}px`, top: `${menuPos.y}px` }} ref={contentEl}>
+            {content}
           </span>
         )}
       </>
