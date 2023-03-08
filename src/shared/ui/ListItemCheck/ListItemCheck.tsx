@@ -4,8 +4,6 @@ import cn from 'classnames';
 import { ListItemCheckProps } from './ListItemCheck.props';
 import './listItemCheck.scss';
 
-import TickIcon from '../../../assets/icons/tick.svg';
-import { AssetKey, assetsData } from '../../../components/_data/assetsData';
 import { returnSvgNode } from '../../lib/returnSvgNode';
 
 const ListItemCheck = ({ title, isChecked, icon, children, ...props }: ListItemCheckProps): JSX.Element => {
@@ -16,7 +14,7 @@ const ListItemCheck = ({ title, isChecked, icon, children, ...props }: ListItemC
       })}
       {...props}
     >
-      <span className={'listItemCheck__check'}>{isChecked && <TickIcon />}</span>
+      <span className={'listItemCheck__check'}>{isChecked && returnSvgNode('tick')}</span>
       {icon && (
         <span className={'listItemCheck__icon'}>
           <>{returnSvgNode(icon)}</>

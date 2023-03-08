@@ -1,21 +1,24 @@
-import PolygonIcon from '../../assets/icons/polygon.svg';
-import PolylineIcon from '../../assets/icons/polyline.svg';
-import LineIcon from '../../assets/icons/line.svg';
-import SelectorIcon from '../../assets/icons/selector.svg';
-import HelperIcon from '../../assets/icons/helper.svg';
+import PolygonIcon from '../assets/icons/polygon.svg';
 
-import CameraTopIcon from '../../assets/icons/camera_top.svg';
-import CameraPerspectiveIcon from '../../assets/icons/camera_perspective.svg';
+import PolylineIcon from '../assets/icons/polyline.svg';
+import LineIcon from '../assets/icons/line.svg';
+import SelectorIcon from '../assets/icons/selector.svg';
+import HelperIcon from '../assets/icons/helper.svg';
 
-import ViewAllIcon from '../../assets/icons/view_all.svg';
-import ViewCenterIcon from '../../assets/icons/view_center.svg';
+import CameraTopIcon from '../assets/icons/camera_top.svg';
+import CameraPerspectiveIcon from '../assets/icons/camera_perspective.svg';
 
-import ArrowHeadIcon from '../../assets/icons/arrowHead.svg';
-import EyeIcon from '../../assets/icons/eye.svg';
-import EyeClosedIcon from '../../assets/icons/eye_closed.svg';
-import LockIcon from '../../assets/icons/lock.svg';
+import ViewAllIcon from '../assets/icons/view_all.svg';
+import ViewCenterIcon from '../assets/icons/view_center.svg';
 
-import LogoIcon from '../../assets/icons/logo.svg';
+import ArrowHeadIcon from '../assets/icons/arrowHead.svg';
+import EyeIcon from '../assets/icons/eye.svg';
+import EyeClosedIcon from '../assets/icons/eye_closed.svg';
+import LockIcon from '../assets/icons/lock.svg';
+
+import LogoIcon from '../assets/icons/logo.svg';
+
+import TickIcon from '../assets/icons/tick.svg';
 
 //
 enum Assets {
@@ -35,6 +38,8 @@ enum Assets {
   //
   viewAll = 'viewAll',
   viewCenter = 'viewCenter',
+  //
+  tick = 'tick',
 }
 
 export type AssetKey = `${Assets}`;
@@ -60,6 +65,8 @@ const assetsData: AssetsData = {
   //
   viewAll: ViewAllIcon,
   viewCenter: ViewCenterIcon,
+  //
+  tick: TickIcon,
 };
 
 export { assetsData };

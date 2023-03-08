@@ -14,7 +14,6 @@ export const HelperInstrItem = observer(({ helperId }: HelperInstrItemProps) => 
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value);
-    console.log(newValue);
     if (isNaN(newValue)) return;
     instrumentsHelpersModel.setHelperValue(helperId, newValue);
   };

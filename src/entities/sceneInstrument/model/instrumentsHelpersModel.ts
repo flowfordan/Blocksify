@@ -42,7 +42,6 @@ class InstrumentsHelpersModel {
     const item = this._getItem(id);
     if (item) {
       item.options.value = value;
-      console.log(item.options.value);
     }
   };
 }

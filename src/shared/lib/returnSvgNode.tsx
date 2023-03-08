@@ -1,5 +1,5 @@
 import React from 'react';
-import { AssetKey, assetsData } from '../../components/_data/assetsData';
+import { AssetKey, assetsData } from '../config/assetsData';
 
 export const returnSvgNode = (iconKey: AssetKey) => {
   if (!iconKey) {

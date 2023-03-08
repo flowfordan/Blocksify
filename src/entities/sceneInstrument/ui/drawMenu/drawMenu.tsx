@@ -12,7 +12,7 @@ export const DrawInstrMenu = observer((props: { isOpened: boolean }) => {
     <BtnBar
       isSelected={props.isOpened ? true : false}
       isExpandable
-      iconKey="line"
+      iconKey={activeTool ? activeTool.id : 'line'}
       isActive={activeTool ? true : false}
       title={activeTool ? activeTool.title : 'Drawing Tools'}
       // onClick={() => {}}
