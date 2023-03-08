@@ -3,7 +3,6 @@ import cn from 'classnames';
 
 import { CardProps } from './Card.props';
 import './card.scss';
-import { instrumentsState } from '../../model';
 
 const Card = ({ children, className, colorVariant = 'black', ...props }: CardProps): JSX.Element => {
   return (

@@ -8,24 +8,20 @@ import { useState } from 'react';
 import { TopBarProps } from './TopBar.props';
 
 import './topBar.scss';
-import { instrumentsState, sceneState } from 'shared/model';
+import { sceneState } from 'shared/model';
 import { returnSvgNode } from 'shared/lib/returnSvgNode';
 import { BtnBar, withDropDown } from 'shared/ui';
 import { DrawInstrMenu, HelpersInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
 import { ToolMenu } from 'widgets/ToolMenu';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
-  const { tools } = instrumentsState;
-
-  const activeTool = tools.find((i) => i.active) ? tools.find((i) => i.active)! : undefined;
-
   //TODO: wrap in array tools
   const handleCameraChange = (id: number) => {
     sceneState.changeCamera(id);
   };
 
   const handleToolChange = (id: number) => {
-    instrumentsState.setActiveTool(id);
+    //
   };
 
   const DropDownDrawInstr = withDropDown(DrawInstrMenu);
@@ -69,7 +65,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
           <BtnBar iconKey="viewCenter" isActive={false} />
           <BtnBar
             iconKey="viewAll"
-            isActive={activeTool?.id === 4}
+            isActive={false}
             title={'Clear Scene'}
             onClick={() => handleToolChange(4)}
             //disable case
