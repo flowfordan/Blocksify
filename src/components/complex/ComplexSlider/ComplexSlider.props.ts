@@ -6,6 +6,6 @@ export interface ComplexSliderProps extends DetailedHTMLProps<HTMLAttributes<HTM
   maxVal: number;
   stepVal: number;
   val: number;
-  uiItemId: number;
+  uiItemId?: number;
   valName?: string;
 }

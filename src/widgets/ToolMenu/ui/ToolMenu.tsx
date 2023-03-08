@@ -2,7 +2,7 @@ import React from 'react';
 import { ToolMenuProps } from './ToolMenu.props';
 import { DrawInstrItem, HelperInstrItem, instrumentsModel, instrumentsHelpersModel } from 'entities/sceneInstrument';
 import { observer } from 'mobx-react-lite';
-import { Card } from 'shared/ui';
+import { Card, Division } from 'shared/ui';
 import { Instrument, InstrumentHelper } from 'shared/types';
 
 export const ToolMenu = observer(({ menuType }: ToolMenuProps) => {
@@ -23,11 +23,11 @@ export const ToolMenu = observer(({ menuType }: ToolMenuProps) => {
 
   const RenderHelperItems = () => {
     return (
-      <>
+      <Division header="snapping">
         {(items as InstrumentHelper[]).map((i) => {
           return <HelperInstrItem key={i.id} helperId={i.id} />;
         })}
-      </>
+      </Division>
     );
   };
 

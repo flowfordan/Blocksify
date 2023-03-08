@@ -21,7 +21,7 @@ const ComplexSlider = ({
     <div className={'complexSlider'}>
       <span className={'complexSlider__value'}>{val}</span>
       <span className={'complexSlider__slider'}>
-        <Slider minVal={minVal} maxVal={maxVal} stepVal={stepVal} val={val} uiItemId={uiItemId} />
+        <Slider minVal={minVal} maxVal={maxVal} stepVal={stepVal} val={val} />
       </span>
       {valName && <span className={'complexSlider__valName'}>{valName}</span>}
     </div>

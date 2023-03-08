@@ -6,5 +6,5 @@ export interface SliderProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLI
   maxVal: number;
   stepVal: number;
   val: number;
-  uiItemId: number;
+  uiItemId?: number;
 }

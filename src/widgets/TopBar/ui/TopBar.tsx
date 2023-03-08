@@ -42,15 +42,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
         <div className={'topBar__main--part'}>
           <SelectorInstr />
           <DropDownDrawInstr list={<ToolMenu menuType="drawing" />} />
-          <DropDownHelpersInstr list={<ToolMenu menuType="drawing" />} />
-          <BtnBar
-            iconKey={'helper'}
-            isActive={false}
-            onClick={(e) => {}}
-            isExpandable
-            title={'Helpers'}
-            isSelected={false}
-          />
+          <DropDownHelpersInstr list={<ToolMenu menuType="helpers" />} />
         </div>
 
         <div className={'topBar__main--part'}>

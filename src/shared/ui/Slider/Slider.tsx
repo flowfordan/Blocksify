@@ -4,12 +4,11 @@ import { SliderProps } from './Slider.props';
 import './slider.scss';
 import { instrumentsState } from '../../model';
 
-const Slider = ({ minVal, maxVal, stepVal, val, uiItemId, ...props }: SliderProps): JSX.Element => {
+const Slider = ({ minVal, maxVal, stepVal, val, ...props }: SliderProps): JSX.Element => {
   //connect to state?
   //TODO connect thru UI manager
-  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, itemId: number) => {
-    const newValue = Number(e.target.value);
-    instrumentsState.setHelperValue(itemId, newValue);
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('slider change');
   };
 
   return (
@@ -20,7 +19,7 @@ const Slider = ({ minVal, maxVal, stepVal, val, uiItemId, ...props }: SliderProp
       max={maxVal}
       step={stepVal}
       value={val}
-      onChange={(e) => handleValueChange(e, uiItemId)}
+      onChange={(e) => handleValueChange(e)}
     />
   );
 };
