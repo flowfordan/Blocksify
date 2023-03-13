@@ -4,12 +4,12 @@ import { SceneView } from 'three/SceneView';
 import './desk.scss';
 import { layersModel } from 'entities/layer';
 import { instrumentsModel } from 'entities/sceneInstrument';
+import { instrumentsHelpersModel } from 'entities/sceneInstrument';
 
 export const Desk = (): JSX.Element => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
-  // const [sceneView, setSceneView] = useState<SceneView | null>(null);
+  const [sceneView, setSceneView] = useState<SceneView | null>(null);
 
-  let sceneView: any;
   const canvasScene = useRef<null | HTMLCanvasElement>(null);
   const canvasUI = useRef<null | HTMLCanvasElement>(null);
   const canvasContainer = useRef<null | HTMLDivElement>(null);
@@ -27,9 +27,7 @@ export const Desk = (): JSX.Element => {
   useEffect(() => {
     const innerTreeRef = canvasScene.current;
     if (!innerTreeRef) throw new Error('There is no canvas ref!');
-    sceneView = new SceneView(innerTreeRef, layersModel, instrumentsModel);
-    // setSceneView(new SceneView(innerTreeRef, layersModel, instrumentsModel));
-    resizeObserver.observe(innerTreeRef, { box: 'content-box' });
+    setSceneView((prev) => new SceneView(innerTreeRef, layersModel, instrumentsModel, instrumentsHelpersModel));
 
     if (canvasContainer.current) {
       const width = canvasContainer.current.offsetWidth;
@@ -43,6 +41,12 @@ export const Desk = (): JSX.Element => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (sceneView && canvasScene.current) {
+      resizeObserver.observe(canvasScene.current, { box: 'content-box' });
+    }
+  }, [sceneView]);
 
   return (
     <div ref={canvasContainer} className={'desk'}>
