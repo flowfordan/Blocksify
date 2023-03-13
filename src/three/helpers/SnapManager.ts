@@ -3,10 +3,11 @@
 import { LineMaterial, Line2, LineGeometry } from 'three-fatline';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
-import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, instrumentsState } from '../../shared/model';
+import { sceneState } from '../../shared/model';
 import { createBaseV3s } from './createBaseV3s';
 import { getLineMat } from 'three/config/objs3d';
 import type { InstrumentsHelpersModel } from 'three/shared';
+import { InstrumentHelper, InstrumentHelpersId } from 'shared/types';
 
 type RenderedGuidesOptions = {
   points: {
@@ -26,23 +27,35 @@ type RenderedGuidesOptions = {
   };
 };
 
+type SnapStatus = {
+  isActive: boolean;
+  snappedCoords: THREE.Vector3;
+  distToOrigin: number;
+  isCurrent: boolean;
+};
+
+//id - options
+type SnappingStatuses = {
+  [K in InstrumentHelpersId]: SnapStatus;
+};
+
 //new instance is created when Tool's startDrawing() called
 class SnapManager {
-  options: HelperOptions;
-  snapOptions: SnapOptions;
-  scene: THREE.Scene;
-  currentSnapping: string | null;
+  private snapStatuses: SnappingStatuses;
+  private scene: THREE.Scene;
+  private currentSnapping: InstrumentHelpersId | null;
+  helpersModel: InstrumentsHelpersModel;
 
   baseVector: THREE.Vector3;
 
   renderedGuidesOptions: RenderedGuidesOptions;
 
-  constructor(scene: THREE.Scene, helpers: InstrumentsHelpersModel) {
+  constructor(scene: THREE.Scene, helpersModel: InstrumentsHelpersModel) {
+    this.helpersModel = helpersModel;
     this.scene = scene;
-    this.options = instrumentsState.helpersOptions;
     this.currentSnapping = null;
 
-    this.snapOptions = this._loadInitSnapOptions();
+    this.snapStatuses = this._createDefaultStatuses(helpersModel.helpers);
 
     this.baseVector = sceneState.baseDirection;
 
@@ -53,19 +66,19 @@ class SnapManager {
 
   //TODO refactor init func - we already loaded stuff in constructor - need only minor upd
   start = () => {
-    this.snapOptions = this._loadInitSnapOptions();
+    this.snapStatuses = this._createDefaultStatuses(this.helpersModel.helpers);
   };
 
   //TODO see about performance when angle snap small and mouse moving fast
   snapToCoords = (pointerCoords: THREE.Vector3, toolState = 1, lastCoords?: THREE.Vector3): THREE.Vector3 => {
     //return if non of snapping is active
-    if (Object.values(this.snapOptions).every((o) => o.isActive === false)) {
+    if (Object.values(this.snapStatuses).every((o) => o.isActive === false)) {
       return pointerCoords;
     }
 
     console.time('snapping time');
-    for (const key in this.snapOptions!) {
-      (this.snapOptions as SnapOptions)[key as SnapType].snappedCoords = pointerCoords;
+    for (const key in this.snapStatuses) {
+      (this.snapStatuses as SnapOptions)[key as SnapType].snappedCoords = pointerCoords;
     }
 
     this._snapToGrid(pointerCoords);
@@ -78,15 +91,15 @@ class SnapManager {
     let distanceToPointer = Infinity;
     let finalSnapType = '';
     //iterate snapOptions and reassign if needed
-    for (const key in this.snapOptions! as SnapOptions) {
+    for (const key in this.snapStatuses! as SnapOptions) {
       //iterate only active snaps
-      if (this.snapOptions[key as SnapType].isActive) {
-        if (this.snapOptions[key as SnapType].distToOrigin <= distanceToPointer) {
-          distanceToPointer = this.snapOptions[key as SnapType].distToOrigin;
-          newCoords = this.snapOptions[key as SnapType].snappedCoords;
+      if (this.snapStatuses[key as SnapType].isActive) {
+        if (this.snapStatuses[key as SnapType].distToOrigin <= distanceToPointer) {
+          distanceToPointer = this.snapStatuses[key as SnapType].distToOrigin;
+          newCoords = this.snapStatuses[key as SnapType].snappedCoords;
           finalSnapType = key;
           //set current 'chosen' snap type
-          this.snapOptions[key as SnapType].isCurrent = true;
+          this.snapStatuses[key as SnapType].isCurrent = true;
 
           this.currentSnapping = key;
         }
@@ -101,7 +114,7 @@ class SnapManager {
 
   private _snapToGrid = (pointerCoords: THREE.Vector3): void => {
     //depends on active
-    if (this.snapOptions!.grid.isActive) {
+    if (this.snapStatuses!.grid.isActive) {
       const newCoords = Object.assign({}, pointerCoords);
 
       const precision = this.options[3].value;
@@ -123,8 +136,8 @@ class SnapManager {
 
       const distanceToCurrent = pointerCoords.distanceTo(newCoords);
 
-      this.snapOptions!.grid.snappedCoords = newCoords;
-      this.snapOptions!.grid.distToOrigin = distanceToCurrent;
+      this.snapStatuses!.grid.snappedCoords = newCoords;
+      this.snapStatuses!.grid.distToOrigin = distanceToCurrent;
       return;
     } else {
       return;
@@ -134,7 +147,7 @@ class SnapManager {
   private _snapToStep = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined): void => {
     //find coords
     //TODO search within Options?
-    if (this.snapOptions!.step.isActive && fixedCoords) {
+    if (this.snapStatuses!.step.isActive && fixedCoords) {
       let newCoords = Object.assign({}, pointerCoords);
       const snapValue = this.options[0].value;
 
@@ -156,8 +169,8 @@ class SnapManager {
 
       const distanceToCurrent = pointerCoords.distanceTo(newCoords);
 
-      this.snapOptions!.step.snappedCoords = newCoords;
-      this.snapOptions!.step.distToOrigin = distanceToCurrent;
+      this.snapStatuses!.step.snappedCoords = newCoords;
+      this.snapStatuses!.step.distToOrigin = distanceToCurrent;
       return;
     } else {
       return;
@@ -224,8 +237,8 @@ class SnapManager {
       // saving results to obj
       const distanceToCurrent = pointerCoords.distanceTo(newV3);
 
-      this.snapOptions!.angle.snappedCoords = newV3;
-      this.snapOptions!.angle.distToOrigin = distanceToCurrent;
+      this.snapStatuses!.angle.snappedCoords = newV3;
+      this.snapStatuses!.angle.distToOrigin = distanceToCurrent;
     }
   };
 
@@ -275,36 +288,31 @@ class SnapManager {
     this.scene.add(this.renderedGuidesOptions.points.form);
   };
 
-  //INITIALIZATION
-  private _loadInitSnapOptions = (): SnapOptions => {
-    const snapsArray: Array<SnapType> = ['grid', 'angle', 'step'];
+  private _createDefaultStatuses = (helpers: Array<InstrumentHelper>): SnappingStatuses => {
+    const snapHelpers = helpers.filter((h) => h.type === 'snapping');
+    const statuses = {} as SnappingStatuses;
 
-    const statusPreset: SnapStatus = {
-      isActive: false,
-      snappedCoords: new Vector3(),
-      distToOrigin: Infinity,
-      isCurrent: false,
-    };
+    snapHelpers.reduce((prev, cur) => {
+      const isActive = cur.isActive;
+      const addValue = {
+        isActive: isActive,
+        snappedCoords: new THREE.Vector3(),
+        distToOrigin: Infinity,
+        isCurrent: false,
+      };
+      return { ...prev, [cur.id]: addValue };
+    }, statuses);
 
-    //TODO remove any
-    const defaultSnapOptions: any = {};
+    return statuses;
+  };
 
-    for (const i of snapsArray) {
-      defaultSnapOptions[i] = { ...statusPreset };
+  private _resetStatuses = () => {
+    for (const [key, value] of Object.entries(this.snapStatuses)) {
+      this.snapStatuses[key as InstrumentHelpersId].isActive = value.isActive;
+      this.snapStatuses[key as InstrumentHelpersId].distToOrigin = Infinity;
+      this.snapStatuses[key as InstrumentHelpersId].snappedCoords = new Vector3();
+      this.snapStatuses[key as InstrumentHelpersId].isCurrent = false;
     }
-
-    const snapOptions: any = { ...defaultSnapOptions };
-
-    for (const item of this.options) {
-      if (item.type === 'snap') {
-        (snapOptions as SnapOptions)[item.name as SnapType].isActive = item.isActive;
-        (snapOptions as SnapOptions)[item.name as SnapType].snappedCoords = new Vector3();
-        (snapOptions as SnapOptions)[item.name as SnapType].distToOrigin = Infinity;
-        (snapOptions as SnapOptions)[item.name as SnapType].isCurrent = false;
-      }
-    }
-
-    return snapOptions;
   };
 
   private _loadInitGuidesOptions = (): RenderedGuidesOptions => {
@@ -344,14 +352,7 @@ class SnapManager {
   resetSnap = () => {
     this._removeRenderedLabels();
     this.currentSnapping = null;
-    for (const item of this.options) {
-      if (item.type === 'snap') {
-        (this.snapOptions as SnapOptions)[item.name as SnapType].isActive = item.isActive;
-        (this.snapOptions as SnapOptions)[item.name as SnapType].distToOrigin = Infinity;
-        (this.snapOptions as SnapOptions)[item.name as SnapType].snappedCoords = new Vector3();
-        (this.snapOptions as SnapOptions)[item.name as SnapType].isCurrent = false;
-      }
-    }
+    this._resetStatuses();
   };
 
   private _removeRenderedLabels = () => {
