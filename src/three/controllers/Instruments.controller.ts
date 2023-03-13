@@ -7,7 +7,7 @@ import { Layer } from 'shared/types/layers';
 import type { Instrument, InstrumentsId } from 'shared/types';
 import { InstrumentsMediator } from 'three/mediators';
 import { autorun, reaction } from 'mobx';
-import { LayersModel, InstrumentsModel } from 'three/shared';
+import type { LayersModel, InstrumentsModel, InstrumentsHelpersModel } from 'three/shared';
 import { SnapManager } from 'three/helpers/SnapManager';
 
 export class InstrumentsController {
@@ -33,15 +33,16 @@ export class InstrumentsController {
     camera: THREE.PerspectiveCamera | THREE.OrthographicCamera,
     plane: THREE.Plane,
     layersModel: LayersModel,
-    instrumentsModel: InstrumentsModel
+    instrumentsModel: InstrumentsModel,
+    instrumentsHelpersModel: InstrumentsHelpersModel
   ) {
     this.layersModel = layersModel;
     this.mediator = new InstrumentsMediator(instrumentsModel);
     this.instrumentsModel = instrumentsModel;
     this.instruments = {
-      line: new Line(activeElement, 0, sceneModifier),
-      pLine: new Line(activeElement, 1, sceneModifier),
-      polygon: new Polygon(activeElement, sceneModifier),
+      line: new Line(activeElement, 0, sceneModifier, instrumentsHelpersModel),
+      pLine: new Line(activeElement, 1, sceneModifier, instrumentsHelpersModel),
+      polygon: new Polygon(activeElement, sceneModifier, instrumentsHelpersModel),
       selector: new Selector(activeElement, sceneModifier, this.mediator),
       // cleaner: new Cleaner(sceneModifier.scene),
     };
@@ -54,9 +55,6 @@ export class InstrumentsController {
     //camera
     this.currentCamera = camera;
     this.currentPlane = plane;
-    //test
-    // this.drawModel = drawModel;
-    //subscribe to state changes
     this._storeSubscribe();
   }
 

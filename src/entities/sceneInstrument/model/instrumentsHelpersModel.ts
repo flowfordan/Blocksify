@@ -8,7 +8,7 @@ export type AnglePts = {
   [key: number]: [Vector3, Vector3];
 };
 
-class InstrumentsHelpersModel {
+export class InstrumentsHelpersModel {
   anglesSnapV3s: AnglePts | null;
 
   helpers: Array<InstrumentHelper>;

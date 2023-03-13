@@ -4,12 +4,13 @@ import { getMouseLocation } from '../utils';
 import { DrawingTool } from './DrawingTool';
 import { Vector3 } from 'three';
 import { V2ArrToNumArr } from 'three/config/objs3d';
+import { InstrumentsHelpersModel } from 'three/shared';
 
 export class Polygon extends DrawingTool {
   polygonParts: number;
 
-  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier) {
-    super(canvas, sceneModifier);
+  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, helper: InstrumentsHelpersModel) {
+    super(canvas, sceneModifier, helper);
     this.polygonParts = 1;
   }
 

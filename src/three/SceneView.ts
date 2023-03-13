@@ -14,7 +14,7 @@ import {
   InstrumentsController,
   LayersController,
 } from './controllers';
-import { type InstrumentsModel, type LayersModel } from './shared';
+import type { InstrumentsHelpersModel, InstrumentsModel, LayersModel } from './shared';
 
 export class SceneView {
   //utility controllers
@@ -30,7 +30,12 @@ export class SceneView {
   //TODO remove any
   stats: any;
 
-  constructor(canvasRef: HTMLCanvasElement, layersModel: LayersModel, instrumentsModel: InstrumentsModel) {
+  constructor(
+    canvasRef: HTMLCanvasElement,
+    layersModel: LayersModel,
+    instrumentsModel: InstrumentsModel,
+    instrumentsHelpersModel: InstrumentsHelpersModel
+  ) {
     this.groundPlane = worldPlane;
     //utility
     this.rendererController = new RendererController(canvasRef);
@@ -45,7 +50,8 @@ export class SceneView {
       this.cameraController.camera,
       this.groundPlane,
       layersModel,
-      instrumentsModel
+      instrumentsModel,
+      instrumentsHelpersModel
     );
 
     //STATS

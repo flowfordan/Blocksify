@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { InstrumentsId } from 'shared/types';
+import type { InstrumentsId } from 'shared/types';
 import { IsObjDataOfObjMain } from 'shared/types/objs';
-import { InstrumentsModel } from 'three/shared';
+import type { InstrumentsModel } from 'three/shared';
 //connect with this.instrumentsModel
 //recieve data from Instruments, pass data to State
 

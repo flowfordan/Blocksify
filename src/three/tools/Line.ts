@@ -7,13 +7,19 @@ import { DrawingTool } from './DrawingTool';
 import { Vector3 } from 'three';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { Layer } from 'shared/types/layers';
+import { InstrumentsHelpersModel } from 'three/shared';
 
 export class Line extends DrawingTool {
   lineMode: number;
   lineSegments: number;
 
-  constructor(canvas: HTMLCanvasElement, drawMode: number, sceneModifier: SceneModifier) {
-    super(canvas, sceneModifier);
+  constructor(
+    canvas: HTMLCanvasElement,
+    drawMode: number,
+    sceneModifier: SceneModifier,
+    helper: InstrumentsHelpersModel
+  ) {
+    super(canvas, sceneModifier, helper);
     this.lineMode = drawMode; //0: 2-pt line, 1: polyline
     this.lineSegments = 1;
   }

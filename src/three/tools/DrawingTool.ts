@@ -6,6 +6,7 @@ import { TagsManager } from '../helpers/TagManager';
 import { Handler } from '../services/Handler';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { Layer } from 'shared/types/layers';
+import type { InstrumentsHelpersModel } from 'three/shared';
 
 //SUPERCLASS FOR DRAWING TOOLS
 export class DrawingTool {
@@ -19,13 +20,13 @@ export class DrawingTool {
   currentPointerCoord: THREE.Vector3;
 
   tagsManager: TagsManager;
-  // snapManager: SnapManager;
+  snapManager: SnapManager;
 
   objCoords: Array<number>;
 
   handler: Handler;
 
-  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier) {
+  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, helpersModel: InstrumentsHelpersModel) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
     this.layer = null;
@@ -39,7 +40,7 @@ export class DrawingTool {
     this.objCoords = [];
 
     this.tagsManager = new TagsManager(sceneModifier.scene);
-    // this.snapManager = new SnapManager(sceneModifier.scene);
+    this.snapManager = new SnapManager(sceneModifier.scene, helpersModel);
     this.handler = new Handler(sceneModifier);
   }
 

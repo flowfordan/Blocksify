@@ -6,6 +6,7 @@ import { Vector3 } from 'three';
 import { sceneState, HelperOptions, SnapOptions, SnapType, SnapStatus, instrumentsState } from '../../shared/model';
 import { createBaseV3s } from './createBaseV3s';
 import { getLineMat } from 'three/config/objs3d';
+import type { InstrumentsHelpersModel } from 'three/shared';
 
 type RenderedGuidesOptions = {
   points: {
@@ -36,7 +37,7 @@ class SnapManager {
 
   renderedGuidesOptions: RenderedGuidesOptions;
 
-  constructor(scene: THREE.Scene) {
+  constructor(scene: THREE.Scene, helpers: InstrumentsHelpersModel) {
     this.scene = scene;
     this.options = instrumentsState.helpersOptions;
     this.currentSnapping = null;
