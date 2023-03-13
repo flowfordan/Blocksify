@@ -39,7 +39,7 @@ export const DefInstrHelpers: Array<InstrumentHelper> = [
     isActive: false,
     options: {
       controller: 'none',
-      value: 0,
+      value: 10,
       rangeMin: 0,
       rangeMax: 0,
       rangeStep: 0,

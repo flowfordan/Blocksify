@@ -66,6 +66,7 @@ class SnapManager {
 
   //TODO refactor init func - we already loaded stuff in constructor - need only minor upd
   start = () => {
+    console.log(this.helpersModel.helpers);
     this.snapStatuses = this._createDefaultStatuses(this.helpersModel.helpers);
   };
 
@@ -76,72 +77,67 @@ class SnapManager {
       return pointerCoords;
     }
 
-    console.time('snapping time');
     for (const key in this.snapStatuses) {
-      (this.snapStatuses as SnapOptions)[key as SnapType].snappedCoords = pointerCoords;
+      this.snapStatuses[key as InstrumentHelpersId].snappedCoords = pointerCoords;
     }
 
-    this._snapToGrid(pointerCoords);
-    if (toolState > 1) {
-      this._snapToStep(pointerCoords, lastCoords);
-      this._snapToAngle(pointerCoords, lastCoords);
-    }
+    //Start snapping
+    if (this.snapStatuses.snap_grid.isActive) this._snapToGrid(pointerCoords);
+    if (this.snapStatuses.snap_step.isActive && toolState > 1) this._snapToStep(pointerCoords, lastCoords);
+    if (this.snapStatuses.snap_angle.isActive && toolState > 1) this._snapToAngle(pointerCoords, lastCoords);
 
     let newCoords = pointerCoords;
     let distanceToPointer = Infinity;
-    let finalSnapType = '';
+    let finalSnapType: InstrumentHelpersId | '' = '';
     //iterate snapOptions and reassign if needed
-    for (const key in this.snapStatuses! as SnapOptions) {
+    for (const key in this.snapStatuses) {
       //iterate only active snaps
-      if (this.snapStatuses[key as SnapType].isActive) {
-        if (this.snapStatuses[key as SnapType].distToOrigin <= distanceToPointer) {
-          distanceToPointer = this.snapStatuses[key as SnapType].distToOrigin;
-          newCoords = this.snapStatuses[key as SnapType].snappedCoords;
-          finalSnapType = key;
+      if (this.snapStatuses[key as InstrumentHelpersId].isActive) {
+        if (this.snapStatuses[key as InstrumentHelpersId].distToOrigin <= distanceToPointer) {
+          distanceToPointer = this.snapStatuses[key as InstrumentHelpersId].distToOrigin;
+          newCoords = this.snapStatuses[key as InstrumentHelpersId].snappedCoords;
+          finalSnapType = key as InstrumentHelpersId;
           //set current 'chosen' snap type
-          this.snapStatuses[key as SnapType].isCurrent = true;
+          this.snapStatuses[key as InstrumentHelpersId].isCurrent = true;
 
-          this.currentSnapping = key;
+          this.currentSnapping = key as InstrumentHelpersId;
         }
       }
     }
     //call helpers render
     this._renderHelperLabel(newCoords, finalSnapType, lastCoords);
-    console.timeEnd('snapping time');
 
     return newCoords;
   };
 
   private _snapToGrid = (pointerCoords: THREE.Vector3): void => {
-    //depends on active
-    if (this.snapStatuses!.grid.isActive) {
-      const newCoords = Object.assign({}, pointerCoords);
+    const newCoords = pointerCoords.clone();
 
-      const precision = this.options[3].value;
+    const grid = this.helpersModel._getItem(InstrumentHelpersId.SNAP_GRID);
+    if (!grid) throw new Error('SnapManager: Cant find grid helper options');
 
-      const adjustVal = (coord: number, precision: number): number => {
-        let newCoord = 0;
-        //case when size<1
-        //TODO not 2 but value of 1/size
-        if (precision < 1) {
-          newCoord = Math.round(coord * 2) / 2;
-        } else {
-          newCoord = Math.round(coord / precision) * precision;
-        }
-        return newCoord;
-      };
+    const gridSize = grid.options.value;
 
-      newCoords.x = adjustVal(newCoords.x, precision);
-      newCoords.z = adjustVal(newCoords.z, precision);
+    const adjustVal = (coord: number, gridSize: number): number => {
+      let newCoord = 0;
+      //case when size<1
+      //TODO not 2 but value of 1/size
+      if (gridSize < 1) {
+        newCoord = Math.round(coord * 2) / 2;
+      } else {
+        newCoord = Math.round(coord / gridSize) * gridSize;
+      }
+      return newCoord;
+    };
 
-      const distanceToCurrent = pointerCoords.distanceTo(newCoords);
+    newCoords.x = adjustVal(newCoords.x, gridSize);
+    newCoords.z = adjustVal(newCoords.z, gridSize);
 
-      this.snapStatuses!.grid.snappedCoords = newCoords;
-      this.snapStatuses!.grid.distToOrigin = distanceToCurrent;
-      return;
-    } else {
-      return;
-    }
+    const distanceToCurrent = pointerCoords.distanceTo(newCoords);
+
+    this.snapStatuses.snap_grid.snappedCoords = newCoords;
+    this.snapStatuses.snap_grid.distToOrigin = distanceToCurrent;
+    return;
   };
 
   private _snapToStep = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined): void => {
@@ -242,15 +238,20 @@ class SnapManager {
     }
   };
 
-  private _renderHelperLabel = (coords: THREE.Vector3, finalSnapType: string, fixedCoords?: THREE.Vector3) => {
+  private _renderHelperLabel = (
+    coords: THREE.Vector3,
+    finalSnapType: InstrumentHelpersId | '',
+    fixedCoords?: THREE.Vector3
+  ) => {
+    console.log('RENDER');
     switch (finalSnapType) {
-      case 'grid':
+      case InstrumentHelpersId.SNAP_GRID:
         this.renderedGuidesOptions.points.material.color = new THREE.Color(0xa7a7a7);
         break;
-      case 'step':
+      case InstrumentHelpersId.SNAP_STEP:
         this.renderedGuidesOptions.points.material.color = new THREE.Color(0x5cc6ff);
         break;
-      case 'angle':
+      case InstrumentHelpersId.SNAP_ANGLE:
         this.renderedGuidesOptions.points.material.color = new THREE.Color(0x5cc6ff);
         if (fixedCoords) {
           console.log('FIXED', fixedCoords);
@@ -282,6 +283,7 @@ class SnapManager {
         return;
       default:
         this.renderedGuidesOptions.points.material.color = new THREE.Color(0xa7a7a7);
+        return;
     }
     //helper object - point
     this.renderedGuidesOptions.points.geometry.setFromPoints([coords]);
