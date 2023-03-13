@@ -142,35 +142,34 @@ class SnapManager {
 
   private _snapToStep = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined): void => {
     //find coords
-    //TODO search within Options?
-    if (this.snapStatuses!.step.isActive && fixedCoords) {
-      let newCoords = Object.assign({}, pointerCoords);
-      const snapValue = this.options[0].value;
+    if (!fixedCoords) return;
+    let newCoords = pointerCoords.clone();
 
-      const distToPointer = fixedCoords.distanceTo(pointerCoords);
+    const step = this.helpersModel._getItem(InstrumentHelpersId.SNAP_STEP);
+    if (!step) throw new Error('SnapManager: Cant find Step helper options');
 
-      //how much chunks(n) of given SIZE could fit in distance
-      const snapsAmount = Math.round(distToPointer / snapValue);
-      //new distance considering only chunks of given size
-      const snapDistance = snapsAmount * snapValue;
+    const snapValue = step.options.value;
 
-      newCoords = new THREE.Vector3();
-      newCoords
-        //create vector same direction from 0;0
-        .subVectors(pointerCoords, fixedCoords) //
-        .setLength(snapDistance) //move end coord according tp length
-        .add(fixedCoords); //move vector to fixed from 0;0
+    const distToPointer = fixedCoords.distanceTo(pointerCoords);
 
-      console.log('step END', newCoords);
+    //how much chunks(n) of given SIZE could fit in distance
+    const snapsAmount = Math.round(distToPointer / snapValue);
+    //new distance considering only chunks of given size
+    const snapDistance = snapsAmount * snapValue;
 
-      const distanceToCurrent = pointerCoords.distanceTo(newCoords);
+    newCoords = new THREE.Vector3();
+    newCoords
+      //create vector same direction from 0;0
+      .subVectors(pointerCoords, fixedCoords) //
+      .setLength(snapDistance) //move end coord according tp length
+      .add(fixedCoords); //move vector to fixed from 0;0
 
-      this.snapStatuses!.step.snappedCoords = newCoords;
-      this.snapStatuses!.step.distToOrigin = distanceToCurrent;
-      return;
-    } else {
-      return;
-    }
+    console.log('step END', newCoords);
+
+    const distanceToCurrent = pointerCoords.distanceTo(newCoords);
+
+    this.snapStatuses.snap_step.snappedCoords = newCoords;
+    this.snapStatuses.snap_step.distToOrigin = distanceToCurrent;
   };
 
   private _snapToAngle = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined) => {
