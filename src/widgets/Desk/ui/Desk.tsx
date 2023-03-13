@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from 'three/SceneView';
 import './desk.scss';
@@ -6,9 +7,8 @@ import { instrumentsModel } from 'entities/sceneInstrument';
 
 export const Desk = (): JSX.Element => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  // const [sceneView, setSceneView] = useState<SceneView | null>(null);
 
-  //TODO remove any
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let sceneView: any;
   const canvasScene = useRef<null | HTMLCanvasElement>(null);
   const canvasUI = useRef<null | HTMLCanvasElement>(null);
@@ -25,9 +25,10 @@ export const Desk = (): JSX.Element => {
 
   //on Mount
   useEffect(() => {
-    const innerTreeRef = canvasScene.current!;
+    const innerTreeRef = canvasScene.current;
+    if (!innerTreeRef) throw new Error('There is no canvas ref!');
     sceneView = new SceneView(innerTreeRef, layersModel, instrumentsModel);
-
+    // setSceneView(new SceneView(innerTreeRef, layersModel, instrumentsModel));
     resizeObserver.observe(innerTreeRef, { box: 'content-box' });
 
     if (canvasContainer.current) {
@@ -42,8 +43,6 @@ export const Desk = (): JSX.Element => {
       });
     }
   }, []);
-
-  console.log('DESK RERENDERED!!!!!');
 
   return (
     <div ref={canvasContainer} className={'desk'}>
