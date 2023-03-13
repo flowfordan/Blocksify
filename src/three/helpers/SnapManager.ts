@@ -8,6 +8,7 @@ import { createBaseV3s } from './createBaseV3s';
 import { getLineMat } from 'three/config/objs3d';
 import type { InstrumentsHelpersModel } from 'three/shared';
 import { InstrumentHelper, InstrumentHelpersId } from 'shared/types';
+import { toJS } from 'mobx';
 
 type RenderedGuidesOptions = {
   points: {
@@ -66,12 +67,13 @@ class SnapManager {
 
   //TODO refactor init func - we already loaded stuff in constructor - need only minor upd
   start = () => {
-    console.log(this.helpersModel.helpers);
+    console.log(toJS(this.helpersModel.helpers));
     this.snapStatuses = this._createDefaultStatuses(this.helpersModel.helpers);
   };
 
   //TODO see about performance when angle snap small and mouse moving fast
   snapToCoords = (pointerCoords: THREE.Vector3, toolState = 1, lastCoords?: THREE.Vector3): THREE.Vector3 => {
+    console.log('SNAP TO COORDS_1', 'grid:', this.snapStatuses);
     //return if non of snapping is active
     if (Object.values(this.snapStatuses).every((o) => o.isActive === false)) {
       return pointerCoords;
@@ -80,6 +82,8 @@ class SnapManager {
     for (const key in this.snapStatuses) {
       this.snapStatuses[key as InstrumentHelpersId].snappedCoords = pointerCoords;
     }
+
+    console.log('SNAP TO COORDS', 'grid:', this.snapStatuses.snap_grid.isActive);
 
     //Start snapping
     if (this.snapStatuses.snap_grid.isActive) this._snapToGrid(pointerCoords);
@@ -111,6 +115,7 @@ class SnapManager {
   };
 
   private _snapToGrid = (pointerCoords: THREE.Vector3): void => {
+    console.log('SNAPPING TO GRID');
     const newCoords = pointerCoords.clone();
 
     const grid = this.helpersModel._getItem(InstrumentHelpersId.SNAP_GRID);
@@ -173,68 +178,70 @@ class SnapManager {
   };
 
   private _snapToAngle = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined) => {
-    if (fixedCoords) {
-      //SAFETY check if angles are not chosen
-      //but snapping is active
-      const closestV3collection: V3Collection = instrumentsState.anglesSnapV3s;
-      if (Object.keys(closestV3collection).length === 0) {
-        console.log('Angles for snapping werent chosen, angle snap is off');
-        return;
-      }
+    if (!fixedCoords) return;
+    //SAFETY check if angles are not chosen
+    //but snapping is active
+    const angleSnap = this.helpersModel._getItem(InstrumentHelpersId.SNAP_ANGLE);
+    if (!angleSnap) throw new Error('Snap Manager error - couldnt find angle snap options');
+    const closestV3collection = this.helpersModel.anglesSnapV3s;
+    if (!closestV3collection) return;
+    if (Object.keys(closestV3collection).length === 0) {
+      console.log('Angles for snapping werent chosen, angle snap is off');
+      return;
+    }
 
-      //const basedV3 = fixedCoords.clone().add(pointerCoords.clone().multiplyScalar(-1));
-      const basedV3 = pointerCoords.clone().sub(fixedCoords.clone());
+    //const basedV3 = fixedCoords.clone().add(pointerCoords.clone().multiplyScalar(-1));
+    const basedV3 = pointerCoords.clone().sub(fixedCoords.clone());
 
-      const currentAngleRad = this.baseVector.angleTo(basedV3);
-      const currentAngleDeg = currentAngleRad * (180 / Math.PI);
-      //
-      // const currentAngleRad_2 = this.baseVector.angleTo(basedV3_2);
-      // const currentAngleDeg_2 = currentAngleRad_2 * (180 / Math.PI);
-      // console.log(`First, RAD: ${currentAngleRad}, DEG: ${currentAngleDeg}`);
-      // console.log(`Second, RAD: ${currentAngleRad_2}, DEG: ${currentAngleDeg_2}`);
+    const currentAngleRad = this.baseVector.angleTo(basedV3);
+    const currentAngleDeg = currentAngleRad * (180 / Math.PI);
+    //
+    // const currentAngleRad_2 = this.baseVector.angleTo(basedV3_2);
+    // const currentAngleDeg_2 = currentAngleRad_2 * (180 / Math.PI);
+    // console.log(`First, RAD: ${currentAngleRad}, DEG: ${currentAngleDeg}`);
+    // console.log(`Second, RAD: ${currentAngleRad_2}, DEG: ${currentAngleDeg_2}`);
 
-      const isYDirectionPositive = pointerCoords.z > fixedCoords.z;
+    const isYDirectionPositive = pointerCoords.z > fixedCoords.z;
 
-      type V3Collection = {
-        [key: number]: Array<Vector3>;
-      };
+    type V3Collection = {
+      [key: number]: Array<Vector3>;
+    };
 
-      let closestV3 = new Vector3();
-      let angleThreshold = 360;
+    let closestV3 = new Vector3();
+    let angleThreshold = 360;
 
-      for (const [key, value] of Object.entries(closestV3collection)) {
-        //choosing closest snapped option angle from collection
-        //getting absolute value - delta
-        //TODO rename stuff
-        const newAngleThreshold = Math.abs(currentAngleDeg - parseInt(key));
+    for (const [key, value] of Object.entries(closestV3collection)) {
+      //choosing closest snapped option angle from collection
+      //getting absolute value - delta
+      //TODO rename stuff
+      const newAngleThreshold = Math.abs(currentAngleDeg - parseInt(key));
 
-        //finding smallest angle threshold
-        //use angle-key to get snapping values
-        if (newAngleThreshold < angleThreshold) {
-          angleThreshold = newAngleThreshold;
-          //check 'side' from main NJS Vector
-          //assign V3 from snapped angle
-          //TODO remove V3 array & change just z for -1 * z
-          if (isYDirectionPositive) {
-            closestV3 = closestV3collection[key as unknown as keyof V3Collection][0];
-          } else {
-            closestV3 = closestV3collection[key as unknown as keyof V3Collection][1];
-          }
+      //finding smallest angle threshold
+      //use angle-key to get snapping values
+      if (newAngleThreshold < angleThreshold) {
+        angleThreshold = newAngleThreshold;
+        //check 'side' from main NJS Vector
+        //assign V3 from snapped angle
+        //TODO remove V3 array & change just z for -1 * z
+        if (isYDirectionPositive) {
+          closestV3 = closestV3collection[key as unknown as keyof V3Collection][0];
+        } else {
+          closestV3 = closestV3collection[key as unknown as keyof V3Collection][1];
         }
       }
-
-      //longing base UNIT V3 to needed distance
-      const basedNewV3 = closestV3.clone().setLength(fixedCoords.distanceTo(pointerCoords));
-
-      //'moving' vector from CENTER to fixed point
-      const newV3 = basedNewV3.clone().add(fixedCoords);
-
-      // saving results to obj
-      const distanceToCurrent = pointerCoords.distanceTo(newV3);
-
-      this.snapStatuses!.angle.snappedCoords = newV3;
-      this.snapStatuses!.angle.distToOrigin = distanceToCurrent;
     }
+
+    //longing base UNIT V3 to needed distance
+    const basedNewV3 = closestV3.clone().setLength(fixedCoords.distanceTo(pointerCoords));
+
+    //'moving' vector from CENTER to fixed point
+    const newV3 = basedNewV3.clone().add(fixedCoords);
+
+    // saving results to obj
+    const distanceToCurrent = pointerCoords.distanceTo(newV3);
+
+    this.snapStatuses.snap_angle.snappedCoords = newV3;
+    this.snapStatuses.snap_angle.distToOrigin = distanceToCurrent;
   };
 
   private _renderHelperLabel = (
@@ -291,18 +298,16 @@ class SnapManager {
 
   private _createDefaultStatuses = (helpers: Array<InstrumentHelper>): SnappingStatuses => {
     const snapHelpers = helpers.filter((h) => h.type === 'snapping');
-    const statuses = {} as SnappingStatuses;
-
-    snapHelpers.reduce((prev, cur) => {
+    const statuses = snapHelpers.reduce((prev, cur) => {
       const isActive = cur.isActive;
-      const addValue = {
+      const addValue: SnapStatus = {
         isActive: isActive,
         snappedCoords: new THREE.Vector3(),
         distToOrigin: Infinity,
         isCurrent: false,
       };
       return { ...prev, [cur.id]: addValue };
-    }, statuses);
+    }, {} as SnappingStatuses);
 
     return statuses;
   };
