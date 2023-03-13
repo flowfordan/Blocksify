@@ -27,9 +27,6 @@ export class InstrumentsController {
   layersModel: LayersModel;
   instrumentsModel: InstrumentsModel;
 
-  //TEST
-  // drawModel: DrawObjModel;
-
   constructor(
     activeElement: HTMLCanvasElement,
     sceneModifier: SceneModifier,
@@ -103,8 +100,6 @@ export class InstrumentsController {
     }
 
     console.log('CURRENT TOOL ID:', this.currentToolId);
-    //TEST
-    // this.drawModel.setActiveDrawingTool(2);
   };
 
   startInstrCont = (
@@ -115,6 +110,7 @@ export class InstrumentsController {
   ) => {
     this.instruments[instr.id]?.start(camera, groundPlane, currentLayer);
     document.body.style.cursor = instr.activeCursor;
+    window.addEventListener('keydown', this.onExit);
   };
 
   stopInstrCont = (id: InstrumentsId) => {
@@ -123,26 +119,19 @@ export class InstrumentsController {
   };
 
   onExit = (event: KeyboardEvent) => {
-    // if (event.key === 'Escape') {
-    //   const activeTool = this.instrumentsModel.tools.find((i) => i.active);
-    //   if (activeTool) {
-    //     this.instrumentsModel.setActiveTool(activeTool.id);
-    //     window.removeEventListener('keydown', this.onExit);
-    //   }
-    // }
+    if (event.key === 'Escape') {
+      const activeTool = this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous');
+      if (activeTool) {
+        this.mediator.toggleInstrumentActive(activeTool.id);
+        window.removeEventListener('keydown', this.onExit);
+      }
+    }
   };
 
   //observe selector tool
   private _storeSubscribe = () => {
-    //TOOL CHANGE
-    autorun(() => {
-      //activate will be triggered: for layer change,
-      // this.activateInstrument(this.layersModel.currentLayer, this.currentPlane, this.currentCamera);
-    });
-
     //for cont instruments: draw, select
     reaction(
-      //get active cont instr or undef
       () => this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous'),
       (curActive, prevActive, reaction) => {
         if (prevActive) this.stopInstrCont(prevActive.id);
@@ -152,16 +141,17 @@ export class InstrumentsController {
     );
 
     //STOP TOOL IF LAYER SWAP WHILE TOOL ACTIVE
-    // reaction(
-    //   () => this.layersModel.layers.find((l) => l.active),
-    //   (layer, previousLayer, reaction) => {
-    //     const activeTool = this.instrumentsModel.tools.find((i) => i.active);
-    //     if (layer?.id !== previousLayer?.id && activeTool) {
-    //       console.log('WHAT ARE YOU2');
-    //       this.instrumentsModel.setActiveTool(activeTool.id);
-    //     }
-    //   }
-    // );
+    reaction(
+      () => this.layersModel.layers.find((l) => l.active),
+      (layer, previousLayer, reaction) => {
+        if (!layer || !previousLayer) return;
+        if (layer.id !== previousLayer.id) {
+          const activeTool = this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous');
+          if (!activeTool) return;
+          this.mediator.toggleInstrumentActive(activeTool.id);
+        }
+      }
+    );
 
     //TODO concrete conditions
     //TODO is this place for grid render?
