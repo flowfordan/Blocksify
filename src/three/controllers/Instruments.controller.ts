@@ -44,7 +44,7 @@ export class InstrumentsController {
       pLine: new Line(activeElement, 1, sceneModifier, instrumentsHelpersModel),
       polygon: new Polygon(activeElement, sceneModifier, instrumentsHelpersModel),
       selector: new Selector(activeElement, sceneModifier, this.mediator),
-      // cleaner: new Cleaner(sceneModifier.scene),
+      // cleaner: new Cleaner(sceneModifier),
     };
     //toolsData = {selector: {selectedObj: {...}, intersectedObj: {...} }}
     //top lvl

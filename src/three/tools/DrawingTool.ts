@@ -40,7 +40,7 @@ export class DrawingTool {
     this.objCoords = [];
 
     this.tagsManager = new TagsManager(sceneModifier.scene);
-    this.snapManager = new SnapManager(sceneModifier.scene, helpersModel);
+    this.snapManager = new SnapManager(sceneModifier, helpersModel);
     this.handler = new Handler(sceneModifier);
   }
 

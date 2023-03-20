@@ -9,6 +9,7 @@ import { getLineMat } from 'three/config/objs3d';
 import type { InstrumentsHelpersModel } from 'three/shared';
 import { InstrumentHelper, InstrumentHelpersId } from 'shared/types';
 import { toJS } from 'mobx';
+import { SceneModifier } from 'three/services/SceneModifier';
 
 type RenderedGuidesOptions = {
   points: {
@@ -41,9 +42,9 @@ type SnappingStatuses = {
 };
 
 //new instance is created when Tool's startDrawing() called
-class SnapManager {
+export class SnapManager {
   private snapStatuses: SnappingStatuses;
-  private scene: THREE.Scene;
+  private sceneModifier: SceneModifier;
   private currentSnapping: InstrumentHelpersId | null;
   helpersModel: InstrumentsHelpersModel;
 
@@ -51,9 +52,9 @@ class SnapManager {
 
   renderedGuidesOptions: RenderedGuidesOptions;
 
-  constructor(scene: THREE.Scene, helpersModel: InstrumentsHelpersModel) {
+  constructor(sceneModifier: SceneModifier, helpersModel: InstrumentsHelpersModel) {
     this.helpersModel = helpersModel;
-    this.scene = scene;
+    this.sceneModifier = sceneModifier;
     this.currentSnapping = null;
 
     this.snapStatuses = this._createDefaultStatuses(helpersModel.helpers);
@@ -281,8 +282,10 @@ class SnapManager {
 
           this.renderedGuidesOptions.mainLine.geometry.setPositions([...extBaseV3.toArray(), ...baseV3.toArray()]);
 
-          this.scene.add(this.renderedGuidesOptions.lines.form);
-          this.scene.add(this.renderedGuidesOptions.mainLine.form);
+          this.sceneModifier.addObj(this.renderedGuidesOptions.lines.form);
+          this.sceneModifier.addObj(this.renderedGuidesOptions.mainLine.form);
+          // this.scene.add(this.renderedGuidesOptions.lines.form);
+          // this.scene.add(this.renderedGuidesOptions.mainLine.form);
         }
         break;
       case '':
@@ -293,7 +296,8 @@ class SnapManager {
     }
     //helper object - point
     this.renderedGuidesOptions.points.geometry.setFromPoints([coords]);
-    this.scene.add(this.renderedGuidesOptions.points.form);
+    this.sceneModifier.addObj(this.renderedGuidesOptions.points.form);
+    // this.scene.add(this.renderedGuidesOptions.points.form);
   };
 
   private _createDefaultStatuses = (helpers: Array<InstrumentHelper>): SnappingStatuses => {
@@ -362,10 +366,11 @@ class SnapManager {
   };
 
   private _removeRenderedLabels = () => {
-    this.scene.remove(this.renderedGuidesOptions.lines.form);
-    this.scene.remove(this.renderedGuidesOptions.points.form);
-    this.scene.remove(this.renderedGuidesOptions.mainLine.form);
+    this.sceneModifier.removeObj(this.renderedGuidesOptions.lines.form);
+    this.sceneModifier.removeObj(this.renderedGuidesOptions.points.form);
+    this.sceneModifier.removeObj(this.renderedGuidesOptions.mainLine.form);
+    // this.scene.remove(this.renderedGuidesOptions.lines.form);
+    // this.scene.remove(this.renderedGuidesOptions.points.form);
+    // this.scene.remove(this.renderedGuidesOptions.mainLine.form);
   };
 }
-
-export { SnapManager };
