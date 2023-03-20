@@ -14,7 +14,7 @@ import {
   InstrumentsController,
   LayersController,
 } from './controllers';
-import type { InstrumentsHelpersModel, InstrumentsModel, LayersModel } from './shared';
+import type { InstrumentsHelpersModel, InstrumentsModel, LayersModel, SceneModel } from './shared';
 
 export class SceneView {
   //utility controllers
@@ -34,14 +34,15 @@ export class SceneView {
     canvasRef: HTMLCanvasElement,
     layersModel: LayersModel,
     instrumentsModel: InstrumentsModel,
-    instrumentsHelpersModel: InstrumentsHelpersModel
+    instrumentsHelpersModel: InstrumentsHelpersModel,
+    sceneModel: SceneModel
   ) {
     this.groundPlane = worldPlane;
     //utility
     this.rendererController = new RendererController(canvasRef);
     this.labelRendererController = new LabelRendererController();
-    //scene
-    this.sceneController = new SceneController();
+    //scene init
+    this.sceneController = new SceneController(sceneModel);
     this.layersController = new LayersController(layersModel);
     this.cameraController = new CameraController(this.rendererController, layersModel);
     this.instrumentsController = new InstrumentsController(

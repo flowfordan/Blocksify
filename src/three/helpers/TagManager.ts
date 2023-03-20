@@ -3,6 +3,7 @@ import { Vector3 } from 'three';
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 import { sceneState, SnapOptions } from '../../shared/model';
 
+//TODO refactor creation of 3d objects & nodes - too heavy
 class TagsManager {
   // tagContainers: Array<HTMLDivElement>;
   scene: THREE.Scene;

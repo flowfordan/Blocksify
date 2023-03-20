@@ -1,2 +1,2 @@
-import { LayersModel, InstrumentsModel, InstrumentsHelpersModel } from 'widgets/Desk';
-export { LayersModel, InstrumentsModel, InstrumentsHelpersModel };
+import { LayersModel, InstrumentsModel, InstrumentsHelpersModel, SceneModel } from 'widgets/Desk';
+export { LayersModel, InstrumentsModel, InstrumentsHelpersModel, SceneModel };

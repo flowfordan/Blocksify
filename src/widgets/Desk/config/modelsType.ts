@@ -1,4 +1,5 @@
 import { LayersModel } from 'entities/layer';
 import { InstrumentsModel, InstrumentsHelpersModel } from 'entities/sceneInstrument';
+import { SceneModel } from 'entities/scene';
 
-export { LayersModel, InstrumentsModel, InstrumentsHelpersModel };
+export { LayersModel, InstrumentsModel, InstrumentsHelpersModel, SceneModel };

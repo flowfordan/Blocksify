@@ -12,18 +12,25 @@ interface I3dObjPolygon {
   geom: THREE.Shape;
   mat: THREE.MeshBasicMaterial;
 }
+
+/* 
+class for handling temporal visual effects:
+- Selection hover and click events (shows as overlay-copy of intersected obj)
+- Track objects - that shows future form of object on every mouse move while creation
+- Temp objects - actual form of object that will be added to the scene if Tool will be gracefully stopped
+*/
 export class FXBuilder {
-  //effect to show actual object part to be created or changed
   trackObjs: {
     line: I3dObjLine;
     polygon: I3dObjPolygon;
-  };
-  //effect to show what rendered object will look like whule creating
-  //or interceted selected object
+  }; //effect to show actual object part to be created or changed
+
   tempObjs: {
     line: I3dObjLine;
     polygon: I3dObjPolygon;
   };
+  //effect to show what rendered object will look like while creating
+  //or interceted selected object
 
   overlayObjTemp: I3dObjLine;
   overlayObjPerm: I3dObjLine;

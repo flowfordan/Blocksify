@@ -22,6 +22,7 @@ export class Handler {
     //generator
   }
 
+  //_____________
   //OBJECTS
   createObj = (
     type: 'line' | 'polygon',
@@ -81,6 +82,7 @@ export class Handler {
     this.removeTemp();
   };
 
+  //_____________
   //TRACK OBJECTS SHOWING REAL TIME MOVING
   createTrack = (isPolygon?: boolean) => {
     this.fxBuilder.initTrack(isPolygon);
@@ -108,6 +110,7 @@ export class Handler {
     this.sceneModifier.removeObj(this.fxBuilder.trackObjs.polygon.form);
   };
 
+  //_____________
   //TEMP OBJECT SHOWING FUTURE RESULT OF TOOL
   private createTemp = (isPolygon?: boolean) => {
     this.fxBuilder.initTemp(this.objBuilder.objParts.line);
@@ -142,7 +145,8 @@ export class Handler {
     this.sceneModifier.removeObj(this.fxBuilder.tempObjs.polygon.form);
   };
 
-  //OVERLAY OBJECTS
+  //_____________
+  //OVERLAY OBJECTS (Selection)
   createOverlayObj = (baseObj: THREE.Object3D<THREE.Event> | undefined, type: 'temp' | 'perm') => {
     if (baseObj) {
       this.fxBuilder.initOverlayObj(baseObj, type);

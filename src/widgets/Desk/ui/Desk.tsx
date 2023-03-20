@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from 'three/SceneView';
-import './desk.scss';
 import { layersModel } from 'entities/layer';
 import { instrumentsModel } from 'entities/sceneInstrument';
 import { instrumentsHelpersModel } from 'entities/sceneInstrument';
+import { sceneModel } from 'entities/scene';
 
-export const Desk = (): JSX.Element => {
+import './desk.scss';
+
+export const Desk = () => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
   const [sceneView, setSceneView] = useState<SceneView | null>(null);
 
@@ -27,7 +28,9 @@ export const Desk = (): JSX.Element => {
   useEffect(() => {
     const innerTreeRef = canvasScene.current;
     if (!innerTreeRef) throw new Error('There is no canvas ref!');
-    setSceneView((prev) => new SceneView(innerTreeRef, layersModel, instrumentsModel, instrumentsHelpersModel));
+    setSceneView(
+      (prev) => new SceneView(innerTreeRef, layersModel, instrumentsModel, instrumentsHelpersModel, sceneModel)
+    );
 
     if (canvasContainer.current) {
       const width = canvasContainer.current.offsetWidth;
