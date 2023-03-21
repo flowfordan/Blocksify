@@ -1,8 +1,10 @@
+import { PointerCoords } from './../../shared/types/scene';
 import * as THREE from 'three';
 import { dirLight, dirLightHelper, hemiLight } from '../config/lights';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { SceneModel } from 'three/shared';
 import { getMouseLocation } from 'three/utils';
+import { SceneMediator } from 'three/mediators';
 
 //CONTROLLER
 //initScene
@@ -11,6 +13,8 @@ export class SceneController {
   private _scene: THREE.Scene;
   modifier: SceneModifier;
   sceneModel: SceneModel;
+  private mediator: SceneMediator;
+  private pointerCoords: PointerCoords;
   constructor(sceneModel: SceneModel) {
     this._scene = new THREE.Scene();
     this.sceneModel = sceneModel;
@@ -28,6 +32,8 @@ export class SceneController {
     //TODO to sceneEnv Controller
     this.modifier._initSceneTempGeometry();
 
+    this.mediator = new SceneMediator();
+    this.pointerCoords = { x: 0.0, y: 0.0, z: 0.0 };
     //start EL to watch for pointercoords
     // this.updatePointerCoords();
   }
@@ -52,5 +58,11 @@ export class SceneController {
   ) => {
     //calc coordinates
     const mouseLoc = getMouseLocation(event, activeEl.getBoundingClientRect(), activeEl, camera, plane);
+    //upd coords value
+    this.pointerCoords.x = mouseLoc.x;
+    this.pointerCoords.y = mouseLoc.y;
+    this.pointerCoords.z = mouseLoc.z;
+    //mediator - set coords
+    this.mediator.setPointerCoords(this.pointerCoords);
   };
 }

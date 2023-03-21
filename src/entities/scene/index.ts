@@ -1,2 +1,2 @@
 export * from './model/sceneModel';
-export * from './ui/coordinatesMenu/CoordinatesMenu';
+export * from './ui/coordsPanel/CoordsPanel';

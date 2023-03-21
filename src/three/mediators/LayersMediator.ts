@@ -1,11 +1,11 @@
-import { modelsMediator } from 'three/model';
+import { mediatorsModel } from 'three/model';
 export class LayersMediator {
   constructor() {
     //
   }
 
   _setIsLayerEmpty = (layerId: number) => {
-    const model = modelsMediator.layersModel;
+    const model = mediatorsModel.layersModel;
     const currentLayer = model.layers.find((l) => l.id === layerId);
     if (!currentLayer) {
       throw new Error('Cant find Layer');
@@ -19,7 +19,7 @@ export class LayersMediator {
   };
 
   updLayerObjsCount = (quant: number, layerId: number) => {
-    modelsMediator.layersModel.setLayerObjectsNumber(layerId, quant);
+    mediatorsModel.layersModel.setLayerObjectsNumber(layerId, quant);
     this._setIsLayerEmpty(layerId);
   };
 }

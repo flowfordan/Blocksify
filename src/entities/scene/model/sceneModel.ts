@@ -1,15 +1,10 @@
 import { makeAutoObservable, toJS } from 'mobx';
+import type { PointerCoords } from 'shared/types';
 import { Vector3 } from 'three';
-
-type Coords = {
-  x: number;
-  y: number;
-  z: number;
-};
 
 export class SceneModel {
   private _isFetchingPointerCoords: boolean;
-  currentPointerCoordsGlobal: Coords;
+  currentPointerCoordsGlobal: PointerCoords;
   readonly baseDirection: Vector3;
   stage: number; //0 - 4
 
@@ -37,7 +32,7 @@ export class SceneModel {
     }
   };
 
-  setPointerCoords = (coords: Coords) => {
+  setPointerCoords = (coords: PointerCoords) => {
     this.currentPointerCoordsGlobal.x = coords.x;
     this.currentPointerCoordsGlobal.y = coords.y;
     this.currentPointerCoordsGlobal.z = coords.z;

@@ -1,1 +1,1 @@
-export * from './modelsMediator';
+export * from './mediatorsModel';

@@ -6,12 +6,12 @@ import cn from 'classnames';
 import './leftBar.scss';
 import { layersModel } from 'entities/layer';
 import { instrumentsModel } from 'entities/sceneInstrument';
-import { CoordsDisplay } from 'components/complex/CoordsPanel/CoordsPanel';
 import { PanelDivision } from 'shared/ui';
 import { LayerItem } from 'entities/layer';
 import { ObjDataProp } from 'entities/sceneObj';
 import { IObjData_Joined, IsObjDataOfObjMain, IsPropIsPropData } from 'shared/types/objs';
-import { Layer } from 'shared/types';
+import type { Layer } from 'shared/types';
+import { CoordsPanel } from 'entities/scene';
 
 export const LeftBar = observer((): JSX.Element => {
   const constructLayersList = (layersArr: Array<Layer>) => {
@@ -64,16 +64,18 @@ export const LeftBar = observer((): JSX.Element => {
       <PanelDivision header={'Layers'}>{constructLayersList(layersModel.layers)}</PanelDivision>
 
       <PanelDivision header={'Object Properties'}>
+        Content
         {/* {instrumentsModel.currentTool?.name === 'selector' && constructSelectedObjData()} */}
       </PanelDivision>
 
       <PanelDivision>
+        <CoordsPanel />
         {/* {instrumentsModel.currentTool?.name === 'selector' && constructIntersectedObjData()} */}
       </PanelDivision>
 
-      <div className={'leftBar__coordsPanel'}>
-        <CoordsDisplay />
-      </div>
+      {/* <div className={'leftBar__coordsPanel'}>
+        <CoordsPanel />
+      </div> */}
     </div>
   );
 });
