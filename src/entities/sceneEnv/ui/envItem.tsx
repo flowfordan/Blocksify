@@ -1,37 +1,53 @@
-import { instrumentsModel } from 'entities/sceneInstrument';
-import React, { useCallback } from 'react';
-import { DrawInstrItemProps } from './draw.props';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { ListItemCheck } from 'shared/ui';
-import { AssetKey } from 'shared/config/assetsData';
-import { InstrumentsId } from 'shared/types';
+import { CheckMatrix, ComplexSlider, ListItemCheck } from 'shared/ui';
+import { sceneEnvModel } from '../model/sceneEnvModel';
+import { EnvItemProps } from './envItem.props';
 
-export const SceneEnvItem = observer(({ instrId }: DrawInstrItemProps) => {
-  const toolData = instrumentsModel._getInstrument(instrId);
-  if (!toolData) return null;
+export const EnvItem = observer(({ envItemId }: EnvItemProps) => {
+  const itemData = sceneEnvModel._getItem(envItemId);
+  if (!itemData) return null;
+
   const onItemClick = () => {
-    instrumentsModel.toggleInstrumentActive(instrId);
+    sceneEnvModel.toggleSceneEnvItemOptionIsActive(envItemId);
   };
 
-  const getIconData = useCallback((): AssetKey => {
-    switch (toolData.id) {
-      case InstrumentsId.LINE:
-        return 'line';
-      case InstrumentsId.PLINE:
-        return 'pLine';
-      case InstrumentsId.POLYGON:
-        return 'polygon';
-      default:
-        return 'line';
-    }
-  }, []);
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(e.target.value);
+    if (isNaN(newValue)) return;
+    sceneEnvModel.setItemValue(envItemId, newValue);
+  };
+
+  const handleCollectionUpd = (value: number) => {
+    sceneEnvModel.setItemValue(envItemId, value);
+  };
+
+  const ItemBody = observer(() => {
+    if (itemData.options.controller === 'range') {
+      return (
+        <ComplexSlider
+          minVal={itemData.options.rangeMin}
+          maxVal={itemData.options.rangeMax}
+          stepVal={itemData.options.rangeStep}
+          val={itemData.options.value}
+          valName={itemData.options.rangeTitle}
+          onSliderChange={handleSliderChange}
+        />
+      );
+    } else if (itemData.options.controller === 'selection') {
+      return (
+        <CheckMatrix
+          items={itemData.options.selVariants}
+          selected={itemData.options.selValues}
+          handleCollectionUpd={handleCollectionUpd}
+        />
+      );
+    } else return null;
+  });
 
   return (
-    <ListItemCheck
-      title={toolData.title}
-      isChecked={toolData.isActive}
-      icon={getIconData()}
-      onClick={() => onItemClick()}
-    />
+    <ListItemCheck title={itemData.title} isChecked={itemData.isActive} onDoubleClick={() => onItemClick()}>
+      <ItemBody />
+    </ListItemCheck>
   );
 });
