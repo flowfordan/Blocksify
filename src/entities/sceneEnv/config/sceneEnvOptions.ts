@@ -1,0 +1,68 @@
+import { ISceneEnvOption, SceneEnvOptionId } from 'shared/types';
+
+export const DefSceneEnvOptions: Array<ISceneEnvOption> = [
+  {
+    id: SceneEnvOptionId.GRID_SIZE,
+    type: 'grid',
+    title: 'Size',
+    isActive: true,
+    options: {
+      controller: 'range',
+      defaultValue: 10,
+      value: 10,
+      rangeTitle: 'size',
+      rangeMin: 1,
+      rangeMax: 100,
+      rangeStep: 5,
+      selVariants: [],
+      selValues: [],
+    },
+  },
+  {
+    id: SceneEnvOptionId.GRID_VIS,
+    type: 'grid',
+    title: 'Visibility',
+    isActive: true,
+    options: {
+      controller: 'none',
+      value: 0,
+      rangeMin: 0,
+      rangeMax: 0,
+      rangeStep: 0,
+      selVariants: [],
+      selValues: [],
+    },
+  },
+  {
+    id: SceneEnvOptionId.GRID_COLOR,
+    type: 'grid',
+    title: 'Color',
+    isActive: true,
+    options: {
+      controller: 'none',
+      defaultValue: 10,
+      value: 0,
+      rangeMin: 0,
+      rangeMax: 0,
+      rangeStep: 0,
+      selVariants: [],
+      selValues: [],
+    },
+  },
+  {
+    id: SceneEnvOptionId.GRID_DIST,
+    type: 'grid',
+    title: 'Distance',
+    isActive: true,
+    options: {
+      controller: 'range',
+      value: 1000,
+      defaultValue: 1000,
+      rangeMin: 100,
+      rangeMax: 10000,
+      rangeStep: 100,
+      selVariants: [],
+      selValues: [],
+    },
+  },
+];

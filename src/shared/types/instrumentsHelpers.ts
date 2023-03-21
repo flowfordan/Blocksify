@@ -17,6 +17,8 @@
 
 */
 
+import { IControllerOptions } from './options';
+
 export enum InstrumentHelpersId {
   SNAP_GRID = 'snap_grid',
   SNAP_ANGLE = 'snap_angle',
@@ -27,23 +29,12 @@ export type InstrumentHelperTitle = 'Grid' | 'Step' | 'Node' | 'Angle' | '_name'
 
 type IntrumentHelperType = 'snapping' | 'other';
 
-type OptionsControllerType = 'range' | 'selection' | 'none';
-
 export interface InstrumentHelper {
   id: InstrumentHelpersId;
   type: IntrumentHelperType;
   title: InstrumentHelperTitle;
   isActive: boolean;
-  options: {
-    controller: OptionsControllerType;
-    value: number;
-    rangeTitle?: string;
-    rangeMin: number;
-    rangeMax: number;
-    rangeStep: number;
-    selVariants: Array<number>;
-    selValues: Array<number>;
-  };
+  options: IControllerOptions;
 }
 
 export type InstrumentsHelpersActivity = {

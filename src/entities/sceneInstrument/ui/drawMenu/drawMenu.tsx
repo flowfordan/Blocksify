@@ -15,7 +15,6 @@ export const DrawInstrMenu = observer((props: { isOpened: boolean }) => {
       iconKey={activeTool ? activeTool.id : 'line'}
       isActive={activeTool ? true : false}
       title={activeTool ? activeTool.title : 'Drawing Tools'}
-      // onClick={() => {}}
     />
   );
 });
