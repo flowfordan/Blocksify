@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 
-const gridHelper = new THREE.GridHelper(5000, 5000, 0x4aa8ff, 0xc3c3c3);
+export const gridHelper = new THREE.GridHelper(5000, 5000, 0x4aa8ff, 0xc3c3c3);
 gridHelper.position.y = -0.01;
 gridHelper.position.x = 0;
 
 gridHelper.visible = false;
 
-const getGridHelper = (size: number, name: string) => {
+export const getGridHelper = (size: number, name = 'gridHelper') => {
   const totalSize = 5000;
   const division = totalSize / size;
   const helper = new THREE.GridHelper(5000, division, 0x4aa8ff, 0xc3c3c3);
@@ -14,4 +14,4 @@ const getGridHelper = (size: number, name: string) => {
   return helper;
 };
 
-export { gridHelper, getGridHelper };
+// export { gridHelper, getGridHelper };

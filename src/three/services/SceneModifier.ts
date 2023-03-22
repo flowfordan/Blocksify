@@ -16,6 +16,11 @@ export class SceneModifier {
     this.scene.add(object);
   };
 
+  //TODO join with addObj
+  addUtilObjs = (objs: Array<THREE.Object3D>) => {
+    this.scene.add(...objs);
+  };
+
   removeObj = (object: THREE.Object3D) => {
     this.objWatcher.onObjRemoved(object);
     this.scene.remove(object);

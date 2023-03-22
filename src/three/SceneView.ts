@@ -10,6 +10,7 @@ import {
   CameraController,
   InstrumentsController,
   LayersController,
+  SceneEnvController,
 } from './controllers';
 import type { InstrumentsHelpersModel, InstrumentsModel, LayersModel, SceneModel, SceneEnvModel } from './shared';
 
@@ -19,6 +20,7 @@ export class SceneView {
   rendererController: RendererController;
   //scene parts controllers
   sceneController: SceneController;
+  sceneEnvController: SceneEnvController;
   cameraController: CameraController;
   instrumentsController: InstrumentsController;
   layersController: LayersController;
@@ -41,6 +43,7 @@ export class SceneView {
     this.labelRendererController = new LabelRendererController();
     //scene init
     this.sceneController = new SceneController(sceneModel);
+    this.sceneEnvController = new SceneEnvController(this.sceneController.modifier, sceneEnvModel);
     this.layersController = new LayersController(layersModel);
     this.cameraController = new CameraController(this.rendererController, layersModel);
     this.instrumentsController = new InstrumentsController(

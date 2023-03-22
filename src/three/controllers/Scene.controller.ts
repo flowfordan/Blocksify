@@ -1,6 +1,5 @@
 import { PointerCoords } from './../../shared/types/scene';
 import * as THREE from 'three';
-import { dirLight, dirLightHelper, hemiLight } from '../config/lights';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { SceneModel } from 'three/shared';
 import { getMouseLocation } from 'three/utils';
@@ -18,24 +17,11 @@ export class SceneController {
   constructor(sceneModel: SceneModel) {
     this._scene = new THREE.Scene();
     this.sceneModel = sceneModel;
-    this._scene.background = new THREE.Color(0xb3deff);
-
-    //TODO to sceneEnv
-    //lights
-    this._scene.add(dirLight, dirLightHelper, hemiLight);
-
-    //red green blue lines in 0,0
-    const axesHelper = new THREE.AxesHelper(10);
-    this._scene.add(axesHelper);
-
     this.modifier = new SceneModifier(this._scene);
-    //TODO to sceneEnv Controller
-    this.modifier._initSceneTempGeometry();
-
     this.mediator = new SceneMediator();
     this.pointerCoords = { x: 0.0, y: 0.0, z: 0.0 };
-    //start EL to watch for pointercoords
-    // this.updatePointerCoords();
+
+    this.modifier._initSceneTempGeometry();
   }
 
   startPointerCoordsUpd = (
