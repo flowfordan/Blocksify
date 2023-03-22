@@ -12,7 +12,7 @@ import { returnSvgNode } from 'shared/lib/returnSvgNode';
 import { BtnBar, withDropDown } from 'shared/ui';
 import { DrawInstrMenu, HelpersInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
 import { ToolMenu } from 'widgets/ToolMenu';
-import { EnvMenuExpander } from 'entities/sceneEnv';
+import { EnvMenuExpander, EnvOptionsMenu } from 'entities/sceneEnv';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   //TODO: wrap in array tools
@@ -75,7 +75,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
       </div>
 
       <div className={'topBar__utils'}>
-        <DropDownSceneEnvOptions content={<ToolMenu menuType="drawing" />} />
+        <DropDownSceneEnvOptions content={<EnvOptionsMenu />} contentClickType={'double'} />
       </div>
     </div>
   );

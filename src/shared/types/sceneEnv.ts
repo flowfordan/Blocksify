@@ -17,7 +17,7 @@ export enum SceneEnvOptionId {
 }
 
 export type SceneEnvOptionTitle = 'Visibility' | 'Size' | 'Color' | 'Distance' | 'Position' | 'Intensity' | '_name';
-type SceneEnvOptionType = 'grid' | 'axis' | 'sun' | 'sky' | 'other';
+export type SceneEnvOptionType = 'grid' | 'axis' | 'sun' | 'sky' | 'other';
 
 export interface ISceneEnvOption {
   id: SceneEnvOptionId;

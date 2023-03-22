@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import { autorun, reaction, toJS } from 'mobx';
 
 import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './config/geometry/worldPlane';
-import { getMouseLocation } from './utils';
-import { sceneState } from '../shared/model';
 import {
   LabelRendererController,
   RendererController,
@@ -14,7 +11,7 @@ import {
   InstrumentsController,
   LayersController,
 } from './controllers';
-import type { InstrumentsHelpersModel, InstrumentsModel, LayersModel, SceneModel } from './shared';
+import type { InstrumentsHelpersModel, InstrumentsModel, LayersModel, SceneModel, SceneEnvModel } from './shared';
 
 export class SceneView {
   //utility controllers
@@ -35,7 +32,8 @@ export class SceneView {
     layersModel: LayersModel,
     instrumentsModel: InstrumentsModel,
     instrumentsHelpersModel: InstrumentsHelpersModel,
-    sceneModel: SceneModel
+    sceneModel: SceneModel,
+    sceneEnvModel: SceneEnvModel
   ) {
     this.groundPlane = worldPlane;
     //utility
@@ -69,41 +67,6 @@ export class SceneView {
       this.groundPlane
     );
   }
-
-  // updState = () => {
-  //   autorun(() => {
-  //     this.updGlobalCoords();
-  //   });
-  // };
-
-  //TODO incapsulate in controller
-  //to show coords on ground under mouse
-  // updGlobalCoords = () => {
-  //   if (sceneState.isFetchingGlobalCoords) {
-  //     this.rendererController.activeElement.addEventListener('pointermove', this.onUpdMouseLoc);
-  //   } else {
-  //     this.rendererController.activeElement.removeEventListener('pointermove', this.onUpdMouseLoc);
-  //   }
-  // };
-
-  // //get mouse coords on "ground" plane
-  // onUpdMouseLoc = (event: MouseEvent) => {
-  //   const mouseLoc = getMouseLocation(
-  //     event,
-  //     this.rendererController.rect,
-  //     this.rendererController.activeElement,
-  //     this.cameraController.camera,
-  //     this.groundPlane
-  //   );
-
-  //   //send mouseloc to State
-  //   //TODO:not send new obj every time
-  //   sceneState.setGlobalCoords({
-  //     x: mouseLoc.x,
-  //     y: mouseLoc.y,
-  //     z: mouseLoc.z,
-  //   });
-  // };
 
   onWindowResize(vpW: number, vpH: number) {
     this.rendererController.renderer.setSize(vpW, vpH, false);

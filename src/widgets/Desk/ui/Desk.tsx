@@ -3,6 +3,7 @@ import { SceneView } from 'three/SceneView';
 import { layersModel } from 'entities/layer';
 import { instrumentsModel } from 'entities/sceneInstrument';
 import { instrumentsHelpersModel } from 'entities/sceneInstrument';
+import { sceneEnvModel } from 'entities/sceneEnv';
 import { sceneModel } from 'entities/scene';
 
 import './desk.scss';
@@ -29,7 +30,8 @@ export const Desk = () => {
     const innerTreeRef = canvasScene.current;
     if (!innerTreeRef) throw new Error('There is no canvas ref!');
     setSceneView(
-      (prev) => new SceneView(innerTreeRef, layersModel, instrumentsModel, instrumentsHelpersModel, sceneModel)
+      (prev) =>
+        new SceneView(innerTreeRef, layersModel, instrumentsModel, instrumentsHelpersModel, sceneModel, sceneEnvModel)
     );
 
     if (canvasContainer.current) {
