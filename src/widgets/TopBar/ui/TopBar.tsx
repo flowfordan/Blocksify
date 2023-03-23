@@ -59,11 +59,11 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
             isActive={sceneState.currentCamera === 1}
             title={'Perspective View'}
           />
+          <BtnBar iconKey="viewAll" isActive={false} />
+          <BtnBar iconKey="viewCenter" isActive={false} />
         </div>
 
         <div className={'topBar__main--part'}>
-          <BtnBar iconKey="viewAll" isActive={false} />
-          <BtnBar iconKey="viewCenter" isActive={false} />
           <BtnBar
             iconKey="viewAll"
             isActive={false}
