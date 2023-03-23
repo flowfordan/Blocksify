@@ -20,6 +20,8 @@ import LogoIcon from '../assets/icons/logo.svg';
 
 import TickIcon from '../assets/icons/tick.svg';
 
+import SceneEnvIcon from '../assets/icons/sceneEnv.svg';
+
 //
 enum Assets {
   logo = 'logo',
@@ -40,6 +42,8 @@ enum Assets {
   viewCenter = 'viewCenter',
   //
   tick = 'tick',
+  //
+  sceneEnv = 'sceneEnv',
 }
 
 export type AssetKey = `${Assets}`;
@@ -67,6 +71,7 @@ const assetsData: AssetsData = {
   viewCenter: ViewCenterIcon,
   //
   tick: TickIcon,
+  sceneEnv: SceneEnvIcon,
 };
 
 export { assetsData };
