@@ -13,6 +13,8 @@ import { BtnBar, withDropDown } from 'shared/ui';
 import { DrawInstrMenu, HelpersInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
 import { ToolMenu } from 'widgets/ToolMenu';
 import { EnvMenuExpander, EnvOptionsMenu } from 'entities/sceneEnv';
+import { CameraViewSelect } from 'entities/camera';
+import { CameraViewId } from 'shared/types';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   //TODO: wrap in array tools
@@ -43,7 +45,9 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
         </div>
 
         <div className={'topBar__main--part'}>
-          <BtnBar
+          <CameraViewSelect viewId={CameraViewId.PERSPECTIVE} />
+          <CameraViewSelect viewId={CameraViewId.TOP} />
+          {/* <BtnBar
             iconKey="cameraTop"
             onClick={() => {
               handleCameraChange(0);
@@ -58,7 +62,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
             }}
             isActive={sceneState.currentCamera === 1}
             title={'Perspective View'}
-          />
+          /> */}
           <BtnBar iconKey="viewAll" isActive={false} />
           <BtnBar iconKey="viewCenter" isActive={false} />
         </div>
