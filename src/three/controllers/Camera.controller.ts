@@ -4,38 +4,52 @@ import { sceneState } from '../../shared/model';
 import { camera } from '../camera/camera';
 import { RendererController } from './Renderer.controller';
 import { autorun, reaction, toJS } from 'mobx';
-import { LayersModel } from 'three/shared';
+import { CameraModel, LayersModel } from 'three/shared';
+import { CameraViewId } from 'shared/types';
 
 export class CameraController {
   camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   controls: OrbitControls;
   rendererController: RendererController;
   layersModel: LayersModel;
-  constructor(rendererController: RendererController, layersModel: LayersModel) {
+  cameraModel: CameraModel;
+  constructor(rendererController: RendererController, layersModel: LayersModel, cameraModel: CameraModel) {
     this.rendererController = rendererController;
+    this.layersModel = layersModel;
+    this.cameraModel = cameraModel;
+
     this.camera = camera();
     this.controls = new OrbitControls(this.camera, rendererController.activeElement);
-    this.layersModel = layersModel;
 
     this._storeSubscribe();
   }
 
-  setCamera = (rendererController: RendererController) => {
+  setCamera = (cameraViewId: CameraViewId) => {
     //0 - top camera, 1 - perspective
-    const curCamId = sceneState.currentCamera;
-    if (curCamId === 0) {
-      this.camera = camera(rendererController.renderer, curCamId);
-      this.controls = new OrbitControls(this.camera, rendererController.activeElement);
+    if (cameraViewId === CameraViewId.TOP) {
+      this.camera = camera(this.rendererController.renderer, 0);
+      this.controls = new OrbitControls(this.camera, this.rendererController.activeElement);
       //this.controls.enableDamping = true;
       this.controls.enableRotate = false;
       //enable all existing layers
       this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
-    } else if (curCamId === 1) {
-      this.camera = camera(rendererController.renderer, curCamId);
-      this.controls = new OrbitControls(this.camera, rendererController.activeElement);
+    } else {
+      this.camera = camera(this.rendererController.renderer, 1);
+      this.controls = new OrbitControls(this.camera, this.rendererController.activeElement);
       //enable all existing layers
       this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
     }
+
+    //call outer method to change camera
+
+    // const curCamId = sceneState.currentCamera;
+    // if (curCamId === 0) {
+    // } else if (curCamId === 1) {
+    //   this.camera = camera(rendererController.renderer, curCamId);
+    //   this.controls = new OrbitControls(this.camera, rendererController.activeElement);
+    //   //enable all existing layers
+    //   this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
+    // }
   };
 
   //default layers visibility for all layers
@@ -82,11 +96,6 @@ export class CameraController {
   };
 
   private _storeSubscribe = () => {
-    //camera change
-    autorun(() => {
-      this.setCamera(this.rendererController);
-    });
-    //layer visibility change
     reaction(
       () => {
         const visibles: Array<boolean> = [];

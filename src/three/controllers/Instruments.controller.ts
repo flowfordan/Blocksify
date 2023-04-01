@@ -126,6 +126,15 @@ export class InstrumentsController {
     }
   };
 
+  updateCurrentCamera = (newCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera) => {
+    //stop instr
+    //mediator - stop instrument
+    const activeInstr = this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous');
+    if (activeInstr) this.mediator.toggleInstrumentActive(activeInstr.id);
+    //set camera
+    this.currentCamera = newCamera;
+  };
+
   //observe selector tool
   private _storeSubscribe = () => {
     //for cont instruments: draw, select

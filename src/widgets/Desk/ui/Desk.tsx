@@ -7,6 +7,7 @@ import { sceneEnvModel } from 'entities/sceneEnv';
 import { sceneModel } from 'entities/scene';
 
 import './desk.scss';
+import { cameraModel } from 'entities/camera';
 
 export const Desk = () => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
@@ -31,7 +32,15 @@ export const Desk = () => {
     if (!innerTreeRef) throw new Error('There is no canvas ref!');
     setSceneView(
       (prev) =>
-        new SceneView(innerTreeRef, layersModel, instrumentsModel, instrumentsHelpersModel, sceneModel, sceneEnvModel)
+        new SceneView(
+          innerTreeRef,
+          layersModel,
+          instrumentsModel,
+          instrumentsHelpersModel,
+          sceneModel,
+          sceneEnvModel,
+          cameraModel
+        )
     );
 
     if (canvasContainer.current) {

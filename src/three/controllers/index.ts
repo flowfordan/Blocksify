@@ -5,3 +5,4 @@ export * from './Layers.controller';
 export * from './Renderer.controller';
 export * from './Scene.controller';
 export * from './SceneEnv.controller';
+export * from './Common.controller';

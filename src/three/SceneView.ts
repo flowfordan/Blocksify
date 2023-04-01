@@ -11,8 +11,16 @@ import {
   InstrumentsController,
   LayersController,
   SceneEnvController,
+  CommonController,
 } from './controllers';
-import type { InstrumentsHelpersModel, InstrumentsModel, LayersModel, SceneModel, SceneEnvModel } from './shared';
+import type {
+  InstrumentsHelpersModel,
+  InstrumentsModel,
+  LayersModel,
+  SceneModel,
+  SceneEnvModel,
+  CameraModel,
+} from './shared';
 
 export class SceneView {
   //utility controllers
@@ -24,6 +32,7 @@ export class SceneView {
   cameraController: CameraController;
   instrumentsController: InstrumentsController;
   layersController: LayersController;
+  commonController: CommonController;
 
   groundPlane: THREE.Plane;
   //TODO remove any
@@ -35,7 +44,8 @@ export class SceneView {
     instrumentsModel: InstrumentsModel,
     instrumentsHelpersModel: InstrumentsHelpersModel,
     sceneModel: SceneModel,
-    sceneEnvModel: SceneEnvModel
+    sceneEnvModel: SceneEnvModel,
+    cameraModel: CameraModel
   ) {
     this.groundPlane = worldPlane;
     //utility
@@ -45,7 +55,7 @@ export class SceneView {
     this.sceneController = new SceneController(sceneModel);
     this.sceneEnvController = new SceneEnvController(this.sceneController.modifier, sceneEnvModel);
     this.layersController = new LayersController(layersModel);
-    this.cameraController = new CameraController(this.rendererController, layersModel);
+    this.cameraController = new CameraController(this.rendererController, layersModel, cameraModel);
     this.instrumentsController = new InstrumentsController(
       this.rendererController.activeElement,
       this.sceneController.modifier,
@@ -54,6 +64,14 @@ export class SceneView {
       layersModel,
       instrumentsModel,
       instrumentsHelpersModel
+    );
+    this.commonController = new CommonController(
+      this.cameraController,
+      this.instrumentsController,
+      this.layersController,
+      layersModel,
+      cameraModel,
+      instrumentsModel
     );
 
     //STATS
@@ -79,6 +97,10 @@ export class SceneView {
     this.cameraController.updOnResize(aspect, viewSize);
 
     this.labelRendererController.renderer.setSize(vpW, vpH);
+  }
+
+  private _storeSubscribe() {
+    //if camera changed - pass new camera to instruments controller
   }
 
   // ******************* RENDER LOOP ******************* //
