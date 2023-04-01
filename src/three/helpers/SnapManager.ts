@@ -3,13 +3,13 @@
 import { LineMaterial, Line2, LineGeometry } from 'three-fatline';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
-import { sceneState } from '../../shared/model';
 import { createBaseV3s } from './createBaseV3s';
 import { getLineMat } from 'three/config/objs3d';
 import type { InstrumentsHelpersModel } from 'three/shared';
 import { InstrumentHelper, InstrumentHelpersId } from 'shared/types';
 import { toJS } from 'mobx';
 import { SceneModifier } from 'three/services/SceneModifier';
+import { BASE_DIRECTION } from 'three/config/consts';
 
 type RenderedGuidesOptions = {
   points: {
@@ -59,7 +59,7 @@ export class SnapManager {
 
     this.snapStatuses = this._createDefaultStatuses(helpersModel.helpers);
 
-    this.baseVector = sceneState.baseDirection;
+    this.baseVector = BASE_DIRECTION;
 
     //GUIDES - shows snapped points and lines for angles
     //TODO load when Scene is building

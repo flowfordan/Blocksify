@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { sceneState } from '../../shared/model';
 import { camera } from '../camera/camera';
 import { RendererController } from './Renderer.controller';
 import { autorun, reaction, toJS } from 'mobx';
@@ -39,17 +38,10 @@ export class CameraController {
       //enable all existing layers
       this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
     }
+  };
 
-    //call outer method to change camera
-
-    // const curCamId = sceneState.currentCamera;
-    // if (curCamId === 0) {
-    // } else if (curCamId === 1) {
-    //   this.camera = camera(rendererController.renderer, curCamId);
-    //   this.controls = new OrbitControls(this.camera, rendererController.activeElement);
-    //   //enable all existing layers
-    //   this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
-    // }
+  cameraZoom = () => {
+    this.camera.translateZ(20);
   };
 
   //default layers visibility for all layers

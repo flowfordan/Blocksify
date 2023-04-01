@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
-import { sceneState, SnapOptions } from '../../shared/model';
+import { SnapOptions } from '../../shared/model';
+import { BASE_DIRECTION } from 'three/config/consts';
 
 //TODO refactor creation of 3d objects & nodes - too heavy
 class TagsManager {
@@ -23,7 +24,7 @@ class TagsManager {
   //create CSS2D object in constructor
   constructor(scene: THREE.Scene) {
     this.scene = scene;
-    this.baseDirection = sceneState.baseDirection;
+    this.baseDirection = BASE_DIRECTION;
 
     //container options
     this.tagContainers = { lengths: [], angles: [] };

@@ -1,4 +1,3 @@
-import { SceneController } from './../controllers/Scene.controller';
 import * as THREE from 'three';
 
 import { SnapManager } from '../helpers/SnapManager';
