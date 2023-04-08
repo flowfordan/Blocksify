@@ -5,6 +5,7 @@ import { returnSvgNode } from 'shared/lib';
 import './layerItem.scss';
 import { LayerItemProps } from './LayerItem.prop';
 import { layersModel } from '../model/layersModel';
+import { Icon } from 'shared/ui';
 
 const LayerItem = ({ layerId, name, isEmpty, isActive, isVisible, isBlocked, ...props }: LayerItemProps) => {
   const handleLayerVisibility = () => {
@@ -29,9 +30,13 @@ const LayerItem = ({ layerId, name, isEmpty, isActive, isVisible, isBlocked, ...
       <span className={'layersListItem__name'} onClick={() => handleSelectLayer()}>
         {name}
       </span>
-      {isBlocked ? <span>{returnSvgNode('lock')}</span> : null}
-      <span onClick={() => handleLayerVisibility()}>
-        {isVisible ? returnSvgNode('eye') : returnSvgNode('eyeClosed')}
+      {isBlocked ? (
+        <span className={'layersListItem__iconContainer'}>
+          <Icon name="lock" size={16} />
+        </span>
+      ) : null}
+      <span className={'layersListItem__iconContainer'} onClick={() => handleLayerVisibility()}>
+        {isVisible ? <Icon name="eye" size={16} /> : <Icon name="eyeClosed" size={16} />}
       </span>
     </div>
   );

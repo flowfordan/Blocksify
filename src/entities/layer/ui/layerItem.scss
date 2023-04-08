@@ -7,6 +7,7 @@
   column-gap: $module;
   grid-template-columns: $module 1fr $module * 2;
   align-items: center;
+  align-content: center;
 
 
   padding: 0 $module;
@@ -46,6 +47,12 @@
     border-radius: 4px;
   
     background-color: var(--primary);
+  }
+
+  &__iconContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 

@@ -5,6 +5,7 @@ export * from './Card/Card';
 export * from './Division/Division';
 export * from './PanelDivision/PanelDivision';
 export * from './Slider/Slider';
+export * from './Icon/Icon';
 
 //complex
 export * from './ListItemCheck/ListItemCheck';

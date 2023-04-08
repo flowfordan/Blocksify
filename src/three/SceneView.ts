@@ -53,6 +53,7 @@ export class SceneView {
     this.labelRendererController = new LabelRendererController();
     //scene init
     this.sceneController = new SceneController(sceneModel);
+    //
     this.sceneEnvController = new SceneEnvController(this.sceneController.modifier, sceneEnvModel);
     this.layersController = new LayersController(layersModel);
     this.cameraController = new CameraController(this.rendererController, layersModel, cameraModel);
