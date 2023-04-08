@@ -1,1 +1,1 @@
-export * from './returnSvgNode';
+export {};

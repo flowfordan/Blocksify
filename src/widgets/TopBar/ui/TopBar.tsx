@@ -8,13 +8,14 @@ import { TopBarProps } from './TopBar.props';
 
 import './topBar.scss';
 
-import { returnSvgNode } from 'shared/lib/returnSvgNode';
 import { BtnBar, withDropDown } from 'shared/ui';
 import { DrawInstrMenu, HelpersInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
 import { ToolMenu } from 'widgets/ToolMenu';
 import { EnvMenuExpander, EnvOptionsMenu } from 'entities/sceneEnv';
 import { CameraViewSelect } from 'entities/camera';
 import { CameraViewId } from 'shared/types';
+
+import LogoIcon from '../../../shared/assets/icons/logo.svg';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   const DropDownDrawInstr = withDropDown(DrawInstrMenu);
@@ -24,7 +25,9 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
   return (
     <div className={cn(className, 'topBar')} {...props}>
       <div className={'topBar__corner'}>
-        <span className={'topBar__corner--logo'}>{returnSvgNode('logo')}</span>
+        <span className={'topBar__corner--logo'}>
+          <LogoIcon />
+        </span>
         <BtnBar title={'Import'} isActive={false} />
       </div>
 

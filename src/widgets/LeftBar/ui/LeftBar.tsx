@@ -72,10 +72,6 @@ export const LeftBar = observer((): JSX.Element => {
         <CoordsPanel />
         {/* {instrumentsModel.currentTool?.name === 'selector' && constructIntersectedObjData()} */}
       </PanelDivision>
-
-      {/* <div className={'leftBar__coordsPanel'}>
-        <CoordsPanel />
-      </div> */}
     </div>
   );
 });

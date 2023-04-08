@@ -5,7 +5,6 @@ import { BtnBarProps } from './BtnBar.props';
 import { Btn } from '../Btn/Btn';
 
 import './btnBar.scss';
-import { returnSvgNode } from 'shared/lib';
 import { Icon } from '../Icon/Icon';
 
 const BtnBar = ({
@@ -35,7 +34,11 @@ const BtnBar = ({
           <Icon name={iconKey} />
         </span>
       )}
-      {isExpandable && <span className={'btnBar__arrow'}>{returnSvgNode('arrowHead')}</span>}
+      {isExpandable && (
+        <span className={'btnBar__arrow'}>
+          <Icon name="arrowHead" />
+        </span>
+      )}
     </Btn>
   );
 };
