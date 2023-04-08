@@ -3,8 +3,8 @@ import React, { useCallback } from 'react';
 import { DrawInstrItemProps } from './draw.props';
 import { observer } from 'mobx-react-lite';
 import { ListItemCheck } from 'shared/ui';
-import { AssetKey } from 'shared/config/assetsData';
 import { InstrumentsId } from 'shared/types';
+import { IconID } from 'shared/config';
 
 export const DrawInstrItem = observer(({ instrId }: DrawInstrItemProps) => {
   const toolData = instrumentsModel._getInstrument(instrId);
@@ -13,7 +13,7 @@ export const DrawInstrItem = observer(({ instrId }: DrawInstrItemProps) => {
     instrumentsModel.toggleInstrumentActive(instrId);
   };
 
-  const getIconData = useCallback((): AssetKey => {
+  const getIconData = useCallback((): IconID => {
     switch (toolData.id) {
       case InstrumentsId.LINE:
         return 'line';

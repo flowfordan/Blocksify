@@ -14,7 +14,7 @@ export const ListItemCheck = ({ title, isChecked, icon, children, ...props }: Li
       })}
       {...props}
     >
-      <span className={'listItemCheck__check'}>{isChecked && <Icon name="tick" />}</span>
+      <span className={'listItemCheck__check'}>{isChecked && <Icon name="tick" size={8} />}</span>
       {icon && (
         <span className={'listItemCheck__icon'}>
           <Icon name={icon} />

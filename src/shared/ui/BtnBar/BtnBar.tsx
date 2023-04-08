@@ -7,7 +7,7 @@ import { Btn } from '../Btn/Btn';
 import './btnBar.scss';
 import { Icon } from '../Icon/Icon';
 
-const BtnBar = ({
+export const BtnBar = ({
   children,
   className,
   iconKey,
@@ -36,11 +36,9 @@ const BtnBar = ({
       )}
       {isExpandable && (
         <span className={'btnBar__arrow'}>
-          <Icon name="arrowHead" />
+          <Icon name="arrowHead" size={8} />
         </span>
       )}
     </Btn>
   );
 };
-
-export { BtnBar };
