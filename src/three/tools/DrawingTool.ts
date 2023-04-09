@@ -6,6 +6,7 @@ import { Handler } from '../services/Handler';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { Layer } from 'shared/types/layers';
 import type { InstrumentsHelpersModel } from 'three/shared';
+import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
 
 //SUPERCLASS FOR DRAWING TOOLS
 export class DrawingTool {
@@ -23,7 +24,9 @@ export class DrawingTool {
 
   objCoords: Array<number>;
 
-  handler: Handler;
+  // handler: Handler;
+  handler: _HandlerMain;
+  handlerFX: _HandlerFX;
 
   constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, helpersModel: InstrumentsHelpersModel) {
     this.canvas = canvas;
@@ -40,7 +43,10 @@ export class DrawingTool {
 
     this.tagsManager = new TagsManager(sceneModifier.scene);
     this.snapManager = new SnapManager(sceneModifier, helpersModel);
-    this.handler = new Handler(sceneModifier);
+    // this.handler = new Handler(sceneModifier);
+    const handlerFactoryInst = new HandlerFactory();
+    this.handler = new (handlerFactoryInst.createHandler('main'))(sceneModifier);
+    this.handlerFX = new (handlerFactoryInst.createHandler('fx'))(sceneModifier);
   }
 
   //START METHOD

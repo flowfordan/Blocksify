@@ -1,6 +1,8 @@
 import { SceneModifier } from '../SceneModifier';
+import { _HandlerFX } from './_HandlerFX';
+import { _HandlerMain } from './_HandlerMain';
 
-export abstract class Handler {
+export abstract class AHandler {
   sceneModifier: SceneModifier;
   constructor(modifier: SceneModifier) {
     this.sceneModifier = modifier;
@@ -14,7 +16,7 @@ export abstract class Handler {
 }
 
 //HANDLERS
-class HandlerMain implements Handler {
+class _HandlerTags implements AHandler {
   sceneModifier: SceneModifier;
   constructor(modifier: SceneModifier) {
     this.sceneModifier = modifier;
@@ -36,7 +38,7 @@ class HandlerMain implements Handler {
   }
 }
 
-class HandlerFX implements Handler {
+class _HandlerHelpers implements AHandler {
   sceneModifier: SceneModifier;
   constructor(modifier: SceneModifier) {
     this.sceneModifier = modifier;
@@ -58,67 +60,20 @@ class HandlerFX implements Handler {
   }
 }
 
-class HandlerTags implements Handler {
-  sceneModifier: SceneModifier;
-  constructor(modifier: SceneModifier) {
-    this.sceneModifier = modifier;
-  }
-  createObj(): void {
-    throw new Error('Method not implemented.');
-  }
-  updObj(): void {
-    throw new Error('Method not implemented.');
-  }
-  renderObj(): void {
-    throw new Error('Method not implemented.');
-  }
-  removeObj(): void {
-    throw new Error('Method not implemented.');
-  }
-  reset(): void {
-    throw new Error('Method not implemented.');
-  }
-}
+const HandlersData = {
+  main: _HandlerMain,
+  fx: _HandlerFX,
+  tags: _HandlerTags,
+  helpers: _HandlerHelpers,
+};
 
-class HandlerHelpers implements Handler {
-  sceneModifier: SceneModifier;
-  constructor(modifier: SceneModifier) {
-    this.sceneModifier = modifier;
-  }
-  createObj(): void {
-    throw new Error('Method not implemented.');
-  }
-  updObj(): void {
-    throw new Error('Method not implemented.');
-  }
-  renderObj(): void {
-    throw new Error('Method not implemented.');
-  }
-  removeObj(): void {
-    throw new Error('Method not implemented.');
-  }
-  reset(): void {
-    throw new Error('Method not implemented.');
-  }
-}
-
-class HandlerFactory {
+type HandlersType = typeof HandlersData;
+export class HandlerFactory {
   constructor() {
     //
   }
 
-  createHandler(handlerType: 'main' | 'fx' | 'tags' | 'helpers', modifier: SceneModifier) {
-    switch (handlerType) {
-      case 'main':
-        return new HandlerMain(modifier);
-      case 'fx':
-        return new HandlerFX(modifier);
-      case 'tags':
-        return new HandlerTags(modifier);
-      case 'helpers':
-        return new HandlerHelpers(modifier);
-      default:
-        throw new Error('Handler Type Factory: Handler type is not defined');
-    }
+  createHandler<T extends keyof HandlersType>(handlerType: T): HandlersType[T] {
+    return HandlersData[handlerType];
   }
 }
