@@ -68,13 +68,13 @@ export class SnapManager {
 
   //TODO refactor init func - we already loaded stuff in constructor - need only minor upd
   start = () => {
-    console.log(toJS(this.helpersModel.helpers));
+    //console.log(toJS(this.helpersModel.helpers));
     this.snapStatuses = this._createDefaultStatuses(this.helpersModel.helpers);
   };
 
   //TODO see about performance when angle snap small and mouse moving fast
   snapToCoords = (pointerCoords: THREE.Vector3, toolState = 1, lastCoords?: THREE.Vector3): THREE.Vector3 => {
-    console.log('SNAP TO COORDS_1', 'grid:', this.snapStatuses);
+    //console.log('SNAP TO COORDS_1', 'grid:', this.snapStatuses);
     //return if non of snapping is active
     if (Object.values(this.snapStatuses).every((o) => o.isActive === false)) {
       return pointerCoords;

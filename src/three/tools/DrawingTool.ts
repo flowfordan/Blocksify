@@ -44,9 +44,9 @@ export class DrawingTool {
     this.tagsManager = new TagsManager(sceneModifier.scene);
     this.snapManager = new SnapManager(sceneModifier, helpersModel);
     // this.handler = new Handler(sceneModifier);
-    const handlerFactoryInst = new HandlerFactory();
-    this.handler = new (handlerFactoryInst.createHandler('main'))(sceneModifier);
-    this.handlerFX = new (handlerFactoryInst.createHandler('fx'))(sceneModifier);
+    const handlerFactory = new HandlerFactory();
+    this.handler = new (handlerFactory.createHandler('main'))(sceneModifier);
+    this.handlerFX = new (handlerFactory.createHandler('fx'))(sceneModifier);
   }
 
   //START METHOD

@@ -19,6 +19,7 @@ export class CameraController {
 
     this.camera = camera();
     this.controls = new OrbitControls(this.camera, rendererController.activeElement);
+    this.setCamera(cameraModel.currentCameraId);
 
     this._storeSubscribe();
   }
@@ -38,6 +39,7 @@ export class CameraController {
       //enable all existing layers
       this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
     }
+    console.log('SET CAMERA', this.camera);
   };
 
   cameraZoom = () => {
