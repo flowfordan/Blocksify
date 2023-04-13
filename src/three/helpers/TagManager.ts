@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
-import { SnapOptions } from '../../shared/model';
 import { BASE_DIRECTION } from 'three/config/consts';
+import { SnappingStatuses } from './SnapManager';
 
 //TODO refactor creation of 3d objects & nodes - too heavy
 class TagsManager {
@@ -33,7 +33,7 @@ class TagsManager {
     this.toolTags = { lengths: [], angles: [] };
   }
 
-  renderTag = (v0: Array<THREE.Vector3>, v1: THREE.Vector3, snapOptions?: SnapOptions) => {
+  renderTag = (v0: Array<THREE.Vector3>, v1: THREE.Vector3, snapStatuses?: SnappingStatuses) => {
     const line = new Vector3();
     line.subVectors(v0[0], v1);
 
@@ -50,13 +50,14 @@ class TagsManager {
       this.toolTags.lengths[i].position.lerpVectors(v0[i], v1, 0.5);
     }
     //angles tags
-    if (snapOptions && snapOptions.angle.isActive) {
+    if (snapStatuses && snapStatuses.snap_angle.isActive) {
       const currentLines: Array<Vector3> = [];
       for (let i = 0; i < v0.length; i++) {
         currentLines[i] = new Vector3();
         currentLines[i].subVectors(v0[i], v1);
         const angleDeg = this.baseDirection.angleTo(currentLines[i]) * (180 / Math.PI);
 
+        //TODO create el one time
         this.tagContainers.angles[i] = document.createElement('div');
         this.tagContainers.angles[i].className = 'label';
         this.tagContainers.angles[i].style.marginTop = '-3em';

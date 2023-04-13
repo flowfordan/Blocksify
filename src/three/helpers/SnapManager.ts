@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { LineMaterial, Line2, LineGeometry } from 'three-fatline';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { createBaseV3s } from './createBaseV3s';
@@ -10,24 +8,7 @@ import { InstrumentHelper, InstrumentHelpersId } from 'shared/types';
 import { toJS } from 'mobx';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { BASE_DIRECTION } from 'three/config/consts';
-
-type RenderedGuidesOptions = {
-  points: {
-    form: THREE.Points;
-    geometry: THREE.BufferGeometry;
-    material: THREE.PointsMaterial;
-  };
-  lines: {
-    form: Line2;
-    geometry: LineGeometry;
-    material: LineMaterial;
-  };
-  mainLine: {
-    form: Line2;
-    geometry: LineGeometry;
-    material: LineMaterial;
-  };
-};
+import { HandlerFactory, _HandlerHelpers } from 'three/services';
 
 type SnapStatus = {
   isActive: boolean;
@@ -37,20 +18,19 @@ type SnapStatus = {
 };
 
 //id - options
-type SnappingStatuses = {
+export type SnappingStatuses = {
   [K in InstrumentHelpersId]: SnapStatus;
 };
 
 //new instance is created when Tool's startDrawing() called
 export class SnapManager {
-  private snapStatuses: SnappingStatuses;
+  snapStatuses: SnappingStatuses;
   private sceneModifier: SceneModifier;
   private currentSnapping: InstrumentHelpersId | null;
   helpersModel: InstrumentsHelpersModel;
 
   baseVector: THREE.Vector3;
-
-  renderedGuidesOptions: RenderedGuidesOptions;
+  handler: _HandlerHelpers;
 
   constructor(sceneModifier: SceneModifier, helpersModel: InstrumentsHelpersModel) {
     this.helpersModel = helpersModel;
@@ -61,14 +41,12 @@ export class SnapManager {
 
     this.baseVector = BASE_DIRECTION;
 
-    //GUIDES - shows snapped points and lines for angles
-    //TODO load when Scene is building
-    this.renderedGuidesOptions = this._loadInitGuidesOptions();
+    const handlerFactory = new HandlerFactory();
+    this.handler = new (handlerFactory.createHandler('helpers'))(sceneModifier);
   }
 
   //TODO refactor init func - we already loaded stuff in constructor - need only minor upd
   start = () => {
-    //console.log(toJS(this.helpersModel.helpers));
     this.snapStatuses = this._createDefaultStatuses(this.helpersModel.helpers);
   };
 
@@ -110,7 +88,7 @@ export class SnapManager {
       }
     }
     //call helpers render
-    this._renderHelperLabel(newCoords, finalSnapType, lastCoords);
+    this.handler.renderHelperLabel(newCoords, finalSnapType, lastCoords);
 
     return newCoords;
   };
@@ -183,9 +161,10 @@ export class SnapManager {
     //SAFETY check if angles are not chosen
     //but snapping is active
     const angleSnap = this.helpersModel._getItem(InstrumentHelpersId.SNAP_ANGLE);
+    console.log('ANGLE SNAP', angleSnap);
     if (!angleSnap) throw new Error('Snap Manager error - couldnt find angle snap options');
     const closestV3collection = this.helpersModel.anglesSnapV3s;
-    if (!closestV3collection) return;
+    if (!closestV3collection) throw new Error('Snap Manager error - couldnt get V3 collection');
     if (Object.keys(closestV3collection).length === 0) {
       console.log('Angles for snapping werent chosen, angle snap is off');
       return;
@@ -245,61 +224,6 @@ export class SnapManager {
     this.snapStatuses.snap_angle.distToOrigin = distanceToCurrent;
   };
 
-  private _renderHelperLabel = (
-    coords: THREE.Vector3,
-    finalSnapType: InstrumentHelpersId | '',
-    fixedCoords?: THREE.Vector3
-  ) => {
-    console.log('RENDER');
-    switch (finalSnapType) {
-      case InstrumentHelpersId.SNAP_GRID:
-        this.renderedGuidesOptions.points.material.color = new THREE.Color(0xa7a7a7);
-        break;
-      case InstrumentHelpersId.SNAP_STEP:
-        this.renderedGuidesOptions.points.material.color = new THREE.Color(0x5cc6ff);
-        break;
-      case InstrumentHelpersId.SNAP_ANGLE:
-        this.renderedGuidesOptions.points.material.color = new THREE.Color(0x5cc6ff);
-        if (fixedCoords) {
-          console.log('FIXED', fixedCoords);
-          const guideDist = 10000;
-          //temp render line parallel to snapped angle
-          const guideV3 = new THREE.Vector3();
-          guideV3
-            .subVectors(coords, fixedCoords) //newV3 - fixed
-            .setLength(guideDist) //TODO define number, infinite?
-            .add(fixedCoords);
-
-          const extGuideV3 = fixedCoords.clone().lerp(guideV3, -1);
-
-          this.renderedGuidesOptions.lines.geometry.setPositions([...extGuideV3.toArray(), ...guideV3.toArray()]);
-
-          //render North-South base line
-          const baseV3 = new Vector3(1, 0, 0);
-          baseV3.setLength(guideDist).add(fixedCoords);
-
-          const extBaseV3 = fixedCoords.clone().lerp(baseV3, -1);
-
-          this.renderedGuidesOptions.mainLine.geometry.setPositions([...extBaseV3.toArray(), ...baseV3.toArray()]);
-
-          this.sceneModifier.addObj(this.renderedGuidesOptions.lines.form);
-          this.sceneModifier.addObj(this.renderedGuidesOptions.mainLine.form);
-          // this.scene.add(this.renderedGuidesOptions.lines.form);
-          // this.scene.add(this.renderedGuidesOptions.mainLine.form);
-        }
-        break;
-      case '':
-        return;
-      default:
-        this.renderedGuidesOptions.points.material.color = new THREE.Color(0xa7a7a7);
-        return;
-    }
-    //helper object - point
-    this.renderedGuidesOptions.points.geometry.setFromPoints([coords]);
-    this.sceneModifier.addObj(this.renderedGuidesOptions.points.form);
-    // this.scene.add(this.renderedGuidesOptions.points.form);
-  };
-
   private _createDefaultStatuses = (helpers: Array<InstrumentHelper>): SnappingStatuses => {
     const snapHelpers = helpers.filter((h) => h.type === 'snapping');
     const statuses = snapHelpers.reduce((prev, cur) => {
@@ -325,52 +249,9 @@ export class SnapManager {
     }
   };
 
-  private _loadInitGuidesOptions = (): RenderedGuidesOptions => {
-    const guidesOptions = {
-      points: {
-        form: new THREE.Points(),
-        geometry: new THREE.BufferGeometry(),
-        material: new THREE.PointsMaterial({
-          color: 0x5cc6ff,
-          size: 11,
-          sizeAttenuation: false,
-          opacity: 0.5,
-          transparent: true,
-        }),
-      },
-      lines: {
-        form: new Line2(),
-        geometry: new LineGeometry(),
-        material: getLineMat(0xff2f2f),
-      },
-      mainLine: {
-        form: new Line2(),
-        geometry: new LineGeometry(),
-        material: getLineMat(0xff8383, 2, false, 0.8),
-      },
-    };
-    guidesOptions.points.material.depthWrite = false;
-    guidesOptions.points.material.depthTest = false;
-
-    guidesOptions.points.form = new THREE.Points(guidesOptions.points.geometry, guidesOptions.points.material);
-    guidesOptions.lines.form = new Line2(guidesOptions.lines.geometry, guidesOptions.lines.material);
-    guidesOptions.mainLine.form = new Line2(guidesOptions.mainLine.geometry, guidesOptions.mainLine.material);
-
-    return guidesOptions;
-  };
-
   resetSnap = () => {
-    this._removeRenderedLabels();
+    this.handler.removeRenderedLabels();
     this.currentSnapping = null;
     this._resetStatuses();
-  };
-
-  private _removeRenderedLabels = () => {
-    this.sceneModifier.removeObj(this.renderedGuidesOptions.lines.form);
-    this.sceneModifier.removeObj(this.renderedGuidesOptions.points.form);
-    this.sceneModifier.removeObj(this.renderedGuidesOptions.mainLine.form);
-    // this.scene.remove(this.renderedGuidesOptions.lines.form);
-    // this.scene.remove(this.renderedGuidesOptions.points.form);
-    // this.scene.remove(this.renderedGuidesOptions.mainLine.form);
   };
 }

@@ -69,8 +69,8 @@ export class Line extends DrawingTool {
       //TAG
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
-        this.currentPointerCoord
-        // this.snapManager.snapOptions
+        this.currentPointerCoord,
+        this.snapManager.snapStatuses
       );
     }
   };

@@ -3,9 +3,9 @@ import { Vector3, Vector2 } from 'three';
 import { FXBuilder } from '../FXBuilder';
 import { ObjBuilder } from '../ObjBuilder';
 import { SceneModifier } from '../SceneModifier';
-import { AHandler } from './HandlerCommon';
+import { HandlerCommon } from './HandlerCommon';
 
-export class _HandlerMain implements AHandler {
+export class _HandlerMain implements HandlerCommon {
   objBuilder: ObjBuilder; //actual main objects
   //fxBuilder: FXBuilder; //temporal effect-objects
   sceneModifier: SceneModifier;

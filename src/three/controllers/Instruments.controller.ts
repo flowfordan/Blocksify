@@ -159,12 +159,5 @@ export class InstrumentsController {
         }
       }
     );
-
-    //TODO concrete conditions
-    //TODO is this place for grid render?
-    //Rerender grid when its size changed
-    autorun(() => {
-      // this.helpersManager.renderGrid();
-    });
   };
 }
