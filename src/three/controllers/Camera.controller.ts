@@ -39,7 +39,6 @@ export class CameraController {
       //enable all existing layers
       this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
     }
-    console.log('SET CAMERA', this.camera);
   };
 
   cameraZoom = () => {

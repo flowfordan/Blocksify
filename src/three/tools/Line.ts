@@ -66,8 +66,6 @@ export class Line extends DrawingTool {
       //TRACK
       this.handlerFX.updTrack(current2ptLineCoords);
       this.handlerFX.renderTrack();
-      // this.handler.updTrack(current2ptLineCoords);
-      // this.handler.renderTrack();
       //TAG
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
@@ -87,7 +85,6 @@ export class Line extends DrawingTool {
       this.objCoords.push(...coords);
       //TRACK
       this.handlerFX.createTrack();
-      // this.handler.createTrack();
       this.toolState = 2;
     }
     //ON SECOND CLICK
@@ -109,7 +106,6 @@ export class Line extends DrawingTool {
         this.tagsManager.stopRender();
       }
       this.handlerFX.removeTrack();
-      // this.handler.removeTrack();
     }
   };
 
@@ -150,7 +146,6 @@ export class Line extends DrawingTool {
     }
     this.handler.reset();
     this.handlerFX.removeTrack();
-    // this.handler.removeTrack();
 
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();

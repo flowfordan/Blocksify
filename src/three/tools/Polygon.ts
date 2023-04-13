@@ -42,8 +42,8 @@ export class Polygon extends DrawingTool {
         //TRACK
         //repetition to create buffer for 3points array
         const trackObjCoords = [...this.objCoords, ...coordsCurrent, ...coordsCurrent];
-        this.handler.updTrack(trackObjCoords);
-        this.handler.renderTrack();
+        this.handlerFX.updTrack(trackObjCoords);
+        this.handlerFX.renderTrack();
         //TAG
         this.tagsManager.renderTag([new Vector3(...this.objCoords)], this.currentPointerCoord);
       } else {
@@ -56,9 +56,9 @@ export class Polygon extends DrawingTool {
         const trackObjCoords = [...pt1N, ...coordsCurrent, ...pt2N];
 
         //TRACK
-        this.handler.updTrackPolygon(pt1, pt2, this.currentPointerCoord);
-        this.handler.updTrack(trackObjCoords);
-        this.handler.renderTrack(true);
+        this.handlerFX.updTrackPolygon(pt1, pt2, this.currentPointerCoord);
+        this.handlerFX.updTrack(trackObjCoords);
+        this.handlerFX.renderTrack(true);
         //TAG
         this.tagsManager.renderTag([new Vector3(...pt1N), new Vector3(...pt2N)], this.currentPointerCoord);
       }
@@ -72,7 +72,7 @@ export class Polygon extends DrawingTool {
       //create obj
       this.handler.createObj('polygon', this.objCoords, this.layer!, this.currentPointerCoord);
       //TRACK
-      this.handler.createTrack(true);
+      this.handlerFX.createTrack(true);
       this.toolState = 2;
     } else if (this.toolState === 2) {
       //first upd - only polygon form
@@ -92,7 +92,7 @@ export class Polygon extends DrawingTool {
       this.handler.updObj('polygon', this.objCoords, this.currentPointerCoord);
 
       this.tagsManager.stopRender();
-      this.handler.removeTrack();
+      this.handlerFX.removeTrack();
     }
   };
 
@@ -124,7 +124,7 @@ export class Polygon extends DrawingTool {
       this.handler.renderObj();
     }
     this.handler.reset();
-    this.handler.removeTrack();
+    this.handlerFX.removeTrack();
     //TRACK, TAG, SNAP
     this.tagsManager.stopRender();
     // this.snapManager.resetSnap();
