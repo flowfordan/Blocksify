@@ -17,6 +17,10 @@ export class SceneModifier {
     this.scene.add(object);
   };
 
+  addObjs = (...objects: Array<THREE.Object3D>) => {
+    this.scene.add(...objects);
+  };
+
   //TODO join with addObj
   addUtilObjs = (objs: Array<THREE.Object3D>) => {
     this.scene.add(...objs);
@@ -25,6 +29,11 @@ export class SceneModifier {
   removeObj = (object: THREE.Object3D) => {
     this.objWatcher.onObjRemoved(object);
     this.scene.remove(object);
+  };
+
+  removeObjs = (...objects: Array<THREE.Object3D>) => {
+    // this.objWatcher.onObjRemoved(object);
+    this.scene.remove(...objects);
   };
 
   _initSceneTempGeometry = () => {

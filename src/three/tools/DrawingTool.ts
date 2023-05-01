@@ -39,7 +39,7 @@ export class DrawingTool {
 
     this.objCoords = [];
 
-    this.tagsManager = new TagsManager(sceneModifier.scene);
+    this.tagsManager = new TagsManager(sceneModifier);
     this.snapManager = new SnapManager(sceneModifier, helpersModel);
 
     const handlerFactory = new HandlerFactory();
