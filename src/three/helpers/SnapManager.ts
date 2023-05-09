@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
 import { Vector3 } from 'three';
-import { createBaseV3s } from './createBaseV3s';
-import { getLineMat } from 'three/config/objs3d';
 import type { InstrumentsHelpersModel } from 'three/shared';
 import { InstrumentHelper, InstrumentHelpersId } from 'shared/types';
-import { toJS } from 'mobx';
+//import { toJS } from 'mobx';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { BASE_DIRECTION } from 'three/config/consts';
 import { HandlerFactory, _HandlerHelpers } from 'three/services';
@@ -149,8 +146,6 @@ export class SnapManager {
       .setLength(snapDistance) //move end coord according tp length
       .add(fixedCoords); //move vector to fixed from 0;0
 
-    // console.log('step END', newCoords);
-
     const distanceToCurrent = pointerCoords.distanceTo(newCoords);
 
     this.snapStatuses.snap_step.snappedCoords = newCoords;
@@ -162,7 +157,6 @@ export class SnapManager {
     //SAFETY check if angles are not chosen
     //but snapping is active
     const angleSnap = this.helpersModel._getItem(InstrumentHelpersId.SNAP_ANGLE);
-    console.log('ANGLE SNAP', angleSnap);
     if (!angleSnap) throw new Error('Snap Manager error - couldnt find angle snap options');
     const closestV3collection = this.helpersModel.anglesSnapV3s;
     if (!closestV3collection) throw new Error('Snap Manager error - couldnt get V3 collection');
