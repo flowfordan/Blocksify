@@ -14,7 +14,7 @@ export class SceneObjsWatcher {
   onObjAdded = (obj: THREE.Object3D) => {
     if (IsObjDataOfObjMain(obj.userData)) {
       console.log('ADDED USER OBJ');
-      this._registerLayerObjsChange('remove', obj.userData.layerId.value);
+      this._registerLayerObjsChange('add', obj.userData.layerId.value);
     }
   };
 
