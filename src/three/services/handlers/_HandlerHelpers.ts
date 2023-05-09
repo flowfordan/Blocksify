@@ -40,7 +40,6 @@ export class _HandlerHelpers implements HandlerCommon {
   }
 
   renderHelperLabel = (coords: THREE.Vector3, finalSnapType: InstrumentHelpersId | '', fixedCoords?: THREE.Vector3) => {
-    console.log('RENDER');
     switch (finalSnapType) {
       case InstrumentHelpersId.SNAP_GRID:
         this.renderedGuidesOptions.points.material.color = new THREE.Color(0xa7a7a7);

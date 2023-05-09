@@ -62,8 +62,6 @@ export class SnapManager {
       this.snapStatuses[key as InstrumentHelpersId].snappedCoords = pointerCoords;
     }
 
-    console.log('SNAP TO COORDS', 'grid:', this.snapStatuses.snap_grid.isActive);
-
     //Start snapping
     if (this.snapStatuses.snap_grid.isActive) this._snapToGrid(pointerCoords);
     if (this.snapStatuses.snap_step.isActive && toolState > 1) this._snapToStep(pointerCoords, lastCoords);
@@ -72,19 +70,23 @@ export class SnapManager {
     let newCoords = pointerCoords;
     let distanceToPointer = Infinity;
     let finalSnapType: InstrumentHelpersId | '' = '';
+
     //iterate snapOptions and reassign if needed
     for (const key in this.snapStatuses) {
+      const snapStatus = this.snapStatuses[key as InstrumentHelpersId];
       //iterate only active snaps
-      if (this.snapStatuses[key as InstrumentHelpersId].isActive) {
-        if (this.snapStatuses[key as InstrumentHelpersId].distToOrigin <= distanceToPointer) {
-          distanceToPointer = this.snapStatuses[key as InstrumentHelpersId].distToOrigin;
-          newCoords = this.snapStatuses[key as InstrumentHelpersId].snappedCoords;
-          finalSnapType = key as InstrumentHelpersId;
-          //set current 'chosen' snap type
-          this.snapStatuses[key as InstrumentHelpersId].isCurrent = true;
+      //skip non-Active
+      if (!snapStatus.isActive) continue;
 
-          this.currentSnapping = key as InstrumentHelpersId;
-        }
+      //compare:
+      //1 - in SNAPPED status distToOrigin would be smaller then Infinity;
+      //2 - distToOrigin was reassigned by prev snap
+      if (snapStatus.distToOrigin <= distanceToPointer) {
+        distanceToPointer = snapStatus.distToOrigin;
+        newCoords = snapStatus.snappedCoords;
+        finalSnapType = key as InstrumentHelpersId;
+        snapStatus.isCurrent = true;
+        this.currentSnapping = key as InstrumentHelpersId;
       }
     }
     //call helpers render
@@ -94,7 +96,6 @@ export class SnapManager {
   };
 
   private _snapToGrid = (pointerCoords: THREE.Vector3): void => {
-    console.log('SNAPPING TO GRID');
     const newCoords = pointerCoords.clone();
 
     const grid = this.helpersModel._getItem(InstrumentHelpersId.SNAP_GRID);
@@ -148,7 +149,7 @@ export class SnapManager {
       .setLength(snapDistance) //move end coord according tp length
       .add(fixedCoords); //move vector to fixed from 0;0
 
-    console.log('step END', newCoords);
+    // console.log('step END', newCoords);
 
     const distanceToCurrent = pointerCoords.distanceTo(newCoords);
 
