@@ -64,13 +64,13 @@ export class Line extends DrawingTool {
       this.objCoords.push(...coordsCurrent);
       const current2ptLineCoords = this.objCoords.slice(this.lineSegments * 3 - 3);
       //TRACK
-      this.handler.updTrack(current2ptLineCoords);
-      this.handler.renderTrack();
+      this.handlerFX.updTrack(current2ptLineCoords);
+      this.handlerFX.renderTrack();
       //TAG
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
-        this.currentPointerCoord
-        // this.snapManager.snapOptions
+        this.currentPointerCoord,
+        this.snapManager.snapStatuses
       );
     }
   };
@@ -84,7 +84,7 @@ export class Line extends DrawingTool {
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
       //TRACK
-      this.handler.createTrack();
+      this.handlerFX.createTrack();
       this.toolState = 2;
     }
     //ON SECOND CLICK
@@ -105,7 +105,7 @@ export class Line extends DrawingTool {
         //remove tag
         this.tagsManager.stopRender();
       }
-      this.handler.removeTrack();
+      this.handlerFX.removeTrack();
     }
   };
 
@@ -145,7 +145,7 @@ export class Line extends DrawingTool {
       this.handler.renderObj();
     }
     this.handler.reset();
-    this.handler.removeTrack();
+    this.handlerFX.removeTrack();
 
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();

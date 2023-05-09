@@ -2,10 +2,10 @@ import * as THREE from 'three';
 
 import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
-import { Handler } from '../services/Handler';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { Layer } from 'shared/types/layers';
 import type { InstrumentsHelpersModel } from 'three/shared';
+import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
 
 //SUPERCLASS FOR DRAWING TOOLS
 export class DrawingTool {
@@ -23,7 +23,8 @@ export class DrawingTool {
 
   objCoords: Array<number>;
 
-  handler: Handler;
+  handler: _HandlerMain;
+  handlerFX: _HandlerFX;
 
   constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, helpersModel: InstrumentsHelpersModel) {
     this.canvas = canvas;
@@ -38,9 +39,12 @@ export class DrawingTool {
 
     this.objCoords = [];
 
-    this.tagsManager = new TagsManager(sceneModifier.scene);
+    this.tagsManager = new TagsManager(sceneModifier);
     this.snapManager = new SnapManager(sceneModifier, helpersModel);
-    this.handler = new Handler(sceneModifier);
+
+    const handlerFactory = new HandlerFactory();
+    this.handler = new (handlerFactory.createHandler('main'))(sceneModifier);
+    this.handlerFX = new (handlerFactory.createHandler('fx'))(sceneModifier);
   }
 
   //START METHOD

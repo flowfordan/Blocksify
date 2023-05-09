@@ -16,7 +16,8 @@ export class InstrumentsHelpersModel {
   constructor() {
     this.isHelpersActive = DefHelpersActivity;
     this.helpers = DefInstrHelpers;
-    this.anglesSnapV3s = null;
+    //TODO rewrite
+    this.anglesSnapV3s = createBaseV3s(this.helpers[1].options.selValues);
 
     makeAutoObservable(this);
   }
@@ -52,6 +53,11 @@ export class InstrumentsHelpersModel {
       } else {
         //add
         item.options.selValues.push(value);
+      }
+
+      //upd angles
+      if (item.id === InstrumentHelpersId.SNAP_ANGLE) {
+        this.anglesSnapV3s = createBaseV3s(this.helpers[1].options.selValues);
       }
     }
   };

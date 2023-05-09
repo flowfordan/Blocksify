@@ -1,6 +1,6 @@
 import { PropsEditor } from './PropsEditor';
 import * as THREE from 'three';
-import { Line2, LineGeometry } from 'three-fatline';
+import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 import { Layer } from '../../shared/types/layers';
 import {
   I3dObjLine,
@@ -13,6 +13,18 @@ import {
   V2ArrToNumArr,
 } from 'three/config/objs3d';
 
+interface I3dObjLine_temp {
+  form: Line2;
+  geom: LineGeometry;
+  mat: LineMaterial;
+}
+
+interface I3dObjPolygon_temp {
+  form: THREE.Mesh;
+  geom: THREE.Shape;
+  mat: THREE.MeshBasicMaterial;
+}
+
 export class ObjBuilder {
   //
   //current created object
@@ -24,6 +36,12 @@ export class ObjBuilder {
     points: I3dObjPoint;
     polygon: I3dObjPolygon;
   };
+  tempObjs: {
+    line: I3dObjLine_temp;
+    polygon: I3dObjPolygon_temp;
+  };
+  //effect to show what rendered object will look like while creating
+  //or interceted selected object
   isRenderable: boolean;
   propsEditor: PropsEditor;
 
@@ -44,6 +62,18 @@ export class ObjBuilder {
         form: new THREE.Mesh(),
         geom: new THREE.Shape(),
         mat: getPolygonMat(),
+      },
+    };
+    this.tempObjs = {
+      line: {
+        form: new Line2(),
+        geom: new LineGeometry(),
+        mat: new LineMaterial(),
+      },
+      polygon: {
+        form: new THREE.Mesh(),
+        geom: new THREE.Shape(),
+        mat: new THREE.MeshBasicMaterial(),
       },
     };
     this.isRenderable = false;
@@ -161,6 +191,21 @@ export class ObjBuilder {
       this.objParts.line.form.computeLineDistances();
     }
     this.isRenderable = true;
+  };
+
+  //TEMP
+  //initTemp
+  initTemp = (obj: I3dObjLine | I3dObjPolygon, isPolygon = false) => {
+    if (isPolygon) {
+      const polygon = obj as I3dObjPolygon;
+      this.tempObjs.polygon.form = polygon.form.clone();
+      this.tempObjs.polygon.form.name = 'temp';
+    } else {
+      //line
+      const line = obj as I3dObjLine;
+      this.tempObjs.line.form = line.form.clone();
+      this.tempObjs.line.form.name = 'temp';
+    }
   };
 
   reset = () => {

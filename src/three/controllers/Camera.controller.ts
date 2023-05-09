@@ -19,6 +19,7 @@ export class CameraController {
 
     this.camera = camera();
     this.controls = new OrbitControls(this.camera, rendererController.activeElement);
+    this.setCamera(cameraModel.currentCameraId);
 
     this._storeSubscribe();
   }

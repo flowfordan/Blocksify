@@ -4,9 +4,9 @@ import * as THREE from 'three';
 
 import { getObjByPointer } from '../utils';
 import { Object3D } from 'three';
-import { Handler } from '../services/Handler';
 import { Layer } from '../../shared/types/layers';
 import { InstrumentsMediator } from 'three/mediators/InstrumentsMediator';
+import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
 
 export class Selector {
   rect: DOMRect;
@@ -21,8 +21,11 @@ export class Selector {
     intersectedObj: THREE.Object3D | null;
   };
   toolState: number;
-  handler: Handler;
+
   mediator: InstrumentsMediator;
+  handler: _HandlerMain;
+  handlerFX: _HandlerFX;
+
   constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, mediator: InstrumentsMediator) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
@@ -41,7 +44,10 @@ export class Selector {
     };
     this.toolState = 0;
 
-    this.handler = new Handler(sceneModifier);
+    const handlerFactory = new HandlerFactory();
+
+    this.handler = new (handlerFactory.createHandler('main'))(sceneModifier);
+    this.handlerFX = new (handlerFactory.createHandler('fx'))(sceneModifier);
     this.mediator = mediator;
   }
 
@@ -88,7 +94,7 @@ export class Selector {
       this.currentCamera,
       this.currentLayer.id
     );
-    this.handler.removeOverlayObj('temp');
+    this.handlerFX.removeOverlayObj('temp');
     this.intersectedObj = null;
     if (obj) {
       const parent = obj.parent;
@@ -97,13 +103,13 @@ export class Selector {
 
         const lineToRender = parent.children.find((i) => i instanceof Line2);
         // this.renderedObjs.intersectedObj = lineToRender ? lineToRender.clone() : null;
-        this.handler.createOverlayObj(lineToRender, 'temp');
+        this.handlerFX.createOverlayObj(lineToRender, 'temp');
       }
     }
   };
 
   private _onClick = () => {
-    this.handler.removeOverlayObj('perm');
+    this.handlerFX.removeOverlayObj('perm');
     this.selectedObj = null;
     console.log('ON CLICK inters obj:', this.intersectedObj);
     if (this.intersectedObj) {
@@ -111,7 +117,7 @@ export class Selector {
       this.selectedObj = this.intersectedObj;
       const lineToRender = this.selectedObj.children.find((i) => i instanceof Line2);
       //line to render
-      this.handler.createOverlayObj(lineToRender, 'perm');
+      this.handlerFX.createOverlayObj(lineToRender, 'perm');
     }
   };
 
@@ -119,7 +125,7 @@ export class Selector {
     if (event.key === 'Delete' || event.key === 'Backspace') {
       if (this.selectedObj) {
         this.handler.sceneModifier.removeObj(this.selectedObj);
-        this.handler.removeOverlayObj('all');
+        this.handlerFX.removeOverlayObj('all');
         this.selectedObj = null;
       }
     }
@@ -127,7 +133,7 @@ export class Selector {
 
   stop = () => {
     console.log('SELECTOR END');
-    this.handler.removeOverlayObj('all');
+    this.handlerFX.removeOverlayObj('all');
     this.selectedObj = null;
     this.intersectedObj = null;
     //null selected

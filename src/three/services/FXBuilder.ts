@@ -25,10 +25,10 @@ export class FXBuilder {
     polygon: I3dObjPolygon;
   }; //effect to show actual object part to be created or changed
 
-  tempObjs: {
-    line: I3dObjLine;
-    polygon: I3dObjPolygon;
-  };
+  // tempObjs: {
+  //   line: I3dObjLine;
+  //   polygon: I3dObjPolygon;
+  // };
   //effect to show what rendered object will look like while creating
   //or interceted selected object
 
@@ -48,18 +48,18 @@ export class FXBuilder {
         mat: new THREE.MeshBasicMaterial(),
       },
     };
-    this.tempObjs = {
-      line: {
-        form: new Line2(),
-        geom: new LineGeometry(),
-        mat: new LineMaterial(),
-      },
-      polygon: {
-        form: new THREE.Mesh(),
-        geom: new THREE.Shape(),
-        mat: new THREE.MeshBasicMaterial(),
-      },
-    };
+    // this.tempObjs = {
+    //   line: {
+    //     form: new Line2(),
+    //     geom: new LineGeometry(),
+    //     mat: new LineMaterial(),
+    //   },
+    //   polygon: {
+    //     form: new THREE.Mesh(),
+    //     geom: new THREE.Shape(),
+    //     mat: new THREE.MeshBasicMaterial(),
+    //   },
+    // };
     this.overlayObjTemp = {
       form: new Line2(),
       geom: new LineGeometry(),
@@ -142,18 +142,18 @@ export class FXBuilder {
   };
 
   //initTemp
-  initTemp = (obj: I3dObjLine | I3dObjPolygon, isPolygon = false) => {
-    if (isPolygon) {
-      const polygon = obj as I3dObjPolygon;
-      this.tempObjs.polygon.form = polygon.form.clone();
-      this.tempObjs.polygon.form.name = 'temp';
-    } else {
-      //line
-      const line = obj as I3dObjLine;
-      this.tempObjs.line.form = line.form.clone();
-      this.tempObjs.line.form.name = 'temp';
-    }
-  };
+  // initTemp = (obj: I3dObjLine | I3dObjPolygon, isPolygon = false) => {
+  //   if (isPolygon) {
+  //     const polygon = obj as I3dObjPolygon;
+  //     this.tempObjs.polygon.form = polygon.form.clone();
+  //     this.tempObjs.polygon.form.name = 'temp';
+  //   } else {
+  //     //line
+  //     const line = obj as I3dObjLine;
+  //     this.tempObjs.line.form = line.form.clone();
+  //     this.tempObjs.line.form.name = 'temp';
+  //   }
+  // };
 
   //overlay obj
   initOverlayObj = (obj: THREE.Object3D<THREE.Event>, type: 'temp' | 'perm') => {
