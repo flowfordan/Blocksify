@@ -38,7 +38,8 @@ export class SceneModifier {
 
   _initSceneTempGeometry = () => {
     //some initial 3dobjects
-    this.scene.add(cube, myLine, worldPlaneMesh, worldPlaneHelper);
+    // this.scene.add(cube, myLine, worldPlaneMesh, worldPlaneHelper);
+    this.scene.add(cube, worldPlaneMesh, worldPlaneHelper);
     cube.material.color.setHex(0x686868);
   };
 }

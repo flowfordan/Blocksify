@@ -1,6 +1,8 @@
 import { LayersMediator } from './../mediators/LayersMediator';
 import { IsObjDataOfObjMain } from 'shared/types/objs';
 import { SceneGetter } from './SceneGetter';
+import { myLine } from 'three/config/geometry/geometry';
+import { setParallelLine } from './getParallelLine';
 
 export class SceneObjsWatcher {
   layersMediator: LayersMediator;
@@ -14,6 +16,9 @@ export class SceneObjsWatcher {
   onObjAdded = (obj: THREE.Object3D) => {
     if (IsObjDataOfObjMain(obj.userData)) {
       console.log('ADDED USER OBJ');
+      //trigger auto generation
+      setParallelLine(obj);
+      // obj.type === ''
       this._registerLayerObjsChange('add', obj.userData.layerId.value);
     }
   };
