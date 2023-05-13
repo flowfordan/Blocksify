@@ -1,6 +1,7 @@
 import { Layer } from 'shared/types';
 import { getLineMat, getPolygonMat } from 'three/config/objs3d';
 import { blocksObjPreset, borderObjPreset, buildingsObjPreset, streetsObjPreset } from './layerObjects';
+import { OBJ_GENERAL_TYPE } from 'shared/types/objs';
 
 //objects 3d materials
 //LAYER 2 - BORDER
@@ -109,6 +110,10 @@ export const DefLayers: Array<Layer> = [
     },
     objectsQuantity: 0,
     objDefaultData: borderObjPreset,
+    ptsData: {
+      main: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_PRIM_PT },
+      add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
+    },
   },
   {
     name: 'Streets',
@@ -124,6 +129,10 @@ export const DefLayers: Array<Layer> = [
     },
     objectsQuantity: 0,
     objDefaultData: streetsObjPreset,
+    ptsData: {
+      main: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_PRIM_PT },
+      add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
+    },
   },
   {
     name: 'Blocks',
@@ -139,6 +148,10 @@ export const DefLayers: Array<Layer> = [
     },
     objectsQuantity: 0,
     objDefaultData: blocksObjPreset,
+    ptsData: {
+      main: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_PRIM_PT },
+      add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
+    },
   },
   {
     name: 'Buildings',
@@ -154,5 +167,9 @@ export const DefLayers: Array<Layer> = [
     },
     objectsQuantity: 0,
     objDefaultData: buildingsObjPreset,
+    ptsData: {
+      main: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_PRIM_PT },
+      add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
+    },
   },
 ];

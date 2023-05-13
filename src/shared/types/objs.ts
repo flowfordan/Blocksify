@@ -15,7 +15,7 @@ export enum OBJ_GENERAL_TYPE {
 
 type OBJ_GENERAL_TYPE_UN = `${OBJ_GENERAL_TYPE}`;
 
-type ICommonObjData<T extends OBJ_GENERAL_TYPE_UN> = {
+export type ICommonObjData<T extends OBJ_GENERAL_TYPE_UN> = {
   OBJ_GENERAL_TYPE: T extends OBJ_GENERAL_TYPE.OBJ_MAIN
     ? OBJ_GENERAL_TYPE.OBJ_MAIN
     : T extends OBJ_GENERAL_TYPE.OBJ_TEMP

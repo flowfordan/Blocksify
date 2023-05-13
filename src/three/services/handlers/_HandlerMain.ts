@@ -62,12 +62,15 @@ export class _HandlerMain implements HandlerCommon {
     //generate auto-objects
     //this.generator.generateAutoObject
     if (this.objBuilder.isRenderable) {
-      this.sceneModifier.addObj(this.objBuilder.objCreated);
+      //this.objMain
+      // this.sceneModifier.addObj(this.objBuilder.objCreated);
+      this.sceneModifier.addObj(this.objBuilder.objMain);
     }
   };
 
   removeObj = () => {
-    this.sceneModifier.removeObj(this.objBuilder.objCreated);
+    // this.sceneModifier.removeObj(this.objBuilder.objCreated);
+    this.sceneModifier.removeObj(this.objBuilder.objMain);
   };
 
   reset = () => {

@@ -26,6 +26,7 @@ interface I3dObjPolygon_temp {
 }
 
 export class ObjBuilder {
+  objMain: THREE.Object3D;
   //
   //current created object
   objCreated: THREE.Object3D;
@@ -46,6 +47,7 @@ export class ObjBuilder {
   propsEditor: PropsEditor;
 
   constructor() {
+    this.objMain = new THREE.Object3D();
     this.objCreated = new THREE.Object3D();
     this.objParts = {
       line: {
@@ -81,7 +83,7 @@ export class ObjBuilder {
   }
 
   createLine = (objCoords: Array<number>, layer: Layer) => {
-    //
+    //main obj
     if (!layer.content.main) {
       throw new Error('Layer doesnt have options to enable drawing on it');
     }
@@ -94,14 +96,17 @@ export class ObjBuilder {
     this.objCreated.add(this.objParts.points.form);
     this.objCreated.add(this.objParts.line.form);
 
-    //
+    //set layers data and name
     this.objCreated.layers.set(layer.id);
     this.objParts.line.form.layers.set(layer.id);
     this.objParts.points.form.layers.set(layer.id);
     this.objCreated.name = layer.name;
     //obj data
-    // this.objCreated.userData = { type: 'main', layerId: layer.id };
-    this.propsEditor.setObjInitProperties(this.objCreated, layer, 'layer_joined');
+    console.log(layer);
+    this.propsEditor.setObjInitProperties(this.objMain, layer, 'layer_joined');
+    this.propsEditor.setObjInitProperties(this.objCreated, layer, 'part_main');
+    //add child to main
+    this.objMain.add(this.objCreated);
   };
 
   createPolygon = (objCoords: Array<number>, layer: Layer, currentPointerCoord: THREE.Vector3) => {
@@ -209,6 +214,7 @@ export class ObjBuilder {
   };
 
   reset = () => {
+    this.objMain = new THREE.Object3D();
     this.objCreated = new THREE.Object3D();
 
     this.objParts.line.form = new Line2();

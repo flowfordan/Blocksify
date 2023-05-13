@@ -14,6 +14,12 @@ export class PropsEditor {
     if (objType === 'layer_joined') {
       const propertiesToSet = toJS(objLayer.objDefaultData);
       obj.userData = Object.assign(propertiesToSet);
+    } else if (objType === 'part_main') {
+      const propertiesToSet = toJS(objLayer.ptsData.main);
+      obj.userData = Object.assign(propertiesToSet);
+    } else if (objType === 'part_sub') {
+      const propertiesToSet = toJS(objLayer.ptsData.add);
+      obj.userData = Object.assign(propertiesToSet);
     }
   };
 }
