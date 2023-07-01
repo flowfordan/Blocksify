@@ -1,7 +1,8 @@
 import * as THREE from 'three';
-import { renderer as initRenderer } from '../config/renderer/renderer';
+import { getRenderer, getlabelRenderer } from 'three/config/renderer/renderer';
 
-const camera = (renderer = initRenderer, id = 1): THREE.PerspectiveCamera | THREE.OrthographicCamera => {
+export const camera = (renderer = getRenderer(), id = 1): THREE.PerspectiveCamera | THREE.OrthographicCamera => {
+  if (!renderer) throw new Error('Renderer is not defined');
   switch (id) {
     case 0: {
       const width = renderer.domElement.width;
@@ -40,5 +41,3 @@ const camera = (renderer = initRenderer, id = 1): THREE.PerspectiveCamera | THRE
       return new THREE.PerspectiveCamera();
   }
 };
-
-export { camera };
