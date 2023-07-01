@@ -1,28 +1,40 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Desk } from 'widgets/Desk';
 import { LeftBar } from 'widgets/LeftBar';
 import { RightBar } from 'widgets/RightBar';
 import { TopBar } from 'widgets/TopBar';
 
 import './appPage.scss';
+import dynamic from 'next/dynamic';
 
-export const AppPage = observer((): JSX.Element => {
+export const AppPage = observer(() => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  console.log('window', window, 'document', document);
+
   return (
     <div className="appPage">
-      <TopBar className="appPage__topBar" />
-
-      <div className="appPage__canvas">
-        <Desk />
-      </div>
-
-      <div className={`appPage__leftBar`}>
-        <LeftBar />
-      </div>
-
-      <div className={`appPage__rightBar`}>
-        <RightBar />
-      </div>
+      {isMounted && typeof window !== 'undefined' ? (
+        <>
+          <TopBar className="appPage__topBar" />
+          <div className="appPage__canvas">
+            <Desk />
+          </div>
+          <div className={`appPage__leftBar`}>
+            <LeftBar />
+          </div>
+          <div className={`appPage__rightBar`}>
+            <RightBar />
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 });

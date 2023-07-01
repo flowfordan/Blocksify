@@ -94,7 +94,7 @@ export class SceneView {
     this.rendererController.renderer.setSize(vpW, vpH, false);
     const aspect = vpW / vpH;
     const viewSize = 200;
-    //upd camera ratio depending on cam Type
+    // //upd camera ratio depending on cam Type
     this.cameraController.updOnResize(aspect, viewSize);
 
     this.labelRendererController.renderer.setSize(vpW, vpH);
