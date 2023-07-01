@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { StartPage } from 'pages';
 // import Layout from '../components/Layout';
 // import PageHome from '../components/PageHome';
 
@@ -9,7 +10,7 @@ import type { NextPage } from 'next';
 }
 
 const Home: NextPage = () => {
-  return <div>Home</div>;
+  return <StartPage />;
 };
 
 export default Home;

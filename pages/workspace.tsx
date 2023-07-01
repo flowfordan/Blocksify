@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { AppPage } from 'pages';
 // import Layout from '../components/Layout';
 // import PageHome from '../components/PageHome';
 
@@ -9,7 +10,7 @@ import type { NextPage } from 'next';
 }
 
 const Workspace: NextPage = () => {
-  return <div>Workspace</div>;
+  return <AppPage />;
 };
 
 export default Workspace;
