@@ -1,0 +1,8 @@
+node_modules/
+dist/
+build/
+.vscode
+.idea
+gen
+webpack.config.js
+*.html

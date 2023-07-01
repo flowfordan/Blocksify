@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "plugins": [{
-      "name": "next"
-    }],
+    "target": "ESNext",
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "lib": [
       "dom",
       "dom.iterable",
       "esnext",
+      "ESNext",
     ],
-    "jsx": "preserve",
+    "jsx": "react",
     "noEmit": true,    
     "sourceMap": true,
     "baseUrl": "./src",
@@ -18,7 +17,6 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "incremental": true,
 
     /* Strict Type-Checking Options */
     "strict": true,
@@ -35,11 +33,7 @@
   },
   "include": [
     "src",
-    "src/custom.d.ts",
-    "next-env.d.ts", 
-    "**/*.ts", 
-    "**/*.tsx", 
-    ".next/types/**/*.ts"
+    "src/custom.d.ts"
   ],
   "exclude": [
     "node_modules",

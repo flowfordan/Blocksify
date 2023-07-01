@@ -1,0 +1,85 @@
+// {
+//   "root": true,
+//   "parser": "@typescript-eslint/parser",
+//   "plugins": [
+//     "@typescript-eslint"
+//   ],
+//   "extends": [
+//     "eslint:recommended",
+//     "plugin:@typescript-eslint/eslint-recommended",
+//     "plugin:@typescript-eslint/recommended"
+//   ],
+//   "rules": {
+//     //spacing inline
+//     "array-bracket-spacing": ["error", "always"],
+//     "keyword-spacing": ["error", { "before": true }],    
+//     "comma-spacing": ["error", { "before": false, "after": true }],
+//     "arrow-spacing": "error",
+//     "object-curly-spacing": ["error", "always"],
+//     //commas
+//     "comma-dangle": ["error", {
+//       "arrays": "never",
+//       "objects": "never",
+//       "imports": "never",
+//       "exports": "never",
+//       "functions": "never"
+//     }],
+
+//     "indent": ["error", 2],
+//     "prefer-spread": "warn",
+//     "no-multi-spaces": "error",
+//     "no-tabs": ["error"],
+//     "no-trailing-spaces": "error",
+//     //semicolons
+//     "semi-style": ["error", "last"],
+//     "semi": ["error", "always"]
+//   }
+// }
+{
+  "parser": "@typescript-eslint/parser",
+  // "parser": "@babel/eslint-parser",
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "react", "prettier", "react-hooks", "html"],
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "comma-dangle": ["error", "only-multiline"],
+    "react/prop-types": "off",
+    "react/display-name": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "prettier/prettier": ["error", { "endOfLine": "auto", "singleQuote": true }],
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-var-reqiures": "off",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off" 
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "root": true
+}
