@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ILayerIDs } from './layers';
 
+//segments names
+export enum OBJ_SEGMENT_NAME {
+  point_segment = 'point_segment',
+  line_segment = 'line_segment',
+  polygon_segment = 'polygon_segment',
+}
+
 //OBJ GENERAL TYPE
 export enum OBJ_GENERAL_TYPE {
   //1 lvl
@@ -11,11 +18,14 @@ export enum OBJ_GENERAL_TYPE {
   OBJ_SECOND_PT = 'OBJ_SECOND_PT',
   //3 lvl
   OBJ_SEGMENT = 'OBJ_SEGMENT',
+  OBJ_SEGMENT_LINE = 'OBJ_SEGMENT_LINE',
+  OBJ_SEGMENT_POINT = 'OBJ_SEGMENT_POINT',
+  OBJ_SEGMENT_POLYGON = 'OBJ_SEGMENT_POLYGON',
 }
 
 type OBJ_GENERAL_TYPE_UN = `${OBJ_GENERAL_TYPE}`;
 
-export type ICommonObjData<T extends OBJ_GENERAL_TYPE_UN> = {
+export type ICommonObjData<T extends OBJ_GENERAL_TYPE> = {
   OBJ_GENERAL_TYPE: T extends OBJ_GENERAL_TYPE.OBJ_MAIN
     ? OBJ_GENERAL_TYPE.OBJ_MAIN
     : T extends OBJ_GENERAL_TYPE.OBJ_TEMP
@@ -26,6 +36,12 @@ export type ICommonObjData<T extends OBJ_GENERAL_TYPE_UN> = {
     ? OBJ_GENERAL_TYPE.OBJ_SECOND_PT
     : T extends OBJ_GENERAL_TYPE.OBJ_SEGMENT
     ? OBJ_GENERAL_TYPE.OBJ_SEGMENT
+    : T extends OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT
+    ? OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT
+    : T extends OBJ_GENERAL_TYPE.OBJ_SEGMENT_LINE
+    ? OBJ_GENERAL_TYPE.OBJ_SEGMENT_LINE
+    : T extends OBJ_GENERAL_TYPE.OBJ_SEGMENT_POLYGON
+    ? OBJ_GENERAL_TYPE.OBJ_SEGMENT_POLYGON
     : OBJ_GENERAL_TYPE_UN;
 };
 
@@ -74,6 +90,14 @@ export interface IObjDataProps {
 
 export function IsObjDataOfObjMain(objUD: Record<any, any>): objUD is IObjDataProps[keyof IObjDataProps] {
   if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_MAIN) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function IsObjDataOfObjPrimPt(objUD: Record<any, any>): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_PRIM_PT> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_PRIM_PT) {
     return true;
   } else {
     return false;

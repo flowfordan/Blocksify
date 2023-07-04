@@ -1,4 +1,5 @@
 //clone and move
+import { IsObjDataOfObjPrimPt } from 'shared/types/objs';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
@@ -15,10 +16,14 @@ const pointObjTemp = (coords: Array<number>) => {
   return point;
 };
 //set actual user data
-export const setParallelLine = (obj: THREE.Object3D) => {
-  //offset temp = 10
-  const OFFSET = 10;
-  const child = obj.children.at(0);
+export const setParallelLine = (mainObj: THREE.Object3D, offset = 10) => {
+  //getting primary obj
+  //children - find primary part
+  const primPt = mainObj.children.find((o) => {
+    if (IsObjDataOfObjPrimPt(o.userData)) return true;
+  });
+  //find line and points segments
+  const child = mainObj.children.at(0);
   if (!child) return;
   const newObj = child.clone();
 
@@ -26,7 +31,7 @@ export const setParallelLine = (obj: THREE.Object3D) => {
   if (!line) return;
   const line2 = line as Line2;
   line2.material = getLineMat(0x1d5e9a, 4, true, 0.5);
-  newObj.position.x += OFFSET * -1;
+  newObj.position.x += offset * -1;
 
   const pts = newObj.children.at(0);
   if (!pts) return;
@@ -60,7 +65,7 @@ export const setParallelLine = (obj: THREE.Object3D) => {
     const z = new Vector3(0, 1, 0);
     const s = new Vector3();
     const c = s.clone();
-    c.subVectors(vectors[0], vectors[1]).cross(z).normalize().multiplyScalar(OFFSET);
+    c.subVectors(vectors[0], vectors[1]).cross(z).normalize().multiplyScalar(offset);
     c.add(vectors[j]);
     // const testPt = pointObjTemp(c.toArray());
     coords_A.set(c.toArray(), j * 3);
@@ -73,8 +78,8 @@ export const setParallelLine = (obj: THREE.Object3D) => {
   const testLn_A = new Line2(new LineGeometry(), getLineMat(0x1d5e9a, 4, true, 0.5));
   testLn_A.geometry.setPositions(coords_A);
   //
-  obj.add(testPt_A);
-  obj.add(testLn_A);
+  mainObj.add(testPt_A);
+  mainObj.add(testLn_A);
 
   // console.log(v0, s);
 
@@ -84,3 +89,8 @@ export const setParallelLine = (obj: THREE.Object3D) => {
   // obj.add(testPt);
   // obj.add(newObj);
 };
+
+// const getParallelLine = (obj: THREE.Object3D, offset = 10) => {
+//   //
+//   //return obj;
+// };

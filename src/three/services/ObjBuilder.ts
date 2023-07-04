@@ -12,6 +12,7 @@ import {
   pointObj,
   V2ArrToNumArr,
 } from 'three/config/objs3d';
+import { OBJ_SEGMENT_NAME } from 'shared/types/objs';
 
 interface I3dObjLine_temp {
   form: Line2;
@@ -93,6 +94,12 @@ export class ObjBuilder {
 
     this.objParts.points.form = pointObj(objCoords);
 
+    //set ud of segments
+    this.propsEditor.setSegmentInitProperties(this.objParts.line.form, 'line');
+    this.propsEditor.setSegmentInitProperties(this.objParts.points.form, 'point');
+    // this.objParts.line.form.name = OBJ_SEGMENT_NAME.line_segment;
+    // this.objParts.points.form.name = OBJ_SEGMENT_NAME.point_segment;
+
     this.objCreated.add(this.objParts.points.form);
     this.objCreated.add(this.objParts.line.form);
 
@@ -127,6 +134,14 @@ export class ObjBuilder {
     this.objParts.line.mat = layer.content.main.mat.line;
     this.objParts.line.geom = new LineGeometry();
     this.objParts.line.form = new Line2(this.objParts.line.geom, this.objParts.line.mat);
+
+    //set names
+    this.propsEditor.setSegmentInitProperties(this.objParts.line.form, 'line');
+    this.propsEditor.setSegmentInitProperties(this.objParts.points.form, 'point');
+    this.propsEditor.setSegmentInitProperties(this.objParts.polygon.form, 'polygon');
+    // this.objParts.line.form.name = OBJ_SEGMENT_NAME.line_segment;
+    // this.objParts.points.form.name = OBJ_SEGMENT_NAME.point_segment;
+    // this.objParts.polygon.form.name = OBJ_SEGMENT_NAME.polygon_segment;
 
     //OBJ CREATED
     this.objCreated.add(this.objParts.points.form);
