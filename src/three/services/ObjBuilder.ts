@@ -109,7 +109,6 @@ export class ObjBuilder {
     this.objParts.points.form.layers.set(layer.id);
     this.objCreated.name = layer.name;
     //obj data
-    console.log(layer);
     this.propsEditor.setObjInitProperties(this.objMain, layer, 'layer_joined');
     this.propsEditor.setObjInitProperties(this.objCreated, layer, 'part_main');
     //add child to main
@@ -187,7 +186,6 @@ export class ObjBuilder {
     }
 
     //check for 1st update
-    console.log('BUILDER coords length', newCoords.length);
     if (newCoords.length < 6) {
       //POLYGON
       this.objParts.polygon.geom.lineTo(currentPointerCoord.x, currentPointerCoord.z);

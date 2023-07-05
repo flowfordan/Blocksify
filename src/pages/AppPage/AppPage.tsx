@@ -15,8 +15,6 @@ export const AppPage = observer(() => {
     setIsMounted(true);
   }, []);
 
-  console.log('window', window, 'document', document);
-
   return (
     <div className="appPage">
       {isMounted && typeof window !== 'undefined' ? (

@@ -15,7 +15,6 @@ export class SceneObjsWatcher {
 
   onObjAdded = (obj: THREE.Object3D) => {
     if (IsObjDataOfObjMain(obj.userData)) {
-      console.log('ADDED USER OBJ');
       //trigger auto generation
       setParallelLine(obj);
       // obj.type === ''
@@ -25,7 +24,6 @@ export class SceneObjsWatcher {
 
   onObjRemoved = (obj: THREE.Object3D) => {
     if (IsObjDataOfObjMain(obj.userData)) {
-      console.log('ADDED USER OBJ');
       this._registerLayerObjsChange('remove', obj.userData.layerId.value);
     }
   };

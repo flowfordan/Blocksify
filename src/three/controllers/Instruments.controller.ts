@@ -96,8 +96,6 @@ export class InstrumentsController {
       document.body.style.cursor = activeTool.activeCursor;
       window.addEventListener('keydown', this.onExit);
     }
-
-    console.log('CURRENT TOOL ID:', this.currentToolId);
   };
 
   startInstrCont = (

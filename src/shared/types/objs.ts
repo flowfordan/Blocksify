@@ -104,6 +104,26 @@ export function IsObjDataOfObjPrimPt(objUD: Record<any, any>): objUD is ICommonO
   }
 }
 
+export function IsObjDataOfObjLineSegment(
+  objUD: Record<any, any>
+): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SEGMENT_LINE> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_SEGMENT_LINE) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function IsObjDataOfObjPointSegment(
+  objUD: Record<any, any>
+): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export function IsPropIsPropData(prop: unknown): prop is IObjPropData<string | number> {
   if (typeof prop === 'object' && prop) {
     return true;

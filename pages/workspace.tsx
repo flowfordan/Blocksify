@@ -15,7 +15,6 @@ import { AppPageDynamic } from 'pages/AppPage/AppPgDynamic';
 const Workspace: NextPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {}, []);
-  console.log('Workspace page');
   return <>{typeof window !== 'undefined' ? <AppPageDynamic /> : 'Blocksify workspace'}</>;
 };
 

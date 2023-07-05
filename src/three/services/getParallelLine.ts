@@ -1,5 +1,5 @@
 //clone and move
-import { IsObjDataOfObjPrimPt } from 'shared/types/objs';
+import { IsObjDataOfObjLineSegment, IsObjDataOfObjPointSegment, IsObjDataOfObjPrimPt } from 'shared/types/objs';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
@@ -22,72 +22,72 @@ export const setParallelLine = (mainObj: THREE.Object3D, offset = 10) => {
   const primPt = mainObj.children.find((o) => {
     if (IsObjDataOfObjPrimPt(o.userData)) return true;
   });
-  //find line and points segments
-  const child = mainObj.children.at(0);
-  if (!child) return;
-  const newObj = child.clone();
+  if (!primPt) return;
+  //copy prime and create subobj
+  const subPt = primPt.clone(false);
+  //set user data
+  subPt.name = 'temp sub part';
+  //
+  //find line and points segments by userdata type
+  const lineSegment = primPt.children.find((o) => {
+    if (IsObjDataOfObjLineSegment(o.userData)) return true;
+  });
+  const pointSegment = primPt.children.find((o) => {
+    if (IsObjDataOfObjPointSegment(o.userData)) return true;
+  });
+  if (!lineSegment || !pointSegment) return;
+  //
+  // (lineSegment as Line2).material = getLineMat(0x1d5e9a, 4, true, 0.5);
+  //array of points [x, y, z, x1, y1, z1,...]
+  const ptsPos = (pointSegment as THREE.Points).geometry.attributes.position;
 
-  const line = newObj.children.at(1);
-  if (!line) return;
-  const line2 = line as Line2;
-  line2.material = getLineMat(0x1d5e9a, 4, true, 0.5);
-  newObj.position.x += offset * -1;
-
-  const pts = newObj.children.at(0);
-  if (!pts) return;
-  const pts2 = pts as THREE.Points;
-  const pos = pts2.geometry.attributes.position;
-  console.log('array', pos.array);
-  const v0 = new Vector3();
-  v0.fromBufferAttribute(pos, 0); // now v contains coordinates of point [1]
-  const v1 = new Vector3();
-  v1.fromBufferAttribute(pos, 1); // now v contains coordinates of point [1]
-  console.log('point 1', v0, v1);
-
-  //create array of vectors
+  //create array of vectors - object points [Vector3, Vector3,...]
   const vectors: Array<Vector3> = [];
   for (let i = 0; i < 2; i++) {
     const v = new Vector3();
-    v.fromBufferAttribute(pos, i);
+    v.fromBufferAttribute(ptsPos, i);
     vectors.push(v);
   }
-  // const ptsCoords = pos.array;
 
-  //subvector(from 0)
-  // const z = new Vector3(0, 1, 0);
-  // const s = new Vector3();
-  //one side
-
-  //for every side
+  //side 1 and 2
+  //TODO automate
   const testPt_A = pointObjTemp([]);
-  const coords_A = new Float32Array(6);
+  const testPt_B = pointObjTemp([]);
+  const coords_A = new Float32Array(6); // 3 vertices per point [x, y, z, x1, y1, z1,...]
+  const coords_B = new Float32Array(6); // 3 vertices per point [x, y, z, x1, y1, z1,...]
+  const z = new Vector3(0, 1, 0); //vector z - from plane to top
   for (let j = 0; j < vectors.length; j++) {
-    const z = new Vector3(0, 1, 0);
     const s = new Vector3();
     const c = s.clone();
-    c.subVectors(vectors[0], vectors[1]).cross(z).normalize().multiplyScalar(offset);
-    c.add(vectors[j]);
-    // const testPt = pointObjTemp(c.toArray());
+    c.subVectors(vectors[0], vectors[1]) //subvector - between p1 and p2, pointing to beggining of line
+      .cross(z) //'perpendicular' vector to subvector and z
+      .normalize() //unit vector
+      .multiplyScalar(offset); //multiply by offset - extend unit by offset number
+    c.add(vectors[j]); //''move'' unit to the end of line
     coords_A.set(c.toArray(), j * 3);
-    // console.log('buffer coords', coords_A);
-    // obj.add(testPt);
-    // const position = Float32Array.from(newCoords);
   }
+  for (let j = 0; j < vectors.length; j++) {
+    const s = new Vector3();
+    const c = s.clone();
+    c.subVectors(vectors[0], vectors[1]) //subvector - between p1 and p2, pointing to beggining of line
+      .cross(z) //'perpendicular' vector to subvector and z
+      .normalize() //unit vector
+      .multiplyScalar(-offset); //multiply by offset - extend unit by offset number
+    c.add(vectors[j]); //''move'' unit to the end of line
+    coords_B.set(c.toArray(), j * 3);
+  }
+  //points
   testPt_A.geometry.setAttribute('position', new THREE.BufferAttribute(coords_A, 3));
-  //
+  testPt_B.geometry.setAttribute('position', new THREE.BufferAttribute(coords_B, 3));
+  //lines
   const testLn_A = new Line2(new LineGeometry(), getLineMat(0x1d5e9a, 4, true, 0.5));
   testLn_A.geometry.setPositions(coords_A);
-  //
-  mainObj.add(testPt_A);
-  mainObj.add(testLn_A);
-
-  // console.log(v0, s);
-
-  // const testPt = pointObjTemp(s.toArray());
-
-  //material temp
-  // obj.add(testPt);
-  // obj.add(newObj);
+  const testLn_B = new Line2(new LineGeometry(), getLineMat(0x1d5e9a, 4, true, 0.5));
+  testLn_B.geometry.setPositions(coords_B);
+  // //
+  subPt.add(testPt_A, testPt_B);
+  subPt.add(testLn_A, testLn_B);
+  mainObj.add(subPt);
 };
 
 // const getParallelLine = (obj: THREE.Object3D, offset = 10) => {

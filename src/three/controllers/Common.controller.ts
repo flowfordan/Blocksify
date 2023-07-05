@@ -49,7 +49,6 @@ export class CommonController {
         return this.cameraModel.currentCameraId;
       },
       (value, prevValue, reaction) => {
-        console.log('COMMON CONTROLLER REACTION', value);
         this.updateCamera(value);
       }
     );

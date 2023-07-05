@@ -95,7 +95,6 @@ class TagsManager {
 
   stopRender = () => {
     this.sceneModifier.removeObjs(...this.toolTags.lengths, ...this.toolTags.angles);
-    console.log(this.sceneModifier.scene.children);
     //objs cleanup
     // this.tagContainers = { lengths: [], angles: [] };
     // this.toolTags = { lengths: [], angles: [] };
