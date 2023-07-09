@@ -1,4 +1,4 @@
-import { Layer } from 'shared/types';
+import { ILayer } from 'shared/types';
 import { Vector3, Vector2 } from 'three';
 import { FXBuilder } from '../FXBuilder';
 import { ObjBuilder } from '../ObjBuilder';
@@ -22,7 +22,7 @@ export class _HandlerMain implements HandlerCommon {
   createObj = (
     type: 'line' | 'polygon',
     objCoords: Array<number>,
-    currentLayer: Layer,
+    currentLayer: ILayer,
     currentPointerCoords?: Vector3
   ) => {
     if (type === 'line') {

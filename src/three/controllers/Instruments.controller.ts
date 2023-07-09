@@ -3,7 +3,7 @@ import { Line } from '../tools/Line';
 import { Polygon } from '../tools/Polygon';
 import { Selector } from '../tools/Selector';
 import { Cleaner } from '../tools/Cleaner';
-import { Layer } from 'shared/types/layers';
+import { ILayer } from 'shared/types/layers';
 import type { Instrument, InstrumentsId } from 'shared/types';
 import { InstrumentsMediator } from 'three/mediators';
 import { autorun, reaction } from 'mobx';
@@ -61,7 +61,7 @@ export class InstrumentsController {
   //for 'top lvl instruments'
   //continous
   activateInstrumentCont = (
-    currentLayer: Layer,
+    currentLayer: ILayer,
     groundPlane: THREE.Plane,
     camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
   ) => {
@@ -100,7 +100,7 @@ export class InstrumentsController {
 
   startInstrCont = (
     instr: Instrument,
-    currentLayer: Layer,
+    currentLayer: ILayer,
     groundPlane: THREE.Plane,
     camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
   ) => {
@@ -150,7 +150,7 @@ export class InstrumentsController {
       () => this.layersModel.layers.find((l) => l.active),
       (layer, previousLayer, reaction) => {
         if (!layer || !previousLayer) return;
-        if (layer.id !== previousLayer.id) {
+        if (layer._id !== previousLayer._id) {
           const activeTool = this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous');
           if (!activeTool) return;
           this.mediator.toggleInstrumentActive(activeTool.id);

@@ -10,19 +10,19 @@ import { PanelDivision } from 'shared/ui';
 import { LayerItem } from 'entities/layer';
 import { ObjDataProp } from 'entities/sceneObj';
 import { IObjData_Joined, IsObjDataOfObjMain, IsPropIsPropData } from 'shared/types/objs';
-import type { Layer } from 'shared/types';
+import type { ILayer } from 'shared/types';
 import { CoordsPanel } from 'entities/scene';
 
 export const LeftBar = observer((): JSX.Element => {
-  const constructLayersList = (layersArr: Array<Layer>) => {
+  const constructLayersList = (layersArr: Array<ILayer>) => {
     return layersArr.map((l) => {
       return (
         <LayerItem
-          layerId={l.id}
-          name={l.name}
+          layerId={l._id}
+          name={l._name}
           isEmpty={l.empty}
           isBlocked={l.blocked}
-          key={l.id}
+          key={l._id}
           isActive={l.active}
           isVisible={l.visible}
         />

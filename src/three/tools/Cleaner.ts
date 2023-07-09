@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { instrumentsState } from '../../shared/model';
+// import { instrumentsState } from '../../shared/model';
 import { Disposer } from '../services/Disposer';
 import { Tool } from './Tool';
 /* 
@@ -43,10 +43,10 @@ export class Cleaner implements Tool {
 
   private endCleanUp = () => {
     console.log('END CLEANUP');
-    const cleaner = instrumentsState.tools.find((t) => t.name === 'cleaner');
-    if (cleaner) {
-      // instrumentsState.setActiveTool(cleaner.id);
-    }
+    // const cleaner = instrumentsState.tools.find((t) => t.name === 'cleaner');
+    // if (cleaner) {
+    //   // instrumentsState.setActiveTool(cleaner.id);
+    // }
   };
 
   stop = () => {};

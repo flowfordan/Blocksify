@@ -4,7 +4,7 @@ import * as THREE from 'three';
 
 import { getObjByPointer } from '../utils';
 import { Object3D } from 'three';
-import { Layer } from '../../shared/types/layers';
+import { ILayer } from '../../shared/types/layers';
 import { InstrumentsMediator } from 'three/mediators/InstrumentsMediator';
 import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
 
@@ -12,7 +12,7 @@ export class Selector {
   rect: DOMRect;
   canvas: HTMLCanvasElement;
   currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
-  currentLayer: Layer | null;
+  currentLayer: ILayer | null;
   _selectedObj: THREE.Object3D | null;
   _intersectedObj: THREE.Object3D | null;
   renderedObjs: {
@@ -73,7 +73,7 @@ export class Selector {
   }
 
   //startTool
-  start = (camera: THREE.PerspectiveCamera | THREE.OrthographicCamera, plane: THREE.Plane | null, layer: Layer) => {
+  start = (camera: THREE.PerspectiveCamera | THREE.OrthographicCamera, plane: THREE.Plane | null, layer: ILayer) => {
     this.currentCamera = camera;
     this.currentLayer = layer;
     //get current layer data
@@ -92,7 +92,7 @@ export class Selector {
       this.rect,
       this.canvas,
       this.currentCamera,
-      this.currentLayer.id
+      this.currentLayer._id
     );
     this.handlerFX.removeOverlayObj('temp');
     this.intersectedObj = null;

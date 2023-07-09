@@ -34,8 +34,8 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
       <div className={'topBar__main'}>
         <div className={'topBar__main--part'}>
           <SelectorInstr />
-          <DropDownDrawInstr content={<ToolMenu menuType="drawing" />} />
-          <DropDownHelpersInstr content={<ToolMenu menuType="helpers" />} contentClickType={'double'} />
+          <DropDownDrawInstr wrapped={<ToolMenu menuType="drawing" />} />
+          <DropDownHelpersInstr wrapped={<ToolMenu menuType="helpers" />} contentClickType={'double'} />
         </div>
 
         <div className={'topBar__main--part'}>
@@ -57,7 +57,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
       </div>
 
       <div className={'topBar__utils'}>
-        <DropDownSceneEnvOptions content={<EnvOptionsMenu />} contentClickType={'double'} />
+        <DropDownSceneEnvOptions wrapped={<EnvOptionsMenu />} contentClickType={'double'} />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { returnSvgNode } from 'shared/lib';
+// import { returnSvgNode } from 'shared/lib';
 import './layerItem.scss';
 import { LayerItemProps } from './LayerItem.prop';
 import { layersModel } from '../model/layersModel';

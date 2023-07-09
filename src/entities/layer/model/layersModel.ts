@@ -1,10 +1,10 @@
 import { makeAutoObservable } from 'mobx';
-import { Layer } from 'shared/types';
+import { ILayer } from 'shared/types';
 import { DefLayers } from '../config/layers';
 
 export class LayersModel {
-  layers: Array<Layer>;
-  currentLayer: Layer;
+  layers: Array<ILayer>;
+  currentLayer: ILayer;
 
   constructor() {
     this.layers = DefLayers;
@@ -12,7 +12,7 @@ export class LayersModel {
     makeAutoObservable(this);
   }
 
-  setCurrentLayer = (layer?: Layer) => {
+  setCurrentLayer = (layer?: ILayer) => {
     if (layer) {
       this.currentLayer = layer;
       return layer;
@@ -27,7 +27,7 @@ export class LayersModel {
 
   toggleActiveLayer = (num: number) => {
     //set new active
-    const newActive = this.layers.find((item) => item.id === num);
+    const newActive = this.layers.find((item) => item._id === num);
 
     if (newActive) {
       if (!newActive.editable) {
@@ -50,7 +50,7 @@ export class LayersModel {
   };
 
   setLayerVisibility = (layerId: number) => {
-    const idx = this.layers.findIndex((el) => el.id === layerId);
+    const idx = this.layers.findIndex((el) => el._id === layerId);
     if (idx > -1) {
       this.layers[idx].visible = !this.layers[idx].visible;
     }
@@ -58,16 +58,16 @@ export class LayersModel {
 
   //TODO case after Selector Delete
   setIsLayerEmpty = (isEmpty: boolean, id: number) => {
-    const layer = this.layers.find((l) => l.id === id);
+    const layer = this.layers.find((l) => l._id === id);
     if (layer) {
       layer.empty = isEmpty;
     }
   };
 
   setLayerObjectsNumber = (layerId: number, num: number) => {
-    const layer = this.layers.find((l) => l.id === layerId);
+    const layer = this.layers.find((l) => l._id === layerId);
     if (layer) {
-      layer.objectsQuantity = layer.objectsQuantity + num;
+      layer.objsQuantity = layer.objsQuantity + num;
     }
   };
 }

@@ -6,7 +6,7 @@ import { getMouseLocation } from '../utils';
 import { DrawingTool } from './DrawingTool';
 import { Vector3 } from 'three';
 import { SceneModifier } from 'three/services/SceneModifier';
-import { Layer } from 'shared/types/layers';
+import { ILayer } from 'shared/types/layers';
 import { InstrumentsHelpersModel } from 'three/shared';
 
 export class Line extends DrawingTool {
@@ -24,7 +24,7 @@ export class Line extends DrawingTool {
     this.lineSegments = 1;
   }
 
-  start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) => {
+  start = (camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: ILayer) => {
     super.start(camera, plane, layer);
     //start snap manager
     this.snapManager.start();

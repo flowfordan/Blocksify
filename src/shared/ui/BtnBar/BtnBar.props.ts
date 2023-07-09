@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react';
-import { AssetKey } from '../../config/assetsData';
+// import { AssetKey } from '../../config/assetsData';
 import { IconID } from 'shared/config';
 
 export interface BtnBarProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {

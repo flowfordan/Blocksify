@@ -1,5 +1,5 @@
 import { toJS } from 'mobx';
-import { Layer } from '../../shared/types/layers';
+import { ILayer } from '../../shared/types/layers';
 import { ICommonObjData, OBJ_GENERAL_TYPE } from 'shared/types/objs';
 
 export class PropsEditor {
@@ -41,7 +41,7 @@ export class PropsEditor {
 
   setObjInitProperties = (
     obj: THREE.Object3D<THREE.Event>,
-    objLayer: Layer,
+    objLayer: ILayer,
     objType: 'layer_joined' | 'part_main' | 'part_sub'
   ) => {
     if (objType === 'layer_joined') {

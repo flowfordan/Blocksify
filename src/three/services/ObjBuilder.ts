@@ -1,7 +1,7 @@
 import { PropsEditor } from './PropsEditor';
 import * as THREE from 'three';
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
-import { Layer } from '../../shared/types/layers';
+import { ILayer } from '../../shared/types/layers';
 import {
   I3dObjLine,
   getLineMat,
@@ -83,12 +83,12 @@ export class ObjBuilder {
     this.propsEditor = new PropsEditor();
   }
 
-  createLine = (objCoords: Array<number>, layer: Layer) => {
+  createLine = (objCoords: Array<number>, layer: ILayer) => {
     //main obj
-    if (!layer.content.main) {
+    if (!layer._contentConfig.OBJ_PRIM_PT) {
       throw new Error('Layer doesnt have options to enable drawing on it');
     }
-    this.objParts.line.mat = layer.content.main.mat.line;
+    this.objParts.line.mat = layer._contentConfig.OBJ_PRIM_PT._mat.line;
     this.objParts.line.geom = new LineGeometry();
     this.objParts.line.form = new Line2(this.objParts.line.geom, this.objParts.line.mat);
 
@@ -104,10 +104,10 @@ export class ObjBuilder {
     this.objCreated.add(this.objParts.line.form);
 
     //set layers data and name
-    this.objCreated.layers.set(layer.id);
-    this.objParts.line.form.layers.set(layer.id);
-    this.objParts.points.form.layers.set(layer.id);
-    this.objCreated.name = layer.name;
+    this.objCreated.layers.set(layer._id);
+    this.objParts.line.form.layers.set(layer._id);
+    this.objParts.points.form.layers.set(layer._id);
+    this.objCreated.name = layer._name;
     //obj data
     this.propsEditor.setObjInitProperties(this.objMain, layer, 'layer_joined');
     this.propsEditor.setObjInitProperties(this.objCreated, layer, 'part_main');
@@ -115,7 +115,7 @@ export class ObjBuilder {
     this.objMain.add(this.objCreated);
   };
 
-  createPolygon = (objCoords: Array<number>, layer: Layer, currentPointerCoord: THREE.Vector3) => {
+  createPolygon = (objCoords: Array<number>, layer: ILayer, currentPointerCoord: THREE.Vector3) => {
     //
     this.objParts.polygon.geom = new THREE.Shape();
     const shapeGeom = new THREE.ShapeGeometry(this.objParts.polygon.geom);
@@ -127,10 +127,10 @@ export class ObjBuilder {
     this.objParts.points.form = pointObj(objCoords);
 
     //LINE
-    if (!layer.content.main) {
+    if (!layer._contentConfig.OBJ_PRIM_PT) {
       throw new Error('Layer doesnt have options to enable drawing on it');
     }
-    this.objParts.line.mat = layer.content.main.mat.line;
+    this.objParts.line.mat = layer._contentConfig.OBJ_PRIM_PT._mat.line;
     this.objParts.line.geom = new LineGeometry();
     this.objParts.line.form = new Line2(this.objParts.line.geom, this.objParts.line.mat);
 
@@ -149,13 +149,13 @@ export class ObjBuilder {
 
     //
     //layers options set
-    this.objCreated.layers.set(layer.id);
-    this.objParts.line.form.layers.set(layer.id);
-    this.objParts.points.form.layers.set(layer.id);
-    this.objParts.polygon.form.layers.set(layer.id);
-    this.objCreated.name = layer.name;
+    this.objCreated.layers.set(layer._id);
+    this.objParts.line.form.layers.set(layer._id);
+    this.objParts.points.form.layers.set(layer._id);
+    this.objParts.polygon.form.layers.set(layer._id);
+    this.objCreated.name = layer._name;
 
-    this.objCreated.userData = { type: 'main', layerId: layer.id };
+    this.objCreated.userData = { type: 'main', layerId: layer._id };
   };
 
   updateLine = (type: 0 | 1, newCoords: Array<number>) => {

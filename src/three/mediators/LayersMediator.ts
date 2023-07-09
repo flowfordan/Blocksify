@@ -6,11 +6,11 @@ export class LayersMediator {
 
   _setIsLayerEmpty = (layerId: number) => {
     const model = mediatorsModel.layersModel;
-    const currentLayer = model.layers.find((l) => l.id === layerId);
+    const currentLayer = model.layers.find((l) => l._id === layerId);
     if (!currentLayer) {
       throw new Error('Cant find Layer');
     }
-    const layerObjsToRemain = currentLayer.objectsQuantity;
+    const layerObjsToRemain = currentLayer.objsQuantity;
     if (layerObjsToRemain < 1) {
       model.setIsLayerEmpty(true, layerId);
     } else {

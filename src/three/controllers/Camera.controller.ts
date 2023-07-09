@@ -32,12 +32,12 @@ export class CameraController {
       //this.controls.enableDamping = true;
       this.controls.enableRotate = false;
       //enable all existing layers
-      this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
+      this.layersModel.layers.forEach((i) => this.camera.layers.enable(i._id));
     } else {
       this.camera = camera(this.rendererController.renderer, 1);
       this.controls = new OrbitControls(this.camera, this.rendererController.activeElement);
       //enable all existing layers
-      this.layersModel.layers.forEach((i) => this.camera.layers.enable(i.id));
+      this.layersModel.layers.forEach((i) => this.camera.layers.enable(i._id));
     }
   };
 
@@ -52,15 +52,15 @@ export class CameraController {
     //ugly
     this.layersModel.layers.forEach((i) => {
       if (i.visible) {
-        this.camera.layers.enable(i.id);
+        this.camera.layers.enable(i._id);
       } else {
-        this.camera.layers.disable(i.id);
+        this.camera.layers.disable(i._id);
       }
     });
   };
 
   toggleLayerVisibility = (layerId: number) => {
-    const layer = this.layersModel.layers.find((l) => l.id === layerId);
+    const layer = this.layersModel.layers.find((l) => l._id === layerId);
     if (!layer) {
       throw new Error(
         `Trying to find layer to set visibility. 
@@ -68,9 +68,9 @@ export class CameraController {
       );
     }
     if (layer.visible) {
-      this.camera.layers.enable(layer.id);
+      this.camera.layers.enable(layer._id);
     } else {
-      this.camera.layers.disable(layer.id);
+      this.camera.layers.disable(layer._id);
     }
   };
 
@@ -102,7 +102,7 @@ export class CameraController {
         for (let i = 0; i < value.length; i++) {
           if (value[i] !== prevValue[i]) {
             const layer = this.layersModel.layers[i];
-            this.toggleLayerVisibility(layer.id);
+            this.toggleLayerVisibility(layer._id);
             break;
           }
         }

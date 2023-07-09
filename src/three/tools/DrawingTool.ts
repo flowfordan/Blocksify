@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { SnapManager } from '../helpers/SnapManager';
 import { TagsManager } from '../helpers/TagManager';
 import { SceneModifier } from 'three/services/SceneModifier';
-import { Layer } from 'shared/types/layers';
+import { ILayer } from 'shared/types/layers';
 import type { InstrumentsHelpersModel } from 'three/shared';
 import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
 
@@ -12,7 +12,7 @@ export class DrawingTool {
   toolState: number;
   canvas: HTMLCanvasElement;
   rect: DOMRect;
-  layer: Layer | null;
+  layer: ILayer | null;
 
   currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera | null;
   currentPlane: THREE.Plane | null;
@@ -48,7 +48,7 @@ export class DrawingTool {
   }
 
   //START METHOD
-  start(camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: Layer) {
+  start(camera: typeof this.currentCamera, plane: typeof this.currentPlane, layer: ILayer) {
     //set tool state
     //assign layer, camera and plane
     this.toolState = 1;
