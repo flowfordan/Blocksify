@@ -3,5 +3,14 @@ import { InstrumentsModel, InstrumentsHelpersModel } from 'entities/sceneInstrum
 import { SceneModel } from 'entities/scene';
 import { SceneEnvModel } from 'entities/sceneEnv';
 import { CameraModel } from 'entities/camera';
+import { GeneratorModel } from 'features/generator';
 
-export { LayersModel, InstrumentsModel, InstrumentsHelpersModel, SceneModel, SceneEnvModel, CameraModel };
+export {
+  LayersModel,
+  InstrumentsModel,
+  InstrumentsHelpersModel,
+  SceneModel,
+  SceneEnvModel,
+  CameraModel,
+  GeneratorModel,
+};

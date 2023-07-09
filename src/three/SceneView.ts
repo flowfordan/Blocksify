@@ -20,6 +20,7 @@ import type {
   SceneModel,
   SceneEnvModel,
   CameraModel,
+  GeneratorModel,
 } from './shared';
 
 export class SceneView {
@@ -33,6 +34,7 @@ export class SceneView {
   instrumentsController: InstrumentsController;
   layersController: LayersController;
   commonController: CommonController;
+  //generatorController: GeneratorController;
 
   groundPlane: THREE.Plane;
   //TODO remove any

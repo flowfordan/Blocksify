@@ -11,6 +11,7 @@ export class MediatorsModel {
     this.layersModel = layers;
     this.instrumentsModel = instruments;
     this.sceneModel = scene;
+    //generatorModel = new GeneratorModel(layersModel, instrumentsModel, sceneModel);
   }
 }
 

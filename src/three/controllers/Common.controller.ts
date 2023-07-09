@@ -9,6 +9,8 @@ import { CameraController } from './Camera.controller';
 import { InstrumentsController } from './Instruments.controller';
 import { LayersController } from './Layers.controller';
 
+/* Controller that is responsible for common actions like camera change, layers visibility, etc. */
+
 export class CommonController {
   cameraController: CameraController;
   instrumentsController: InstrumentsController;
