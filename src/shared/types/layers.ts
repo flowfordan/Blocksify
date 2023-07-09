@@ -19,21 +19,16 @@ interface LayerContentMaterials {
 }
 
 interface LayerContentItem {
-  id: number;
-  name: string;
-  descr: string;
-  stage: number;
-  mat: LayerContentMaterials;
+  _id: number;
+  _name: string;
+  _descr: string;
+  _stage: number;
+  _mat: LayerContentMaterials;
 }
 
-interface LayerContent {
-  //main - manual user created
-  //add - auto generated off user-created data
-  main: LayerContentItem | null;
-  add: {
-    rt: LayerContentItem | null;
-    auto: LayerContentItem | null;
-  };
+interface ILayerContentConfig {
+  [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: LayerContentItem | null;
+  [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: LayerContentItem | null;
 }
 
 interface PartsData {
@@ -41,16 +36,30 @@ interface PartsData {
   add: ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SECOND_PT>;
 }
 
-export interface Layer {
-  name: ILayerName;
-  id: LayerID; //three layers from 0 to 32
+//CREATION OBJS CONFIG
+interface ICreationConfig {
+  creationType: 'manual' | 'generation_on_add' | 'generation_manual_trigger' | null;
+  triggeredByLayerChange: LayerID | null;
+  generationTemplate: 'parallel' | 'block' | 'build' | null;
+}
+
+interface ILayerCreationConfig {
+  [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: ICreationConfig | null; //null - manual obj creation
+  [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: ICreationConfig | null;
+}
+
+export interface ILayer {
+  _name: ILayerName;
+  _id: LayerID; //three layers from 0 to 32
+  //_stageWhenActive: number; //stage when layer is active
   active: boolean;
   empty: boolean;
   editable: boolean;
   visible: boolean;
   blocked: boolean;
-  content: LayerContent;
-  objectsQuantity: number; //only main objects
+  objsQuantity: number; //only main objects
   objDefaultData: IObjDataProps[keyof IObjDataProps];
-  ptsData: PartsData;
+  ptsData: PartsData; //main & subpts obj data config
+  _creationObjsConfig: ILayerCreationConfig;
+  _contentConfig: ILayerContentConfig;
 }

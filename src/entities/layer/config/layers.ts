@@ -1,4 +1,4 @@
-import { Layer } from 'shared/types';
+import { ILayer } from 'shared/types';
 import { getLineMat, getPolygonMat } from 'three/config/objs3d';
 import { blocksObjPreset, borderObjPreset, buildingsObjPreset, streetsObjPreset } from './layerObjects';
 import { OBJ_GENERAL_TYPE } from 'shared/types/objs';
@@ -7,11 +7,11 @@ import { OBJ_GENERAL_TYPE } from 'shared/types/objs';
 //LAYER 2 - BORDER
 //main
 const borderMainContent = {
-  id: 0,
-  name: 'Border',
-  descr: 'Border or/and Zone inside Border ',
-  stage: 0,
-  mat: {
+  _id: 0,
+  _name: 'Border',
+  _descr: 'Border or/and Zone inside Border ',
+  _stage: 0,
+  _mat: {
     line: getLineMat(0x1d5e9a, 5, true),
     polygon: getPolygonMat(),
   },
@@ -20,11 +20,11 @@ const borderMainContent = {
 //LAYER 3 - STREETS
 //main
 const streetsMainContent = {
-  id: 0,
-  name: 'Street axis',
-  descr: 'Street axis',
-  stage: 0,
-  mat: {
+  _id: 0,
+  _name: 'Street axis',
+  _descr: 'Street axis',
+  _stage: 0,
+  _mat: {
     line: getLineMat(0x533931),
     polygon: getPolygonMat(),
   },
@@ -32,144 +32,183 @@ const streetsMainContent = {
 
 //add
 const streetsAddContent = {
-  rt: {
-    id: 0,
-    name: 'Street sides',
-    descr: 'Street sides',
-    stage: 0,
-    mat: {
-      line: getLineMat(0x533931),
-      polygon: getPolygonMat(),
-    },
-  },
-  auto: {
-    id: 1,
-    name: 'Street area',
-    descr: 'Street area - polygon (public territory)',
-    stage: 1,
-    mat: {
-      line: getLineMat(0x533931),
-      polygon: getPolygonMat(),
-    },
+  _id: 0,
+  _name: 'Street sides',
+  _descr: 'Street sides',
+  _stage: 0,
+  _mat: {
+    line: getLineMat(0x533931),
+    polygon: getPolygonMat(),
   },
 };
+// const streetsAddContent = {
+//   rt: {
+//     _id: 0,
+//     _name: 'Street sides',
+//     _descr: 'Street sides',
+//     _stage: 0,
+//     _mat: {
+//       line: getLineMat(0x533931),
+//       polygon: getPolygonMat(),
+//     },
+//   },
+//   auto: {
+//     _id: 1,
+//     _name: 'Street area',
+//     _descr: 'Street area - polygon (public territory)',
+//     _stage: 1,
+//     _mat: {
+//       line: getLineMat(0x533931),
+//       polygon: getPolygonMat(),
+//     },
+//   },
+// };
 
 //LAYER 4 - BLOCKS
 //main
 
 //add
 const blocksAddContent = {
-  rt: null,
-  auto: {
-    id: 1,
-    name: 'Block area',
-    descr: 'Block area territory',
-    stage: 1,
-    mat: {
-      line: getLineMat(0x533931),
-      polygon: getPolygonMat(),
-    },
+  _id: 1,
+  _name: 'Block area',
+  _descr: 'Block area territory',
+  _stage: 1,
+  _mat: {
+    line: getLineMat(0x533931),
+    polygon: getPolygonMat(),
   },
+  // rt: null,
+  // auto: {
+  //   _id: 1,
+  //   _name: 'Block area',
+  //   descr: 'Block area territory',
+  //   stage: 1,
+  //   mat: {
+  //     line: getLineMat(0x533931),
+  //     polygon: getPolygonMat(),
+  //   },
+  // },
 };
 
 //LAYER 5 - BUILDINGS
 //add
 const buildingsAddContent = {
-  rt: null,
-  auto: {
-    id: 1,
-    name: 'Building',
-    descr: 'Building volume',
-    stage: 1,
-    mat: {
-      line: getLineMat(0x533931),
-      polygon: getPolygonMat(),
-    },
+  _id: 1,
+  _name: 'Building',
+  _descr: 'Building volume',
+  _stage: 1,
+  _mat: {
+    line: getLineMat(0x533931),
+    polygon: getPolygonMat(),
   },
+  // rt: null,
+  // auto: {
+  //   _id: 1,
+  //   _name: 'Building',
+  //   descr: 'Building volume',
+  //   stage: 1,
+  //   mat: {
+  //     line: getLineMat(0x533931),
+  //     polygon: getPolygonMat(),
+  //   },
+  // },
 };
 
 //LAYERS
 //TODO: utility layer with
 //TODO: property utility: bool
 //guides and helpers options
-export const DefLayers: Array<Layer> = [
+export const DefLayers: Array<ILayer> = [
   {
-    name: 'Borders',
-    id: 2,
+    _name: 'Borders',
+    _id: 2,
     active: true,
     empty: true,
     editable: true,
     visible: true,
     blocked: false,
-    content: {
-      main: borderMainContent,
-      add: {
-        rt: null,
-        auto: null,
-      },
+    _contentConfig: {
+      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: borderMainContent,
+      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
     },
-    objectsQuantity: 0,
+    objsQuantity: 0,
     objDefaultData: borderObjPreset,
     ptsData: {
       main: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_PRIM_PT },
       add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
     },
+    _creationObjsConfig: {
+      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
+      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
+    },
   },
   {
-    name: 'Streets',
-    id: 3,
+    _name: 'Streets',
+    _id: 3,
     active: false,
     empty: true,
     editable: true,
     visible: true,
     blocked: false,
-    content: {
-      main: streetsMainContent,
-      add: streetsAddContent,
+    _contentConfig: {
+      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: streetsMainContent,
+      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: streetsAddContent,
     },
-    objectsQuantity: 0,
+    objsQuantity: 0,
     objDefaultData: streetsObjPreset,
     ptsData: {
       main: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_PRIM_PT },
       add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
     },
+    _creationObjsConfig: {
+      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
+      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
+    },
   },
   {
-    name: 'Blocks',
-    id: 4,
+    _name: 'Blocks',
+    _id: 4,
     active: false,
     empty: true,
     editable: false,
     visible: true,
     blocked: true,
-    content: {
-      main: null,
-      add: blocksAddContent,
+    _contentConfig: {
+      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
+      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: blocksAddContent,
     },
-    objectsQuantity: 0,
+    objsQuantity: 0,
     objDefaultData: blocksObjPreset,
     ptsData: {
       main: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_PRIM_PT },
       add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
     },
+    _creationObjsConfig: {
+      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
+      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
+    },
   },
   {
-    name: 'Buildings',
-    id: 5,
+    _name: 'Buildings',
+    _id: 5,
     active: false,
     empty: true,
     editable: false,
     visible: false,
     blocked: true,
-    content: {
-      main: null,
-      add: buildingsAddContent,
+    _contentConfig: {
+      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
+      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: buildingsAddContent,
     },
-    objectsQuantity: 0,
+    objsQuantity: 0,
     objDefaultData: buildingsObjPreset,
     ptsData: {
       main: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_PRIM_PT },
       add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
+    },
+    _creationObjsConfig: {
+      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
+      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
     },
   },
 ];

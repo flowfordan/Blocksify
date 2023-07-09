@@ -16,6 +16,7 @@ export class SceneObjsWatcher {
   onObjAdded = (obj: THREE.Object3D) => {
     if (IsObjDataOfObjMain(obj.userData)) {
       //trigger auto generation
+      //call generation service - obj add + obj data
       setParallelLine(obj);
       // obj.type === ''
       this._registerLayerObjsChange('add', obj.userData.layerId.value);
