@@ -70,6 +70,12 @@ export class LayersModel {
       layer.objsQuantity = layer.objsQuantity + num;
     }
   };
+
+  getLayerById = (layerId: number) => {
+    const layer = this.layers.find((l) => l._id === layerId);
+    if (!layer) return null;
+    return layer;
+  };
 }
 
 export const layersModel = new LayersModel();

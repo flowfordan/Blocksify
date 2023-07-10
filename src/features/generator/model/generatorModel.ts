@@ -1,10 +1,27 @@
 import { makeAutoObservable } from 'mobx';
-import { ILayer } from 'shared/types';
+import { ICreationConfig, ILayer, ILayerIDs, ObjCreationType, ObjGenerationTemplate } from 'shared/types';
 import { DefLayers } from '../config/layers';
 
+/* 
+Generator model 
+
+*/
+
+interface IGenerationTask {
+  creationType: ObjCreationType;
+  template: ObjGenerationTemplate;
+  inputObj: THREE.Object3D;
+  objLayerId: ILayerIDs;
+  // applyToLayerId: ILayerIDs;
+}
+
 export class GeneratorModel {
+  //current scene stage (from scene model)
+
   // layers: Array<ILayer>;
   // currentLayer: ILayer;
+  //current generation task
+  currentTask: IGenerationTask | null = null;
 
   constructor() {
     // this.layers = DefLayers;
@@ -12,7 +29,19 @@ export class GeneratorModel {
     makeAutoObservable(this);
   }
 
-  //
+  setCurrentTask = (config: ICreationConfig, obj: THREE.Object3D, objLayerId: ILayerIDs) => {
+    this.currentTask = {
+      creationType: config.creationType,
+      template: config.generationTemplate,
+      inputObj: obj,
+      objLayerId: objLayerId,
+      // applyToLayerId: config.applyToLayerId,
+    };
+  };
+
+  cleanTask = () => {
+    this.currentTask = null;
+  };
 }
 
 export const generatorModel = new GeneratorModel();

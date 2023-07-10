@@ -37,10 +37,12 @@ interface PartsData {
 }
 
 //CREATION OBJS CONFIG
-interface ICreationConfig {
-  creationType: 'manual' | 'generation_on_add' | 'generation_manual_trigger' | null;
+export type ObjCreationType = 'manual' | 'generation_on_add' | 'generation_manual_trigger' | null;
+export type ObjGenerationTemplate = 'parallel' | 'block' | 'build' | null;
+export interface ICreationConfig {
+  creationType: ObjCreationType;
   triggeredByLayerChange: LayerID | null;
-  generationTemplate: 'parallel' | 'block' | 'build' | null;
+  generationTemplate: ObjGenerationTemplate;
 }
 
 interface ILayerCreationConfig {

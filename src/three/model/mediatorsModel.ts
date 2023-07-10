@@ -1,18 +1,20 @@
-import type { InstrumentsModel, LayersModel, SceneModel } from 'three/shared';
+import type { InstrumentsModel, LayersModel, SceneModel, GeneratorModel } from 'three/shared';
 import { layersModel } from 'entities/layer';
 import { instrumentsModel } from 'entities/sceneInstrument';
 import { sceneModel } from 'entities/scene';
+import { generatorModel } from 'features/generator';
 
 export class MediatorsModel {
   layersModel: LayersModel;
   instrumentsModel: InstrumentsModel;
   sceneModel: SceneModel;
-  constructor(layers: LayersModel, instruments: InstrumentsModel, scene: SceneModel) {
+  generatorModel: GeneratorModel;
+  constructor(layers: LayersModel, instruments: InstrumentsModel, scene: SceneModel, generator: GeneratorModel) {
     this.layersModel = layers;
     this.instrumentsModel = instruments;
     this.sceneModel = scene;
-    //generatorModel = new GeneratorModel(layersModel, instrumentsModel, sceneModel);
+    this.generatorModel = generator;
   }
 }
 
-export const mediatorsModel = new MediatorsModel(layersModel, instrumentsModel, sceneModel);
+export const mediatorsModel = new MediatorsModel(layersModel, instrumentsModel, sceneModel, generatorModel);
