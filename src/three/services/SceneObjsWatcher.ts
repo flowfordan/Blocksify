@@ -3,12 +3,15 @@ import { IsObjDataOfObjMain } from 'shared/types/objs';
 import { SceneGetter } from './SceneGetter';
 import { myLine } from 'three/config/geometry/geometry';
 import { setParallelLine } from './getParallelLine';
+import { GeneratorMediator } from 'three/mediators/GeneratorMediator';
 
 export class SceneObjsWatcher {
   layersMediator: LayersMediator;
+  generatorMediator: GeneratorMediator;
   sceneGetter: SceneGetter;
   constructor() {
     this.layersMediator = new LayersMediator();
+    this.generatorMediator = new GeneratorMediator();
     //layersMediator
     this.sceneGetter = new SceneGetter();
   }
@@ -17,7 +20,8 @@ export class SceneObjsWatcher {
     if (IsObjDataOfObjMain(obj.userData)) {
       //trigger auto generation
       //call generation service - obj add + obj data
-      setParallelLine(obj);
+      // setParallelLine(obj);
+      this.generatorMediator.setGenerationTask(obj, obj.userData.layerId.value, 'add');
       // obj.type === ''
       this._registerLayerObjsChange('add', obj.userData.layerId.value);
     }

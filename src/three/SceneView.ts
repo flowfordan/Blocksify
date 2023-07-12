@@ -12,6 +12,7 @@ import {
   LayersController,
   SceneEnvController,
   CommonController,
+  GeneratorController,
 } from './controllers';
 import type {
   InstrumentsHelpersModel,
@@ -34,7 +35,7 @@ export class SceneView {
   instrumentsController: InstrumentsController;
   layersController: LayersController;
   commonController: CommonController;
-  //generatorController: GeneratorController;
+  generatorController: GeneratorController;
 
   groundPlane: THREE.Plane;
   //TODO remove any
@@ -47,7 +48,8 @@ export class SceneView {
     instrumentsHelpersModel: InstrumentsHelpersModel,
     sceneModel: SceneModel,
     sceneEnvModel: SceneEnvModel,
-    cameraModel: CameraModel
+    cameraModel: CameraModel,
+    generatorModel: GeneratorModel
   ) {
     this.groundPlane = worldPlane;
     //utility
@@ -76,6 +78,7 @@ export class SceneView {
       cameraModel,
       instrumentsModel
     );
+    this.generatorController = new GeneratorController(generatorModel);
 
     //STATS
     this.stats = Stats();

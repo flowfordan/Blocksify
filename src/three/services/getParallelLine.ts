@@ -16,7 +16,7 @@ const pointObjTemp = (coords: Array<number>) => {
   return point;
 };
 //set actual user data
-export const setParallelLine = (mainObj: THREE.Object3D, offset = 10) => {
+export const setParallelLine = async (mainObj: THREE.Object3D, offset = 10) => {
   //getting primary obj
   //children - find primary part
   const primPt = mainObj.children.find((o) => {
@@ -88,6 +88,8 @@ export const setParallelLine = (mainObj: THREE.Object3D, offset = 10) => {
   subPt.add(testPt_A, testPt_B);
   subPt.add(testLn_A, testLn_B);
   mainObj.add(subPt);
+
+  return true;
 };
 
 // const getParallelLine = (obj: THREE.Object3D, offset = 10) => {
