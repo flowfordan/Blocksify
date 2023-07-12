@@ -162,7 +162,11 @@ export const DefLayers: Array<ILayer> = [
     },
     _creationObjsConfig: {
       [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
-      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
+      [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: {
+        creationType: 'generation_on_add',
+        triggeredByLayerChange: null,
+        generationTemplate: 'parallel',
+      },
     },
   },
   {

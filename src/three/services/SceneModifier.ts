@@ -15,7 +15,7 @@ export class SceneModifier {
     //console.log('Scne Modifier: Obj Added', object);
     this.objWatcher.onObjAdded(object);
     this.scene.add(object);
-    console.log(this.scene.children);
+    // console.log(this.scene.children);
   };
 
   addObjs = (...objects: Array<THREE.Object3D>) => {

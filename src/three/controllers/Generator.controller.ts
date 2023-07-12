@@ -1,3 +1,4 @@
+import { generatorModel } from 'features/generator';
 import { reaction } from 'mobx';
 import { ILayerIDs, ObjGenerationTemplate } from 'shared/types';
 import { GeneratorService } from 'three/services/GeneratorService';
@@ -5,8 +6,10 @@ import { GeneratorModel } from 'three/shared';
 
 export class GeneratorController {
   generatorService: GeneratorService;
-  constructor(private generatorModel: GeneratorModel) {
+  generatorModel: GeneratorModel;
+  constructor(generatorModel: GeneratorModel) {
     this.generatorService = new GeneratorService();
+    this.generatorModel = generatorModel;
     this._storeSubscribe();
   }
 
@@ -24,6 +27,7 @@ export class GeneratorController {
       },
       (cur, prev) => {
         if (cur) {
+          console.log('reaction', cur.creationType);
           if (cur.creationType === 'generation_on_add')
             this.setOnAddGeneration(cur.inputObj, cur.objLayerId, cur.template);
         }

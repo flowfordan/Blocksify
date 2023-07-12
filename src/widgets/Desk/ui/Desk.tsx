@@ -9,6 +9,7 @@ import { sceneModel } from 'entities/scene';
 import './desk.scss';
 import { cameraModel } from 'entities/camera';
 import useResizeObserver from './useResizeObserver';
+import { generatorModel } from 'features/generator';
 
 export const Desk = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -39,7 +40,8 @@ export const Desk = () => {
           instrumentsHelpersModel,
           sceneModel,
           sceneEnvModel,
-          cameraModel
+          cameraModel,
+          generatorModel
         )
     );
   }, [isMounted]);

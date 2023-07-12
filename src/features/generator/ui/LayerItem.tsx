@@ -4,7 +4,7 @@ import cn from 'classnames';
 // import { returnSvgNode } from 'shared/lib';
 import './layerItem.scss';
 import { LayerItemProps } from './LayerItem.prop';
-import { layersModel } from '../model/generatorModel';
+import { layersModel } from 'entities/layer';
 import { Icon } from 'shared/ui';
 
 const LayerItem = ({ layerId, name, isEmpty, isActive, isVisible, isBlocked, ...props }: LayerItemProps) => {

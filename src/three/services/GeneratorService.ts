@@ -16,12 +16,13 @@ export class GeneratorService {
   //     return this.generator.generate();
   // }
 
-  createParallelLines(obj: THREE.Object3D) {
-    setParallelLine(obj).then((res) => {
-      if (res) {
-        this.generatorMediator.endTask();
-      }
-    });
+  async createParallelLines(obj: THREE.Object3D) {
+    // await setParallelLine(obj).then((res) => {
+    //   if (res) {
+    //     this.generatorMediator.endTask();
+    //   }
+    // });
+    setTimeout(() => setParallelLine(obj), 500);
   }
 
   //CHECK SELF
