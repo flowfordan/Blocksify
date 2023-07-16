@@ -104,6 +104,16 @@ export function IsObjDataOfObjPrimPt(objUD: Record<any, any>): objUD is ICommonO
   }
 }
 
+export function IsObjDataOfObjSecondaryPt(
+  objUD: Record<any, any>
+): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SECOND_PT> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_SECOND_PT) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export function IsObjDataOfObjLineSegment(
   objUD: Record<any, any>
 ): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SEGMENT_LINE> {

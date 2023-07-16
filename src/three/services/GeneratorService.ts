@@ -17,12 +17,6 @@ export class GeneratorService {
   // }
 
   createParallelLines(obj: THREE.Object3D, layerId: ILayerIDs) {
-    // await setParallelLine(obj).then((res) => {
-    //   if (res) {
-    //     this.generatorMediator.endTask();
-    //   }
-    // });
-    // setTimeout(() => setParallelLine(obj), 500);
     setParallelLine(obj, layerId);
   }
 

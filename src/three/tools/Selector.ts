@@ -7,6 +7,13 @@ import { Object3D } from 'three';
 import { ILayer } from '../../shared/types/layers';
 import { InstrumentsMediator } from 'three/mediators/InstrumentsMediator';
 import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
+import {
+  IsObjDataOfObjLineSegment,
+  IsObjDataOfObjMain,
+  IsObjDataOfObjPrimPt,
+  IsObjDataOfObjSecondaryPt,
+} from 'shared/types/objs';
+import { getObjPrimPtLine } from 'three/shared/lib/getChildrenByCondition';
 
 export class Selector {
   rect: DOMRect;
@@ -96,17 +103,31 @@ export class Selector {
     );
     this.handlerFX.removeOverlayObj('temp');
     this.intersectedObj = null;
-    console.log('intersected', obj);
-    if (obj) {
-      const parent = obj.parent;
-      if (parent instanceof Object3D) {
-        this.intersectedObj = parent;
-
-        const lineToRender = parent.children.find((i) => i instanceof Line2);
-        // this.renderedObjs.intersectedObj = lineToRender ? lineToRender.clone() : null;
-        this.handlerFX.createOverlayObj(lineToRender, 'temp');
-      }
+    console.log('intersected 1', obj);
+    if (!obj) return;
+    //case 1 - intersected main_obj
+    if (IsObjDataOfObjMain(obj.userData)) {
+      //
+      this.intersectedObj = obj;
+    } else if (IsObjDataOfObjPrimPt(obj.userData) || IsObjDataOfObjSecondaryPt(obj.userData)) {
+      //case 2 - intersected its part
+      //get parent
+      this.intersectedObj = obj.parent;
+    } else if (IsObjDataOfObjLineSegment(obj.userData)) {
+      //case 3 - subchildren, subparts
+      if (!obj.parent) return;
+      this.intersectedObj = obj.parent.parent;
     }
+    //intersected - is main obj
+    //render main_obj ->- children prim_pt -> line segment
+    console.log('intersected 2', this.intersectedObj);
+    if (!this.intersectedObj) return;
+    //get line segment of prim_pt
+    const lineToRender = getObjPrimPtLine(this.intersectedObj);
+    //const lineToRender = this.intersectedObj.children.find((i) => i instanceof Line2);
+    console.log('line to render', lineToRender);
+    // this.renderedObjs.intersectedObj = lineToRender ? lineToRender.clone() : null;
+    this.handlerFX.createOverlayObj(lineToRender, 'temp');
   };
 
   private _onClick = () => {
