@@ -15,7 +15,7 @@ export class GeneratorController {
 
   setOnAddGeneration(mainObj: THREE.Object3D, layerId: ILayerIDs, template: ObjGenerationTemplate) {
     if (template === 'parallel') {
-      this.generatorService.createParallelLines(mainObj);
+      this.generatorService.createParallelLines(mainObj, layerId);
     }
   }
 

@@ -1,9 +1,11 @@
 //clone and move
+import { ILayerIDs } from 'shared/types';
 import { IsObjDataOfObjLineSegment, IsObjDataOfObjPointSegment, IsObjDataOfObjPrimPt } from 'shared/types/objs';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
 import { getLineMat } from 'three/config/objs3d';
+import { setObjsLayers } from 'three/shared';
 
 const pointObjTemp = (coords: Array<number>) => {
   const position = Float32Array.from(coords);
@@ -16,7 +18,7 @@ const pointObjTemp = (coords: Array<number>) => {
   return point;
 };
 //set actual user data
-export const setParallelLine = (mainObj: THREE.Object3D, offset = 10) => {
+export const setParallelLine = (mainObj: THREE.Object3D, layerId: ILayerIDs, offset = 10) => {
   //getting primary obj
   //children - find primary part
   const primPt = mainObj.children.find((o) => {
@@ -87,6 +89,7 @@ export const setParallelLine = (mainObj: THREE.Object3D, offset = 10) => {
   // //
   subPt.add(testPt_A, testPt_B);
   subPt.add(testLn_A, testLn_B);
+  setObjsLayers(layerId, testPt_A, testPt_B, testLn_A, testLn_B);
   mainObj.add(subPt);
 
   return true;

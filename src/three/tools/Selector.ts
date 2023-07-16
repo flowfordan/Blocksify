@@ -96,6 +96,7 @@ export class Selector {
     );
     this.handlerFX.removeOverlayObj('temp');
     this.intersectedObj = null;
+    console.log('intersected', obj);
     if (obj) {
       const parent = obj.parent;
       if (parent instanceof Object3D) {
