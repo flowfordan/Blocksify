@@ -43,6 +43,7 @@ function getObjByPointer(
   const intersects = raycaster.intersectObjects(scene.children);
   if (intersects.length > 0) {
     const object = intersects[0].object;
+    console.log(raycaster.params, object);
     return object;
   }
   return;

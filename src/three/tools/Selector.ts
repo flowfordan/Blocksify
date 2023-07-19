@@ -103,7 +103,6 @@ export class Selector {
     );
     this.handlerFX.removeOverlayObj('temp');
     this.intersectedObj = null;
-    console.log('intersected 1', obj);
     if (!obj) return;
     //case 1 - intersected main_obj
     if (IsObjDataOfObjMain(obj.userData)) {
@@ -137,7 +136,7 @@ export class Selector {
     if (this.intersectedObj) {
       //set selected obj
       this.selectedObj = this.intersectedObj;
-      const lineToRender = this.selectedObj.children.find((i) => i instanceof Line2);
+      const lineToRender = getObjPrimPtLine(this.selectedObj);
       //line to render
       this.handlerFX.createOverlayObj(lineToRender, 'perm');
     }
