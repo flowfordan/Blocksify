@@ -65,7 +65,7 @@ export const DefInstruments: Array<Instrument> = [
 ];
 
 export const DefInstrumentsData: InstrumentsData = {
-  selector: { selectedObjData: '', intersectedObjData: '' },
+  selector: { selectedObjData: null, intersectedObjData: null },
   inspector: { currentObj: '' },
   editor: { currentData: '', newData: '' },
 };

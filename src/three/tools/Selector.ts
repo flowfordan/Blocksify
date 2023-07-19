@@ -63,7 +63,6 @@ export class Selector {
   }
 
   set selectedObj(obj: THREE.Object3D | null) {
-    console.log('SETTER of SELECTOR');
     this._selectedObj = obj;
     //notify state
     this.mediator.setSelectorSelectedObjData(obj);
@@ -119,12 +118,10 @@ export class Selector {
     }
     //intersected - is main obj
     //render main_obj ->- children prim_pt -> line segment
-    console.log('intersected 2', this.intersectedObj);
     if (!this.intersectedObj) return;
     //get line segment of prim_pt
     const lineToRender = getObjPrimPtLine(this.intersectedObj);
     //const lineToRender = this.intersectedObj.children.find((i) => i instanceof Line2);
-    console.log('line to render', lineToRender);
     // this.renderedObjs.intersectedObj = lineToRender ? lineToRender.clone() : null;
     this.handlerFX.createOverlayObj(lineToRender, 'temp');
   };
@@ -132,7 +129,6 @@ export class Selector {
   private _onClick = () => {
     this.handlerFX.removeOverlayObj('perm');
     this.selectedObj = null;
-    console.log('ON CLICK inters obj:', this.intersectedObj);
     if (this.intersectedObj) {
       //set selected obj
       this.selectedObj = this.intersectedObj;

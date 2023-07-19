@@ -2,10 +2,12 @@ import { DefInstrumentsData } from './../config/instruments';
 import { makeAutoObservable } from 'mobx';
 import { Instrument, InstrumentsData, InstrumentsId, LvlActiveInstrument } from 'shared/types';
 import { DefInstruments } from '../config/instruments';
+import { IObjDataProps } from 'shared/types/objs';
 export class InstrumentsModel {
   instruments: Array<Instrument>;
   instrumentsData: InstrumentsData;
   currentLvlInstrument: LvlActiveInstrument;
+  // currentInstrument: InstrumentsId | null;
   constructor() {
     this.instruments = DefInstruments;
     this.instrumentsData = DefInstrumentsData;
@@ -14,8 +16,16 @@ export class InstrumentsModel {
       middle: null,
       low: null,
     };
+    // this.currentInstrument = null;
 
     makeAutoObservable(this);
+  }
+
+  get currentInstrument() {
+    const activeInstr = this.instruments.find((el) => el.isActive);
+    if (activeInstr) {
+      return activeInstr;
+    } else return null;
   }
 
   toggleInstrumentActive = (instrId: InstrumentsId) => {
@@ -52,6 +62,18 @@ export class InstrumentsModel {
       return el.id === instrId;
     });
     return toolData ? toolData : null;
+  };
+
+  setInstrumentData = (
+    data: IObjDataProps[keyof IObjDataProps] | null,
+    instrumentId: InstrumentsId.SELECTOR,
+    type: 'int' | 'sel'
+  ) => {
+    if (type === 'int') {
+      this.instrumentsData[instrumentId].intersectedObjData = data;
+    } else {
+      this.instrumentsData[instrumentId].selectedObjData = data;
+    }
   };
 }
 

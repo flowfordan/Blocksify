@@ -1,3 +1,5 @@
+import { IObjDataProps } from './objs';
+
 export enum InstrumentsId {
   LINE = 'line',
   PLINE = 'pLine',
@@ -32,7 +34,10 @@ export interface Instrument {
 }
 
 export type InstrumentsData = {
-  [InstrumentsId.SELECTOR]: { selectedObjData: ''; intersectedObjData: '' };
+  [InstrumentsId.SELECTOR]: {
+    selectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+    intersectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+  };
   [InstrumentsId.INSPECTOR]: { currentObj: '' };
   [InstrumentsId.EDITOR]: { currentData: ''; newData: '' };
   ////...generator

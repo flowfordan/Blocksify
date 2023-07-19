@@ -10,7 +10,7 @@ import { PanelDivision } from 'shared/ui';
 import { LayerItem } from 'entities/layer';
 import { ObjDataProp } from 'entities/sceneObj';
 import { IObjData_Joined, IsObjDataOfObjMain, IsPropIsPropData } from 'shared/types/objs';
-import type { ILayer } from 'shared/types';
+import { InstrumentsId, type ILayer } from 'shared/types';
 import { CoordsPanel } from 'entities/scene';
 
 export const LeftBar = observer((): JSX.Element => {
@@ -31,20 +31,23 @@ export const LeftBar = observer((): JSX.Element => {
   };
 
   const constructSelectedObjData = () => {
-    const data = instrumentsModel.instrumentsData['selector'].selectedObjData;
-    if (data && IsObjDataOfObjMain(data)) {
+    const data =
+      instrumentsModel.instrumentsData['selector'].selectedObjData ||
+      instrumentsModel.instrumentsData['selector'].intersectedObjData;
+    const intData = instrumentsModel.instrumentsData['selector'].intersectedObjData;
+    if (data) {
       return (
         <>
-          {/* {Object.keys(data).map((key, idx) => {
+          {Object.keys(data).map((key, idx) => {
             const propValue = data[key as keyof typeof data];
             if (IsPropIsPropData(propValue) && propValue.pubTitle) {
               return <ObjDataProp key={key} propName={propValue.pubTitle} propValue={propValue.value} />;
             }
-          })} */}
+          })}
         </>
       );
     } else {
-      return <>Select object</>;
+      return <>...</>;
     }
   };
 
@@ -64,8 +67,10 @@ export const LeftBar = observer((): JSX.Element => {
       <PanelDivision header={'Layers'}>{constructLayersList(layersModel.layers)}</PanelDivision>
 
       <PanelDivision header={'Object Properties'}>
-        Content
-        {/* {instrumentsModel.currentTool?.name === 'selector' && constructSelectedObjData()} */}
+        {/* Content */}
+        {instrumentsModel.currentInstrument?.id === InstrumentsId.SELECTOR
+          ? constructSelectedObjData()
+          : 'Use Selector to select an object from the scene'}
       </PanelDivision>
 
       <PanelDivision>
