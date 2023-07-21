@@ -8,4 +8,5 @@ export interface SliderProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLI
   val: number;
   uiItemId?: number;
   onSliderChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  variant?: 'default' | 'dark';
 }

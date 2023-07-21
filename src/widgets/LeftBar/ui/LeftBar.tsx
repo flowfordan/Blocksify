@@ -42,7 +42,14 @@ export const LeftBar = observer((): JSX.Element => {
           {Object.keys(data).map((key, idx) => {
             const propValue = data[key as keyof typeof data];
             if (IsPropIsPropData(propValue) && propValue.pubTitle) {
-              return <ObjDataProp key={key} propName={propValue.pubTitle} propValue={propValue.value} />;
+              return (
+                <ObjDataProp
+                  key={key}
+                  propName={propValue.pubTitle}
+                  propValue={propValue.value}
+                  isEditable={propValue.editType === 'editable'}
+                />
+              );
             }
           })}
         </>

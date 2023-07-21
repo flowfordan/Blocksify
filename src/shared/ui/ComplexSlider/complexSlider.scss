@@ -27,4 +27,8 @@
   &__valName{
     grid-area: name;
   }
+
+  &--dark {
+    color: var(--grey-darkest);
+  }
 }

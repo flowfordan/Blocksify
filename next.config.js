@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const path = require('path');
 const nextConfig = {
   webpack: (config, options) => {
     if (config.resolve.plugins) {
@@ -31,6 +32,9 @@ const nextConfig = {
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
     return config;
+  },
+  sassOptions: {
+    loadPaths: [path.join(__dirname, 'styles/')],
   },
 };
 

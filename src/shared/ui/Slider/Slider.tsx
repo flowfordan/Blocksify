@@ -1,12 +1,13 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { SliderProps } from './Slider.props';
 import './slider.scss';
 
-const Slider = ({ minVal, maxVal, stepVal, val, onSliderChange, ...props }: SliderProps): JSX.Element => {
+const Slider = ({ minVal, maxVal, stepVal, val, onSliderChange, variant, ...props }: SliderProps): JSX.Element => {
   return (
     <input
-      className={'slider'}
+      className={cn('slider', { ['slider--dark']: variant === 'dark' })}
       type="range"
       min={minVal}
       max={maxVal}
