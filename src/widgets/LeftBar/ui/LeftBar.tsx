@@ -25,6 +25,7 @@ export const LeftBar = observer((): JSX.Element => {
           key={l._id}
           isActive={l.active}
           isVisible={l.visible}
+          numOfObjs={l.objsQuantity}
         />
       );
     });
