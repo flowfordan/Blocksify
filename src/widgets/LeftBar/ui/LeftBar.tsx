@@ -12,6 +12,7 @@ import { ObjDataProp } from 'entities/sceneObj';
 import { IObjData_Joined, IsObjDataOfObjMain, IsPropIsPropData } from 'shared/types/objs';
 import { InstrumentsId, type ILayer } from 'shared/types';
 import { CoordsPanel } from 'entities/scene';
+import { LAYERS_OBJ_CONTROLS } from 'shared/config';
 
 export const LeftBar = observer((): JSX.Element => {
   const constructLayersList = (layersArr: Array<ILayer>) => {
@@ -35,19 +36,25 @@ export const LeftBar = observer((): JSX.Element => {
     const data =
       instrumentsModel.instrumentsData['selector'].selectedObjData ||
       instrumentsModel.instrumentsData['selector'].intersectedObjData;
-    const intData = instrumentsModel.instrumentsData['selector'].intersectedObjData;
     if (data) {
       return (
         <>
           {Object.keys(data).map((key, idx) => {
             const propValue = data[key as keyof typeof data];
             if (IsPropIsPropData(propValue) && propValue.pubTitle) {
+              const layerId = data.layerId.value;
+              const controlsData = LAYERS_OBJ_CONTROLS[layerId];
+              // if (controlsData) {
+              //   controlsData[key as keyof typeof controlsData];
+              // }
               return (
                 <ObjDataProp
                   key={key}
+                  propId={key}
                   propName={propValue.pubTitle}
-                  propValue={propValue.value}
+                  propValue={propValue.value.toString()}
                   isEditable={propValue.editType === 'editable'}
+                  controls={controlsData}
                 />
               );
             }

@@ -13,6 +13,7 @@ export const ComplexSlider = ({
   uiItemId,
   valName,
   onSliderChange,
+  onSliderChanged,
   variant = 'default',
   ...props
 }: ComplexSliderProps) => {
@@ -33,6 +34,7 @@ export const ComplexSlider = ({
           stepVal={stepVal}
           val={val}
           onSliderChange={onSliderChange}
+          onSliderChanged={onSliderChanged}
           variant={variant}
         />
       </span>

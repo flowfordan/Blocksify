@@ -15,12 +15,12 @@
 import { ILayerIDs } from 'shared/types';
 import { SpecificObjDomainPropName } from 'shared/types/objs';
 
-type IObjLayerControls = {
-  [K in ILayerIDs]: IObjTypeControls | null;
+export type IObjTypeControls = {
+  [K in SpecificObjDomainPropName]?: IObjControlsData;
 };
 
-type IObjTypeControls = {
-  [K in SpecificObjDomainPropName]?: IObjControlsData;
+type IObjLayerControls = {
+  [K in ILayerIDs]: IObjTypeControls | null;
 };
 
 interface IObjControlsData {
