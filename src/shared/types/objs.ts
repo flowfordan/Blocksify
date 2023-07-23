@@ -61,16 +61,25 @@ interface IObjData_Common<L extends number> extends ICommonObjData<OBJ_GENERAL_T
   objName: IObjPropData<string>;
 }
 
-interface IObjData_Specifics {
-  objMaxFloors: IObjPropData<number>;
-  objMinFloors: IObjPropData<number>;
-  //
-  objLength: IObjPropData<number>;
-  objWidth: IObjPropData<number>;
-  objArea: IObjPropData<number>;
-  //
-  objFloors: IObjPropData<number>;
-}
+export type SpecificObjDomainPropName =
+  | 'objMaxFloors'
+  | 'objMinFloors'
+  | 'objLength'
+  | 'objWidth'
+  | 'objArea'
+  | 'objFloors';
+
+type IObjData_Specifics = {
+  [K in SpecificObjDomainPropName]: IObjPropData<number>;
+  // objMaxFloors: IObjPropData<number>;
+  // objMinFloors: IObjPropData<number>;
+  // //
+  // objLength: IObjPropData<number>;
+  // objWidth: IObjPropData<number>;
+  // objArea: IObjPropData<number>;
+  // //
+  // objFloors: IObjPropData<number>;
+};
 
 export type IObjData_Joined = IObjData_Common<number> & IObjData_Specifics;
 
