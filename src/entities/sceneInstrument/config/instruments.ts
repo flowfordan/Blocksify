@@ -50,7 +50,7 @@ export const DefInstruments: Array<Instrument> = [
     lvl: 'middle',
     type: 'other',
     activity: 'continous',
-    activeCursor: 'wait',
+    activeCursor: 'pointer',
   },
   {
     id: InstrumentsId.EDITOR,

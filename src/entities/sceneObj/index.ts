@@ -1,1 +1,1 @@
-export { ObjDataProp } from './ui/ObjDataProp';
+export { ObjDataProp } from './ui/inspector';

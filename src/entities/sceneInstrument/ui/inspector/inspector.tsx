@@ -1,12 +1,20 @@
 import React, { useRef, useState } from 'react';
-import { ObjDataPropProps } from './ObjDataProp.prop';
-import './objDataProp.scss';
+import { ObjDataPropProps } from './inspector.prop';
+import './inspector.scss';
 import { ComplexSlider } from 'shared/ui';
 
-const ObjDataProp = ({ propName = '_', propValue, isEditable, controls, propId, ...props }: ObjDataPropProps) => {
+export const InspectorInstr = ({
+  propName = '_',
+  propValue,
+  isEditable,
+  controls,
+  propId,
+  ...props
+}: ObjDataPropProps) => {
   const [slideVal, setSlideVal] = useState(propValue);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const controlsSpecs = controls ? controls[propId as keyof typeof controls] : null;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     timer.current && clearTimeout(timer.current);
     setSlideVal(e.target.value);
@@ -38,5 +46,3 @@ const ObjDataProp = ({ propName = '_', propValue, isEditable, controls, propId, 
     </div>
   );
 };
-
-export { ObjDataProp };

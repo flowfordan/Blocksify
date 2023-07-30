@@ -21,33 +21,33 @@ export class InstrumentsModel {
     makeAutoObservable(this);
   }
 
+  /*   top lvl instrument */
   get currentInstrument() {
-    const activeInstr = this.instruments.find((el) => el.isActive);
+    const activeInstr = this.instruments.find((el) => el.isActive && el.lvl === 'top');
     if (activeInstr) {
       return activeInstr;
     } else return null;
   }
 
   toggleInstrumentActive = (instrId: InstrumentsId) => {
+    debugger;
     const instr = this._getInstrument(instrId);
-    if (instr) {
-      //toggle one
-      instr.isActive = !instr.isActive;
-      //check all on the same lvl
-      if (instr.isActive) {
-        const lvl = instr.lvl;
-        //toggle instr same level
-        for (const i of this.instruments) {
-          if (i.lvl === lvl && i.isActive && i.id !== instrId) {
-            i.isActive = false;
-          }
+    if (!instr) return;
+    //toggle one
+    instr.isActive = !instr.isActive;
+    //check all on the same lvl
+    if (instr.isActive && instr.lvl === 'top') {
+      const lvl = instr.lvl;
+      //toggle instr same level
+      for (const i of this.instruments) {
+        if (i.lvl === lvl && i.isActive && i.id !== instrId) {
+          i.isActive = false;
         }
-      } else {
-        //deactivate all dependands
-        const dependand = instr.autoTriggerFor;
-        if (dependand) this.toggleInstrumentActive(dependand);
       }
     }
+    //deactivate all dependands
+    const dependand = instr.autoTriggerFor;
+    if (dependand) this.toggleInstrumentActive(dependand);
   };
 
   toggleInstrumentAvailable = (instrId: InstrumentsId) => {

@@ -5,10 +5,10 @@ import cn from 'classnames';
 
 import './leftBar.scss';
 import { layersModel } from 'entities/layer';
-import { instrumentsModel } from 'entities/sceneInstrument';
+import { instrumentsModel, InspectorInstr } from 'entities/sceneInstrument';
 import { PanelDivision } from 'shared/ui';
 import { LayerItem } from 'entities/layer';
-import { ObjDataProp } from 'entities/sceneObj';
+// import { ObjDataProp } from 'entities/sceneObj';
 import { IObjData_Joined, IsObjDataOfObjMain, IsPropIsPropData } from 'shared/types/objs';
 import { InstrumentsId, type ILayer } from 'shared/types';
 import { CoordsPanel } from 'entities/scene';
@@ -48,7 +48,7 @@ export const LeftBar = observer((): JSX.Element => {
               //   controlsData[key as keyof typeof controlsData];
               // }
               return (
-                <ObjDataProp
+                <InspectorInstr
                   key={key}
                   propId={key}
                   propName={propValue.pubTitle}
@@ -66,17 +66,6 @@ export const LeftBar = observer((): JSX.Element => {
     }
   };
 
-  const constructIntersectedObjData = () => {
-    // const data = instrumentsState.toolsData['selector'].intersectedObjData?[''];
-    const data = 55;
-    if (data) {
-      return <div>{data}</div>;
-    } else return <div>no data</div>;
-  };
-
-  //get properties list
-  //if public - render 2 columns - prop - value
-
   return (
     <div className={'leftBar'}>
       <PanelDivision header={'Layers'}>{constructLayersList(layersModel.layers)}</PanelDivision>
@@ -86,6 +75,9 @@ export const LeftBar = observer((): JSX.Element => {
         {instrumentsModel.currentInstrument?.id === InstrumentsId.SELECTOR
           ? constructSelectedObjData()
           : 'Use Selector to select an object from the scene'}
+        {instrumentsModel._getInstrument(InstrumentsId.INSPECTOR)?.isActive
+          ? 'Inspector active'
+          : 'Inspector not active'}
       </PanelDivision>
 
       <PanelDivision>

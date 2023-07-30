@@ -116,7 +116,9 @@ export class InstrumentsController {
 
   onExit = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
-      const activeTool = this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous');
+      const activeTool = this.instrumentsModel.instruments.find(
+        (i) => i.isActive && i.activity === 'continous' && i.lvl === 'top'
+      );
       if (activeTool) {
         this.mediator.toggleInstrumentActive(activeTool.id);
         window.removeEventListener('keydown', this.onExit);

@@ -37,6 +37,8 @@ export type InstrumentsData = {
   [InstrumentsId.SELECTOR]: {
     selectedObjData: IObjDataProps[keyof IObjDataProps] | null;
     intersectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+    //data to set - for selected obj
+    //prop name and prop value
   };
   [InstrumentsId.INSPECTOR]: { currentObj: '' };
   [InstrumentsId.EDITOR]: { currentData: ''; newData: '' };

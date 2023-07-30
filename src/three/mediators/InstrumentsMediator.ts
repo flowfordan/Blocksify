@@ -13,8 +13,7 @@ export class InstrumentsMediator {
 
   //continous only
   toggleInstrumentActive = (instrId: InstrumentsId) => {
-    const instrument = this.instrumentsModel._getInstrument(instrId);
-    if (instrument) instrument.isActive = !instrument.isActive;
+    this.instrumentsModel.toggleInstrumentActive(instrId);
   };
 
   setSelectorIntersectedObjData = (obj: THREE.Object3D | null) => {
