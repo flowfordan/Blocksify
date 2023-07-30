@@ -19,8 +19,8 @@ export class InstrumentsMediator {
   setSelectorIntersectedObjData = (obj: THREE.Object3D | null) => {
     if (obj) {
       if (!IsObjDataOfObjMain(obj.userData)) return;
-      this.instrumentsModel.setInstrumentData(obj.userData, InstrumentsId.SELECTOR, 'int');
-    } else this.instrumentsModel.setInstrumentData(null, InstrumentsId.SELECTOR, 'int');
+      this.instrumentsModel.setInstrumentData(obj.userData, InstrumentsId.INSPECTOR, 'int');
+    } else this.instrumentsModel.setInstrumentData(null, InstrumentsId.INSPECTOR, 'int');
     // if (obj && IsObjDataOfObjMain(obj.userData)) {
     //   this.instrumentsModel.updSelectorData(obj.userData, 'intersected');
     // } else if (this.instrumentsModel.toolsData['selector'].intersectedObjData) {
@@ -31,8 +31,8 @@ export class InstrumentsMediator {
   setSelectorSelectedObjData = (obj: THREE.Object3D | null) => {
     if (obj) {
       if (!IsObjDataOfObjMain(obj.userData)) return;
-      this.instrumentsModel.setInstrumentData(obj.userData, InstrumentsId.SELECTOR, 'sel');
-    } else this.instrumentsModel.setInstrumentData(null, InstrumentsId.SELECTOR, 'sel');
+      this.instrumentsModel.setInstrumentData(obj.userData, InstrumentsId.INSPECTOR, 'sel');
+    } else this.instrumentsModel.setInstrumentData(null, InstrumentsId.INSPECTOR, 'sel');
     // if (obj && IsObjDataOfObjMain(obj.userData)) {
     //   this.instrumentsModel.updSelectorData(obj.userData, 'selected');
     // } else if (this.instrumentsModel.toolsData['selector'].selectedObjData) {

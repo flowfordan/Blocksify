@@ -32,10 +32,10 @@ export const LeftBar = observer((): JSX.Element => {
     });
   };
 
-  const constructSelectedObjData = () => {
+  const constructInspectorData = () => {
     const data =
-      instrumentsModel.instrumentsData['selector'].selectedObjData ||
-      instrumentsModel.instrumentsData['selector'].intersectedObjData;
+      instrumentsModel.instrumentsData['inspector'].selectedObjData ||
+      instrumentsModel.instrumentsData['inspector'].intersectedObjData;
     if (data) {
       return (
         <>
@@ -73,16 +73,12 @@ export const LeftBar = observer((): JSX.Element => {
       <PanelDivision header={'Object Properties'}>
         {/* Content */}
         {instrumentsModel.currentInstrument?.id === InstrumentsId.SELECTOR
-          ? constructSelectedObjData()
+          ? constructInspectorData()
           : 'Use Selector to select an object from the scene'}
-        {instrumentsModel._getInstrument(InstrumentsId.INSPECTOR)?.isActive
-          ? 'Inspector active'
-          : 'Inspector not active'}
       </PanelDivision>
 
       <PanelDivision>
         <CoordsPanel />
-        {/* {instrumentsModel.currentTool?.name === 'selector' && constructIntersectedObjData()} */}
       </PanelDivision>
     </div>
   );

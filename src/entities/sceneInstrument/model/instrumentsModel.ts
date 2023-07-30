@@ -30,7 +30,6 @@ export class InstrumentsModel {
   }
 
   toggleInstrumentActive = (instrId: InstrumentsId) => {
-    debugger;
     const instr = this._getInstrument(instrId);
     if (!instr) return;
     //toggle one
@@ -66,7 +65,7 @@ export class InstrumentsModel {
 
   setInstrumentData = (
     data: IObjDataProps[keyof IObjDataProps] | null,
-    instrumentId: InstrumentsId.SELECTOR,
+    instrumentId: InstrumentsId.INSPECTOR,
     type: 'int' | 'sel'
   ) => {
     if (type === 'int') {

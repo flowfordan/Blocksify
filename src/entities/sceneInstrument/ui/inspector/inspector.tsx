@@ -38,6 +38,7 @@ export const InspectorInstr = ({
             onSliderChange={(e) => handleChange(e)}
             // onSliderChanged={(e) => handleChanged(e)}
             variant="dark"
+            disabled
           />
         ) : (
           propValue

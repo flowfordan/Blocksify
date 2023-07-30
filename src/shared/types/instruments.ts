@@ -33,14 +33,23 @@ export interface Instrument {
   autoTriggerFor?: InstrumentsId;
 }
 
+export interface INewObjDataToSet {
+  name: string;
+  value: string;
+}
+
 export type InstrumentsData = {
-  [InstrumentsId.SELECTOR]: {
+  // [InstrumentsId.SELECTOR]: {
+  //   selectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+  //   intersectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+  //   //data to set - for selected obj
+  //   //prop name and prop value
+  // };
+  [InstrumentsId.INSPECTOR]: {
     selectedObjData: IObjDataProps[keyof IObjDataProps] | null;
     intersectedObjData: IObjDataProps[keyof IObjDataProps] | null;
-    //data to set - for selected obj
-    //prop name and prop value
+    dataToSet: INewObjDataToSet | null;
   };
-  [InstrumentsId.INSPECTOR]: { currentObj: '' };
   [InstrumentsId.EDITOR]: { currentData: ''; newData: '' };
   ////...generator
 };

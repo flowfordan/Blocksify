@@ -15,6 +15,7 @@ export const ComplexSlider = ({
   onSliderChange,
   onSliderChanged,
   variant = 'default',
+  disabled,
   ...props
 }: ComplexSliderProps) => {
   //connect to state?
@@ -36,6 +37,7 @@ export const ComplexSlider = ({
           onSliderChange={onSliderChange}
           onSliderChanged={onSliderChanged}
           variant={variant}
+          disabled={disabled}
         />
       </span>
       {valName && <span className={'complexSlider__valName'}>{valName}</span>}

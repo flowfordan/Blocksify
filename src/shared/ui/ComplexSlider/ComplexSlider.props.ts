@@ -11,4 +11,5 @@ export interface ComplexSliderProps extends DetailedHTMLProps<HTMLAttributes<HTM
   onSliderChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSliderChanged?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
   variant?: 'default' | 'dark';
+  disabled?: boolean;
 }
