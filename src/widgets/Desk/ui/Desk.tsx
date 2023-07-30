@@ -14,35 +14,33 @@ import { generatorModel } from 'features/generator';
 export const Desk = () => {
   const [isMounted, setIsMounted] = useState(false);
   // const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
-  const [sceneView, setSceneView] = useState<SceneView | null>(null);
+  // const [sceneView, setSceneView] = useState<SceneView | null>(null);
   const canvasContainer = useRef<null | HTMLDivElement>(null);
+  const sceneViewRef = useRef<SceneView | null>(null);
 
   const onResize = useCallback(
     (target: HTMLCanvasElement, entry: ResizeObserverEntry) => {
       // Handle the resize event
-      if (sceneView) {
-        sceneView.onWindowResize(entry.contentRect.width, entry.contentRect.height);
+      if (sceneViewRef.current) {
+        sceneViewRef.current.onWindowResize(entry.contentRect.width, entry.contentRect.height);
       }
     },
-    [sceneView]
+    [sceneViewRef.current]
   );
   const canvasScene = useResizeObserver(onResize);
 
   useEffect(() => {
     const innerTreeRef = canvasScene.current;
     if (!innerTreeRef) return;
-    setSceneView(
-      (prev) =>
-        new SceneView(
-          innerTreeRef,
-          layersModel,
-          instrumentsModel,
-          instrumentsHelpersModel,
-          sceneModel,
-          sceneEnvModel,
-          cameraModel,
-          generatorModel
-        )
+    sceneViewRef.current = new SceneView(
+      innerTreeRef,
+      layersModel,
+      instrumentsModel,
+      instrumentsHelpersModel,
+      sceneModel,
+      sceneEnvModel,
+      cameraModel,
+      generatorModel
     );
   }, [isMounted]);
 
@@ -53,7 +51,14 @@ export const Desk = () => {
 
   return (
     <div ref={canvasContainer} className={'desk'}>
-      {isMounted && typeof window !== 'undefined' ? (
+      <canvas
+        ref={canvasScene}
+        className={'desk__canvasScene'}
+        id="canvasScene"
+        // width={canvasSize.width}
+        // height={canvasSize.height}
+      />
+      {/* {isMounted && typeof window !== 'undefined' ? (
         <canvas
           ref={canvasScene}
           className={'desk__canvasScene'}
@@ -63,7 +68,7 @@ export const Desk = () => {
         />
       ) : (
         'Canvas'
-      )}
+      )} */}
     </div>
   );
 };

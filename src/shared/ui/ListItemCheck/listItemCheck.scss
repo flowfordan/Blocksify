@@ -35,6 +35,11 @@
   &__content {
     grid-area: content;
   }
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }
 
 .listItemCheck_bold {

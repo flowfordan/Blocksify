@@ -16,6 +16,10 @@ export class InstrumentsMediator {
     this.instrumentsModel.toggleInstrumentActive(instrId);
   };
 
+  setInstrumentAvailable = (instrId: InstrumentsId, isAvailable = true) => {
+    this.instrumentsModel.setInstrumentsAvailable(instrId, isAvailable);
+  };
+
   setSelectorIntersectedObjData = (obj: THREE.Object3D | null) => {
     if (obj) {
       if (!IsObjDataOfObjMain(obj.userData)) return;

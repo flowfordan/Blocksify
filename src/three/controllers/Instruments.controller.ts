@@ -147,11 +147,26 @@ export class InstrumentsController {
       }
     );
 
-    //STOP TOOL IF LAYER SWAP WHILE TOOL ACTIVE
+    //LAYER SWAP REACTION
     reaction(
-      () => this.layersModel.layers.find((l) => l.active),
+      () => {
+        console.log('layer swap reaction');
+        return this.layersModel.layers.find((l) => l.active);
+      },
       (layer, previousLayer, reaction) => {
-        if (!layer || !previousLayer) return;
+        console.log('layer changed - Instr controller', layer?._id);
+        if (!layer) return;
+        //DISABLE TOOLS DEPENDING ON LAYER PROPERTIES
+        const disabledInstruments = layer._disabledInstruments;
+        //iterate instruments
+        this.instrumentsModel.instruments.forEach((i, idx) => {
+          if (i.lvl !== 'top') return;
+          if (disabledInstruments.includes(i.id)) {
+            this.mediator.setInstrumentAvailable(i.id, false);
+          } else this.mediator.setInstrumentAvailable(i.id, true);
+        });
+        //STOP TOOL WHEN LAYER CHANGED
+        if (!previousLayer) return;
         if (layer._id !== previousLayer._id) {
           const activeTool = this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous');
           if (!activeTool) return;

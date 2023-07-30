@@ -7,4 +7,5 @@ export interface ListItemCheckProps extends DetailedHTMLProps<HTMLAttributes<HTM
   title: string;
   isChecked: boolean;
   icon?: IconID;
+  disabled?: boolean;
 }

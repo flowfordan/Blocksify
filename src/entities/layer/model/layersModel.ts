@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { ILayer } from 'shared/types';
-import { DefLayers } from '../config/layers';
+import { DefLayers, InitLayer } from '../config/layers';
 
 export class LayersModel {
   layers: Array<ILayer>;
@@ -8,9 +8,15 @@ export class LayersModel {
 
   constructor() {
     this.layers = DefLayers;
-    this.currentLayer = this.setCurrentLayer();
+    this.currentLayer = InitLayer;
+    // this.init();
     makeAutoObservable(this);
   }
+
+  init = () => {
+    console.log('init layer 2');
+    this.toggleActiveLayer(2);
+  };
 
   setCurrentLayer = (layer?: ILayer) => {
     if (layer) {
@@ -19,7 +25,7 @@ export class LayersModel {
     } else {
       const activeLayer = this.layers.find((l) => l.active);
       if (!activeLayer) {
-        throw new Error('Among all layers there should be 1 ACTIVE!');
+        throw new Error('No active layers');
       }
       return activeLayer;
     }

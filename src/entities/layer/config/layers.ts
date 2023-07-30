@@ -1,4 +1,4 @@
-import { ILayer } from 'shared/types';
+import { ILayer, InstrumentsId } from 'shared/types';
 import { getLineMat, getPolygonMat } from 'three/config/objs3d';
 import { blocksObjPreset, borderObjPreset, buildingsObjPreset, streetsObjPreset } from './layerObjects';
 import { OBJ_GENERAL_TYPE } from 'shared/types/objs';
@@ -118,15 +118,40 @@ const buildingsAddContent = {
 //TODO: utility layer with
 //TODO: property utility: bool
 //guides and helpers options
+export const InitLayer: ILayer = {
+  _name: 'Init',
+  _id: 0,
+  active: false,
+  empty: true,
+  editable: false,
+  visible: false,
+  blocked: true,
+  _disabledInstruments: [],
+  _contentConfig: {
+    [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
+    [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
+  },
+  objsQuantity: 0,
+  objDefaultData: borderObjPreset,
+  ptsData: {
+    main: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_PRIM_PT },
+    add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
+  },
+  _creationObjsConfig: {
+    [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
+    [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
+  },
+};
 export const DefLayers: Array<ILayer> = [
   {
     _name: 'Borders',
     _id: 2,
-    active: true,
+    active: false,
     empty: true,
     editable: true,
     visible: true,
     blocked: false,
+    _disabledInstruments: [InstrumentsId.LINE, InstrumentsId.PLINE],
     _contentConfig: {
       [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: borderMainContent,
       [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
@@ -150,6 +175,7 @@ export const DefLayers: Array<ILayer> = [
     editable: true,
     visible: true,
     blocked: false,
+    _disabledInstruments: [InstrumentsId.POLYGON],
     _contentConfig: {
       [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: streetsMainContent,
       [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: streetsAddContent,
@@ -177,6 +203,7 @@ export const DefLayers: Array<ILayer> = [
     editable: false,
     visible: true,
     blocked: true,
+    _disabledInstruments: [],
     _contentConfig: {
       [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
       [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: blocksAddContent,
@@ -200,6 +227,7 @@ export const DefLayers: Array<ILayer> = [
     editable: false,
     visible: false,
     blocked: true,
+    _disabledInstruments: [],
     _contentConfig: {
       [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
       [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: buildingsAddContent,

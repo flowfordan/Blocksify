@@ -6,11 +6,19 @@ import './listItemCheck.scss';
 
 import { Icon } from '../Icon/Icon';
 
-export const ListItemCheck = ({ title, isChecked, icon, children, ...props }: ListItemCheckProps): JSX.Element => {
+export const ListItemCheck = ({
+  title,
+  isChecked,
+  icon,
+  children,
+  disabled,
+  ...props
+}: ListItemCheckProps): JSX.Element => {
   return (
     <div
       className={cn('listItemCheck', {
         ['listItemCheck_bold']: !icon,
+        ['listItemCheck--disabled']: disabled,
       })}
       {...props}
     >

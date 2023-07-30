@@ -31,7 +31,8 @@ export const DrawInstrItem = observer(({ instrId }: DrawInstrItemProps) => {
       title={toolData.title}
       isChecked={toolData.isActive}
       icon={getIconData()}
-      onClick={() => onItemClick()}
+      disabled={!toolData.isAvailable}
+      onClick={toolData.isAvailable ? () => onItemClick() : () => {}}
     />
   );
 });

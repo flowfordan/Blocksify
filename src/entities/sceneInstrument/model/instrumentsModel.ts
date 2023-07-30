@@ -56,6 +56,12 @@ export class InstrumentsModel {
     }
   };
 
+  setInstrumentsAvailable = (instrId: InstrumentsId, isAvailable = true) => {
+    const instr = this._getInstrument(instrId);
+    if (!instr) return;
+    instr.isAvailable = isAvailable || false;
+  };
+
   _getInstrument = (instrId: InstrumentsId) => {
     const toolData = this.instruments.find((el) => {
       return el.id === instrId;

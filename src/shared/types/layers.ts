@@ -1,7 +1,9 @@
 import { LineMaterial } from 'three-fatline';
 import { ICommonObjData, IObjDataProps, OBJ_GENERAL_TYPE } from './objs';
+import { InstrumentsId } from './instruments';
 
 export enum ILayerIDs {
+  init = 0,
   borders = 2,
   streets = 3,
   blocks = 4,
@@ -59,6 +61,8 @@ export interface ILayer {
   editable: boolean;
   visible: boolean;
   blocked: boolean;
+  /**   Available instruments when Layer is Active */
+  _disabledInstruments: Array<InstrumentsId>;
   objsQuantity: number; //only main objects
   objDefaultData: IObjDataProps[keyof IObjDataProps];
   ptsData: PartsData; //main & subpts obj data config

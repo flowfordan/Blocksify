@@ -4,6 +4,10 @@ export class LayersMediator {
     //
   }
 
+  toggleLayerActive = (layerId: number) => {
+    mediatorsModel.layersModel.toggleActiveLayer(layerId);
+  };
+
   _setIsLayerEmpty = (layerId: number) => {
     const model = mediatorsModel.layersModel;
     const currentLayer = model.layers.find((l) => l._id === layerId);

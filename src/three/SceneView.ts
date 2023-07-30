@@ -23,6 +23,12 @@ import type {
   CameraModel,
   GeneratorModel,
 } from './shared';
+// import { sceneModel } from 'entities/scene';
+// import { cameraModel } from 'entities/camera';
+// import { layersModel } from 'entities/layer';
+// import { sceneEnvModel } from 'entities/sceneEnv';
+// import { instrumentsModel, instrumentsHelpersModel } from 'entities/sceneInstrument';
+// import { generatorModel } from 'features/generator';
 
 export class SceneView {
   //utility controllers
@@ -93,6 +99,11 @@ export class SceneView {
       this.cameraController.camera,
       this.groundPlane
     );
+    this.initLayers();
+  }
+
+  initLayers() {
+    this.layersController.init();
   }
 
   onWindowResize(vpW: number, vpH: number) {

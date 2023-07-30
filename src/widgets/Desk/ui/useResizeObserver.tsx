@@ -20,6 +20,8 @@ function useResizeObserver<T extends HTMLElement>(callback: (target: T, entry: R
     };
   }, [callback, ref]);
 
+  console.log('inside resize observer', ref);
+
   return ref;
 }
 
