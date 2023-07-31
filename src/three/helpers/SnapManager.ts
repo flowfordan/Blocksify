@@ -100,25 +100,17 @@ export class SnapManager {
 
     const gridSize = grid.options.value;
 
-    const adjustVal = (coord: number, gridSize: number): number => {
-      let newCoord = 0;
-      //case when size<1
-      //TODO not 2 but value of 1/size
+    const getCoordByOriginAndGridSize = (coord: number, gridSize: number): number => {
       if (gridSize < 1) {
-        newCoord = Math.round(coord * 2) / 2;
-      } else {
-        newCoord = Math.round(coord / gridSize) * gridSize;
-      }
-      return newCoord;
+        return Math.round(coord * 2) / 2;
+      } else return Math.round(coord / gridSize) * gridSize;
     };
 
-    newCoords.x = adjustVal(newCoords.x, gridSize);
-    newCoords.z = adjustVal(newCoords.z, gridSize);
-
-    const distanceToCurrent = pointerCoords.distanceTo(newCoords);
+    newCoords.x = getCoordByOriginAndGridSize(newCoords.x, gridSize);
+    newCoords.z = getCoordByOriginAndGridSize(newCoords.z, gridSize);
 
     this.snapStatuses.snap_grid.snappedCoords = newCoords;
-    this.snapStatuses.snap_grid.distToOrigin = distanceToCurrent;
+    this.snapStatuses.snap_grid.distToOrigin = pointerCoords.distanceTo(newCoords);
     return;
   };
 
