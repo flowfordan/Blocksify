@@ -109,8 +109,8 @@ export class ObjBuilder {
     this.objParts.points.form.layers.set(layer._id);
     this.objCreated.name = layer._name;
     //obj data
-    this.propsEditor.setObjInitProperties(this.objMain, layer, 'layer_joined');
-    this.propsEditor.setObjInitProperties(this.objCreated, layer, 'part_main');
+    this.propsEditor.setObjInitProperties(this.objMain, layer, 'main');
+    this.propsEditor.setObjInitProperties(this.objCreated, layer, 'pt_prim');
     //add child to main
     this.objMain.add(this.objCreated);
   };

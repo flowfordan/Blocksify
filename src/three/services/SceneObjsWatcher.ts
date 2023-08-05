@@ -4,16 +4,19 @@ import { SceneGetter } from './SceneGetter';
 import { myLine } from 'three/config/geometry/geometry';
 import { setParallelLine } from './getParallelLine';
 import { GeneratorMediator } from 'three/mediators/GeneratorMediator';
+import { PropsEditor } from './PropsEditor';
 
 export class SceneObjsWatcher {
   layersMediator: LayersMediator;
   generatorMediator: GeneratorMediator;
   sceneGetter: SceneGetter;
+  propsEditor: PropsEditor;
   constructor() {
     this.layersMediator = new LayersMediator();
     this.generatorMediator = new GeneratorMediator();
     //layersMediator
     this.sceneGetter = new SceneGetter();
+    this.propsEditor = new PropsEditor();
   }
 
   onObjAdded = (obj: THREE.Object3D) => {
@@ -23,6 +26,7 @@ export class SceneObjsWatcher {
       this.generatorMediator.setGenerationTask(obj, obj.userData.layerId.value, 'add');
       // obj.type === ''
       this._registerLayerObjsChange('add', obj.userData.layerId.value);
+      this._onUpdCalculatedProps(obj, obj.userData.layerId.value);
     }
   };
 
@@ -32,6 +36,7 @@ export class SceneObjsWatcher {
     }
   };
 
+  //reaction on user input prop change
   onObjPropChanged = (obj: THREE.Object3D) => {
     console.log('PROP CHANGED:', obj);
   };
@@ -39,5 +44,12 @@ export class SceneObjsWatcher {
   private _registerLayerObjsChange = (operation: 'add' | 'remove', layerId: number) => {
     const multiplier = operation === 'add' ? 1 : -1;
     this.layersMediator.updLayerObjsCount(multiplier, layerId);
+    if (operation === 'add') {
+      //calc auto props
+    }
+  };
+
+  private _onUpdCalculatedProps = (obj: THREE.Object3D, layerId: number) => {
+    this.propsEditor.updObjAutoProps(obj, layerId);
   };
 }

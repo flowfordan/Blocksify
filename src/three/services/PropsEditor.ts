@@ -1,6 +1,15 @@
 import { toJS } from 'mobx';
 import { ILayer } from '../../shared/types/layers';
-import { ICommonObjData, OBJ_GENERAL_TYPE } from 'shared/types/objs';
+import {
+  ICommonObjData,
+  IsObjDataOfObjLineSegment,
+  IsObjDataOfObjMain,
+  IsObjDataOfObjPrimPt,
+  OBJ_GENERAL_TYPE,
+  SpecificObjDomainPropName,
+} from 'shared/types/objs';
+import { Line2 } from 'three-fatline';
+import { Vector3 } from 'three';
 
 export class PropsEditor {
   constructor() {
@@ -39,20 +48,78 @@ export class PropsEditor {
     }
   };
 
+  //setting properties to obj on creation
   setObjInitProperties = (
     obj: THREE.Object3D<THREE.Event>,
     objLayer: ILayer,
-    objType: 'layer_joined' | 'part_main' | 'part_sub'
+    objType: 'main' | 'pt_prim' | 'pt_second'
   ) => {
-    if (objType === 'layer_joined') {
+    if (objType === 'main') {
       const propertiesToSet = toJS(objLayer.objDefaultData);
       obj.userData = Object.assign(propertiesToSet);
-    } else if (objType === 'part_main') {
+      obj.name = propertiesToSet.objName.value;
+    } else if (objType === 'pt_prim') {
       const propertiesToSet = toJS(objLayer.ptsData.main);
       obj.userData = Object.assign(propertiesToSet);
-    } else if (objType === 'part_sub') {
+    } else if (objType === 'pt_second') {
       const propertiesToSet = toJS(objLayer.ptsData.add);
       obj.userData = Object.assign(propertiesToSet);
     }
+  };
+
+  //update auto calculated props
+  updObjAutoProps = (obj: THREE.Object3D<THREE.Event>, layerId: number) => {
+    //we get main obj
+    const mainData = obj.userData;
+    if (!IsObjDataOfObjMain(mainData)) return;
+    //iterate its peoperties, find calculated
+    for (const propKey in mainData) {
+      //
+      const propValue = mainData[propKey as keyof typeof mainData];
+      if (typeof propValue === 'object') {
+        if (propValue.editType === 'calculated') {
+          //calculate depend on propKey
+          //TODO calc several calculated props
+          const dist = this._tempCalcObjPhysProp(obj, propKey);
+          if (dist) propValue.value = dist;
+          break;
+        }
+      }
+    }
+    //need to get prim_pt
+    //check layer, find props that can be auto calculated
+    //change props
+  };
+
+  //returns number now (length or area)
+  private _tempCalcObjPhysProp = (obj: THREE.Object3D<THREE.Event>, label: string) => {
+    //find children 1 - prim pt
+    for (let i = 0; i < obj.children.length; i++) {
+      if (IsObjDataOfObjPrimPt(obj.children[i].userData)) {
+        const primPt = obj.children[i];
+        for (let j = 0; j < primPt.children.length; j++) {
+          //check if need to find line or polygon
+          if (label === 'objArea') {
+            //
+          } else if (label === 'objLength') {
+            if (IsObjDataOfObjLineSegment(primPt.children[j].userData)) {
+              const line = primPt.children[j] as Line2;
+              line.computeLineDistances();
+              // eslint-disable-next-line prettier/prettier
+              let dist = 0;
+              const coords = line.geometry.attributes.instanceStart.array;
+              for (let k = 0; k < coords.length; k += 6) {
+                const start = new Vector3(coords[k], 0, coords[k + 2]);
+                const end = new Vector3(coords[k + 3], 0, coords[k + 5]);
+                const delta = start.distanceTo(end);
+                dist += delta;
+              }
+              return dist;
+            }
+          }
+        }
+      }
+    }
+    //find key obj in pt - line or polygon segment depending on label
   };
 }
