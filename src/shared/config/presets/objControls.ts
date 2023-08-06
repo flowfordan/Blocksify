@@ -33,6 +33,7 @@ interface IObjControlsData {
 }
 
 export const LAYERS_OBJ_CONTROLS: IObjLayerControls = {
+  '0': null,
   '2': null,
   '3': {
     objWidth: {

@@ -1,7 +1,5 @@
 import { makeAutoObservable } from 'mobx';
 import { ICreationConfig, ILayer, ILayerIDs, ObjCreationType, ObjGenerationTemplate } from 'shared/types';
-import { DefLayers } from '../config/layers';
-
 /* 
 Generator model 
 
