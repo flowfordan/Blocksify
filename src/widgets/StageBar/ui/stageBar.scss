@@ -1,0 +1,10 @@
+.stageBar {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.stageBar__bar {
+  height: 50px;
+  width: 150px;
+  background-color: var(--grey-light);
+}

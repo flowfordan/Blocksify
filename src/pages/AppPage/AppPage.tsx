@@ -4,6 +4,7 @@ import { Desk } from 'widgets/Desk';
 import { LeftBar } from 'widgets/LeftBar';
 import { RightBar } from 'widgets/RightBar';
 import { TopBar } from 'widgets/TopBar';
+import { StageBar } from 'widgets/StageBar';
 
 import './appPage.scss';
 import dynamic from 'next/dynamic';
@@ -29,6 +30,7 @@ export const AppPage = observer(() => {
           <div className={`appPage__rightBar`}>
             <RightBar />
           </div>
+          <StageBar className={'appPage__stageBar'} />
         </>
       ) : (
         <></>
