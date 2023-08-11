@@ -1,10 +1,37 @@
+@use 'styles/' as *;
+
 .stageBar {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.stageBar__btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 2px;
+  background-color: $bg_black;
+  color: $main_white;
+  &:hover {
+    background-color: $bg_black-hover;
+  }
 }
 
 .stageBar__bar {
-  height: 50px;
-  width: 150px;
-  background-color: var(--grey-light);
+  visibility: hidden;
+  height: 100%;
+  width: 0;
+  opacity: 0;
+  background-color: $bg_black;
+  border-radius: 2px;
+  margin-left: 20px;
+  // transform: scaleX(0);
+  transition: width .6s;
+  &--active {
+    visibility: visible;
+    width: 450px;
+    opacity: 1;
+    transition: width .6s;
+    // transform: scaleX(1);
+  }
 }
