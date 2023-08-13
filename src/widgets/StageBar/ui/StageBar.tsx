@@ -6,6 +6,7 @@ import { Card, Division } from 'shared/ui';
 import { Instrument, InstrumentHelper } from 'shared/types';
 import './stageBar.scss';
 import cn from 'classnames';
+import { Stages } from 'features/stage';
 
 export const StageBar = observer(({ className }: StageBarProps) => {
   const [isBarVisible, setIsBarVisible] = useState(true);
@@ -22,7 +23,8 @@ export const StageBar = observer(({ className }: StageBarProps) => {
           ['stageBar__bar--active']: isBarVisible,
         })}
       >
-        Bar
+        <span className="stageBar__bar__tail"></span>
+        <Stages />
       </span>
     </div>
   );
