@@ -27,6 +27,7 @@ interface I3dObjPolygon_temp {
 }
 
 export class ObjBuilder {
+  /** main created obj */
   objMain: THREE.Object3D;
   //
   //current created object
@@ -84,7 +85,7 @@ export class ObjBuilder {
   }
 
   createLine = (objCoords: Array<number>, layer: ILayer) => {
-    //main obj
+    //prim obj pt
     if (!layer._contentConfig.OBJ_PRIM_PT) {
       throw new Error('Layer doesnt have options to enable drawing on it');
     }
@@ -116,13 +117,15 @@ export class ObjBuilder {
   };
 
   createPolygon = (objCoords: Array<number>, layer: ILayer, currentPointerCoord: THREE.Vector3) => {
-    //
+    //prim obj pt
+    //POLYGON
     this.objParts.polygon.geom = new THREE.Shape();
     const shapeGeom = new THREE.ShapeGeometry(this.objParts.polygon.geom);
     this.objParts.polygon.form = new THREE.Mesh(shapeGeom, this.objParts.polygon.mat);
     //rotate(by def created on x-z plane)
     this.objParts.polygon.form.rotateX(Math.PI / 2);
     this.objParts.polygon.geom.moveTo(currentPointerCoord.x, currentPointerCoord.z);
+
     //POINTS
     this.objParts.points.form = pointObj(objCoords);
 
@@ -134,7 +137,7 @@ export class ObjBuilder {
     this.objParts.line.geom = new LineGeometry();
     this.objParts.line.form = new Line2(this.objParts.line.geom, this.objParts.line.mat);
 
-    //set names
+    //set prim pt segmants data
     this.propsEditor.setSegmentInitProperties(this.objParts.line.form, 'line');
     this.propsEditor.setSegmentInitProperties(this.objParts.points.form, 'point');
     this.propsEditor.setSegmentInitProperties(this.objParts.polygon.form, 'polygon');
@@ -142,12 +145,11 @@ export class ObjBuilder {
     // this.objParts.points.form.name = OBJ_SEGMENT_NAME.point_segment;
     // this.objParts.polygon.form.name = OBJ_SEGMENT_NAME.polygon_segment;
 
-    //OBJ CREATED
+    //add segmants to prim pt obj
     this.objCreated.add(this.objParts.points.form);
     this.objCreated.add(this.objParts.line.form);
     this.objCreated.add(this.objParts.polygon.form);
 
-    //
     //layers options set
     this.objCreated.layers.set(layer._id);
     this.objParts.line.form.layers.set(layer._id);
@@ -155,7 +157,12 @@ export class ObjBuilder {
     this.objParts.polygon.form.layers.set(layer._id);
     this.objCreated.name = layer._name;
 
-    this.objCreated.userData = { type: 'main', layerId: layer._id };
+    //set properties
+    this.propsEditor.setObjInitProperties(this.objMain, layer, 'main');
+    this.propsEditor.setObjInitProperties(this.objCreated, layer, 'pt_prim');
+    // this.objCreated.userData = { type: 'main', layerId: layer._id };
+    console.log(this.objCreated);
+    this.objMain.add(this.objCreated);
   };
 
   updateLine = (type: 0 | 1, newCoords: Array<number>) => {

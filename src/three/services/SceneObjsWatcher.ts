@@ -21,11 +21,14 @@ export class SceneObjsWatcher {
 
   onObjAdded = (obj: THREE.Object3D) => {
     if (IsObjDataOfObjMain(obj.userData)) {
+      console.log('onObjAdded main', obj);
+      // console.log(this.sceneGetter.);
       //trigger auto generation
       //call generation service - obj add + obj data
       this.generatorMediator.setGenerationTask(obj, obj.userData.layerId.value, 'add');
-      // obj.type === ''
+      //upd layer stats
       this._registerLayerObjsChange('add', obj.userData.layerId.value);
+      //update auto calc obj values
       this._onUpdCalculatedProps(obj, obj.userData.layerId.value);
     }
   };

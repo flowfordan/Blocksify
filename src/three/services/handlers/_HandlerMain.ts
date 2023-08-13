@@ -62,6 +62,7 @@ export class _HandlerMain implements HandlerCommon {
     //generate auto-objects
     //this.generator.generateAutoObject
     if (this.objBuilder.isRenderable) {
+      // console.log('_HandlerMain, renderObj:', this.objBuilder.objMain);
       //this.objMain
       // this.sceneModifier.addObj(this.objBuilder.objCreated);
       this.sceneModifier.addObj(this.objBuilder.objMain);
