@@ -14,28 +14,28 @@ const mockBlocks = [
   {
     id: 'start',
     order: 0,
-    icon: '',
+    icon: 'start',
     title: 'start',
     status: 'completed',
   },
   {
     id: 'bordered',
     order: 1,
-    icon: '',
+    icon: 'bordered',
     title: 'bordered',
     status: 'current',
   },
   {
     id: 'divided',
     order: 2,
-    icon: '',
+    icon: 'divided',
     title: 'divided',
     status: 'not_started',
   },
   {
     id: 'blocksyfied',
     order: 3,
-    icon: '',
+    icon: 'blocksified',
     title: 'blocksyfied',
     status: 'not_started',
   },
@@ -69,6 +69,26 @@ export const Stages = () => {
                   ['stages__ptsWrap__ptInner--current']: b.status === 'current',
                 })}
               ></div>
+
+              <div
+                className={cn('stages__ptsWrap__icon', {
+                  ['stages__ptsWrap__icon--completed']: b.status === 'completed',
+                  ['stages__ptsWrap__icon--current']: b.status === 'current',
+                })}
+              >
+                <svg>
+                  <use href={`/icons/stage_bundle.svg#${b.icon}`} className={'stages__ptsWrap__icon__svg'} />
+                </svg>
+                <div
+                  className={cn('stages__ptsWrap__txt', {
+                    ['stages__ptsWrap__txt--start']: b.id === 'start',
+                    ['stages__ptsWrap__txt--completed']: b.status === 'completed',
+                    ['stages__ptsWrap__txt--current']: b.status === 'current',
+                  })}
+                >
+                  {b.title}
+                </div>
+              </div>
             </div>
           );
         })}

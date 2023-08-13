@@ -14,7 +14,7 @@
 
   &__line {
     position: relative;
-    width: 100px;
+    width: 120px;
     height: 2px;
     background-color: $grey_main;
     &--start {
@@ -61,6 +61,51 @@
     }
     &--completed {
       background-color: $accent_main;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 4px;
+    right: -8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      width: 10px;
+      height: 10px;
+      fill: $grey_main;
+    }
+
+    &--current {
+      svg {
+        fill: $grey_slight;
+      }
+    }
+    &--completed {
+      svg {
+        fill: $accent_main;
+      }
+    }
+  }
+
+  &__txt {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    color: $grey_dark;
+    &--start {
+      display: none;
+    }
+    &--current {
+      color: $grey_main;
+    }
+    &--completed {
+      color: $grey_slight;
     }
   }
 }
