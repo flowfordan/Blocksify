@@ -60,43 +60,43 @@ export class InstrumentsController {
 
   //for 'top lvl instruments'
   //continous
-  activateInstrumentCont = (
-    currentLayer: ILayer,
-    groundPlane: THREE.Plane,
-    camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
-  ) => {
-    let activeToolId: InstrumentsId | undefined;
+  // activateInstrumentCont = (
+  //   currentLayer: ILayer,
+  //   groundPlane: THREE.Plane,
+  //   camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
+  // ) => {
+  //   let activeToolId: InstrumentsId | undefined;
 
-    //STOP whatever is running
-    //check if it is defined
-    if (this.currentToolId !== undefined) {
-      //find running tool
-      //call stop() method
-      const currentTool = this.instrumentsModel.instruments.find((i) => i.id === this.currentToolId);
-      if (!currentTool) {
-        throw new Error('No current tool found with this ID');
-      }
-      //stop and cleanup
-      this.instruments[currentTool.id]?.stop();
-      window.removeEventListener('keydown', this.onExit);
-      document.body.style.cursor = 'auto';
-      this.currentToolId = undefined;
-    }
+  //   //STOP whatever is running
+  //   //check if it is defined
+  //   if (this.currentToolId !== undefined) {
+  //     //find running tool
+  //     //call stop() method
+  //     const currentTool = this.instrumentsModel.instruments.find((i) => i.id === this.currentToolId);
+  //     if (!currentTool) {
+  //       throw new Error('No current tool found with this ID');
+  //     }
+  //     //stop and cleanup
+  //     this.instruments[currentTool.id]?.stop();
+  //     window.removeEventListener('keydown', this.onExit);
+  //     document.body.style.cursor = 'auto';
+  //     this.currentToolId = undefined;
+  //   }
 
-    //ACTIVATE new tool if needed
-    //check if new tool should be activated
-    //find active tool
-    const activeTool = this.instrumentsModel.instruments.find((i) => i.isActive);
-    if (activeTool) {
-      activeToolId = activeTool.id;
-      this.instruments[activeTool.id]?.start(camera, groundPlane, currentLayer);
-      this.currentToolId = activeToolId;
+  //   //ACTIVATE new tool if needed
+  //   //check if new tool should be activated
+  //   //find active tool
+  //   const activeTool = this.instrumentsModel.instruments.find((i) => i.isActive);
+  //   if (activeTool) {
+  //     activeToolId = activeTool.id;
+  //     this.instruments[activeTool.id]?.start(camera, groundPlane, currentLayer);
+  //     this.currentToolId = activeToolId;
 
-      //cursor set
-      document.body.style.cursor = activeTool.activeCursor;
-      window.addEventListener('keydown', this.onExit);
-    }
-  };
+  //     //cursor set
+  //     document.body.style.cursor = activeTool.activeCursor;
+  //     window.addEventListener('keydown', this.onExit);
+  //   }
+  // };
 
   startInstrCont = (
     instr: Instrument,
@@ -142,8 +142,9 @@ export class InstrumentsController {
       () => this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous'),
       (curActive, prevActive, reaction) => {
         if (prevActive) this.stopInstrCont(prevActive.id);
-        if (curActive)
+        if (curActive) {
           this.startInstrCont(curActive, this.layersModel.currentLayer, this.currentPlane, this.currentCamera);
+        }
       }
     );
 

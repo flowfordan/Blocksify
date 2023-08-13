@@ -25,11 +25,12 @@ export const Desk = () => {
         sceneViewRef.current.onWindowResize(entry.contentRect.width, entry.contentRect.height);
       }
     },
-    [sceneViewRef.current]
+    [sceneViewRef.current, isMounted]
   );
   const canvasScene = useResizeObserver(onResize);
 
   useEffect(() => {
+    if (!isMounted) return;
     const innerTreeRef = canvasScene.current;
     if (!innerTreeRef) return;
     sceneViewRef.current = new SceneView(

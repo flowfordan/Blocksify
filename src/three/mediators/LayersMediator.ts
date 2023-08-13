@@ -23,7 +23,6 @@ export class LayersMediator {
   };
 
   updLayerObjsCount = (quant: number, layerId: number) => {
-    console.log('layer mediator, upd obj count, QUANT', quant);
     mediatorsModel.layersModel.setLayerObjectsNumber(layerId, quant);
     this._setIsLayerEmpty(layerId);
   };
