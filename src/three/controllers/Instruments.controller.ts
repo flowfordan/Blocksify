@@ -1,14 +1,11 @@
 import { SceneModifier } from 'three/services/SceneModifier';
-import { Line } from '../tools/Line';
-import { Polygon } from '../tools/Polygon';
-import { Selector } from '../tools/Selector';
-import { Cleaner } from '../tools/Cleaner';
 import { ILayer } from 'shared/types/layers';
 import type { Instrument, InstrumentsId } from 'shared/types';
 import { InstrumentsMediator } from 'three/mediators';
 import { autorun, reaction } from 'mobx';
 import type { LayersModel, InstrumentsModel, InstrumentsHelpersModel } from 'three/shared';
-import { SnapManager } from 'three/helpers/SnapManager';
+import { SnapManager } from 'three/handlers';
+import { Line, Polygon, Selector } from 'three/handlers';
 
 export class InstrumentsController {
   mediator: InstrumentsMediator;

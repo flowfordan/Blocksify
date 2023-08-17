@@ -1,11 +1,10 @@
 import * as THREE from 'three';
 
-import { SnapManager } from '../helpers/SnapManager';
-import { TagsManager } from '../helpers/TagManager';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { ILayer } from 'shared/types/layers';
 import type { InstrumentsHelpersModel } from 'three/shared';
 import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
+import { SnapManager, TagsManager } from './managers';
 
 //SUPERCLASS FOR DRAWING TOOLS
 export class DrawingTool {
