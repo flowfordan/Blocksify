@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 // import { instrumentsState } from '../../shared/model';
 import { Disposer } from '../services/Disposer';
-import { Tool } from './Tool';
+import { _InstrumentCont } from './_InstrumentCont';
 /* 
 Cleaner
 Instrument for scene cleaner - all scene obj or by layer
 */
-export class Cleaner implements Tool {
+export class Cleaner implements _InstrumentCont {
   isAvialable: boolean;
   isActive: boolean;
   scene: THREE.Scene;

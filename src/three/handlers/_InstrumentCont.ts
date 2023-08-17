@@ -1,4 +1,4 @@
-export abstract class Tool {
+export abstract class _InstrumentCont {
   //start()
   //stop()
   abstract start(): void;

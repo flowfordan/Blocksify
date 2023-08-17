@@ -1,12 +1,12 @@
 import { SceneModifier } from 'three/services/SceneModifier';
 import * as THREE from 'three';
 import { getMouseLocation } from '../utils';
-import { DrawingTool } from './DrawingTool';
+import { _DrawingInstrument } from './_DrawingInstrument';
 import { Vector3 } from 'three';
 import { V2ArrToNumArr } from 'three/config/objs3d';
 import { InstrumentsHelpersModel } from 'three/shared';
 
-export class Polygon extends DrawingTool {
+export class PolygonInstrument extends _DrawingInstrument {
   polygonParts: number;
 
   constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, helper: InstrumentsHelpersModel) {

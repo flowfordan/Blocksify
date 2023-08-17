@@ -1,15 +1,15 @@
-import { SceneController } from './../controllers/Scene.controller';
+import { SceneController } from '../controllers/Scene.controller';
 import * as THREE from 'three';
 import { toJS } from 'mobx';
 
 import { getMouseLocation } from '../utils';
-import { DrawingTool } from './DrawingTool';
+import { _DrawingInstrument } from './_DrawingInstrument';
 import { Vector3 } from 'three';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { ILayer } from 'shared/types/layers';
 import { InstrumentsHelpersModel } from 'three/shared';
 
-export class Line extends DrawingTool {
+export class LineInstrument extends _DrawingInstrument {
   lineMode: number;
   lineSegments: number;
 

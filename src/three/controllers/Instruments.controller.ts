@@ -5,7 +5,7 @@ import { InstrumentsMediator } from 'three/mediators';
 import { autorun, reaction } from 'mobx';
 import type { LayersModel, InstrumentsModel, InstrumentsHelpersModel } from 'three/shared';
 import { SnapManager } from 'three/handlers';
-import { Line, Polygon, Selector } from 'three/handlers';
+import { LineInstrument, PolygonInstrument, SelectorInstrument } from 'three/handlers';
 
 export class InstrumentsController {
   mediator: InstrumentsMediator;
@@ -14,7 +14,7 @@ export class InstrumentsController {
   } | null;
 
   instruments: {
-    [K in InstrumentsId]?: Line | Polygon | Selector;
+    [K in InstrumentsId]?: LineInstrument | PolygonInstrument | SelectorInstrument;
   };
   // cleaner: Cleaner;
   currentToolId: InstrumentsId | undefined;
@@ -37,10 +37,10 @@ export class InstrumentsController {
     this.mediator = new InstrumentsMediator(instrumentsModel);
     this.instrumentsModel = instrumentsModel;
     this.instruments = {
-      line: new Line(activeElement, 0, sceneModifier, instrumentsHelpersModel),
-      pLine: new Line(activeElement, 1, sceneModifier, instrumentsHelpersModel),
-      polygon: new Polygon(activeElement, sceneModifier, instrumentsHelpersModel),
-      selector: new Selector(activeElement, sceneModifier, this.mediator),
+      line: new LineInstrument(activeElement, 0, sceneModifier, instrumentsHelpersModel),
+      pLine: new LineInstrument(activeElement, 1, sceneModifier, instrumentsHelpersModel),
+      polygon: new PolygonInstrument(activeElement, sceneModifier, instrumentsHelpersModel),
+      selector: new SelectorInstrument(activeElement, sceneModifier, this.mediator),
       // cleaner: new Cleaner(sceneModifier),
     };
     //toolsData = {selector: {selectedObj: {...}, intersectedObj: {...} }}

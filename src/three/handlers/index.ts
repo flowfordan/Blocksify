@@ -1,4 +1,4 @@
-export * from './Selector';
-export * from './Line';
-export * from './Polygon';
+export * from './SelectorInstrument';
+export * from './LineInstrument';
+export * from './PolygonInstrument';
 export * from './managers';

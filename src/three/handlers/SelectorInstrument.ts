@@ -15,7 +15,7 @@ import {
 } from 'shared/types/objs';
 import { getObjPrimPtLine } from 'three/shared/lib/getChildrenByCondition';
 
-export class Selector {
+export class SelectorInstrument {
   rect: DOMRect;
   canvas: HTMLCanvasElement;
   currentCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera;

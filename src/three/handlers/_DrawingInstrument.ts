@@ -7,7 +7,7 @@ import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
 import { SnapManager, TagsManager } from './managers';
 
 //SUPERCLASS FOR DRAWING TOOLS
-export class DrawingTool {
+export class _DrawingInstrument {
   toolState: number;
   canvas: HTMLCanvasElement;
   rect: DOMRect;
