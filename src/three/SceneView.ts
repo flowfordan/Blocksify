@@ -2,7 +2,6 @@
 import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
-import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './config/geometry/worldPlane';
 import {
   LabelRendererController,
   RendererController,
@@ -23,6 +22,7 @@ import type {
   CameraModel,
   GeneratorModel,
 } from './shared';
+import { worldPlane } from './presets';
 // import { sceneModel } from 'entities/scene';
 // import { cameraModel } from 'entities/camera';
 // import { layersModel } from 'entities/layer';

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { getRenderer, getlabelRenderer } from 'three/config/renderer/renderer';
+import { getRenderer } from '../renderer/renderer';
 
 export const camera = (renderer = getRenderer(), id = 1): THREE.PerspectiveCamera | THREE.OrthographicCamera => {
   if (!renderer) throw new Error('Renderer is not defined');

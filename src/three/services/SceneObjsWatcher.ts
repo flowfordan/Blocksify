@@ -1,7 +1,6 @@
 import { LayersAdapter } from '../adapters/LayersAdapter';
 import { IsObjDataOfObjMain } from 'shared/types/objs';
 import { SceneGetter } from './SceneGetter';
-import { myLine } from 'three/config/geometry/geometry';
 import { setParallelLine } from './getParallelLine';
 import { GeneratorAdapter } from 'three/adapters/GeneratorAdapter';
 import { PropsEditor } from './PropsEditor';

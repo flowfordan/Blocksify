@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { camera } from '../camera/camera';
+import { camera } from 'three/presets';
 import { RendererController } from './Renderer.controller';
 import { autorun, reaction, toJS } from 'mobx';
 import { CameraModel, LayersModel } from 'three/shared';
