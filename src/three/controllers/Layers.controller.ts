@@ -1,20 +1,20 @@
 import * as THREE from 'three';
-import { LayersMediator } from 'three/mediators';
+import { LayersAdapter } from 'three/adapters';
 import { LayersModel } from 'three/shared';
 
 export class LayersController {
   // currentLayer: Layer;
-  layersMediator: LayersMediator;
+  layersAdapter: LayersAdapter;
 
   constructor(layersModel: LayersModel) {
     // this.currentLayer = this.findActiveLayer();
-    this.layersMediator = new LayersMediator();
+    this.layersAdapter = new LayersAdapter();
     // this.init();
   }
 
   //stuff
   //init layers
   init() {
-    this.layersMediator.toggleLayerActive(2);
+    this.layersAdapter.toggleLayerActive(2);
   }
 }

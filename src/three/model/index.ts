@@ -1,1 +1,1 @@
-export * from './mediatorsModel';
+export * from './adaptersModel';

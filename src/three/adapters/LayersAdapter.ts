@@ -1,15 +1,15 @@
-import { mediatorsModel } from 'three/model';
-export class LayersMediator {
+import { adaptersModel } from 'three/model';
+export class LayersAdapter {
   constructor() {
     //
   }
 
   toggleLayerActive = (layerId: number) => {
-    mediatorsModel.layersModel.toggleActiveLayer(layerId);
+    adaptersModel.layersModel.toggleActiveLayer(layerId);
   };
 
   _setIsLayerEmpty = (layerId: number) => {
-    const model = mediatorsModel.layersModel;
+    const model = adaptersModel.layersModel;
     const currentLayer = model.layers.find((l) => l._id === layerId);
     if (!currentLayer) {
       throw new Error('Cant find Layer');
@@ -23,7 +23,7 @@ export class LayersMediator {
   };
 
   updLayerObjsCount = (quant: number, layerId: number) => {
-    mediatorsModel.layersModel.setLayerObjectsNumber(layerId, quant);
+    adaptersModel.layersModel.setLayerObjectsNumber(layerId, quant);
     this._setIsLayerEmpty(layerId);
   };
 }

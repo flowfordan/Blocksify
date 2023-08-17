@@ -1,14 +1,14 @@
 import { SceneModifier } from 'three/services/SceneModifier';
 import { ILayer } from 'shared/types/layers';
 import type { Instrument, InstrumentsId } from 'shared/types';
-import { InstrumentsMediator } from 'three/mediators';
+import { InstrumentsAdapter } from 'three/adapters';
 import { autorun, reaction } from 'mobx';
 import type { LayersModel, InstrumentsModel, InstrumentsHelpersModel } from 'three/shared';
 import { SnapManager } from 'three/handlers';
 import { LineInstrument, PolygonInstrument, SelectorInstrument } from 'three/handlers';
 
 export class InstrumentsController {
-  mediator: InstrumentsMediator;
+  adapter: InstrumentsAdapter;
   helpersManager: {
     snapManager: SnapManager;
   } | null;
@@ -34,13 +34,13 @@ export class InstrumentsController {
     instrumentsHelpersModel: InstrumentsHelpersModel
   ) {
     this.layersModel = layersModel;
-    this.mediator = new InstrumentsMediator(instrumentsModel);
+    this.adapter = new InstrumentsAdapter(instrumentsModel);
     this.instrumentsModel = instrumentsModel;
     this.instruments = {
       line: new LineInstrument(activeElement, 0, sceneModifier, instrumentsHelpersModel),
       pLine: new LineInstrument(activeElement, 1, sceneModifier, instrumentsHelpersModel),
       polygon: new PolygonInstrument(activeElement, sceneModifier, instrumentsHelpersModel),
-      selector: new SelectorInstrument(activeElement, sceneModifier, this.mediator),
+      selector: new SelectorInstrument(activeElement, sceneModifier, this.adapter),
       // cleaner: new Cleaner(sceneModifier),
     };
     //toolsData = {selector: {selectedObj: {...}, intersectedObj: {...} }}
@@ -117,7 +117,7 @@ export class InstrumentsController {
         (i) => i.isActive && i.activity === 'continous' && i.lvl === 'top'
       );
       if (activeTool) {
-        this.mediator.toggleInstrumentActive(activeTool.id);
+        this.adapter.toggleInstrumentActive(activeTool.id);
         window.removeEventListener('keydown', this.onExit);
       }
     }
@@ -125,9 +125,9 @@ export class InstrumentsController {
 
   updateCurrentCamera = (newCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera) => {
     //stop instr
-    //mediator - stop instrument
+    //adapter - stop instrument
     const activeInstr = this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous');
-    if (activeInstr) this.mediator.toggleInstrumentActive(activeInstr.id);
+    if (activeInstr) this.adapter.toggleInstrumentActive(activeInstr.id);
     //set camera
     this.currentCamera = newCamera;
   };
@@ -160,15 +160,15 @@ export class InstrumentsController {
         this.instrumentsModel.instruments.forEach((i, idx) => {
           if (i.lvl !== 'top') return;
           if (disabledInstruments.includes(i.id)) {
-            this.mediator.setInstrumentAvailable(i.id, false);
-          } else this.mediator.setInstrumentAvailable(i.id, true);
+            this.adapter.setInstrumentAvailable(i.id, false);
+          } else this.adapter.setInstrumentAvailable(i.id, true);
         });
         //STOP TOOL WHEN LAYER CHANGED
         if (!previousLayer) return;
         if (layer._id !== previousLayer._id) {
           const activeTool = this.instrumentsModel.instruments.find((i) => i.isActive && i.activity === 'continous');
           if (!activeTool) return;
-          this.mediator.toggleInstrumentActive(activeTool.id);
+          this.adapter.toggleInstrumentActive(activeTool.id);
         }
       }
     );

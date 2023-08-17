@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { getObjByPointer } from '../utils';
 import { Object3D } from 'three';
 import { ILayer } from '../../shared/types/layers';
-import { InstrumentsMediator } from 'three/mediators/InstrumentsMediator';
+import { InstrumentsAdapter } from 'three/adapters/InstrumentsAdapter';
 import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
 import {
   IsObjDataOfObjLineSegment,
@@ -29,11 +29,11 @@ export class SelectorInstrument {
   };
   toolState: number;
 
-  mediator: InstrumentsMediator;
+  adapter: InstrumentsAdapter;
   handler: _HandlerMain;
   handlerFX: _HandlerFX;
 
-  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, mediator: InstrumentsMediator) {
+  constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, adapter: InstrumentsAdapter) {
     this.canvas = canvas;
     this.rect = canvas.getBoundingClientRect();
     this.currentCamera = new THREE.PerspectiveCamera();
@@ -55,7 +55,7 @@ export class SelectorInstrument {
 
     this.handler = new (handlerFactory.createHandler('main'))(sceneModifier);
     this.handlerFX = new (handlerFactory.createHandler('fx'))(sceneModifier);
-    this.mediator = mediator;
+    this.adapter = adapter;
   }
 
   get selectedObj() {
@@ -65,7 +65,7 @@ export class SelectorInstrument {
   set selectedObj(obj: THREE.Object3D | null) {
     this._selectedObj = obj;
     //notify state
-    this.mediator.setSelectorSelectedObjData(obj);
+    this.adapter.setSelectorSelectedObjData(obj);
   }
 
   get intersectedObj() {
@@ -75,7 +75,7 @@ export class SelectorInstrument {
   set intersectedObj(obj: THREE.Object3D | null) {
     this._intersectedObj = obj;
     //notify state
-    this.mediator.setSelectorIntersectedObjData(obj);
+    this.adapter.setSelectorIntersectedObjData(obj);
   }
 
   //startTool

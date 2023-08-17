@@ -5,7 +5,7 @@ import type { InstrumentsModel } from 'three/shared';
 //connect with this.instrumentsModel
 //recieve data from Instruments, pass data to State
 
-export class InstrumentsMediator {
+export class InstrumentsAdapter {
   private instrumentsModel: InstrumentsModel;
   constructor(instrumentsModel: InstrumentsModel) {
     this.instrumentsModel = instrumentsModel;

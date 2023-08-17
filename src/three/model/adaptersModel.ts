@@ -4,7 +4,7 @@ import { instrumentsModel } from 'entities/sceneInstrument';
 import { sceneModel } from 'entities/scene';
 import { generatorModel } from 'features/generator';
 
-export class MediatorsModel {
+export class AdaptersModel {
   layersModel: LayersModel;
   instrumentsModel: InstrumentsModel;
   sceneModel: SceneModel;
@@ -17,4 +17,4 @@ export class MediatorsModel {
   }
 }
 
-export const mediatorsModel = new MediatorsModel(layersModel, instrumentsModel, sceneModel, generatorModel);
+export const adaptersModel = new AdaptersModel(layersModel, instrumentsModel, sceneModel, generatorModel);

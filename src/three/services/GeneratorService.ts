@@ -1,16 +1,16 @@
 import { ILayerIDs } from 'shared/types';
-import { GeneratorMediator } from 'three/mediators/GeneratorMediator';
-import { mediatorsModel } from 'three/model';
+import { GeneratorAdapter } from 'three/adapters/GeneratorAdapter';
+import { adaptersModel } from 'three/model';
 import { setParallelLine } from './getParallelLine';
 /* 
   Service for checking conditions for real-time objects generation (like on adding or changing scene objs)
-  calls GenerationMediator which connects to global state
+  calls GenerationAdapter which connects to global state
 */
 
 export class GeneratorService {
-  generatorMediator: GeneratorMediator;
+  generatorAdapter: GeneratorAdapter;
   constructor() {
-    this.generatorMediator = new GeneratorMediator();
+    this.generatorAdapter = new GeneratorAdapter();
   }
   // generate() {
   //     return this.generator.generate();
@@ -28,5 +28,5 @@ export class GeneratorService {
   //check what kind of action occured
   //checks obj layer config for fixed conditions
   //dynamic conditions (stage?)
-  //generatorMediator.getCurrentSceneStage()
+  //generatorAdapter.getCurrentSceneStage()
 }

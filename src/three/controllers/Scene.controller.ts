@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { SceneModel } from 'three/shared';
 import { getMouseLocation } from 'three/utils';
-import { SceneMediator } from 'three/mediators';
+import { SceneAdapter } from 'three/adapters';
 
 //CONTROLLER
 //initScene
@@ -12,13 +12,13 @@ export class SceneController {
   private _scene: THREE.Scene;
   modifier: SceneModifier;
   sceneModel: SceneModel;
-  private mediator: SceneMediator;
+  private adapter: SceneAdapter;
   private pointerCoords: PointerCoords;
   constructor(sceneModel: SceneModel) {
     this._scene = new THREE.Scene();
     this.sceneModel = sceneModel;
     this.modifier = new SceneModifier(this._scene);
-    this.mediator = new SceneMediator();
+    this.adapter = new SceneAdapter();
     this.pointerCoords = { x: 0.0, y: 0.0, z: 0.0 };
 
     this.modifier._initSceneTempGeometry();
@@ -48,7 +48,7 @@ export class SceneController {
     this.pointerCoords.x = mouseLoc.x;
     this.pointerCoords.y = mouseLoc.y;
     this.pointerCoords.z = mouseLoc.z;
-    //mediator - set coords
-    this.mediator.setPointerCoords(this.pointerCoords);
+    //adapter - set coords
+    this.adapter.setPointerCoords(this.pointerCoords);
   };
 }
