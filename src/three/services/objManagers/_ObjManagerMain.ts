@@ -1,11 +1,10 @@
 import { ILayer } from 'shared/types';
 import { Vector3, Vector2 } from 'three';
-import { FXBuilder } from '../FXBuilder';
 import { ObjBuilder } from '../ObjBuilder';
 import { SceneModifier } from '../SceneModifier';
-import { HandlerCommon } from './HandlerCommon';
+import { ObjManagerCommon } from './ObjManagerCommon';
 
-export class _HandlerMain implements HandlerCommon {
+export class _ObjManagerMain implements ObjManagerCommon {
   objBuilder: ObjBuilder; //actual main objects
   //fxBuilder: FXBuilder; //temporal effect-objects
   sceneModifier: SceneModifier;
@@ -62,7 +61,7 @@ export class _HandlerMain implements HandlerCommon {
     //generate auto-objects
     //this.generator.generateAutoObject
     if (this.objBuilder.isRenderable) {
-      // console.log('_HandlerMain, renderObj:', this.objBuilder.objMain);
+      // console.log('_ObjManagerMain, renderObj:', this.objBuilder.objMain);
       //this.objMain
       // this.sceneModifier.addObj(this.objBuilder.objCreated);
       this.sceneModifier.addObj(this.objBuilder.objMain);

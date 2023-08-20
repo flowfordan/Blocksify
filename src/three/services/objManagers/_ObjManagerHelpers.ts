@@ -1,13 +1,13 @@
 import * as THREE from 'three';
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
 import { getLineMat } from 'three/config/objs3d';
-import { HandlerCommon } from './HandlerCommon';
+import { ObjManagerCommon } from './ObjManagerCommon';
 import { SceneModifier } from '../SceneModifier';
 import { InstrumentHelpersId } from 'shared/types';
 import { Vector3 } from 'three';
 
 /* 
-  Handler to process operations related to render effects caused by helpers
+  Manager to process operations related to render effects caused by helpers
   work - snapping points, angle lines etc.
 */
 
@@ -29,7 +29,7 @@ type RenderedGuidesOptions = {
   };
 };
 
-export class _HandlerHelpers implements HandlerCommon {
+export class _ObjManagerHelpers implements ObjManagerCommon {
   sceneModifier: SceneModifier;
   renderedGuidesOptions: RenderedGuidesOptions;
   constructor(modifier: SceneModifier) {

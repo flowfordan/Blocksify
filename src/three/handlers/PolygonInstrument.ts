@@ -42,12 +42,12 @@ export class PolygonInstrument extends _DrawingInstrument {
         //TRACK
         //repetition to create buffer for 3points array
         const trackObjCoords = [...this.objCoords, ...coordsCurrent, ...coordsCurrent];
-        this.handlerFX.updTrack(trackObjCoords);
-        this.handlerFX.renderTrack();
+        this.objManagerFX.updTrack(trackObjCoords);
+        this.objManagerFX.renderTrack();
         //TAG
         this.tagsManager.renderTag([new Vector3(...this.objCoords)], this.currentPointerCoord);
       } else {
-        const points = this.handler.getObjPolygonPoints();
+        const points = this.objManager.getObjPolygonPoints();
         const pt1 = points[0];
         const pt2 = points[points.length - 1]; //last pie point
         const pt1N = V2ArrToNumArr([pt1], this.currentPlane!.constant);
@@ -56,9 +56,9 @@ export class PolygonInstrument extends _DrawingInstrument {
         const trackObjCoords = [...pt1N, ...coordsCurrent, ...pt2N];
 
         //TRACK
-        this.handlerFX.updTrackPolygon(pt1, pt2, this.currentPointerCoord);
-        this.handlerFX.updTrack(trackObjCoords);
-        this.handlerFX.renderTrack(true);
+        this.objManagerFX.updTrackPolygon(pt1, pt2, this.currentPointerCoord);
+        this.objManagerFX.updTrack(trackObjCoords);
+        this.objManagerFX.renderTrack(true);
         //TAG
         this.tagsManager.renderTag([new Vector3(...pt1N), new Vector3(...pt2N)], this.currentPointerCoord);
       }
@@ -70,29 +70,29 @@ export class PolygonInstrument extends _DrawingInstrument {
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
       //create obj
-      this.handler.createObj('polygon', this.objCoords, this.layer!, this.currentPointerCoord);
+      this.objManager.createObj('polygon', this.objCoords, this.layer!, this.currentPointerCoord);
       //TRACK
-      this.handlerFX.createTrack(true);
+      this.objManagerFX.createTrack(true);
       this.toolState = 2;
     } else if (this.toolState === 2) {
       //first upd - only polygon form
       //will fire only if 1 pt created
-      this.handler.updObj('polygon', this.objCoords, this.currentPointerCoord);
+      this.objManager.updObj('polygon', this.objCoords, this.currentPointerCoord);
 
       //upd OBJ coords
       this.objCoords.length = 0;
       const currentLineCoords = V2ArrToNumArr(
-        this.handler.getObjPolygonPoints(),
+        this.objManager.getObjPolygonPoints(),
         this.currentPlane!.constant //WORLD PLANE LEVEL
       );
       this.objCoords.push(...currentLineCoords);
       //CLOSE line by pushing start point
       this.objCoords.push(...this.objCoords.slice(0, 3));
       //updating
-      this.handler.updObj('polygon', this.objCoords, this.currentPointerCoord);
+      this.objManager.updObj('polygon', this.objCoords, this.currentPointerCoord);
 
       this.tagsManager.stopRender();
-      this.handlerFX.removeTrack();
+      this.objManagerFX.removeTrack();
     }
   };
 
@@ -109,7 +109,7 @@ export class PolygonInstrument extends _DrawingInstrument {
   stop() {
     super.stop();
     //delete began forms
-    this.handler.removeObj();
+    this.objManager.removeObj();
 
     this._resetLoop(true);
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
@@ -121,10 +121,10 @@ export class PolygonInstrument extends _DrawingInstrument {
   protected _resetLoop = (isDisgraceful?: boolean) => {
     super._resetLoop(isDisgraceful);
     if (!isDisgraceful) {
-      this.handler.renderObj();
+      this.objManager.renderObj();
     }
-    this.handler.reset();
-    this.handlerFX.removeTrack();
+    this.objManager.reset();
+    this.objManagerFX.removeTrack();
     //TRACK, TAG, SNAP
     this.tagsManager.stopRender();
     // this.snapManager.resetSnap();

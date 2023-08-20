@@ -64,8 +64,8 @@ export class LineInstrument extends _DrawingInstrument {
       this.objCoords.push(...coordsCurrent);
       const current2ptLineCoords = this.objCoords.slice(this.lineSegments * 3 - 3);
       //TRACK
-      this.handlerFX.updTrack(current2ptLineCoords);
-      this.handlerFX.renderTrack();
+      this.objManagerFX.updTrack(current2ptLineCoords);
+      this.objManagerFX.renderTrack();
       //TAG
       this.tagsManager.renderTag(
         [new Vector3(...current2ptLineCoords.slice(0, 3))],
@@ -79,21 +79,21 @@ export class LineInstrument extends _DrawingInstrument {
     //ON FIRST CLICK
     if (this.toolState === 1) {
       //create obj
-      this.handler.createObj('line', this.objCoords, this.layer!);
+      this.objManager.createObj('line', this.objCoords, this.layer!);
       //update coordinates
       const coords: Array<number> = Object.values(this.currentPointerCoord);
       this.objCoords.push(...coords);
       //TRACK
-      this.handlerFX.createTrack();
+      this.objManagerFX.createTrack();
       this.toolState = 2;
     }
     //ON SECOND CLICK
     else if (this.toolState === 2) {
       //update line or polyline
       if (this.lineMode === 0) {
-        this.handler.updObj('line', this.objCoords);
+        this.objManager.updObj('line', this.objCoords);
       } else {
-        this.handler.updObj('pline', this.objCoords);
+        this.objManager.updObj('pline', this.objCoords);
       }
       //clear and begin new item if LINE
       //begin new segment if PLINE
@@ -105,7 +105,7 @@ export class LineInstrument extends _DrawingInstrument {
         //remove tag
         this.tagsManager.stopRender();
       }
-      this.handlerFX.removeTrack();
+      this.objManagerFX.removeTrack();
     }
   };
 
@@ -129,7 +129,7 @@ export class LineInstrument extends _DrawingInstrument {
   stop = () => {
     super.stop();
     //delete began forms
-    this.handler.removeObj();
+    this.objManager.removeObj();
 
     this._resetLoop(true);
     this.canvas.removeEventListener('mousemove', this._onMouseMove);
@@ -142,10 +142,10 @@ export class LineInstrument extends _DrawingInstrument {
     super._resetLoop(isDisgraceful);
     //RENDER of actual created object
     if (!isDisgraceful) {
-      this.handler.renderObj();
+      this.objManager.renderObj();
     }
-    this.handler.reset();
-    this.handlerFX.removeTrack();
+    this.objManager.reset();
+    this.objManagerFX.removeTrack();
 
     this.tagsManager.stopRender();
     this.snapManager.resetSnap();

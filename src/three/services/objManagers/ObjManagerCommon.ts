@@ -1,23 +1,17 @@
 import { SceneModifier } from '../SceneModifier';
-import { _HandlerFX } from './_HandlerFX';
-import { _HandlerHelpers } from './_HandlerHelpers';
-import { _HandlerMain } from './_HandlerMain';
+import { _ObjManagerFX } from './_ObjManagerFX';
+import { _ObjManagerHelpers } from './_ObjManagerHelpers';
+import { _ObjManagerMain } from './_ObjManagerMain';
 
-export abstract class HandlerCommon {
+export abstract class ObjManagerCommon {
   sceneModifier: SceneModifier;
   constructor(modifier: SceneModifier) {
     this.sceneModifier = modifier;
   }
-
-  // abstract createObj(): void;
-  // abstract updObj(): void;
-  // abstract renderObj(): void;
-  // abstract removeObj(): void;
-  // abstract reset(): void;
 }
 
 //HANDLERS
-class _HandlerTags implements HandlerCommon {
+class _ObjManagerTags implements ObjManagerCommon {
   sceneModifier: SceneModifier;
   constructor(modifier: SceneModifier) {
     this.sceneModifier = modifier;
@@ -39,20 +33,21 @@ class _HandlerTags implements HandlerCommon {
   }
 }
 
-const HandlersData = {
-  main: _HandlerMain,
-  fx: _HandlerFX,
-  tags: _HandlerTags,
-  helpers: _HandlerHelpers,
+const ObjManagersData = {
+  main: _ObjManagerMain,
+  fx: _ObjManagerFX,
+  tags: _ObjManagerTags,
+  helpers: _ObjManagerHelpers,
 };
 
-type HandlersType = typeof HandlersData;
-export class HandlerFactory {
+type ObjManagersDataType = typeof ObjManagersData;
+
+export class ObjManagerFactory {
   constructor() {
     //
   }
 
-  createHandler<T extends keyof HandlersType>(handlerType: T): HandlersType[T] {
-    return HandlersData[handlerType];
+  createObjManager<T extends keyof ObjManagersDataType>(objManagerType: T): ObjManagersDataType[T] {
+    return ObjManagersData[objManagerType];
   }
 }

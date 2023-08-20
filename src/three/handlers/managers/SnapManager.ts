@@ -5,7 +5,7 @@ import { InstrumentHelper, InstrumentHelpersId } from 'shared/types';
 //import { toJS } from 'mobx';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { BASE_DIRECTION } from 'three/config/consts';
-import { HandlerFactory, _HandlerHelpers } from 'three/services';
+import { ObjManagerFactory, _ObjManagerHelpers } from 'three/services';
 
 type SnapStatus = {
   isActive: boolean;
@@ -27,7 +27,7 @@ export class SnapManager {
   helpersModel: InstrumentsHelpersModel;
 
   baseVector: THREE.Vector3;
-  handler: _HandlerHelpers;
+  objManagerHelpers: _ObjManagerHelpers;
 
   constructor(sceneModifier: SceneModifier, helpersModel: InstrumentsHelpersModel) {
     this.helpersModel = helpersModel;
@@ -38,8 +38,8 @@ export class SnapManager {
 
     this.baseVector = BASE_DIRECTION;
 
-    const handlerFactory = new HandlerFactory();
-    this.handler = new (handlerFactory.createHandler('helpers'))(sceneModifier);
+    const objManagerFactory = new ObjManagerFactory();
+    this.objManagerHelpers = new (objManagerFactory.createObjManager('helpers'))(sceneModifier);
   }
 
   //TODO refactor init func - we already loaded stuff in constructor - need only minor upd
@@ -87,7 +87,7 @@ export class SnapManager {
       }
     }
     //call helpers render
-    this.handler.renderHelperLabel(newCoords, finalSnapType, lastCoords);
+    this.objManagerHelpers.renderHelperLabel(newCoords, finalSnapType, lastCoords);
 
     return newCoords;
   };
@@ -237,7 +237,7 @@ export class SnapManager {
   };
 
   resetSnap = () => {
-    this.handler.removeRenderedLabels();
+    this.objManagerHelpers.removeRenderedLabels();
     this.currentSnapping = null;
     this._resetStatuses();
   };

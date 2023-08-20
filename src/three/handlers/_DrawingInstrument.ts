@@ -3,8 +3,9 @@ import * as THREE from 'three';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { ILayer } from 'shared/types/layers';
 import type { InstrumentsHelpersModel } from 'three/shared';
-import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
+
 import { SnapManager, TagsManager } from './managers';
+import { ObjManagerFactory, _ObjManagerFX, _ObjManagerMain } from 'three/services';
 
 //SUPERCLASS FOR DRAWING TOOLS
 export class _DrawingInstrument {
@@ -22,8 +23,8 @@ export class _DrawingInstrument {
 
   objCoords: Array<number>;
 
-  handler: _HandlerMain;
-  handlerFX: _HandlerFX;
+  objManager: _ObjManagerMain;
+  objManagerFX: _ObjManagerFX;
 
   constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, helpersModel: InstrumentsHelpersModel) {
     this.canvas = canvas;
@@ -41,9 +42,9 @@ export class _DrawingInstrument {
     this.tagsManager = new TagsManager(sceneModifier);
     this.snapManager = new SnapManager(sceneModifier, helpersModel);
 
-    const handlerFactory = new HandlerFactory();
-    this.handler = new (handlerFactory.createHandler('main'))(sceneModifier);
-    this.handlerFX = new (handlerFactory.createHandler('fx'))(sceneModifier);
+    const objManagerFactory = new ObjManagerFactory();
+    this.objManager = new (objManagerFactory.createObjManager('main'))(sceneModifier);
+    this.objManagerFX = new (objManagerFactory.createObjManager('fx'))(sceneModifier);
   }
 
   //START METHOD

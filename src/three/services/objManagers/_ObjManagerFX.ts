@@ -2,14 +2,14 @@ import { SceneModifier } from 'three/services/SceneModifier';
 import * as THREE from 'three';
 import { Vector2, Vector3 } from 'three';
 
-import { HandlerCommon } from './HandlerCommon';
+import { ObjManagerCommon } from './ObjManagerCommon';
 import { FXBuilder } from '../FXBuilder';
 
 //objs handler
 //stores objs created
 //commands to render
 
-export class _HandlerFX implements HandlerCommon {
+export class _ObjManagerFX implements ObjManagerCommon {
   //objBuilder: ObjBuilder; //actual main objects
   fxBuilder: FXBuilder; //temporal effect-objects
   sceneModifier: SceneModifier;

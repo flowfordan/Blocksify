@@ -6,7 +6,7 @@ import { getObjByPointer } from '../utils';
 import { Object3D } from 'three';
 import { ILayer } from '../../shared/types/layers';
 import { InstrumentsAdapter } from 'three/adapters/InstrumentsAdapter';
-import { HandlerFactory, _HandlerFX, _HandlerMain } from 'three/services';
+import { ObjManagerFactory, _ObjManagerFX, _ObjManagerMain } from 'three/services';
 import {
   IsObjDataOfObjLineSegment,
   IsObjDataOfObjMain,
@@ -30,8 +30,8 @@ export class SelectorInstrument {
   toolState: number;
 
   adapter: InstrumentsAdapter;
-  handler: _HandlerMain;
-  handlerFX: _HandlerFX;
+  objManager: _ObjManagerMain;
+  objManagerFX: _ObjManagerFX;
 
   constructor(canvas: HTMLCanvasElement, sceneModifier: SceneModifier, adapter: InstrumentsAdapter) {
     this.canvas = canvas;
@@ -51,10 +51,10 @@ export class SelectorInstrument {
     };
     this.toolState = 0;
 
-    const handlerFactory = new HandlerFactory();
+    const objManagerFactory = new ObjManagerFactory();
 
-    this.handler = new (handlerFactory.createHandler('main'))(sceneModifier);
-    this.handlerFX = new (handlerFactory.createHandler('fx'))(sceneModifier);
+    this.objManager = new (objManagerFactory.createObjManager('main'))(sceneModifier);
+    this.objManagerFX = new (objManagerFactory.createObjManager('fx'))(sceneModifier);
     this.adapter = adapter;
   }
 
@@ -93,14 +93,14 @@ export class SelectorInstrument {
   private _onMouseMove = (e: MouseEvent) => {
     if (!this.currentLayer) throw new Error('Layer is not specified');
     const obj = getObjByPointer(
-      this.handler.sceneModifier.scene,
+      this.objManager.sceneModifier.scene,
       e,
       this.rect,
       this.canvas,
       this.currentCamera,
       this.currentLayer._id
     );
-    this.handlerFX.removeOverlayObj('temp');
+    this.objManagerFX.removeOverlayObj('temp');
     this.intersectedObj = null;
     if (!obj) return;
     //case 1 - intersected main_obj
@@ -123,26 +123,26 @@ export class SelectorInstrument {
     const lineToRender = getObjPrimPtLine(this.intersectedObj);
     //const lineToRender = this.intersectedObj.children.find((i) => i instanceof Line2);
     // this.renderedObjs.intersectedObj = lineToRender ? lineToRender.clone() : null;
-    this.handlerFX.createOverlayObj(lineToRender, 'temp');
+    this.objManagerFX.createOverlayObj(lineToRender, 'temp');
   };
 
   private _onClick = () => {
-    this.handlerFX.removeOverlayObj('perm');
+    this.objManagerFX.removeOverlayObj('perm');
     this.selectedObj = null;
     if (this.intersectedObj) {
       //set selected obj
       this.selectedObj = this.intersectedObj;
       const lineToRender = getObjPrimPtLine(this.selectedObj);
       //line to render
-      this.handlerFX.createOverlayObj(lineToRender, 'perm');
+      this.objManagerFX.createOverlayObj(lineToRender, 'perm');
     }
   };
 
   private _onKey = (event: KeyboardEvent) => {
     if (event.key === 'Delete' || event.key === 'Backspace') {
       if (this.selectedObj) {
-        this.handler.sceneModifier.removeObj(this.selectedObj);
-        this.handlerFX.removeOverlayObj('all');
+        this.objManager.sceneModifier.removeObj(this.selectedObj);
+        this.objManagerFX.removeOverlayObj('all');
         this.selectedObj = null;
       }
     }
@@ -150,7 +150,7 @@ export class SelectorInstrument {
 
   stop = () => {
     console.log('SELECTOR END');
-    this.handlerFX.removeOverlayObj('all');
+    this.objManagerFX.removeOverlayObj('all');
     this.selectedObj = null;
     this.intersectedObj = null;
     //null selected
