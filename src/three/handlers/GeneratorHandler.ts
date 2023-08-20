@@ -7,7 +7,7 @@ import { setParallelLine } from './getParallelLine';
   calls GenerationAdapter which connects to global state
 */
 
-export class GeneratorService {
+export class GeneratorHandler {
   generatorAdapter: GeneratorAdapter;
   constructor() {
     this.generatorAdapter = new GeneratorAdapter();

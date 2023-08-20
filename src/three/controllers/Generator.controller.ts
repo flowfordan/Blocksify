@@ -1,14 +1,14 @@
 import { generatorModel } from 'features/generator';
 import { reaction } from 'mobx';
 import { ILayerIDs, ObjGenerationTemplate } from 'shared/types';
-import { GeneratorService } from 'three/services/GeneratorService';
+import { GeneratorHandler } from 'three/handlers';
 import { GeneratorModel } from 'three/shared';
 
 export class GeneratorController {
-  generatorService: GeneratorService;
+  generatorService: GeneratorHandler;
   generatorModel: GeneratorModel;
   constructor(generatorModel: GeneratorModel) {
-    this.generatorService = new GeneratorService();
+    this.generatorService = new GeneratorHandler();
     this.generatorModel = generatorModel;
     this._storeSubscribe();
   }
