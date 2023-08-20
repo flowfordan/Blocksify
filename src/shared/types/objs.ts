@@ -61,13 +61,13 @@ interface IObjData_Common<L extends number> extends ICommonObjData<OBJ_GENERAL_T
   objName: IObjPropData<string>;
 }
 
+export type SpecificObjDomainPropName_Calc = 'objLength' | 'objArea';
 export type SpecificObjDomainPropName =
   | 'objMaxFloors'
   | 'objMinFloors'
-  | 'objLength'
   | 'objWidth'
-  | 'objArea'
-  | 'objFloors';
+  | 'objFloors'
+  | SpecificObjDomainPropName_Calc;
 
 type IObjData_Specifics = {
   [K in SpecificObjDomainPropName]: IObjPropData<number>;
@@ -137,6 +137,16 @@ export function IsObjDataOfObjPointSegment(
   objUD: Record<any, any>
 ): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT> {
   if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function IsObjDataOfObjPolygonSegment(
+  objUD: Record<any, any>
+): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SEGMENT_POLYGON> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_SEGMENT_POLYGON) {
     return true;
   } else {
     return false;

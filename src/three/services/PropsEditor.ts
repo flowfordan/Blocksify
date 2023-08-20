@@ -4,12 +4,13 @@ import {
   ICommonObjData,
   IsObjDataOfObjLineSegment,
   IsObjDataOfObjMain,
+  IsObjDataOfObjPolygonSegment,
   IsObjDataOfObjPrimPt,
   OBJ_GENERAL_TYPE,
   SpecificObjDomainPropName,
 } from 'shared/types/objs';
 import { Line2 } from 'three-fatline';
-import { Vector3 } from 'three';
+import { ShapeUtils, Vector2, Vector3 } from 'three';
 
 export class PropsEditor {
   constructor() {
@@ -77,13 +78,16 @@ export class PropsEditor {
       //
       const propValue = mainData[propKey as keyof typeof mainData];
       if (typeof propValue === 'object') {
-        if (propValue.editType === 'calculated') {
-          //calculate depend on propKey
-          //TODO calc several calculated props
-          const dist = this._tempCalcObjPhysProp(obj, propKey);
-          if (dist) propValue.value = dist;
-          break;
-        }
+        if (propValue.editType !== 'calculated') continue;
+        //calculate depend on propKey
+        //TODO calc several calculated props
+        // if (propKey === 'objArea') {
+        //   //
+        // } else if (propKey === 'objLength') {
+        //   //
+        // }
+        const calcVal = this._tempCalcObjPhysProp(obj, propKey);
+        if (calcVal) propValue.value = calcVal;
       }
     }
     //need to get prim_pt
@@ -100,7 +104,19 @@ export class PropsEditor {
         for (let j = 0; j < primPt.children.length; j++) {
           //check if need to find line or polygon
           if (label === 'objArea') {
-            //
+            if (IsObjDataOfObjPolygonSegment(primPt.children[j].userData)) {
+              const polygonGeometry = (primPt.children[j] as THREE.Mesh).geometry as THREE.ShapeGeometry;
+              const coords = polygonGeometry.attributes.position.array;
+              const shapeContour: Array<Vector2> = [];
+
+              for (let i = 0; i < coords.length; i += 3) {
+                shapeContour.push(new Vector2(coords[i], coords[i + 1]));
+              }
+
+              const area = Math.abs(ShapeUtils.area(shapeContour));
+              console.log(area);
+              return area;
+            }
           } else if (label === 'objLength') {
             if (IsObjDataOfObjLineSegment(primPt.children[j].userData)) {
               const line = primPt.children[j] as Line2;
