@@ -6,13 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "_dev": "webpack serve --mode=development",
-    "_build": "webpack --mode=production",
-    "_tscheck": "tsc",
-    "_lint-check": "eslint . ",
-    "_lint": "eslint . --fix",
-    "_test": "react-scripts test"
+    "lint": "next lint"
   },
   "eslintConfig": {
     "extends": [

@@ -1,7 +1,7 @@
 # BLOCKSIFY
 ## WORK IN PROGRESS
 
-Interactive web app, build using Three js, React and ~~Redux~~ MobX
+Interactive web app, build using Three js, React and MobX
 
 
 ### Take a look!
