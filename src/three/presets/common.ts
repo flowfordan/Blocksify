@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
 
-const _vec2 = new THREE.Vector2();
-const _vec3 = new THREE.Vector3();
-
 //raycaster
 const raycaster = new THREE.Raycaster();
 
@@ -21,4 +18,4 @@ raycaster.params = {
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 (raycaster.params as any).Line2! = { threshold: 25 };
 
-export { _vec2, _vec3, raycaster };
+export { raycaster };

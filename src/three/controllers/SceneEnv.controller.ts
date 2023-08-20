@@ -1,7 +1,7 @@
 import { reaction } from 'mobx';
 import { SceneEnvOptionId } from 'shared/types';
 import * as THREE from 'three';
-import { getGridHelper } from 'three/helpers/gridHelper';
+import { getGridHelper } from 'three/presets/gridHelper';
 import { dirLight, dirLightHelper, hemiLight } from 'three/presets';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { SceneEnvModel } from 'three/shared';

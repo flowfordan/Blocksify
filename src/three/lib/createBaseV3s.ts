@@ -9,7 +9,7 @@ export type AnglePts = {
 /* construct collection - ANGLE: [V3, V3]
 base coords of points on circle of Radius 1
 to certain directions(angles) from 0 to 180 */
-const createBaseV3s = (snapAngles: Array<number>): AnglePts => {
+export const createBaseV3s = (snapAngles: Array<number>): AnglePts => {
   const coordsPerAngle: AnglePts = {};
   const maxAngle = 180;
   const baseRadius = 1;
@@ -46,5 +46,3 @@ const createBaseV3s = (snapAngles: Array<number>): AnglePts => {
   }
   return coordsPerAngle;
 };
-
-export { createBaseV3s };
