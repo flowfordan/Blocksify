@@ -52,7 +52,7 @@ export const LeftBar = observer((): JSX.Element => {
                   key={key}
                   propId={key}
                   propName={propValue.pubTitle}
-                  propValue={propValue.value.toString()}
+                  propValue={propValue.value}
                   isEditable={propValue.editType === 'editable'}
                   controls={controlsData}
                 />

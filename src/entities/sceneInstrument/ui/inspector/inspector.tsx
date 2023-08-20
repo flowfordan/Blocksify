@@ -11,7 +11,7 @@ export const InspectorInstr = ({
   propId,
   ...props
 }: ObjDataPropProps) => {
-  const [slideVal, setSlideVal] = useState(propValue);
+  const [slideVal, setSlideVal] = useState(propValue.toString());
   const timer = useRef<NodeJS.Timeout | null>(null);
   const controlsSpecs = controls ? controls[propId as keyof typeof controls] : null;
 
@@ -40,6 +40,8 @@ export const InspectorInstr = ({
             variant="dark"
             disabled
           />
+        ) : typeof propValue === 'number' ? (
+          propValue.toFixed(2)
         ) : (
           propValue
         )}
