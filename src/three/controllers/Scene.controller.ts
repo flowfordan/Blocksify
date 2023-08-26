@@ -52,8 +52,9 @@ export class SceneController {
     this.adapter.setPointerCoords(this.pointerCoords);
   };
 
-  updateSceneStage(layerId: number, quantity: number) {
+  updateSceneStage(layerId: number, count: number, prevCount?: number) {
     //get layer id and quantity
-    this.adapter.setStage(layerId, quantity);
+    const isAsc = count > (prevCount || 0);
+    this.adapter.setStage(layerId, count, isAsc);
   }
 }

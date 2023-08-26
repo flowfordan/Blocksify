@@ -11,23 +11,25 @@ export class SceneAdapter {
     adaptersModel.sceneModel.setPointerCoords(coords);
   };
 
-  setStage(layerId: number, quantity: number) {
+  setStage(layerId: number, count: number, isAsc: boolean) {
     const curStage = adaptersModel.sceneModel.currentStage;
     if (!curStage) throw new Error('No current stage');
     switch (curStage.id) {
       case 'bordered':
-        if (layerId === 2 && quantity === 1) {
+        if (layerId === 2 && count === 1 && isAsc) {
           adaptersModel.sceneModel.setStageNext();
         }
         break;
       case 'divided':
-        if (layerId === 3 && quantity === 2) {
+        if (layerId === 3 && count === 2 && isAsc) {
           adaptersModel.sceneModel.setStageNext();
-        } else if (layerId === 3 && quantity === 0) {
-          adaptersModel.sceneModel.setStagePrev();
         }
         break;
-      case 'blocksyfied':
+      case 'blocksified':
+        if (layerId === 3 && count === 1 && !isAsc) {
+          console.log('SET PREV STAGE');
+          adaptersModel.sceneModel.setStagePrev();
+        }
         break;
       case 'start':
         break;

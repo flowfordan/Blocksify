@@ -1,6 +1,8 @@
 import React from 'react';
 import './stages.scss';
 import cn from 'classnames';
+import { observer } from 'mobx-react-lite';
+import { sceneModel } from 'entities/scene';
 
 interface IStageBlock {
   id: string;
@@ -42,10 +44,11 @@ const mockBlocks = [
 ];
 
 export const Stages = observer(() => {
+  const stages = sceneModel.stages;
   return (
     <div className={'stages'}>
       <span className={'stages__ptsWrap'}>
-        {mockBlocks.map((b) => {
+        {stages.map((b) => {
           return (
             <div
               key={b.id}
@@ -77,7 +80,7 @@ export const Stages = observer(() => {
                 })}
               >
                 <svg>
-                  <use href={`/icons/stage_bundle.svg#${b.icon}`} className={'stages__ptsWrap__icon__svg'} />
+                  <use href={`/icons/stage_bundle.svg#${b.id}`} className={'stages__ptsWrap__icon__svg'} />
                 </svg>
                 <div
                   className={cn('stages__ptsWrap__txt', {

@@ -2,7 +2,7 @@ import { makeAutoObservable, toJS } from 'mobx';
 import type { PointerCoords } from 'shared/types';
 import { Vector3 } from 'three';
 
-const SceneStageIDs = ['start', 'bordered', 'divided', 'blocksyfied'] as const;
+const SceneStageIDs = ['start', 'bordered', 'divided', 'blocksified'] as const;
 type SceneStageId = (typeof SceneStageIDs)[number];
 interface IStage {
   id: SceneStageId;
@@ -16,13 +16,13 @@ const stages: Array<IStage> = [
     id: 'start',
     order: 0,
     title: 'start',
-    status: 'current',
+    status: 'completed',
   },
   {
     id: 'bordered',
     order: 1,
     title: 'bordered',
-    status: 'not_started',
+    status: 'current',
   },
   {
     id: 'divided',
@@ -31,7 +31,7 @@ const stages: Array<IStage> = [
     status: 'not_started',
   },
   {
-    id: 'blocksyfied',
+    id: 'blocksified',
     order: 3,
     title: 'blocksyfied',
     status: 'not_started',
@@ -90,10 +90,10 @@ export class SceneModel {
     //set current
     //set prev as completed
     for (let i = this.stages.length - 1; i > -1; i--) {
-      //
       if (this.stages[i].status === 'current') {
         this.stages[i].status = 'not_started';
         this.stages[i - 1].status = 'current';
+        break;
       }
     }
   };

@@ -65,12 +65,13 @@ export class CommonController {
         return this.layersModel.getLayerById(2)?.objsQuantity;
       },
       (cur, prev, reaction) => {
-        if (!cur) return;
+        if (typeof cur === 'undefined') return;
         if (cur === 1) {
-          console.log('layer BORDER obj added');
-          // this.layersController.setStage(1);
+          console.log('layer BORDER obj added', this.layersModel.currentLayer._id);
+          this.sceneController.updateSceneStage(this.layersModel.currentLayer._id, cur, prev);
         } else if (cur === 0) {
-          //
+          console.log('layer BORDER obj 0', this.layersModel.currentLayer._id);
+          this.sceneController.updateSceneStage(this.layersModel.currentLayer._id, cur, prev);
         }
       }
     );
@@ -80,7 +81,11 @@ export class CommonController {
         return this.layersModel.getLayerById(3)?.objsQuantity;
       },
       (cur, prev, reaction) => {
-        console.log('layer obj added');
+        if (typeof cur === 'undefined') return;
+        if (cur === 2 || cur === 1) {
+          console.log('layer BORDER streets trigger', this.layersModel.currentLayer._id, cur);
+          this.sceneController.updateSceneStage(this.layersModel.currentLayer._id, cur, prev);
+        }
       }
     );
   };
