@@ -80,6 +80,7 @@ export class SceneView {
       this.cameraController,
       this.instrumentsController,
       this.layersController,
+      this.sceneController,
       layersModel,
       cameraModel,
       instrumentsModel

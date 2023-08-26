@@ -41,7 +41,7 @@ const mockBlocks = [
   },
 ];
 
-export const Stages = () => {
+export const Stages = observer(() => {
   return (
     <div className={'stages'}>
       <span className={'stages__ptsWrap'}>
@@ -96,4 +96,4 @@ export const Stages = () => {
       {/* <span>Stuff</span> */}
     </div>
   );
-};
+});

@@ -86,6 +86,18 @@ export class SceneModel {
     this.stages[currentIdx + 1].status = 'current';
   };
 
+  setStagePrev = () => {
+    //set current
+    //set prev as completed
+    for (let i = this.stages.length - 1; i > -1; i--) {
+      //
+      if (this.stages[i].status === 'current') {
+        this.stages[i].status = 'not_started';
+        this.stages[i - 1].status = 'current';
+      }
+    }
+  };
+
   resetStagesToStart = () => {
     for (let i = 0; i < this.stages.length; i++) {
       if (i === 0) {
@@ -93,6 +105,10 @@ export class SceneModel {
       } else this.stages[i].status = 'not_started';
     }
   };
+
+  get currentStage() {
+    return this.stages.find((stage) => stage.status === 'current');
+  }
 }
 
 export const sceneModel = new SceneModel();

@@ -51,4 +51,9 @@ export class SceneController {
     //adapter - set coords
     this.adapter.setPointerCoords(this.pointerCoords);
   };
+
+  updateSceneStage(layerId: number, quantity: number) {
+    //get layer id and quantity
+    this.adapter.setStage(layerId, quantity);
+  }
 }

@@ -10,4 +10,35 @@ export class SceneAdapter {
   setPointerCoords = (coords: PointerCoords) => {
     adaptersModel.sceneModel.setPointerCoords(coords);
   };
+
+  setStage(layerId: number, quantity: number) {
+    const curStage = adaptersModel.sceneModel.currentStage;
+    if (!curStage) throw new Error('No current stage');
+    switch (curStage.id) {
+      case 'bordered':
+        if (layerId === 2 && quantity === 1) {
+          adaptersModel.sceneModel.setStageNext();
+        }
+        break;
+      case 'divided':
+        if (layerId === 3 && quantity === 2) {
+          adaptersModel.sceneModel.setStageNext();
+        } else if (layerId === 3 && quantity === 0) {
+          adaptersModel.sceneModel.setStagePrev();
+        }
+        break;
+      case 'blocksyfied':
+        break;
+      case 'start':
+        break;
+      default:
+        break;
+    }
+    //adaptersModel.sceneModel.setPointerCoords(coords);
+    //get current stage
+    //if id = 2, and quant = 1 => next stage
+    //id = 2, quant = 0 => set 1st stage
+    //
+    //if id = 3, and quant = 2 => next stage
+  }
 }

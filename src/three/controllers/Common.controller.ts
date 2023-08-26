@@ -8,6 +8,7 @@ import { CameraViewId } from 'shared/types';
 import { CameraController } from './Camera.controller';
 import { InstrumentsController } from './Instruments.controller';
 import { LayersController } from './Layers.controller';
+import { SceneController } from './Scene.controller';
 
 /* Controller that is responsible for common actions like camera change, layers visibility, etc. */
 
@@ -15,6 +16,7 @@ export class CommonController {
   cameraController: CameraController;
   instrumentsController: InstrumentsController;
   layersController: LayersController;
+  sceneController: SceneController;
   layersModel: LayersModel;
   cameraModel: CameraModel;
   instrumentsModel: InstrumentsModel;
@@ -22,6 +24,7 @@ export class CommonController {
     camController: CameraController,
     instrumentsController: InstrumentsController,
     layersController: LayersController,
+    sceneController: SceneController,
     layersModel: LayersModel,
     cameraModel: CameraModel,
     instrumentsModel: InstrumentsModel
@@ -29,6 +32,7 @@ export class CommonController {
     this.cameraController = camController;
     this.instrumentsController = instrumentsController;
     this.layersController = layersController;
+    this.sceneController = sceneController;
     this.layersModel = layersModel;
     this.cameraModel = cameraModel;
     this.instrumentsModel = instrumentsModel;
@@ -52,6 +56,31 @@ export class CommonController {
       },
       (value, prevValue, reaction) => {
         this.updateCamera(value);
+      }
+    );
+
+    //CHANGE SCNENE STAGE IF OBJS ADDED - BORDER
+    reaction(
+      () => {
+        return this.layersModel.getLayerById(2)?.objsQuantity;
+      },
+      (cur, prev, reaction) => {
+        if (!cur) return;
+        if (cur === 1) {
+          console.log('layer BORDER obj added');
+          // this.layersController.setStage(1);
+        } else if (cur === 0) {
+          //
+        }
+      }
+    );
+    //STREETS
+    reaction(
+      () => {
+        return this.layersModel.getLayerById(3)?.objsQuantity;
+      },
+      (cur, prev, reaction) => {
+        console.log('layer obj added');
       }
     );
   };
