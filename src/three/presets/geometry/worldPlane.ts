@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import { Plane } from 'three';
+import { COLORS_SCENE } from 'three/config/consts';
 
 //base world plane
 const worldPlaneGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 8, 8);
 const worldPlaneMaterial = new THREE.MeshStandardMaterial({
-  color: 0xcbcbcb,
+  color: COLORS_SCENE.ground,
   side: THREE.DoubleSide,
 });
 

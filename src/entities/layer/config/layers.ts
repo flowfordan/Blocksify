@@ -2,6 +2,7 @@ import { ILayer, InstrumentsId } from 'shared/types';
 import { getLineMat, getPolygonMat } from 'three/config/objs3d';
 import { blocksObjPreset, borderObjPreset, buildingsObjPreset, streetsObjPreset } from './layerObjects';
 import { OBJ_GENERAL_TYPE } from 'shared/types/objs';
+import { COLORS_SCENE } from 'three/config/consts';
 
 //objects 3d materials
 //LAYER 2 - BORDER
@@ -12,8 +13,8 @@ const borderMainContent = {
   _descr: 'Border or/and Zone inside Border ',
   _stage: 0,
   _mat: {
-    line: getLineMat(0x1d5e9a, 5, true),
-    polygon: getPolygonMat(),
+    line: getLineMat(COLORS_SCENE.border_path, 5, true),
+    polygon: getPolygonMat(COLORS_SCENE.border_fill),
   },
 };
 
