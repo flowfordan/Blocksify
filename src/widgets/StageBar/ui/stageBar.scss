@@ -15,6 +15,11 @@
   &:hover {
     background-color: $bg_black-hover;
   }
+  svg {
+    width: 10px;
+    height: 10px;
+    fill: $grey_main;
+  }
 }
 
 .stageBar__bar {

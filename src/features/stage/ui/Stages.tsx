@@ -4,45 +4,6 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { sceneModel } from 'entities/scene';
 
-interface IStageBlock {
-  id: string;
-  order: number;
-  icon: string;
-  title: string;
-  status: 'not_started' | 'current' | 'completed';
-}
-
-const mockBlocks = [
-  {
-    id: 'start',
-    order: 0,
-    icon: 'start',
-    title: 'start',
-    status: 'completed',
-  },
-  {
-    id: 'bordered',
-    order: 1,
-    icon: 'bordered',
-    title: 'bordered',
-    status: 'current',
-  },
-  {
-    id: 'divided',
-    order: 2,
-    icon: 'divided',
-    title: 'divided',
-    status: 'not_started',
-  },
-  {
-    id: 'blocksyfied',
-    order: 3,
-    icon: 'blocksified',
-    title: 'blocksyfied',
-    status: 'not_started',
-  },
-];
-
 export const Stages = observer(() => {
   const stages = sceneModel.stages;
   return (
