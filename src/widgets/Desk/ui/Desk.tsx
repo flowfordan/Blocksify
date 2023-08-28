@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SceneView } from 'three/SceneView';
 import { layersModel } from 'entities/layer';
 import { instrumentsModel } from 'entities/sceneInstrument';
@@ -8,59 +8,47 @@ import { sceneModel } from 'entities/scene';
 
 import './desk.scss';
 import { cameraModel } from 'entities/camera';
+import useResizeObserver from './useResizeObserver';
+import { generatorModel } from 'features/generator';
 
 export const Desk = () => {
-  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
-  const [sceneView, setSceneView] = useState<SceneView | null>(null);
-
-  const canvasScene = useRef<null | HTMLCanvasElement>(null);
-  const canvasUI = useRef<null | HTMLCanvasElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  // const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  // const [sceneView, setSceneView] = useState<SceneView | null>(null);
   const canvasContainer = useRef<null | HTMLDivElement>(null);
+  const sceneViewRef = useRef<SceneView | null>(null);
 
-  const resizeObserver = new ResizeObserver((entries) => {
-    entries.forEach((entry) => {
-      //on view params change
-      if (sceneView) {
-        sceneView.onWindowResize(entry.contentRect.width, entry.contentRect.height);
+  const onResize = useCallback(
+    (target: HTMLCanvasElement, entry: ResizeObserverEntry) => {
+      // Handle the resize event
+      if (sceneViewRef.current) {
+        sceneViewRef.current.onWindowResize(entry.contentRect.width, entry.contentRect.height);
       }
-    });
-  });
+    },
+    [sceneViewRef.current, isMounted]
+  );
+  const canvasScene = useResizeObserver(onResize);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    const innerTreeRef = canvasScene.current;
+    if (!innerTreeRef) return;
+    sceneViewRef.current = new SceneView(
+      innerTreeRef,
+      layersModel,
+      instrumentsModel,
+      instrumentsHelpersModel,
+      sceneModel,
+      sceneEnvModel,
+      cameraModel,
+      generatorModel
+    );
+  }, [isMounted]);
 
   //on Mount
   useEffect(() => {
-    const innerTreeRef = canvasScene.current;
-    if (!innerTreeRef) throw new Error('There is no canvas ref!');
-    setSceneView(
-      (prev) =>
-        new SceneView(
-          innerTreeRef,
-          layersModel,
-          instrumentsModel,
-          instrumentsHelpersModel,
-          sceneModel,
-          sceneEnvModel,
-          cameraModel
-        )
-    );
-
-    if (canvasContainer.current) {
-      const width = canvasContainer.current.offsetWidth;
-      const height = canvasContainer.current.offsetHeight;
-      setCanvasSize((prevSizes) => {
-        return {
-          ...prevSizes,
-          width: width,
-          height: height,
-        };
-      });
-    }
+    setIsMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (sceneView && canvasScene.current) {
-      resizeObserver.observe(canvasScene.current, { box: 'content-box' });
-    }
-  }, [sceneView]);
 
   return (
     <div ref={canvasContainer} className={'desk'}>
@@ -71,6 +59,17 @@ export const Desk = () => {
         // width={canvasSize.width}
         // height={canvasSize.height}
       />
+      {/* {isMounted && typeof window !== 'undefined' ? (
+        <canvas
+          ref={canvasScene}
+          className={'desk__canvasScene'}
+          id="canvasScene"
+          // width={canvasSize.width}
+          // height={canvasSize.height}
+        />
+      ) : (
+        'Canvas'
+      )} */}
     </div>
   );
 };

@@ -8,4 +8,6 @@ export interface SliderProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLI
   val: number;
   uiItemId?: number;
   onSliderChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSliderChanged?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
+  variant?: 'default' | 'dark';
 }

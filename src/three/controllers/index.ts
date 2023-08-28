@@ -6,3 +6,4 @@ export * from './Renderer.controller';
 export * from './Scene.controller';
 export * from './SceneEnv.controller';
 export * from './Common.controller';
+export * from './Generator.controller';

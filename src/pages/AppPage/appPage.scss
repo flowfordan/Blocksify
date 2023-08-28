@@ -1,3 +1,6 @@
+@use 'styles/' as *;
+$barWidth: 250px;
+
 .appPage {
   height: 100%;
   position: relative;
@@ -32,7 +35,7 @@
 
     left: 0;
 
-    width: 250px;
+    width: $barWidth;
   }
 
   &__rightBar {
@@ -41,7 +44,7 @@
 
     right: 0;
 
-    width: 250px;
+    width: $barWidth;
   }
 
   &__canvas{
@@ -50,5 +53,25 @@
     bottom: 0;
     left: 0;
     right: 0;
-}
+  }
+
+  &__stageBar {
+    position: fixed;
+    bottom: 16px;
+    left: calc($barWidth + 16px);
+    z-index: 10;
+  }
+
+  &__version {
+    user-select: none;
+    pointer-events: none;
+    z-index: 9999;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: rgba($bg_black, 0.5);
+    color: $grey_slight;
+    font-size: 10px;
+    padding: 4px 16px;
+  }
 }

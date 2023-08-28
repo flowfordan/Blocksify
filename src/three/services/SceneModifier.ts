@@ -1,7 +1,6 @@
+import { cube, worldPlaneHelper, worldPlaneMesh } from 'three/presets';
 import { SceneObjsWatcher } from './SceneObjsWatcher';
 import * as THREE from 'three';
-import { cube, myLine } from 'three/config/geometry/geometry';
-import { worldPlaneHelper, worldPlaneMesh } from 'three/config/geometry/worldPlane';
 
 export class SceneModifier {
   scene: THREE.Scene;
@@ -12,7 +11,8 @@ export class SceneModifier {
   }
 
   addObj = (object: THREE.Object3D) => {
-    //console.log('Scne Modifier: Obj Added', object);
+    // console.log('Scne Modifier: Obj Added', object);
+    // console.log('Scene modifier, scene children', this.scene.children);
     this.objWatcher.onObjAdded(object);
     this.scene.add(object);
   };
@@ -38,7 +38,8 @@ export class SceneModifier {
 
   _initSceneTempGeometry = () => {
     //some initial 3dobjects
-    this.scene.add(cube, myLine, worldPlaneMesh, worldPlaneHelper);
+    // this.scene.add(cube, myLine, worldPlaneMesh, worldPlaneHelper);
+    this.scene.add(cube, worldPlaneMesh, worldPlaneHelper);
     cube.material.color.setHex(0x686868);
   };
 }

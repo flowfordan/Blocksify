@@ -1,7 +1,9 @@
 import { LineMaterial } from 'three-fatline';
-import { IObjDataProps } from './objs';
+import { ICommonObjData, IObjDataProps, OBJ_GENERAL_TYPE } from './objs';
+import { InstrumentsId } from './instruments';
 
 export enum ILayerIDs {
+  init = 0,
   borders = 2,
   streets = 3,
   blocks = 4,
@@ -19,32 +21,51 @@ interface LayerContentMaterials {
 }
 
 interface LayerContentItem {
-  id: number;
-  name: string;
-  descr: string;
-  stage: number;
-  mat: LayerContentMaterials;
+  _id: number;
+  _name: string;
+  _descr: string;
+  _stage: number;
+  _mat: LayerContentMaterials;
 }
 
-interface LayerContent {
-  //main - manual user created
-  //add - auto generated off user-created data
-  main: LayerContentItem | null;
-  add: {
-    rt: LayerContentItem | null;
-    auto: LayerContentItem | null;
-  };
+interface ILayerContentConfig {
+  [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: LayerContentItem | null;
+  [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: LayerContentItem | null;
 }
 
-export interface Layer {
-  name: ILayerName;
-  id: LayerID; //three layers from 0 to 32
+interface PartsData {
+  main: ICommonObjData<OBJ_GENERAL_TYPE.OBJ_PRIM_PT>;
+  add: ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SECOND_PT>;
+}
+
+//CREATION OBJS CONFIG
+export type ObjCreationType = 'manual' | 'generation_on_add' | 'generation_manual_trigger' | null;
+export type ObjGenerationTemplate = 'parallel' | 'block' | 'build' | null;
+export interface ICreationConfig {
+  creationType: ObjCreationType;
+  triggeredByLayerChange: LayerID | null;
+  generationTemplate: ObjGenerationTemplate;
+}
+
+interface ILayerCreationConfig {
+  [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: ICreationConfig | null; //null - manual obj creation
+  [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: ICreationConfig | null;
+}
+
+export interface ILayer {
+  _name: ILayerName;
+  _id: LayerID; //three layers from 0 to 32
+  //_stageWhenActive: number; //stage when layer is active
   active: boolean;
   empty: boolean;
   editable: boolean;
   visible: boolean;
   blocked: boolean;
-  content: LayerContent;
-  objectsQuantity: number; //only main objects
+  /**   Available instruments when Layer is Active */
+  _disabledInstruments: Array<InstrumentsId>;
+  objsQuantity: number; //only main objects
   objDefaultData: IObjDataProps[keyof IObjDataProps];
+  ptsData: PartsData; //main & subpts obj data config
+  _creationObjsConfig: ILayerCreationConfig;
+  _contentConfig: ILayerContentConfig;
 }

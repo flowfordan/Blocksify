@@ -1,3 +1,5 @@
+import { IObjDataProps } from './objs';
+
 export enum InstrumentsId {
   LINE = 'line',
   PLINE = 'pLine',
@@ -31,9 +33,23 @@ export interface Instrument {
   autoTriggerFor?: InstrumentsId;
 }
 
+export interface INewObjDataToSet {
+  name: string;
+  value: string;
+}
+
 export type InstrumentsData = {
-  [InstrumentsId.SELECTOR]: { selectedObjData: ''; intersectedObjData: '' };
-  [InstrumentsId.INSPECTOR]: { currentObj: '' };
+  // [InstrumentsId.SELECTOR]: {
+  //   selectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+  //   intersectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+  //   //data to set - for selected obj
+  //   //prop name and prop value
+  // };
+  [InstrumentsId.INSPECTOR]: {
+    selectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+    intersectedObjData: IObjDataProps[keyof IObjDataProps] | null;
+    dataToSet: INewObjDataToSet | null;
+  };
   [InstrumentsId.EDITOR]: { currentData: ''; newData: '' };
   ////...generator
 };

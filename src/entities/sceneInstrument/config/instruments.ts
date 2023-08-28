@@ -50,7 +50,7 @@ export const DefInstruments: Array<Instrument> = [
     lvl: 'middle',
     type: 'other',
     activity: 'continous',
-    activeCursor: 'wait',
+    activeCursor: 'pointer',
   },
   {
     id: InstrumentsId.EDITOR,
@@ -65,7 +65,7 @@ export const DefInstruments: Array<Instrument> = [
 ];
 
 export const DefInstrumentsData: InstrumentsData = {
-  selector: { selectedObjData: '', intersectedObjData: '' },
-  inspector: { currentObj: '' },
+  // selector: { selectedObjData: null, intersectedObjData: null },
+  inspector: { selectedObjData: null, intersectedObjData: null, dataToSet: null },
   editor: { currentData: '', newData: '' },
 };

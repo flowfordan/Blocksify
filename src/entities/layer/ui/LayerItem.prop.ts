@@ -7,4 +7,5 @@ export interface LayerItemProps extends DetailedHTMLProps<HTMLAttributes<HTMLDiv
   isActive: boolean;
   isVisible: boolean;
   isBlocked?: boolean;
+  numOfObjs: number;
 }

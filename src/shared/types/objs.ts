@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ILayerIDs } from './layers';
 
+//segments names
+export enum OBJ_SEGMENT_NAME {
+  point_segment = 'point_segment',
+  line_segment = 'line_segment',
+  polygon_segment = 'polygon_segment',
+}
+
 //OBJ GENERAL TYPE
 export enum OBJ_GENERAL_TYPE {
   //1 lvl
@@ -11,11 +18,14 @@ export enum OBJ_GENERAL_TYPE {
   OBJ_SECOND_PT = 'OBJ_SECOND_PT',
   //3 lvl
   OBJ_SEGMENT = 'OBJ_SEGMENT',
+  OBJ_SEGMENT_LINE = 'OBJ_SEGMENT_LINE',
+  OBJ_SEGMENT_POINT = 'OBJ_SEGMENT_POINT',
+  OBJ_SEGMENT_POLYGON = 'OBJ_SEGMENT_POLYGON',
 }
 
 type OBJ_GENERAL_TYPE_UN = `${OBJ_GENERAL_TYPE}`;
 
-type ICommonObjData<T extends OBJ_GENERAL_TYPE_UN> = {
+export type ICommonObjData<T extends OBJ_GENERAL_TYPE> = {
   OBJ_GENERAL_TYPE: T extends OBJ_GENERAL_TYPE.OBJ_MAIN
     ? OBJ_GENERAL_TYPE.OBJ_MAIN
     : T extends OBJ_GENERAL_TYPE.OBJ_TEMP
@@ -26,6 +36,12 @@ type ICommonObjData<T extends OBJ_GENERAL_TYPE_UN> = {
     ? OBJ_GENERAL_TYPE.OBJ_SECOND_PT
     : T extends OBJ_GENERAL_TYPE.OBJ_SEGMENT
     ? OBJ_GENERAL_TYPE.OBJ_SEGMENT
+    : T extends OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT
+    ? OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT
+    : T extends OBJ_GENERAL_TYPE.OBJ_SEGMENT_LINE
+    ? OBJ_GENERAL_TYPE.OBJ_SEGMENT_LINE
+    : T extends OBJ_GENERAL_TYPE.OBJ_SEGMENT_POLYGON
+    ? OBJ_GENERAL_TYPE.OBJ_SEGMENT_POLYGON
     : OBJ_GENERAL_TYPE_UN;
 };
 
@@ -45,16 +61,25 @@ interface IObjData_Common<L extends number> extends ICommonObjData<OBJ_GENERAL_T
   objName: IObjPropData<string>;
 }
 
-interface IObjData_Specifics {
-  objMaxFloors: IObjPropData<number>;
-  objMinFloors: IObjPropData<number>;
-  //
-  objLength: IObjPropData<number>;
-  objWidth: IObjPropData<number>;
-  objArea: IObjPropData<number>;
-  //
-  objFloors: IObjPropData<number>;
-}
+export type SpecificObjDomainPropName_Calc = 'objLength' | 'objArea';
+export type SpecificObjDomainPropName =
+  | 'objMaxFloors'
+  | 'objMinFloors'
+  | 'objWidth'
+  | 'objFloors'
+  | SpecificObjDomainPropName_Calc;
+
+type IObjData_Specifics = {
+  [K in SpecificObjDomainPropName]: IObjPropData<number>;
+  // objMaxFloors: IObjPropData<number>;
+  // objMinFloors: IObjPropData<number>;
+  // //
+  // objLength: IObjPropData<number>;
+  // objWidth: IObjPropData<number>;
+  // objArea: IObjPropData<number>;
+  // //
+  // objFloors: IObjPropData<number>;
+};
 
 export type IObjData_Joined = IObjData_Common<number> & IObjData_Specifics;
 
@@ -74,6 +99,54 @@ export interface IObjDataProps {
 
 export function IsObjDataOfObjMain(objUD: Record<any, any>): objUD is IObjDataProps[keyof IObjDataProps] {
   if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_MAIN) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function IsObjDataOfObjPrimPt(objUD: Record<any, any>): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_PRIM_PT> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_PRIM_PT) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function IsObjDataOfObjSecondaryPt(
+  objUD: Record<any, any>
+): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SECOND_PT> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_SECOND_PT) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function IsObjDataOfObjLineSegment(
+  objUD: Record<any, any>
+): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SEGMENT_LINE> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_SEGMENT_LINE) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function IsObjDataOfObjPointSegment(
+  objUD: Record<any, any>
+): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_SEGMENT_POINT) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function IsObjDataOfObjPolygonSegment(
+  objUD: Record<any, any>
+): objUD is ICommonObjData<OBJ_GENERAL_TYPE.OBJ_SEGMENT_POLYGON> {
+  if (objUD['OBJ_GENERAL_TYPE'] && objUD['OBJ_GENERAL_TYPE'] === OBJ_GENERAL_TYPE.OBJ_SEGMENT_POLYGON) {
     return true;
   } else {
     return false;

@@ -2,7 +2,6 @@
 import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
-import { worldPlaneMesh, worldPlane, worldPlaneHelper } from './config/geometry/worldPlane';
 import {
   LabelRendererController,
   RendererController,
@@ -12,6 +11,7 @@ import {
   LayersController,
   SceneEnvController,
   CommonController,
+  GeneratorController,
 } from './controllers';
 import type {
   InstrumentsHelpersModel,
@@ -20,7 +20,15 @@ import type {
   SceneModel,
   SceneEnvModel,
   CameraModel,
+  GeneratorModel,
 } from './shared';
+import { worldPlane } from './presets';
+// import { sceneModel } from 'entities/scene';
+// import { cameraModel } from 'entities/camera';
+// import { layersModel } from 'entities/layer';
+// import { sceneEnvModel } from 'entities/sceneEnv';
+// import { instrumentsModel, instrumentsHelpersModel } from 'entities/sceneInstrument';
+// import { generatorModel } from 'features/generator';
 
 export class SceneView {
   //utility controllers
@@ -33,6 +41,7 @@ export class SceneView {
   instrumentsController: InstrumentsController;
   layersController: LayersController;
   commonController: CommonController;
+  generatorController: GeneratorController;
 
   groundPlane: THREE.Plane;
   //TODO remove any
@@ -45,7 +54,8 @@ export class SceneView {
     instrumentsHelpersModel: InstrumentsHelpersModel,
     sceneModel: SceneModel,
     sceneEnvModel: SceneEnvModel,
-    cameraModel: CameraModel
+    cameraModel: CameraModel,
+    generatorModel: GeneratorModel
   ) {
     this.groundPlane = worldPlane;
     //utility
@@ -70,10 +80,12 @@ export class SceneView {
       this.cameraController,
       this.instrumentsController,
       this.layersController,
+      this.sceneController,
       layersModel,
       cameraModel,
       instrumentsModel
     );
+    this.generatorController = new GeneratorController(generatorModel);
 
     //STATS
     this.stats = Stats();
@@ -88,13 +100,19 @@ export class SceneView {
       this.cameraController.camera,
       this.groundPlane
     );
+    this.initLayers();
+    console.log('scene constr');
+  }
+
+  initLayers() {
+    this.layersController.init();
   }
 
   onWindowResize(vpW: number, vpH: number) {
     this.rendererController.renderer.setSize(vpW, vpH, false);
     const aspect = vpW / vpH;
     const viewSize = 200;
-    //upd camera ratio depending on cam Type
+    // //upd camera ratio depending on cam Type
     this.cameraController.updOnResize(aspect, viewSize);
 
     this.labelRendererController.renderer.setSize(vpW, vpH);

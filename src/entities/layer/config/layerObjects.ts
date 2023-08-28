@@ -47,7 +47,7 @@ export const streetsObjPreset: IObjDataProps[3] = {
   },
   objWidth: {
     editType: 'editable',
-    value: 0,
+    value: 10, //default data
     pubTitle: 'width',
   },
 };

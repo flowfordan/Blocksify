@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Vector2 } from 'three';
 import { Line2, LineGeometry, LineMaterial } from 'three-fatline';
+import { COLORS_SCENE } from './consts';
 
 export interface I3dObjPoint {
   form: THREE.Points | null;
@@ -43,14 +44,14 @@ const V2ArrToNumArr = (arr: Array<Vector2>, baseLevel: number) => {
 const pMat = new THREE.PointsMaterial({ color: 0x888888, size: 6, sizeAttenuation: false });
 
 //function returning fatline material with given atributes
-const getLineMat = (color = 0xffffff, lineWidth = 2, dash = false, opacity = 1) => {
+const getLineMat = (color?: string | number, lineWidth = 2, dash = false, opacity = 1, dashS = 8, dashG = 4) => {
   const lineMaterial = new LineMaterial({
-    color: color,
+    color: new THREE.Color(color || COLORS_SCENE.common_points),
     linewidth: lineWidth,
     resolution: new THREE.Vector2(1920, 1080),
     dashed: dash,
-    dashSize: 8,
-    gapSize: 4,
+    dashSize: dashS,
+    gapSize: dashG,
     //dashOffset: 25,
     opacity: opacity,
   });
@@ -58,9 +59,9 @@ const getLineMat = (color = 0xffffff, lineWidth = 2, dash = false, opacity = 1) 
   return lineMaterial;
 };
 
-const getPolygonMat = () => {
+const getPolygonMat = (color?: string | number) => {
   const mat = new THREE.MeshBasicMaterial({
-    color: new THREE.Color('moccasin'),
+    color: new THREE.Color(color || 'moccasin'),
     side: THREE.DoubleSide,
     transparent: true,
     opacity: 0.5,

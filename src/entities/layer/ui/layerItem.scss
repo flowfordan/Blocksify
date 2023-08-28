@@ -1,4 +1,4 @@
-@use 'src/app/styles/consts.scss' as *;
+@use 'styles/' as *;
 
 .layersListItem {
   height: $module * 4;
@@ -32,6 +32,17 @@
 
     display: flex;
     align-items: center;
+
+    &__counter {
+      margin-left: 4px;
+      font-size: 10px;
+      text-align: start;
+      vertical-align: top;
+      color: var(--grey-main);
+      &--hidden {
+        display: none;
+      }
+    }
   }
 
   &__emptyStatus {

@@ -1,0 +1,63 @@
+import React from 'react';
+import './stages.scss';
+import cn from 'classnames';
+import { observer } from 'mobx-react-lite';
+import { sceneModel } from 'entities/scene';
+
+export const Stages = observer(() => {
+  const stages = sceneModel.stages;
+  return (
+    <div className={'stages'}>
+      <span className={'stages__ptsWrap'}>
+        {stages.map((b) => {
+          return (
+            <div
+              key={b.id}
+              className={cn('stages__ptsWrap__line', {
+                ['stages__ptsWrap__line--start']: b.id === 'start',
+                ['stages__ptsWrap__line--completed']: b.status === 'completed',
+                ['stages__ptsWrap__line--current']: b.status === 'current',
+              })}
+            >
+              {/* {b.id !== 'start' && <div className={'stages__ptsWrap__line'}></div>} */}
+
+              <div
+                className={cn('stages__ptsWrap__ptOuter', {
+                  ['stages__ptsWrap__ptOuter--completed']: b.status === 'completed',
+                  ['stages__ptsWrap__ptOuter--current']: b.status === 'current',
+                })}
+              ></div>
+              <div
+                className={cn('stages__ptsWrap__ptInner', {
+                  ['stages__ptsWrap__ptInner--completed']: b.status === 'completed',
+                  ['stages__ptsWrap__ptInner--current']: b.status === 'current',
+                })}
+              ></div>
+
+              <div
+                className={cn('stages__ptsWrap__icon', {
+                  ['stages__ptsWrap__icon--completed']: b.status === 'completed',
+                  ['stages__ptsWrap__icon--current']: b.status === 'current',
+                })}
+              >
+                <svg>
+                  <use href={`/icons/stage_bundle.svg#${b.id}`} className={'stages__ptsWrap__icon__svg'} />
+                </svg>
+                <div
+                  className={cn('stages__ptsWrap__txt', {
+                    ['stages__ptsWrap__txt--start']: b.id === 'start',
+                    ['stages__ptsWrap__txt--completed']: b.status === 'completed',
+                    ['stages__ptsWrap__txt--current']: b.status === 'current',
+                  })}
+                >
+                  {b.title}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </span>
+      {/* <span>Stuff</span> */}
+    </div>
+  );
+});

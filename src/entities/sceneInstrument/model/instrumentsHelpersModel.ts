@@ -1,8 +1,8 @@
 import { makeAutoObservable, autorun, toJS } from 'mobx';
 import { InstrumentHelper, InstrumentHelpersId, InstrumentsHelpersActivity } from 'shared/types/instrumentsHelpers';
 import { Vector3 } from 'three';
-import { createBaseV3s } from 'three/helpers/createBaseV3s';
 import { DefHelpersActivity, DefInstrHelpers } from '../config/helpers';
+import { createBaseV3s } from 'three/lib/createBaseV3s';
 
 export type AnglePts = {
   [key: number]: [Vector3, Vector3];

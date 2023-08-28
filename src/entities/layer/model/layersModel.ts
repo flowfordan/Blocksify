@@ -1,25 +1,31 @@
 import { makeAutoObservable } from 'mobx';
-import { Layer } from 'shared/types';
-import { DefLayers } from '../config/layers';
+import { ILayer } from 'shared/types';
+import { DefLayers, InitLayer } from '../config/layers';
 
 export class LayersModel {
-  layers: Array<Layer>;
-  currentLayer: Layer;
+  layers: Array<ILayer>;
+  currentLayer: ILayer;
 
   constructor() {
     this.layers = DefLayers;
-    this.currentLayer = this.setCurrentLayer();
+    this.currentLayer = InitLayer;
+    // this.init();
     makeAutoObservable(this);
   }
 
-  setCurrentLayer = (layer?: Layer) => {
+  init = () => {
+    console.log('init layer 2');
+    this.toggleActiveLayer(2);
+  };
+
+  setCurrentLayer = (layer?: ILayer) => {
     if (layer) {
       this.currentLayer = layer;
       return layer;
     } else {
       const activeLayer = this.layers.find((l) => l.active);
       if (!activeLayer) {
-        throw new Error('Among all layers there should be 1 ACTIVE!');
+        throw new Error('No active layers');
       }
       return activeLayer;
     }
@@ -27,7 +33,7 @@ export class LayersModel {
 
   toggleActiveLayer = (num: number) => {
     //set new active
-    const newActive = this.layers.find((item) => item.id === num);
+    const newActive = this.layers.find((item) => item._id === num);
 
     if (newActive) {
       if (!newActive.editable) {
@@ -50,7 +56,7 @@ export class LayersModel {
   };
 
   setLayerVisibility = (layerId: number) => {
-    const idx = this.layers.findIndex((el) => el.id === layerId);
+    const idx = this.layers.findIndex((el) => el._id === layerId);
     if (idx > -1) {
       this.layers[idx].visible = !this.layers[idx].visible;
     }
@@ -58,17 +64,23 @@ export class LayersModel {
 
   //TODO case after Selector Delete
   setIsLayerEmpty = (isEmpty: boolean, id: number) => {
-    const layer = this.layers.find((l) => l.id === id);
+    const layer = this.layers.find((l) => l._id === id);
     if (layer) {
       layer.empty = isEmpty;
     }
   };
 
   setLayerObjectsNumber = (layerId: number, num: number) => {
-    const layer = this.layers.find((l) => l.id === layerId);
+    const layer = this.layers.find((l) => l._id === layerId);
     if (layer) {
-      layer.objectsQuantity = layer.objectsQuantity + num;
+      layer.objsQuantity = layer.objsQuantity + num;
     }
+  };
+
+  getLayerById = (layerId: number) => {
+    const layer = this.layers.find((l) => l._id === layerId);
+    if (!layer) return null;
+    return layer;
   };
 }
 

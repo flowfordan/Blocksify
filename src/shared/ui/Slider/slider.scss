@@ -12,6 +12,10 @@
 
   -webkit-transition: .2s;
   transition: opacity .2s;
+
+  &--dark {
+    background: var(--grey-dark);
+  }
 }
 
 .slider:hover {

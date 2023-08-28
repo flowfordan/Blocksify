@@ -1,13 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { returnSvgNode } from 'shared/lib';
+// import { returnSvgNode } from 'shared/lib';
 import './layerItem.scss';
 import { LayerItemProps } from './LayerItem.prop';
 import { layersModel } from '../model/layersModel';
 import { Icon } from 'shared/ui';
 
-const LayerItem = ({ layerId, name, isEmpty, isActive, isVisible, isBlocked, ...props }: LayerItemProps) => {
+const LayerItem = ({ layerId, name, isEmpty, isActive, isVisible, isBlocked, numOfObjs, ...props }: LayerItemProps) => {
   const handleLayerVisibility = () => {
     layersModel.setLayerVisibility(layerId);
   };
@@ -28,7 +28,14 @@ const LayerItem = ({ layerId, name, isEmpty, isActive, isVisible, isBlocked, ...
         {isEmpty ? null : <span className={'layersListItem__nonEmptyBadge'}></span>}
       </span>
       <span className={'layersListItem__name'} onClick={() => handleSelectLayer()}>
-        {name}
+        <span>{name}</span>
+        <span
+          className={cn('layersListItem__name__counter', {
+            ['layersListItem__name__counter--hidden']: numOfObjs === 0,
+          })}
+        >
+          {numOfObjs}
+        </span>
       </span>
       {isBlocked ? (
         <span className={'layersListItem__iconContainer'}>

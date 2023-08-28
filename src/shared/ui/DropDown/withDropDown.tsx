@@ -9,7 +9,7 @@ interface IDropDownInject {
 
 export const withDropDown =
   <P extends object>(TriggerComponent: React.ComponentType<P & IDropDownInject>) =>
-  ({ content, contentClickType = 'regular', ...props }: DropDownProps) => {
+  ({ wrapped, contentClickType = 'regular', ...props }: DropDownProps) => {
     const [isOpened, setIsOpened] = useState(false);
     const triggerEl = useRef<HTMLDivElement>(null);
     const contentEl = useRef<HTMLSpanElement>(null);
@@ -70,7 +70,7 @@ export const withDropDown =
         </span>
         {isOpened && (
           <span className="dropDown__list" style={{ left: `${menuPos.x}px`, top: `${menuPos.y}px` }} ref={contentEl}>
-            {content}
+            {wrapped}
           </span>
         )}
       </>
