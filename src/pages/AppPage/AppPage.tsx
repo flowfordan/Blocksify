@@ -31,6 +31,7 @@ export const AppPage = observer(() => {
             <RightBar />
           </div>
           <StageBar className={'appPage__stageBar'} />
+          <div className={'appPage__version'}>{'BLOCKSIFY v0.3.0-shatsk-alpha'}</div>
         </>
       ) : (
         <></>
