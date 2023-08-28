@@ -4,6 +4,7 @@ import { IsObjDataOfObjLineSegment, IsObjDataOfObjPointSegment, IsObjDataOfObjPr
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
+import { COLORS_SCENE } from 'three/config/consts';
 import { getLineMat } from 'three/config/objs3d';
 import { setObjsLayers } from 'three/shared';
 
@@ -12,7 +13,7 @@ const pointObjTemp = (coords: Array<number>) => {
 
   const pGeom = new THREE.BufferGeometry();
   pGeom.setAttribute('position', new THREE.BufferAttribute(position, 3));
-  const pMat = new THREE.PointsMaterial({ color: 0xff0000, size: 10, sizeAttenuation: false });
+  const pMat = new THREE.PointsMaterial({ color: COLORS_SCENE.common_points, size: 2, sizeAttenuation: false });
   const point = new THREE.Points(pGeom, pMat);
 
   return point;
@@ -82,9 +83,9 @@ export const setParallelLine = (mainObj: THREE.Object3D, layerId: ILayerIDs, off
   testPt_A.geometry.setAttribute('position', new THREE.BufferAttribute(coords_A, 3));
   testPt_B.geometry.setAttribute('position', new THREE.BufferAttribute(coords_B, 3));
   //lines
-  const testLn_A = new Line2(new LineGeometry(), getLineMat(0x1d5e9a, 4, true, 0.5));
+  const testLn_A = new Line2(new LineGeometry(), getLineMat(COLORS_SCENE.street_border, 2.5, false, 0.9));
   testLn_A.geometry.setPositions(coords_A);
-  const testLn_B = new Line2(new LineGeometry(), getLineMat(0x1d5e9a, 4, true, 0.5));
+  const testLn_B = new Line2(new LineGeometry(), getLineMat(COLORS_SCENE.street_border, 2.5, false, 0.9));
   testLn_B.geometry.setPositions(coords_B);
   // //
   subPt.add(testPt_A, testPt_B);

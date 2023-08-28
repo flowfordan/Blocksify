@@ -7,7 +7,7 @@ export const VEC3 = new THREE.Vector3();
 export const COLORS_SCENE = {
   ground: '#F0EFEE',
   street_axis: '#747474',
-  street_border: '#BAA286',
+  street_border: '#7A6F61',
   border_path: '#3F5462',
   border_fill: '#CDCDCD',
   block_fill_r: '#FFFB8F',

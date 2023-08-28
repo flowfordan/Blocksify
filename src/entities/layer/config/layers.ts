@@ -26,7 +26,7 @@ const streetsMainContent = {
   _descr: 'Street axis',
   _stage: 0,
   _mat: {
-    line: getLineMat(0x533931),
+    line: getLineMat(COLORS_SCENE.street_axis, 2, true, 1, 4, 2),
     polygon: getPolygonMat(),
   },
 };
@@ -38,7 +38,7 @@ const streetsAddContent = {
   _descr: 'Street sides',
   _stage: 0,
   _mat: {
-    line: getLineMat(0x533931),
+    line: getLineMat(COLORS_SCENE.street_border),
     polygon: getPolygonMat(),
   },
 };

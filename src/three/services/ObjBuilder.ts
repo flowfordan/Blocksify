@@ -119,8 +119,12 @@ export class ObjBuilder {
   createPolygon = (objCoords: Array<number>, layer: ILayer, currentPointerCoord: THREE.Vector3) => {
     //prim obj pt
     //POLYGON
+    if (!layer._contentConfig.OBJ_PRIM_PT) {
+      throw new Error('Layer doesnt have options to enable drawing on it');
+    }
     this.objParts.polygon.geom = new THREE.Shape();
     const shapeGeom = new THREE.ShapeGeometry(this.objParts.polygon.geom);
+    this.objParts.polygon.mat = layer._contentConfig.OBJ_PRIM_PT._mat.polygon;
     this.objParts.polygon.form = new THREE.Mesh(shapeGeom, this.objParts.polygon.mat);
     //rotate(by def created on x-z plane)
     this.objParts.polygon.form.rotateX(Math.PI / 2);
@@ -130,9 +134,6 @@ export class ObjBuilder {
     this.objParts.points.form = pointObj(objCoords);
 
     //LINE
-    if (!layer._contentConfig.OBJ_PRIM_PT) {
-      throw new Error('Layer doesnt have options to enable drawing on it');
-    }
     this.objParts.line.mat = layer._contentConfig.OBJ_PRIM_PT._mat.line;
     this.objParts.line.geom = new LineGeometry();
     this.objParts.line.form = new Line2(this.objParts.line.geom, this.objParts.line.mat);

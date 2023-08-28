@@ -44,14 +44,14 @@ const V2ArrToNumArr = (arr: Array<Vector2>, baseLevel: number) => {
 const pMat = new THREE.PointsMaterial({ color: 0x888888, size: 6, sizeAttenuation: false });
 
 //function returning fatline material with given atributes
-const getLineMat = (color?: string | number, lineWidth = 2, dash = false, opacity = 1) => {
+const getLineMat = (color?: string | number, lineWidth = 2, dash = false, opacity = 1, dashS = 8, dashG = 4) => {
   const lineMaterial = new LineMaterial({
     color: new THREE.Color(color || COLORS_SCENE.common_points),
     linewidth: lineWidth,
     resolution: new THREE.Vector2(1920, 1080),
     dashed: dash,
-    dashSize: 8,
-    gapSize: 4,
+    dashSize: dashS,
+    gapSize: dashG,
     //dashOffset: 25,
     opacity: opacity,
   });
