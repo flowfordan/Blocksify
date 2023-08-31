@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 
 import { CheckMatrixProps } from './CheckMatrix.props';
-import './checkMatrix.scss';
+import styles from './checkMatrix.module.scss';
 
 import { observer } from 'mobx-react-lite';
 
@@ -26,15 +26,15 @@ const CheckMatrix = observer(({ items, selected, handleCollectionUpd, ...props }
   };
 
   return (
-    <div className={'checkMatrix'} {...props}>
+    <div className={styles.checkMatrix} {...props}>
       {items.map((i, idx) => {
         return (
           <span
             key={idx}
             onClick={() => updValues(i)}
-            className={cn('checkMatrix__item', {
-              ['checkMatrix__itemClosed']: closed.includes(i),
-              ['checkMatrix__itemSelected']: selected.includes(i),
+            className={cn(styles.item, {
+              [styles.closed]: closed.includes(i),
+              [styles.selected]: selected.includes(i),
             })}
           >
             {i}

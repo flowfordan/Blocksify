@@ -1,22 +1,22 @@
 .panelDivision {
   padding-top: 8px;
   padding-bottom: 2px;
+}
 
-  &__header {
-    padding-left: 8px;
-    padding-bottom: 2px;
+.header {
+  padding-left: 8px;
+  padding-bottom: 2px;
 
-    color: var(--grey-dark);
+  color: var(--grey-dark);
 
-    font-size: 12px;
-    font-weight: 600;
+  font-size: 12px;
+  font-weight: 600;
 
-    user-select: none;
-  }
+  user-select: none;
+}
 
-  &__content {
-    // margin-bottom: 2px;
-  }
+.content {
+  // margin-bottom: 2px;
 }
 
 //divider n the bottom

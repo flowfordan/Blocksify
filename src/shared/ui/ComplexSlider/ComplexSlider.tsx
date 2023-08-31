@@ -3,7 +3,7 @@ import { Slider } from '../Slider/Slider';
 import cn from 'classnames';
 
 import { ComplexSliderProps } from './ComplexSlider.props';
-import './complexSlider.scss';
+import styles from './complexSlider.module.scss';
 
 export const ComplexSlider = ({
   minVal,
@@ -23,12 +23,12 @@ export const ComplexSlider = ({
 
   return (
     <div
-      className={cn('complexSlider', {
-        ['complexSlider--dark']: variant === 'dark',
+      className={cn(styles.complexSlider, {
+        [styles.dark]: variant === 'dark',
       })}
     >
-      <span className={'complexSlider__value'}>{val}</span>
-      <span className={'complexSlider__slider'}>
+      <span className={styles.value}>{val}</span>
+      <span className={styles.slider}>
         <Slider
           minVal={minVal}
           maxVal={maxVal}
@@ -40,7 +40,7 @@ export const ComplexSlider = ({
           disabled={disabled}
         />
       </span>
-      {valName && <span className={'complexSlider__valName'}>{valName}</span>}
+      {valName && <span className={styles.valName}>{valName}</span>}
     </div>
   );
 };

@@ -25,7 +25,7 @@
     background-color: var(--primary-overlay-superlight);
   }
 
-  .active {
+  &.active {
     background-color: var(--primary-overlay-light);
     border-color: var(--primary);
     margin: 0 0 1px 0;
@@ -34,14 +34,14 @@
     }
   }
   
-  .hidden {
+  &.hidden {
     color: var(--grey-main);
     svg{
       stroke: var(--grey-main);
     }
   }
   
-  .blocked {
+  &.blocked {
     grid-template-columns: 8px 1fr 16px 16px;
   }
 

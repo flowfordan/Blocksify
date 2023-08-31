@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { DropDownProps } from './DropDown.props';
-import './dropDown.scss';
+import styles from './dropDown.module.scss';
 
 interface IDropDownInject {
   isOpened: boolean;
@@ -69,7 +69,7 @@ export const withDropDown =
           <TriggerComponent isOpened={isOpened} {...(props as P)} />
         </span>
         {isOpened && (
-          <span className="dropDown__list" style={{ left: `${menuPos.x}px`, top: `${menuPos.y}px` }} ref={contentEl}>
+          <span className={styles.list} style={{ left: `${menuPos.x}px`, top: `${menuPos.y}px` }} ref={contentEl}>
             {wrapped}
           </span>
         )}
