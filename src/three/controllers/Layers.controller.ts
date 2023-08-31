@@ -1,26 +1,20 @@
 import * as THREE from 'three';
-import { Layer, layersState } from '../../state';
+import { LayersAdapter } from 'three/adapters';
+import { LayersModel } from 'three/shared';
 
 export class LayersController {
   // currentLayer: Layer;
+  layersAdapter: LayersAdapter;
 
-  constructor() {
+  constructor(layersModel: LayersModel) {
     // this.currentLayer = this.findActiveLayer();
+    this.layersAdapter = new LayersAdapter();
+    // this.init();
   }
 
-  // findActiveLayer = () => {
-  //   const layer = layersState.layers.find((l) => l.active);
-
-  //   if (!layer) {
-  //     throw new Error('Among all layers there should be 1 ACTIVE!');
-  //   }
-
-  //   return layer;
-  // };
-
-  // setActiveLayer = (layer: Layer) => {
-  //   if (layer) {
-  //     this.currentLayer = layer;
-  //   }
-  // };
+  //stuff
+  //init layers
+  init() {
+    this.layersAdapter.toggleLayerActive(2);
+  }
 }

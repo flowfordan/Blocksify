@@ -1,0 +1,71 @@
+import { Instrument, InstrumentsId, InstrumentsData } from 'shared/types';
+
+export const DefInstruments: Array<Instrument> = [
+  {
+    id: InstrumentsId.LINE,
+    title: 'Line',
+    isActive: false,
+    isAvailable: true,
+    lvl: 'top',
+    type: 'draw',
+    activity: 'continous',
+    activeCursor: 'crosshair',
+  },
+  {
+    id: InstrumentsId.PLINE,
+    title: 'Polyline',
+    isActive: false,
+    isAvailable: true,
+    lvl: 'top',
+    type: 'draw',
+    activity: 'continous',
+    activeCursor: 'crosshair',
+  },
+  {
+    id: InstrumentsId.POLYGON,
+    title: 'Polygon',
+    isActive: false,
+    isAvailable: true,
+    lvl: 'top',
+    type: 'draw',
+    activity: 'continous',
+    activeCursor: 'crosshair',
+  },
+  {
+    id: InstrumentsId.SELECTOR,
+    title: 'Selector',
+    isActive: false,
+    isAvailable: true,
+    lvl: 'top',
+    type: 'select',
+    activity: 'continous',
+    activeCursor: 'pointer',
+    autoTriggerFor: InstrumentsId.INSPECTOR,
+  },
+  {
+    id: InstrumentsId.INSPECTOR,
+    title: 'Inspector',
+    isActive: false,
+    isAvailable: false,
+    lvl: 'middle',
+    type: 'other',
+    activity: 'continous',
+    activeCursor: 'pointer',
+  },
+  {
+    id: InstrumentsId.EDITOR,
+    title: 'Editor',
+    isActive: false,
+    isAvailable: false,
+    lvl: 'low',
+    type: 'other',
+    activity: 'continous',
+    activeCursor: 'wait',
+  },
+];
+
+export const DefInstrumentsData: InstrumentsData = {
+  // selector: { selectedObjData: null, intersectedObjData: null },
+  inspector: { selectedObjData: null, intersectedObjData: null, dataToSet: null },
+  editor: { currentData: '', newData: '' },
+};
