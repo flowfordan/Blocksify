@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import '../styles/index.scss';
+import 'styles/index.scss';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';

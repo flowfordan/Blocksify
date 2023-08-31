@@ -6,7 +6,7 @@ import { RightBar } from 'widgets/RightBar';
 import { TopBar } from 'widgets/TopBar';
 import { StageBar } from 'widgets/StageBar';
 
-import './appPage.scss';
+import styles from './appPage.module.scss';
 import dynamic from 'next/dynamic';
 
 export const AppPage = observer(() => {
@@ -17,21 +17,21 @@ export const AppPage = observer(() => {
   }, []);
 
   return (
-    <div className="appPage">
+    <div className={styles.appPage}>
       {isMounted && typeof window !== 'undefined' ? (
         <>
-          <TopBar className="appPage__topBar" />
-          <div className="appPage__canvas">
+          <TopBar className={styles.topBar} />
+          <div className={styles.canvas}>
             <Desk />
           </div>
-          <div className={`appPage__leftBar`}>
+          <div className={styles.leftBar}>
             <LeftBar />
           </div>
-          <div className={`appPage__rightBar`}>
+          <div className={styles.rightBar}>
             <RightBar />
           </div>
-          <StageBar className={'appPage__stageBar'} />
-          <div className={'appPage__version'}>{'BLOCKSIFY v0.3.0-shatsk-alpha'}</div>
+          <StageBar className={styles.stageBar} />
+          <div className={styles.version}>{'BLOCKSIFY v0.3.0-shatsk-alpha'}</div>
         </>
       ) : (
         <></>

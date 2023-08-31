@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ObjDataPropProps } from './inspector.prop';
-import './inspector.scss';
+import styles from './inspector.module.scss';
 import { ComplexSlider } from 'shared/ui';
 
 export const InspectorInstr = ({
@@ -25,9 +25,9 @@ export const InspectorInstr = ({
     }, 500);
   };
   return (
-    <div className="objDataProp">
-      <span className="objDataProp__name">{propName}</span>
-      <span className="objDataProp__value">
+    <div className={styles.objDataProp}>
+      <span className={styles.objDataProp__name}>{propName}</span>
+      <span className={styles.objDataProp__value}>
         {isEditable && controlsSpecs?.controlType === 'slide' ? (
           <ComplexSlider
             minVal={controlsSpecs.minVal}

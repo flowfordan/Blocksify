@@ -1,6 +1,6 @@
 import React from 'react';
 import { ToolMenu } from 'widgets';
-import './testPage.scss';
+// import './testPage.scss';
 
 export const TestPage = () => {
   return (
