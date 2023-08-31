@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import cn from 'classnames';
 
-import './leftBar.scss';
+import styles from './leftBar.module.scss';
 import { layersModel } from 'entities/layer';
 import { instrumentsModel, InspectorInstr } from 'entities/sceneInstrument';
 import { PanelDivision } from 'shared/ui';
@@ -67,7 +67,7 @@ export const LeftBar = observer((): JSX.Element => {
   };
 
   return (
-    <div className={'leftBar'}>
+    <div className={styles.leftBar}>
       <PanelDivision header={'Layers'}>{constructLayersList(layersModel.layers)}</PanelDivision>
 
       <PanelDivision header={'Object Properties'}>

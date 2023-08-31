@@ -6,7 +6,7 @@ import { instrumentsHelpersModel } from 'entities/sceneInstrument';
 import { sceneEnvModel } from 'entities/sceneEnv';
 import { sceneModel } from 'entities/scene';
 
-import './desk.scss';
+import styles from './desk.module.scss';
 import { cameraModel } from 'entities/camera';
 import useResizeObserver from './useResizeObserver';
 import { generatorModel } from 'features/generator';
@@ -51,10 +51,10 @@ export const Desk = () => {
   }, []);
 
   return (
-    <div ref={canvasContainer} className={'desk'}>
+    <div ref={canvasContainer} className={styles.desk}>
       <canvas
         ref={canvasScene}
-        className={'desk__canvasScene'}
+        className={styles.canvasScene}
         id="canvasScene"
         // width={canvasSize.width}
         // height={canvasSize.height}

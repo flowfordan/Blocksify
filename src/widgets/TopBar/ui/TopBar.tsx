@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 
 import { TopBarProps } from './TopBar.props';
 
-import './topBar.scss';
+import styles from './topBar.module.scss';
 
 import { BtnBar, withDropDown } from 'shared/ui';
 import { DrawInstrMenu, HelpersInstrMenu, SelectorInstr } from 'entities/sceneInstrument';
@@ -23,29 +23,29 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
   const DropDownSceneEnvOptions = withDropDown(EnvMenuExpander);
 
   return (
-    <div className={cn(className, 'topBar')} {...props}>
-      <div className={'topBar__corner'}>
-        <span className={'topBar__corner--logo'}>
+    <div className={cn(className, styles.topBar)} {...props}>
+      <div className={styles.corner}>
+        <span className={styles.corner__logo}>
           <LogoIcon />
         </span>
         <BtnBar title={'Import'} isActive={false} />
       </div>
 
-      <div className={'topBar__main'}>
-        <div className={'topBar__main--part'}>
+      <div className={styles.main}>
+        <div className={styles.main__part}>
           <SelectorInstr />
           <DropDownDrawInstr wrapped={<ToolMenu menuType="drawing" />} />
           <DropDownHelpersInstr wrapped={<ToolMenu menuType="helpers" />} contentClickType={'double'} />
         </div>
 
-        <div className={'topBar__main--part'}>
+        <div className={styles.main__part}>
           <CameraViewSelect viewId={CameraViewId.PERSPECTIVE} />
           <CameraViewSelect viewId={CameraViewId.TOP} />
           <BtnBar iconKey="viewAll" isActive={false} />
           <BtnBar iconKey="viewCenter" isActive={false} />
         </div>
 
-        <div className={'topBar__main--part'}>
+        <div className={styles.main__part}>
           <BtnBar
             iconKey="viewAll"
             isActive={false}
@@ -56,7 +56,7 @@ export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Eleme
         </div>
       </div>
 
-      <div className={'topBar__utils'}>
+      <div className={styles.utils}>
         <DropDownSceneEnvOptions wrapped={<EnvOptionsMenu />} contentClickType={'double'} />
       </div>
     </div>

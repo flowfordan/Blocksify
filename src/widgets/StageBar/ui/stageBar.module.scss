@@ -1,4 +1,4 @@
-@use 'styles/' as *;
+@use 'styles/vars' as *;
 
 .stageBar {
   display: flex;
@@ -6,7 +6,7 @@
   height: 40px;
 }
 
-.stageBar__btn {
+.btn {
   width: 24px;
   height: 24px;
   border-radius: 2px;
@@ -22,7 +22,7 @@
   }
 }
 
-.stageBar__bar {
+.bar {
   position: relative;
   visibility: hidden;
   padding: 12px 12px 4px 12px;
@@ -34,22 +34,22 @@
   margin-left: 20px;
   // transform: scaleX(0);
   transition: width .6s;
-  &--active {
+  &.active {
     visibility: visible;
     width: auto;
     opacity: 1;
     transition: width .6s;
     // transform: scaleX(1);
   }
+}
 
-  &__tail {
-    position: absolute;
-    left: -4px;
-    width: 10px;
-    height: 10px;
-    background-color: $bg_black;
-    border-radius: 1px;
-    top: 50%;
-    transform: translateY(-50%) rotate(45deg);
-  }
+.barTail {
+  position: absolute;
+  left: -4px;
+  width: 10px;
+  height: 10px;
+  background-color: $bg_black;
+  border-radius: 1px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
 }
