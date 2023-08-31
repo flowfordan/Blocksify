@@ -1,0 +1,60 @@
+.btnBar {
+  color: white;
+  background-color: rgba($color: #000000, $alpha: 0.0);
+
+  display: grid;
+  grid-template-columns: 24px;
+  grid-template-rows: 1fr;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 8px;
+
+  font-size: 12px;
+
+  position: relative;
+
+  &:hover {
+    background-color: var(--black-overlay);
+    color: var(--grey-main);
+
+    .btnBar__arrow {
+      transform: translateY(2px);
+      transition: all 0.2s;
+    }
+  }
+
+  &__main, &__arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.btnBar-active {
+  color: white;
+  background-color: var(--primary-overlay);
+
+  &:hover {
+    background-color: var(--primary-overlay);
+    color: var(--grey-main);
+  }
+}
+
+.btnBar-selected {
+  background-color: var(--black-overlay);
+  color: var(--grey-main);
+
+  .btnBar__arrow {
+    transform: translateY(2px);
+    transition: all 0.2s;
+  }
+}
+
+.btnBar-expandable {
+  grid-template-columns: 24px 8px;
+  grid-template-rows: 1fr;
+}
+
+
+

@@ -1,6 +1,5 @@
 import * as THREE from 'three';
-import { VEC2, VEC3 } from './config/consts';
-import { raycaster } from './presets/common';
+import { _vec3, _vec2, raycaster } from './common';
 
 function getMouseLocation(
   event: MouseEvent,
@@ -14,13 +13,13 @@ function getMouseLocation(
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
 
-  VEC2.x = (x / canvas.width) * 2 - 1;
-  VEC2.y = -(y / canvas.height) * 2 + 1;
-  raycaster.setFromCamera(VEC2, camera);
+  _vec2.x = (x / canvas.width) * 2 - 1;
+  _vec2.y = -(y / canvas.height) * 2 + 1;
+  raycaster.setFromCamera(_vec2, camera);
 
-  raycaster.ray.intersectPlane(plane, VEC3);
+  raycaster.ray.intersectPlane(plane, _vec3);
 
-  return VEC3;
+  return _vec3;
 }
 
 function getObjByPointer(
@@ -37,9 +36,9 @@ function getObjByPointer(
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
 
-  VEC2.x = (x / canvas.width) * 2 - 1;
-  VEC2.y = -(y / canvas.height) * 2 + 1;
-  raycaster.setFromCamera(VEC2, camera);
+  _vec2.x = (x / canvas.width) * 2 - 1;
+  _vec2.y = -(y / canvas.height) * 2 + 1;
+  raycaster.setFromCamera(_vec2, camera);
 
   const intersects = raycaster.intersectObjects(scene.children);
   if (intersects.length > 0) {
