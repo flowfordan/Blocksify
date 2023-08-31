@@ -1,5 +1,5 @@
 import React from 'react';
-import './startPage.scss';
+// import './startPage.scss';
 
 export const StartPage = (): JSX.Element => {
   return (
