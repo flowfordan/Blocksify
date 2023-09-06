@@ -1,86 +1,86 @@
 @use 'styles/vars/' as *;
 
 .layersListItem {
-  height: $module * 4;
+	/* user-select: none; */
+	cursor: pointer;
+	user-select: none;
 
-  display: grid;
-  column-gap: $module;
-  grid-template-columns: $module 1fr $module * 2;
-  align-items: center;
-  align-content: center;
+	display: grid;
+	grid-template-columns: $module 1fr $module * 2;
+	column-gap: $module;
+	align-content: center;
+	align-items: center;
 
-  padding: 0 $module;
-  margin: -1px 0 0 0;
+	height: $module * 4;
+	margin: -1px 0 0;
+	padding: 0 $module;
 
-  border-top: 1px solid var(--grey-light);
-  border-right: 1px solid rgba($color: #000000, $alpha: 0.0);
-  border-bottom: 1px solid var(--grey-light);
-  border-left: 1px solid rgba($color: #000000, $alpha: 0.0);
+	border-top: 1px solid var(--grey-light);
+	border-right: 1px solid rgba($color: #000, $alpha: 0%);
+	border-bottom: 1px solid var(--grey-light);
+	border-left: 1px solid rgba($color: #000, $alpha: 0%);
 
-  /* user-select: none; */
-  cursor: pointer;
-  user-select: none;
+	&:hover {
+		background-color: var(--primary-overlay-superlight);
+	}
 
-  &:hover {
-    background-color: var(--primary-overlay-superlight);
-  }
+	&.active {
+		margin: 0 0 1px;
+		background-color: var(--primary-overlay-light);
+		border-color: var(--primary);
 
-  &.active {
-    background-color: var(--primary-overlay-light);
-    border-color: var(--primary);
-    margin: 0 0 1px 0;
-    &:hover {
-      background-color: var(--primary-overlay-light);
-    }
-  }
+		&:hover {
+			background-color: var(--primary-overlay-light);
+		}
+	}
   
-  &.hidden {
-    color: var(--grey-main);
-    svg{
-      stroke: var(--grey-main);
-    }
-  }
+	&.hidden {
+		color: var(--grey-main);
+
+		svg{
+			stroke: var(--grey-main);
+		}
+	}
   
-  &.blocked {
-    grid-template-columns: 8px 1fr 16px 16px;
-  }
+	&.blocked {
+		grid-template-columns: 8px 1fr 16px 16px;
+	}
 
-  .name {
-    height: 100%;
+	.name {
+		display: flex;
+		align-items: center;
+		height: 100%;
 
-    display: flex;
-    align-items: center;
+		&__counter {
+			margin-left: 4px;
 
-    &__counter {
-      margin-left: 4px;
-      font-size: 10px;
-      text-align: start;
-      vertical-align: top;
-      color: var(--grey-main);
-      &.hidden {
-        display: none;
-      }
-    }
-  }
+			font-size: 10px;
+			color: var(--grey-main);
+			text-align: start;
+			vertical-align: top;
 
-  .emptyStatus {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+			&.hidden {
+				display: none;
+			}
+		}
+	}
 
-  .nonEmptyBadge {
-    height: 4px;
-    width: 4px;
-  
-    border-radius: 4px;
-  
-    background-color: var(--primary);
-  }
+	.emptyStatus {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
-  .iconContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+	.nonEmptyBadge {
+		width: 4px;
+		height: 4px;
+		background-color: var(--primary);
+		border-radius: 4px;
+	}
+
+	.iconContainer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 }

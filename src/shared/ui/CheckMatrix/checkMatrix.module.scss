@@ -1,43 +1,41 @@
 .checkMatrix {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-
-  width: 96px;
+	display: flex;
+	flex-flow: row wrap;
+	width: 96px;
 }
 
 .item {
-  width: 24px;
-  height: 24px;
+	cursor: pointer;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-  color: var(--grey-main);
-  text-decoration: none;
+	width: 24px;
+	height: 24px;
 
-  transition: all 0.2s;
+	font-size: 12px;
+	color: var(--grey-main);
+	text-align: center;
+	text-decoration: none;
 
-  font-size: 12px;
-  cursor: pointer;
+	transition: all 0.2s;
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
+	&:hover {
+		background-color: rgb(255 255 255 / 10%);
+	}
 
-  &.itemSelected{
-    color: var(--white);
-    text-decoration: underline;
-  }
+	&.itemSelected{
+		color: var(--white);
+		text-decoration: underline;
+	}
 
-  &.itemClosed {
-    text-decoration: line-through;
+	&.itemClosed {
+		text-decoration: line-through;
 
-    &:hover {
-      background-color: rgba(255, 125, 125, 0.4);
-      color: var(--black);
-    }
-  }
+		&:hover {
+			color: var(--black);
+			background-color: rgb(255 125 125 / 40%);
+		}
+	}
 }

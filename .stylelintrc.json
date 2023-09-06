@@ -1,0 +1,15 @@
+{
+	"extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-prettier-scss",
+    "stylelint-config-clean-order"
+	],
+	"plugins": [],
+	"rules": {
+		"string-quotes": "single",
+		"indentation": [
+			"tab"
+		],
+		"color-hex-case": "upper"
+	}
+}

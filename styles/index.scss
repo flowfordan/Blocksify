@@ -1,7 +1,7 @@
-@import 'vars/consts.scss';
-@import 'globals.scss';
-@import 'vars/colors.scss';
+@import 'vars/consts';
+@import 'globals';
+@import 'vars/colors';
 
 .appWrapper {
-  min-height: 100vh;
+	min-height: 100vh;
 }
