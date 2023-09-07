@@ -5,17 +5,27 @@
 */
 
 function getLinesIntersectionPoint(lineA: number[][], lineB: number[][]) {
+  //1st line
+  const x1 = lineA[0][0];
+  const y1 = lineA[0][1];
+  const x2 = lineA[1][0];
+  const y2 = lineA[1][1];
+  //2d line
+  const x3 = lineB[0][0];
+  const y3 = lineB[0][1];
+  const x4 = lineB[1][0];
+  const y4 = lineB[1][1];
   // Line AB represented as a1x + b1y = c1
   //2pt.y - 1pt.y
-  const aA = lineA[1][1] - lineA[0][1];
+  const aA = y2 - y1;
   //1pt.x - 2pt.x
-  const bA = lineA[0][0] - lineA[1][0];
-  const cA = aA * lineA[0][0] + bA * lineA[0][1];
+  const bA = x1 - x2;
+  const cA = aA * x1 + bA * y1;
 
   // Line CD represented as a2x + b2y = c2
-  const aB = lineB[1][1] - lineB[0][1];
-  const bB = lineB[0][0] - lineB[1][0];
-  const cB = aB * lineB[0][0] + bB * lineB[0][1];
+  const aB = y4 - y3;
+  const bB = x3 - x4;
+  const cB = aB * x3 + bB * y3;
 
   const determinant = aA * bB - aB * bA;
   if (determinant !== 0) {
@@ -23,4 +33,8 @@ function getLinesIntersectionPoint(lineA: number[][], lineB: number[][]) {
     const y = (aA * cB - aB * cA) / determinant;
     return [x, y];
   } else return null;
+}
+
+function getParallelLineCoords(lineCoords: number[][], dist: number, sideMod?: boolean) {
+  //returns number[][]
 }
