@@ -36,5 +36,29 @@ function getLinesIntersectionPoint(lineA: number[][], lineB: number[][]) {
 }
 
 function getParallelLineCoords(lineCoords: number[][], dist: number, sideMod?: boolean) {
-  //returns number[][]
+  console.log(dist);
+  const x1 = lineCoords[0][0];
+  const y1 = lineCoords[0][1];
+  const x2 = lineCoords[1][0];
+  const y2 = lineCoords[1][1];
+  //find delta x and delta y
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  //find length
+  const len = Math.sqrt(dx * dx + dy * dy);
+  //find cos sin
+  const cos = dx / len;
+  const sin = dy / len;
+  //find new x and y
+  //flag for side
+  const mult = sideMod ? -1 : 1;
+  const x3 = x1 + dist * sin * mult;
+  const y3 = y1 - dist * cos * mult;
+  const x4 = x2 + dist * sin * mult;
+  const y4 = y2 - dist * cos * mult;
+  //return coords
+  return [
+    [x3, y3],
+    [x4, y4],
+  ];
 }
