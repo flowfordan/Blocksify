@@ -3,7 +3,6 @@
   or null if they are parallel
   recieves two arrays of two points each [[x, y], [x, y]]
 */
-
 function getLinesIntersectionPoint(lineA: number[][], lineB: number[][]) {
   //1st line
   const x1 = lineA[0][0];
@@ -36,7 +35,6 @@ function getLinesIntersectionPoint(lineA: number[][], lineB: number[][]) {
 }
 
 function getParallelLineCoords(lineCoords: number[][], dist: number, sideMod?: boolean) {
-  console.log(dist);
   const x1 = lineCoords[0][0];
   const y1 = lineCoords[0][1];
   const x2 = lineCoords[1][0];
@@ -57,8 +55,61 @@ function getParallelLineCoords(lineCoords: number[][], dist: number, sideMod?: b
   const x4 = x2 + dist * sin * mult;
   const y4 = y2 - dist * cos * mult;
   //return coords
-  return [
-    [x3, y3],
-    [x4, y4],
-  ];
+  return [x3, y3, x4, y4];
+}
+
+function getLineEquidistant(line: Array<number>, dist: number, sideMob?: boolean) {
+  const parallelLines: Array<number> = [];
+  for (let i = 0; i < line.length - 2; i += 2) {
+    const x1 = line[i];
+    const y1 = line[i + 1];
+    const x2 = line[i + 2];
+    const y2 = line[i + 3];
+    const parallel = getParallelLineCoords(
+      [
+        [x1, y1],
+        [x2, y2],
+      ],
+      dist,
+      sideMob
+    );
+    parallelLines.push(...parallel);
+  }
+  console.log(parallelLines.toString());
+
+  //find points
+  const resultLine: Array<number> = [];
+  resultLine.push(parallelLines[0], parallelLines[1]);
+  // //push intersecting lines
+  for (let j = 0; j < parallelLines.length - 6; j += 4) {
+    console.log('J', j, parallelLines.length);
+    const x1 = parallelLines[j];
+    const y1 = parallelLines[j + 1];
+    const x2 = parallelLines[j + 2];
+    const y2 = parallelLines[j + 3];
+    //
+    const x3 = parallelLines[j + 4];
+    const y3 = parallelLines[j + 5];
+    const x4 = parallelLines[j + 6];
+    const y4 = parallelLines[j + 7];
+    const coords = getLinesIntersectionPoint(
+      [
+        [x1, y1],
+        [x2, y2],
+      ],
+      [
+        [x3, y3],
+        [x4, y4],
+      ]
+    );
+    if (!coords) {
+      resultLine.push(...[x3, y3]);
+      continue;
+    }
+    resultLine.push(...coords);
+  }
+
+  //push ending
+  resultLine.push(parallelLines[parallelLines.length - 2], parallelLines[parallelLines.length - 1]);
+  return resultLine;
 }
