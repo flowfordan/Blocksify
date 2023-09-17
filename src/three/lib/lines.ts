@@ -113,3 +113,39 @@ function getLineEquidistant(line: Array<number>, dist: number, sideMob?: boolean
   resultLine.push(parallelLines[parallelLines.length - 2], parallelLines[parallelLines.length - 1]);
   return resultLine;
 }
+
+//[X, Y] find point on line AB with defined step from beginning
+//so that len AB1 is mutiple of step provided
+export function getHypotenusePointCoords(
+  startPoint: [number, number],
+  endPoint: [number, number],
+  stepLen: number,
+  isThree?: boolean
+) {
+  const x0 = startPoint[0];
+  const y0 = startPoint[1];
+  const x1 = endPoint[0];
+  const y1 = endPoint[1];
+  //delta x & delta y
+  const dx1 = x1 - x0;
+  const dy1 = y1 - y0;
+  //length of current hypotenuse
+  const hypLen = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+  //find quantity of steps in line - int
+  const n = Math.floor(hypLen / stepLen);
+  //find resulting line length
+  const hypLenStepped = n * stepLen;
+  //cos/sin
+  const tx = dx1 / hypLen;
+  const ty = dy1 / hypLen;
+  //find deltas new
+  const dx2 = hypLenStepped * tx;
+  const dy2 = hypLenStepped * ty;
+  //new coordinates
+  //x0 + dx2 = x2
+  const x2 = x0 + dx2;
+  const y2 = y0 + dy2;
+  if (isThree) {
+    return [x2, 0, y2];
+  } else return [x2, y2];
+}
