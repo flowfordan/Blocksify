@@ -149,7 +149,7 @@ export class SnapManager {
     this.snapStatuses.snap_step.distToOrigin = distanceToCurrent;
   };
 
-  private _snapToStep2 = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined): void => {
+  private _snapToStep2 = (pointerCoords: THREE.Vector3, fixedCoords?: THREE.Vector3): void => {
     //find coords
     if (!fixedCoords) return;
     let newCoords = pointerCoords.clone();
@@ -161,8 +161,7 @@ export class SnapManager {
     const line = getHypotenusePointCoords(
       [fixedCoords.x, fixedCoords.z],
       [pointerCoords.x, pointerCoords.z],
-      snapValue,
-      true
+      snapValue
     );
     newCoords = new THREE.Vector3();
     //set x,y,z

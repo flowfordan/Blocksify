@@ -114,13 +114,18 @@ function getLineEquidistant(line: Array<number>, dist: number, sideMob?: boolean
   return resultLine;
 }
 
-//[X, Y] find point on line AB with defined step from beginning
-//so that len AB1 is mutiple of step provided
+/**
+ * @param startPoint - [x, y] - start point of line
+ * @param endPoint - [x, y] - end point of line
+ * @param stepLen - number - length of step
+ * @param isThree - boolean - if true returns [x, 0, y] for 3d environment
+ * @returns [x, y] or [x, 0, y]
+ */
 export function getHypotenusePointCoords(
   startPoint: [number, number],
   endPoint: [number, number],
   stepLen: number,
-  isThree?: boolean
+  isThree = true
 ) {
   const x0 = startPoint[0];
   const y0 = startPoint[1];
