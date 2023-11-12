@@ -46,7 +46,7 @@ const pMat = new THREE.PointsMaterial({ color: 0x888888, size: 6, sizeAttenuatio
 //function returning fatline material with given atributes
 const getLineMat = (color?: string | number, lineWidth = 2, dash = false, opacity = 1, dashS = 8, dashG = 4) => {
   const lineMaterial = new LineMaterial({
-    color: new THREE.Color(color || COLORS_SCENE.common_points),
+    color: new THREE.Color(color || COLORS_SCENE.common_points).getHex(),
     linewidth: lineWidth,
     resolution: new THREE.Vector2(1920, 1080),
     dashed: dash,
