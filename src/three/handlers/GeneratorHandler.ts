@@ -18,6 +18,7 @@ export class GeneratorHandler {
 
   createParallelLines(obj: THREE.Object3D, layerId: ILayerIDs) {
     setParallelLine(obj, layerId);
+    console.log('OBJECT', obj);
   }
 
   //CHECK SELF

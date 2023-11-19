@@ -1,8 +1,11 @@
-/* 
-  function that returns the intersection point of two lines
-  or null if they are parallel
-  recieves two arrays of two points each [[x, y], [x, y]]
-*/
+/**
+ * function that returns the intersection point of two lines
+ * or null if they are parallel
+ * @param lineA coordinates of 1st line [[x, y], [x, y]]
+ * @param lineB coordinates of 2nd line [[x, y], [x, y]]
+ * @returns coordinates of intersection [x, y] or null
+ * @example getLinesIntersectionPoint([[0, 0], [0, 5]], [[-1, 1], [2, 1]]) => [0, 1]
+ */
 function getLinesIntersectionPoint(lineA: number[][], lineB: number[][]) {
   //1st line
   const x1 = lineA[0][0];
@@ -34,6 +37,16 @@ function getLinesIntersectionPoint(lineA: number[][], lineB: number[][]) {
   } else return null;
 }
 
+/**
+ * Function that returns coordinates of parallel line
+ * @param lineCoords coordinates of line in format
+ * [[x1, y1], [x2, y2]]
+ * @param dist distanation from original line
+ * @param sideMod side modificator - if true returns line on the left side of original line
+ * @returns coordinates of resulting line in format
+ * [x1, y1, x2, y2]
+ * @example getParallelLineCoords([[0, 0], [0, 1]], 1, true) => [1, 0, 1, 1]
+ */
 function getParallelLineCoords(lineCoords: number[][], dist: number, sideMod?: boolean) {
   const x1 = lineCoords[0][0];
   const y1 = lineCoords[0][1];
@@ -58,7 +71,17 @@ function getParallelLineCoords(lineCoords: number[][], dist: number, sideMod?: b
   return [x3, y3, x4, y4];
 }
 
-function getLineEquidistant(line: Array<number>, dist: number, sideMob?: boolean) {
+/**
+ * Function returns coordinates of line equidistant to given line
+ * on given distance
+ * @param line coordinates of original line in format
+ * [x1, y1, x2, y2, x3, y3, ...]
+ * @param dist distanation from orginal line
+ * @param sideMob side modificator - if true returns line on the left side of original line
+ * @returns coordinates of resulting line in format [x1, y1, x2, y2, x3, y3, ...]
+ * @example getLineEquidistant([0, 0, 0, 1, 1, 1, 1, 0], 1, true) => [1, 0, 1, 1, 2, 1, 2, 0]
+ */
+export function getLineEquidistant(line: Array<number>, dist: number, sideMob?: boolean) {
   const parallelLines: Array<number> = [];
   for (let i = 0; i < line.length - 2; i += 2) {
     const x1 = line[i];
@@ -154,3 +177,27 @@ export function getHypotenusePointCoords(
     return [x2, 0, y2];
   } else return [x2, y2];
 }
+
+//util func [x, y, x, y]
+export const insertZeroes = (coords2D: Array<number>) => {
+  //insert zeroes after every x
+  const result: Array<number> = [];
+  for (let i = 0; i < coords2D.length; i++) {
+    result.push(coords2D[i]);
+    if (i % 2 === 0) {
+      result.push(0);
+    }
+  }
+  return result;
+};
+
+export const removeZeroes = (coords3D: Array<number>) => {
+  //remove every second element
+  const result: Array<number> = [];
+  for (let i = 0; i < coords3D.length; i++) {
+    if (i !== 1 && i % 3 !== 1) {
+      result.push(coords3D[i]);
+    }
+  }
+  return result;
+};
