@@ -34,6 +34,7 @@ export class GeneratorAdapter {
         if (!triggeredLayer || !triggeredLayer._creationObjsConfig.OBJ_PRIM_PT) return;
         //reacting for main part creation (for now)
         const objMainCreateConfig = triggeredLayer._creationObjsConfig.OBJ_PRIM_PT;
+        adaptersModel.generatorModel.setCurrentTask(objMainCreateConfig, triggeredLayer._id);
         break;
       default:
         break;

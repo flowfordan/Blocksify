@@ -2,12 +2,12 @@ import { generatorModel } from 'features/generator';
 import { reaction } from 'mobx';
 import { ILayerIDs, ObjGenerationTemplate } from 'shared/types';
 import { GeneratorHandler } from 'three/handlers';
+import { SceneModifier } from 'three/services/SceneModifier';
 import { GeneratorModel } from 'three/shared';
 
 export class GeneratorController {
   private generatorService: GeneratorHandler;
-  generatorModel: GeneratorModel;
-  constructor(generatorModel: GeneratorModel) {
+  constructor(private generatorModel: GeneratorModel, private sceneModifier: SceneModifier) {
     this.generatorService = new GeneratorHandler();
     this.generatorModel = generatorModel;
     this._storeSubscribe();
@@ -21,9 +21,12 @@ export class GeneratorController {
     //TODO check if layer.createBlocksFromBoundaries
     const BORDER_LAYER_ID = ILayerIDs.borders;
     const STREETS_LAYER_ID = ILayerIDs.streets;
-    //retrieve border obj
-    //retrieve edges streets lines
-    this.generatorService.createBlocksFromBoundaries();
+    //retrieve border obj - PRIM PT
+    const borderObjs = this.sceneModifier.getSceneObjectsByLayerId(BORDER_LAYER_ID);
+    //retrieve edges streets lines - SEC PT
+    const streetsObjs = this.sceneModifier.getSceneObjectsByLayerId(STREETS_LAYER_ID);
+    console.log('BORDERS and STREETS objs:', borderObjs, streetsObjs);
+    // this.generatorService.createBlocksFromBoundaries();
   }
 
   private _storeSubscribe() {

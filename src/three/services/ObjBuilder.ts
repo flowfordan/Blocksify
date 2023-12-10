@@ -113,6 +113,7 @@ export class ObjBuilder {
     this.propsEditor.setObjInitProperties(this.objMain, layer, 'main');
     this.propsEditor.setObjInitProperties(this.objCreated, layer, 'pt_prim');
     //add child to main
+    this.objMain.layers.set(layer._id);
     this.objMain.add(this.objCreated);
   };
 
@@ -163,6 +164,7 @@ export class ObjBuilder {
     this.propsEditor.setObjInitProperties(this.objCreated, layer, 'pt_prim');
     // this.objCreated.userData = { type: 'main', layerId: layer._id };
     console.log(this.objCreated);
+    this.objMain.layers.set(layer._id);
     this.objMain.add(this.objCreated);
   };
 
