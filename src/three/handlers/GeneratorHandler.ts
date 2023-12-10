@@ -1,7 +1,7 @@
 import { ILayerIDs } from 'shared/types';
 import { GeneratorAdapter } from 'three/adapters/GeneratorAdapter';
 import { adaptersModel } from 'three/model';
-import { setParallelLine } from './getParallelLine';
+import { addObjParallelLines } from './getParallelLine';
 /* 
   Service for checking conditions for real-time objects generation (like on adding or changing scene objs)
   calls GenerationAdapter which connects to global state
@@ -17,8 +17,14 @@ export class GeneratorHandler {
   // }
 
   createParallelLines(obj: THREE.Object3D, layerId: ILayerIDs) {
-    setParallelLine(obj, layerId);
+    addObjParallelLines(obj, layerId);
+    this.generatorAdapter.endTask();
     console.log('OBJECT', obj);
+  }
+
+  createBlocksFromBoundaries(blocksLayerId: string, border: string, edges: string) {
+    //get boundaries/ create from borders + roads
+    //add to blocks layer
   }
 
   //CHECK SELF

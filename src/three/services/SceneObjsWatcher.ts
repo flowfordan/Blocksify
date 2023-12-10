@@ -18,18 +18,22 @@ export class SceneObjsWatcher {
     this.propsEditor = new PropsEditor();
   }
 
+  //before obj added to scene
+  onObjAdd = (obj: THREE.Object3D) => {
+    if (!IsObjDataOfObjMain(obj.userData)) return;
+    //trigger auto generation
+    //call generation service - obj add + obj data
+    this.generatorAdapter.setGenerationTask(obj, obj.userData.layerId.value, 'add');
+    //upd layer stats
+    this._registerLayerObjsChange('add', obj.userData.layerId.value);
+    //update auto calc obj values
+    this._onUpdCalculatedProps(obj, obj.userData.layerId.value);
+  };
+
+  //after obj added to scene
   onObjAdded = (obj: THREE.Object3D) => {
-    if (IsObjDataOfObjMain(obj.userData)) {
-      console.log('onObjAdded main', obj);
-      // console.log(this.sceneGetter.);
-      //trigger auto generation
-      //call generation service - obj add + obj data
-      this.generatorAdapter.setGenerationTask(obj, obj.userData.layerId.value, 'add');
-      //upd layer stats
-      this._registerLayerObjsChange('add', obj.userData.layerId.value);
-      //update auto calc obj values
-      this._onUpdCalculatedProps(obj, obj.userData.layerId.value);
-    }
+    if (!IsObjDataOfObjMain(obj.userData)) return;
+    this.generatorAdapter.setGenerationTask(obj, obj.userData.layerId.value, 'added');
   };
 
   onObjRemoved = (obj: THREE.Object3D) => {

@@ -20,7 +20,7 @@ const pointObjTemp = (coords: Array<number>) => {
   return point;
 };
 //set actual user data
-export const setParallelLine = (mainObj: THREE.Object3D, layerId: ILayerIDs, offset = 10) => {
+export const addObjParallelLines = (mainObj: THREE.Object3D, layerId: ILayerIDs, offset = 10) => {
   //getting primary obj
   //children - find primary part
   const primPt = mainObj.children.find((o) => {
@@ -41,18 +41,8 @@ export const setParallelLine = (mainObj: THREE.Object3D, layerId: ILayerIDs, off
   });
   if (!lineSegment || !pointSegment) return;
   //
-  // (lineSegment as Line2).material = getLineMat(0x1d5e9a, 4, true, 0.5);
-  //array of points [x, y, z, x1, y1, z1,...]
   const ptsPos = removeZeroes(Array.from((pointSegment as THREE.Points).geometry.attributes.position.array));
   console.log('PTS POS', ptsPos);
-
-  //create array of vectors - object points [Vector3, Vector3,...]
-  const vectors: Array<Vector3> = [];
-  // for (let i = 0; i < 2; i++) {
-  //   const v = new Vector3();
-  //   v.fromBufferAttribute(ptsPos, i);
-  //   vectors.push(v);
-  // }
 
   //side 1 and 2
   //TODO automate
@@ -60,30 +50,7 @@ export const setParallelLine = (mainObj: THREE.Object3D, layerId: ILayerIDs, off
   const testPt_B = pointObjTemp([]);
   const coords_A = insertZeroes(getLineEquidistant(ptsPos, offset, false)); // 3 vertices per point [x, y, z, x1, y1, z1,...]
   const coords_B = insertZeroes(getLineEquidistant(ptsPos, offset, true)); // 3 vertices per point [x, y, z, x1, y1, z1,...]
-  // const coords_A = new Float32Array(6); // 3 vertices per point [x, y, z, x1, y1, z1,...]
-  // const coords_B = new Float32Array(6); // 3 vertices per point [x, y, z, x1, y1, z1,...]
-  //
-  const z = new Vector3(0, 1, 0); //vector z - from plane to top
-  // for (let j = 0; j < vectors.length; j++) {
-  //   const s = new Vector3();
-  //   const c = s.clone();
-  //   c.subVectors(vectors[0], vectors[1]) //subvector - between p1 and p2, pointing to beggining of line
-  //     .cross(z) //'perpendicular' vector to subvector and z
-  //     .normalize() //unit vector
-  //     .multiplyScalar(offset); //multiply by offset - extend unit by offset number
-  //   c.add(vectors[j]); //''move'' unit to the end of line
-  //   coords_A.set(c.toArray(), j * 3);
-  // }
-  // for (let j = 0; j < vectors.length; j++) {
-  //   const s = new Vector3();
-  //   const c = s.clone();
-  //   c.subVectors(vectors[0], vectors[1]) //subvector - between p1 and p2, pointing to beggining of line
-  //     .cross(z) //'perpendicular' vector to subvector and z
-  //     .normalize() //unit vector
-  //     .multiplyScalar(-offset); //multiply by offset - extend unit by offset number
-  //   c.add(vectors[j]); //''move'' unit to the end of line
-  //   coords_B.set(c.toArray(), j * 3);
-  // }
+
   //points
   testPt_A.geometry.setAttribute('position', new THREE.BufferAttribute(Float32Array.from(coords_A), 3));
   testPt_B.geometry.setAttribute('position', new THREE.BufferAttribute(Float32Array.from(coords_B), 3));
@@ -100,8 +67,3 @@ export const setParallelLine = (mainObj: THREE.Object3D, layerId: ILayerIDs, off
 
   return true;
 };
-
-// const getParallelLine = (obj: THREE.Object3D, offset = 10) => {
-//   //
-//   //return obj;
-// };

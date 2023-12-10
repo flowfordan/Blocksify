@@ -216,7 +216,11 @@ export const DefLayers: Array<ILayer> = [
       add: { OBJ_GENERAL_TYPE: OBJ_GENERAL_TYPE.OBJ_SECOND_PT },
     },
     _creationObjsConfig: {
-      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: null,
+      [OBJ_GENERAL_TYPE.OBJ_PRIM_PT]: {
+        creationType: 'generation_on_add',
+        triggeredByLayerChange: 3,
+        generationTemplate: 'block',
+      },
       [OBJ_GENERAL_TYPE.OBJ_SECOND_PT]: null,
     },
   },
