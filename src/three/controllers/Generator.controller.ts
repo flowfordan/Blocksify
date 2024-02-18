@@ -1,6 +1,8 @@
 import { generatorModel } from 'features/generator';
 import { reaction } from 'mobx';
 import { ILayerIDs, ObjGenerationTemplate } from 'shared/types';
+import { Line2, LineGeometry } from 'three-fatline';
+import { getLineMat } from 'three/config/objs3d';
 import { GeneratorHandler } from 'three/handlers';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { GeneratorModel } from 'three/shared';
@@ -25,8 +27,20 @@ export class GeneratorController {
     const borderObjs = this.sceneModifier.getSceneObjectsByLayerId(BORDER_LAYER_ID);
     //retrieve edges streets lines - SEC PT
     const streetsObjs = this.sceneModifier.getSceneObjectsByLayerId(STREETS_LAYER_ID);
-    console.log('BORDERS and STREETS objs:', borderObjs, streetsObjs);
-    // this.generatorService.createBlocksFromBoundaries();
+    const polys = this.generatorService.createBlocksFromAreaAndRoads(borderObjs, streetsObjs);
+    //
+    const lines: Array<Line2> = [];
+    polys.forEach((poly) => {
+      const lineObj = new Line2(new LineGeometry(), getLineMat(0x1d5e9a, 7, true, 0.5));
+      const coords: Array<number> = [];
+      poly.points.forEach((p) => {
+        return coords.push(p.x, 0, p.y);
+      });
+      console.log('!!COORDS', coords);
+      lineObj.geometry.setPositions(coords);
+      lines.push(lineObj);
+    });
+    this.sceneModifier.addObjs(...lines);
   }
 
   private _storeSubscribe() {

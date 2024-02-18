@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 //clone and move
 import { ILayerIDs } from 'shared/types';
 import { IsObjDataOfObjLineSegment, IsObjDataOfObjPointSegment, IsObjDataOfObjPrimPt } from 'shared/types/objs';
@@ -6,7 +8,7 @@ import { Vector3 } from 'three';
 import { Line2, LineGeometry } from 'three-fatline';
 import { COLORS_SCENE } from 'three/config/consts';
 import { getLineMat } from 'three/config/objs3d';
-import { getLineEquidistant, insertZeroes, removeZeroes } from 'three/lib/lines';
+import { getLineEquidistant, insertZeroes, removeZeroesFrom3SizeCooords } from 'three/lib/lines';
 import { setObjsLayers } from 'three/shared';
 
 const pointObjTemp = (coords: Array<number>) => {
@@ -20,7 +22,12 @@ const pointObjTemp = (coords: Array<number>) => {
   return point;
 };
 //set actual user data
-export const addObjParallelLines = (mainObj: THREE.Object3D, layerId: ILayerIDs, offset = 10) => {
+export const addObjParallelLines = (
+  mainObj: THREE.Object3D,
+  layerId: ILayerIDs,
+  data: Record<string, any>,
+  offset = 10
+) => {
   //getting primary obj
   //children - find primary part
   const primPt = mainObj.children.find((o) => {
@@ -30,7 +37,9 @@ export const addObjParallelLines = (mainObj: THREE.Object3D, layerId: ILayerIDs,
   //copy prime and create subobj
   const subPt = primPt.clone(false);
   //set user data
+  //TODO props editor
   subPt.name = 'temp sub part';
+  subPt.userData = Object.assign(data);
   //
   //find line and points segments by userdata type
   const lineSegment = primPt.children.find((o) => {
@@ -41,7 +50,9 @@ export const addObjParallelLines = (mainObj: THREE.Object3D, layerId: ILayerIDs,
   });
   if (!lineSegment || !pointSegment) return;
   //
-  const ptsPos = removeZeroes(Array.from((pointSegment as THREE.Points).geometry.attributes.position.array));
+  const ptsPos = removeZeroesFrom3SizeCooords(
+    Array.from((pointSegment as THREE.Points).geometry.attributes.position.array)
+  );
   console.log('PTS POS', ptsPos);
 
   //side 1 and 2

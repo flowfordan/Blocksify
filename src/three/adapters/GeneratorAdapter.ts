@@ -12,6 +12,13 @@ export class GeneratorAdapter {
     iterate layers configs to find if layer main obj creation should be triggered
    */
 
+  getLayerConfigAddData(layerId: ILayerIDs) {
+    const layer = adaptersModel.layersModel.getLayerById(layerId);
+    if (!layer) throw new Error('Generator Adapter: No layer found');
+    const propertiesToSet = layer.ptsData.add;
+    return propertiesToSet;
+  }
+
   setGenerationTask(obj: THREE.Object3D, objLayerId: ILayerIDs, eventType: 'add' | 'added' | 'remove') {
     //retrieve layer with config
     console.log('mediator set task', obj, objLayerId);

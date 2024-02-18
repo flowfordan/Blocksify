@@ -191,7 +191,11 @@ export const insertZeroes = (coords2D: Array<number>) => {
   return result;
 };
 
-export const removeZeroes = (coords3D: Array<number>) => {
+export const removeZeroesFrom3SizeCooords = (coords3D: Array<number>) => {
+  //check if size is 3
+  if (coords3D.length % 3 !== 0) {
+    return coords3D;
+  }
   //remove every second element
   const result: Array<number> = [];
   for (let i = 0; i < coords3D.length; i++) {
