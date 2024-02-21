@@ -36,11 +36,10 @@ export class GeneratorController {
       poly.points.forEach((p) => {
         return coords.push(p.x, 0, p.y);
       });
-      console.log('!!COORDS', coords);
       lineObj.geometry.setPositions(coords);
       lines.push(lineObj);
     });
-    this.sceneModifier.addObjs(...lines);
+    //this.sceneModifier.addObjs(...lines);
   }
 
   private _storeSubscribe() {

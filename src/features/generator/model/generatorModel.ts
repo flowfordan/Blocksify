@@ -35,12 +35,10 @@ export class GeneratorModel {
       objLayerId: objLayerId,
       // applyToLayerId: config.applyToLayerId,
     };
-    console.log('start task', Date.now());
   };
 
   cleanTask = () => {
     this.currentTask = null;
-    console.log('end task', Date.now());
   };
 }
 

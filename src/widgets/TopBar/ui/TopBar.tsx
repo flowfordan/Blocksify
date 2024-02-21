@@ -15,7 +15,7 @@ import { EnvMenuExpander, EnvOptionsMenu } from 'entities/sceneEnv';
 import { CameraViewSelect } from 'entities/camera';
 import { CameraViewId } from 'shared/types';
 
-import LogoIcon from '../../../shared/assets/icons/logo.svg';
+import LogoIcon from 'shared/assets/icons/logo.svg';
 
 export const TopBar = observer(({ className, ...props }: TopBarProps): JSX.Element => {
   const DropDownDrawInstr = withDropDown(DrawInstrMenu);

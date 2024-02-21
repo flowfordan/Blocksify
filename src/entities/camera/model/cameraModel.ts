@@ -11,8 +11,6 @@ export class CameraModel {
 
   setCameraView = (id: CameraViewId) => {
     this.currentCameraId = id;
-
-    console.log('CHANGED CAMERA TO', id);
   };
 }
 
