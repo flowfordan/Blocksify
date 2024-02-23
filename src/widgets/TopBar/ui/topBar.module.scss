@@ -1,44 +1,47 @@
 .topBar{
-  position: relative;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 250px 1fr 250px;
-  // height: 48px;
+	position: relative;
+	display: grid;
+	grid-template-columns: 250px 1fr 250px;
+	width: 100%;
+
+	// height: 48px;
 }
 
 .corner{
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 
-  &__logo{
-    padding: auto 0;
-    padding-left: 10px;
-    font-weight: bold;
-  
-    color: var(--white);
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+	&__logo{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		padding: auto 0;
+		padding-left: 10px;
+
+		font-weight: bold;
+		color: var(--white);
+	}
 }
 
 .main{
-  height: 100%;
-  width: 100%;
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: auto 1fr auto;
-  font-size: 12px;
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	grid-template-rows: 1fr;
 
-  &__part{
-    display: flex;
-    justify-content: center;
-  }
+	width: 100%;
+	height: 100%;
+
+	font-size: 12px;
+
+	&__part{
+		display: flex;
+		justify-content: center;
+	}
 }
 
 .utils {
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: auto 1fr auto;
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	grid-template-rows: 1fr;
 }

@@ -29,6 +29,7 @@ export const setParallelLine = (mainObj: THREE.Object3D, layerId: ILayerIDs, off
   const subPt = primPt.clone(false);
   //set user data
   subPt.name = 'temp sub part';
+  subPt.userData = { OBJ_GENERAL_TYPE: 'OBJ_SEGMENT_POINT' };
   //
   //find line and points segments by userdata type
   const lineSegment = primPt.children.find((o) => {

@@ -160,3 +160,48 @@ export function IsPropIsPropData(prop: unknown): prop is IObjPropData<string | n
     return false;
   }
 }
+
+export const getObjBasicPoints = (obj: THREE.Object3D) => {
+  //if not main throw error
+  if (!IsObjDataOfObjMain(obj.userData)) throw new Error('Object is not main');
+  //get primary pt
+  const primPt = obj.children.find((o) => {
+    if (IsObjDataOfObjPrimPt(o.userData)) return true;
+  });
+  if (!primPt) throw new Error('No primary part found');
+  //point segment
+  const pointSegment = primPt.children.find((o) => {
+    if (IsObjDataOfObjPointSegment(o.userData)) return true;
+  });
+  if (!pointSegment) throw new Error('No point segment found');
+  //getting array of points
+  const ptsPos = Array.from((pointSegment as THREE.Points).geometry.attributes.position.array);
+  return ptsPos;
+};
+
+const getObjSecondaryPt = (obj: THREE.Object3D) => {
+  //if not main throw error
+  if (!IsObjDataOfObjMain(obj.userData)) throw new Error('Object is not main');
+  //get primary pt
+  const secPt = obj.children.find((o) => {
+    if (IsObjDataOfObjSecondaryPt(o.userData)) return true;
+  });
+  if (!secPt) throw new Error('No secondary part found');
+  return secPt;
+};
+
+export const getPtPointsObjects = (obj: THREE.Object3D) => {
+  const secPt = getObjSecondaryPt(obj);
+  //point segment
+  const pointSegments = secPt.children.filter((o) => {
+    //TODO check userdata
+    //temp solution
+    if (o.type === 'Points') return true;
+  });
+  return pointSegments;
+};
+
+export const getPointsSegmentPointsArray = (segment: THREE.Object3D) => {
+  const ptsPos = Array.from((segment as THREE.Points).geometry.attributes.position.array);
+  return ptsPos;
+};

@@ -50,7 +50,6 @@ export class _ObjManagerHelpers implements ObjManagerCommon {
       case InstrumentHelpersId.SNAP_ANGLE:
         this.renderedGuidesOptions.points.material.color = new THREE.Color(0x5cc6ff);
         if (fixedCoords) {
-          console.log('FIXED', fixedCoords);
           const guideDist = 10000;
           //temp render line parallel to snapped angle
           const guideV3 = new THREE.Vector3();

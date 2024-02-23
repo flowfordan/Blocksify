@@ -8,7 +8,7 @@ Generator model
 interface IGenerationTask {
   creationType: ObjCreationType;
   template: ObjGenerationTemplate;
-  inputObj: THREE.Object3D;
+  inputObj?: THREE.Object3D;
   objLayerId: ILayerIDs;
   // applyToLayerId: ILayerIDs;
 }
@@ -27,20 +27,18 @@ export class GeneratorModel {
     makeAutoObservable(this);
   }
 
-  setCurrentTask = (config: ICreationConfig, obj: THREE.Object3D, objLayerId: ILayerIDs) => {
+  setCurrentTask = (config: ICreationConfig, objLayerId: ILayerIDs, objToUpd?: THREE.Object3D) => {
     this.currentTask = {
       creationType: config.creationType,
       template: config.generationTemplate,
-      inputObj: obj,
+      inputObj: objToUpd,
       objLayerId: objLayerId,
       // applyToLayerId: config.applyToLayerId,
     };
-    console.log('start task', Date.now());
   };
 
   cleanTask = () => {
     this.currentTask = null;
-    console.log('end task', Date.now());
   };
 }
 

@@ -1,0 +1,26 @@
+#!/bin/sh
+version: '3'
+services:
+  blocksify-app-prod:
+    image: blocksify-app
+    container_name: blocksify-app-prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODE: prod
+    restart: on-failure
+    ports:
+      - 4001:3000
+
+  blocksify-app-stage:
+    image: blocksify-app
+    container_name: blocksify-app-stage
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODE: stage
+    restart: on-failure
+    ports:
+      - 4001:3000

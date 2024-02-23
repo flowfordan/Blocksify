@@ -6,6 +6,7 @@ import { InstrumentHelper, InstrumentHelpersId } from 'shared/types';
 import { SceneModifier } from 'three/services/SceneModifier';
 import { BASE_DIRECTION } from 'three/config/consts';
 import { ObjManagerFactory, _ObjManagerHelpers } from 'three/services';
+import { getHypotenusePointCoords } from 'three/lib/lines';
 
 type SnapStatus = {
   isActive: boolean;
@@ -61,7 +62,11 @@ export class SnapManager {
 
     //Start snapping
     if (this.snapStatuses.snap_grid.isActive) this._snapToGrid(pointerCoords);
-    if (this.snapStatuses.snap_step.isActive && toolState > 1) this._snapToStep(pointerCoords, lastCoords);
+    if (this.snapStatuses.snap_step.isActive && toolState > 1) {
+      // this._snapToStep(pointerCoords, lastCoords);
+
+      this._snapToStep2(pointerCoords, lastCoords);
+    }
     if (this.snapStatuses.snap_angle.isActive && toolState > 1) this._snapToAngle(pointerCoords, lastCoords);
 
     let newCoords = pointerCoords;
@@ -144,6 +149,30 @@ export class SnapManager {
     this.snapStatuses.snap_step.distToOrigin = distanceToCurrent;
   };
 
+  private _snapToStep2 = (pointerCoords: THREE.Vector3, fixedCoords?: THREE.Vector3): void => {
+    //find coords
+    if (!fixedCoords) return;
+    let newCoords = pointerCoords.clone();
+
+    const step = this.helpersModel._getItem(InstrumentHelpersId.SNAP_STEP);
+    if (!step) throw new Error('SnapManager: Cant find Step helper options');
+
+    const snapValue = step.options.value;
+    const line = getHypotenusePointCoords(
+      [fixedCoords.x, fixedCoords.z],
+      [pointerCoords.x, pointerCoords.z],
+      snapValue
+    );
+    newCoords = new THREE.Vector3();
+    //set x,y,z
+    newCoords.fromArray(line);
+
+    const distanceToCurrent = pointerCoords.distanceTo(newCoords);
+
+    this.snapStatuses.snap_step.snappedCoords = newCoords;
+    this.snapStatuses.snap_step.distToOrigin = distanceToCurrent;
+  };
+
   private _snapToAngle = (pointerCoords: THREE.Vector3, fixedCoords: THREE.Vector3 | undefined) => {
     if (!fixedCoords) return;
     //SAFETY check if angles are not chosen
@@ -153,7 +182,6 @@ export class SnapManager {
     const closestV3collection = this.helpersModel.anglesSnapV3s;
     if (!closestV3collection) throw new Error('Snap Manager error - couldnt get V3 collection');
     if (Object.keys(closestV3collection).length === 0) {
-      console.log('Angles for snapping werent chosen, angle snap is off');
       return;
     }
 
@@ -162,11 +190,6 @@ export class SnapManager {
 
     const currentAngleRad = this.baseVector.angleTo(basedV3);
     const currentAngleDeg = currentAngleRad * (180 / Math.PI);
-    //
-    // const currentAngleRad_2 = this.baseVector.angleTo(basedV3_2);
-    // const currentAngleDeg_2 = currentAngleRad_2 * (180 / Math.PI);
-    // console.log(`First, RAD: ${currentAngleRad}, DEG: ${currentAngleDeg}`);
-    // console.log(`Second, RAD: ${currentAngleRad_2}, DEG: ${currentAngleDeg_2}`);
 
     const isYDirectionPositive = pointerCoords.z > fixedCoords.z;
 

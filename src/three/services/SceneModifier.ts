@@ -1,6 +1,7 @@
 import { cube, worldPlaneHelper, worldPlaneMesh } from 'three/presets';
 import { SceneObjsWatcher } from './SceneObjsWatcher';
 import * as THREE from 'three';
+import { LayerID } from 'shared/types';
 
 export class SceneModifier {
   scene: THREE.Scene;
@@ -11,10 +12,9 @@ export class SceneModifier {
   }
 
   addObj = (object: THREE.Object3D) => {
-    // console.log('Scne Modifier: Obj Added', object);
-    // console.log('Scene modifier, scene children', this.scene.children);
-    this.objWatcher.onObjAdded(object);
+    this.objWatcher.onObjAdd(object);
     this.scene.add(object);
+    this.objWatcher.onObjAdded(object);
   };
 
   addObjs = (...objects: Array<THREE.Object3D>) => {
@@ -41,5 +41,18 @@ export class SceneModifier {
     // this.scene.add(cube, myLine, worldPlaneMesh, worldPlaneHelper);
     this.scene.add(cube, worldPlaneMesh, worldPlaneHelper);
     cube.material.color.setHex(0x686868);
+  };
+
+  //reading data from scene
+  getSceneObjectsByLayerId = (layerId: LayerID) => {
+    const objects: Array<THREE.Object3D> = [];
+    this.scene.children.forEach((obj) => {
+      const testLayer = new THREE.Layers();
+      testLayer.set(layerId);
+      if (obj.layers.test(testLayer)) {
+        objects.push(obj);
+      }
+    });
+    return objects;
   };
 }

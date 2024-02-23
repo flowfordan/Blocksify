@@ -1,51 +1,47 @@
 .slider {
-  -webkit-appearance: none;  /* Override default CSS styles */
-  appearance: none;
+	width: 100%;
+	min-width: 96px;
+	height: 2px;
 
-  width: 100%;
-  height: 2px;
-  min-width: 96px;
+	appearance: none;  /* Override default CSS styles */
+	appearance: none;
+	opacity: 0.8;
+	background: var(--white);
+	outline: none;
 
-  background: var(--white);
-  outline: none;
-  opacity: 0.8;
+	transition: .2s;
+	transition: opacity .2s;
 
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-
-  &.dark {
-    background: var(--grey-dark);
-  }
+	&.dark {
+		background: var(--grey-dark);
+	}
 }
 
 .slider:hover {
-  opacity: 1;
+	opacity: 1;
 }
 
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
+	cursor: pointer;
 
-  width: 8px;
-  height: 8px;
+	width: 8px;
+	height: 8px;
 
-  border-radius: 50%;
-
-  background: var(--grey-main);
-
-  cursor: pointer;
+	appearance: none;
+	appearance: none;
+	background: var(--grey-main);
+	border-radius: 50%;
 }
 
 
 .slider::-moz-range-thumb {
-  width: 8px;
-  height: 8px;
+	cursor: pointer;
 
-  border-radius: 50%;
+	width: 8px;
+	height: 8px;
   
-  background: var(--grey-main);
-
-  cursor: pointer;
+	background: var(--grey-main);
+	border-radius: 50%;
 }
 

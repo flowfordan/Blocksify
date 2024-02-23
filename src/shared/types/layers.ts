@@ -10,7 +10,7 @@ export enum ILayerIDs {
   buildings = 5,
 }
 
-type LayerID = `${ILayerIDs}` extends `${infer T extends number}` ? T : never;
+export type LayerID = `${ILayerIDs}` extends `${infer T extends number}` ? T : never;
 
 type ILayerName = Capitalize<keyof typeof ILayerIDs>;
 

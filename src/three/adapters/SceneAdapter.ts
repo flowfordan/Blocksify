@@ -27,7 +27,6 @@ export class SceneAdapter {
         break;
       case 'blocksified':
         if (layerId === 3 && count === 1 && !isAsc) {
-          console.log('SET PREV STAGE');
           adaptersModel.sceneModel.setStagePrev();
         }
         break;

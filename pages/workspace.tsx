@@ -3,14 +3,6 @@ import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { AppPageDynamic } from 'pages/AppPage/AppPgDynamic';
-// import Layout from '../components/Layout';
-// import PageHome from '../components/PageHome';
-
-{
-  /* <Layout noAuth>
-<PageHome />
-</Layout> */
-}
 
 const Workspace: NextPage = () => {
   const [isMounted, setIsMounted] = useState(false);

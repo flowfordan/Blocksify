@@ -85,7 +85,7 @@ export class SceneView {
       cameraModel,
       instrumentsModel
     );
-    this.generatorController = new GeneratorController(generatorModel);
+    this.generatorController = new GeneratorController(generatorModel, this.sceneController.modifier);
 
     //STATS
     this.stats = Stats();
@@ -101,7 +101,6 @@ export class SceneView {
       this.groundPlane
     );
     this.initLayers();
-    console.log('scene constr');
   }
 
   initLayers() {

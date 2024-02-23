@@ -1,22 +1,20 @@
 @keyframes appear {
-  from {opacity: 0;}
-  to {opacity: 100;}
+	from {opacity: 0;}
+	to {opacity: 100;}
 }
 
 .dropDown {
 }
 
 .list {
-  position: absolute;
+	position: absolute;
+	z-index: 100;
+	top: 50%;
+	left: 50%;
 
-  top: 50%;
-  left: 50%;
+	margin-top: 8px;
 
-  margin-top: 8px;
-  
-  z-index: 100;
-
-  animation-name: appear;
-  animation-duration: 0.2s;
+	animation-name: appear;
+	animation-duration: 0.2s;
 }
 

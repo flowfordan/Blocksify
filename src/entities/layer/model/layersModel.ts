@@ -14,7 +14,6 @@ export class LayersModel {
   }
 
   init = () => {
-    console.log('init layer 2');
     this.toggleActiveLayer(2);
   };
 
@@ -38,7 +37,6 @@ export class LayersModel {
     if (newActive) {
       if (!newActive.editable) {
         //TODO popup window 'Layer is not editable'
-        console.log('exit');
         return;
       }
 

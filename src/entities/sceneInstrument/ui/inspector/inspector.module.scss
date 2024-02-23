@@ -1,27 +1,26 @@
 @use 'styles/vars/' as *;
 
 .objDataProp {
-  height: $module * 4;
+	user-select: none;
 
-  display: grid;
-  // column-gap: $module;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
+	display: grid;
+
+	// column-gap: $module;
+	grid-template-columns: 1fr 1fr;
+	align-items: center;
+
+	height: $module * 4;
+	margin: -1px 0 0;
+	padding: 0 $module;
 
 
-  padding: 0 $module;
-  margin: -1px 0 0 0;
+	border-top: 1px solid var(--grey-light);
+	border-bottom: 1px solid var(--grey-light);
 
+	&__name {}
 
-  border-top: 1px solid var(--grey-light);
-  border-bottom: 1px solid var(--grey-light);
-
-  user-select: none;
-
-  &__name {}
-
-  &__value {
-    display: flex;
-    justify-content: right;
-  }
+	&__value {
+		display: flex;
+		justify-content: right;
+	}
 }

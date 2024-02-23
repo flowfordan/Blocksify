@@ -22,7 +22,6 @@ export class Cleaner implements _InstrumentCont {
   //clean scene
   //cleanUp
   start = () => {
-    console.log('CLEANER WORKING');
     this.cleanUp('scene');
   };
 
@@ -32,7 +31,6 @@ export class Cleaner implements _InstrumentCont {
       //set stage 1
       //disposer scene
       this.disposer.removeObjs(this.scene);
-      console.log('CLEANER ON');
     } else if (type === 'layer' && layerId !== undefined) {
       //clean layer
     } else {
@@ -42,7 +40,6 @@ export class Cleaner implements _InstrumentCont {
   };
 
   private endCleanUp = () => {
-    console.log('END CLEANUP');
     // const cleaner = instrumentsState.tools.find((t) => t.name === 'cleaner');
     // if (cleaner) {
     //   // instrumentsState.setActiveTool(cleaner.id);

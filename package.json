@@ -4,9 +4,11 @@
   "private": false,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build-prod": "next build",
+    "build-stage": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "stylelint": "stylelint \"**/*.{css,scss}\" --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +54,11 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "stylelint": "^15.10.3",
+    "stylelint-config-clean-order": "^5.2.0",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-standard-scss": "^11.0.0",
+    "stylelint-order": "^6.0.3",
     "tsconfig-paths-webpack-plugin": "^4.0.1"
   }
 }

@@ -7,8 +7,6 @@ export class SceneGetter {
     //user property
     const objects: Array<THREE.Object3D> = [];
     scene.traverse((child) => {
-      // console.log(child, child.layers.isEnabled(2));
-      // console.log(child.layers);
       if (child.layers.isEnabled(2)) {
         console.log(child.id);
       }

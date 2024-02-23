@@ -21,7 +21,6 @@ const CheckMatrix = observer(({ items, selected, handleCollectionUpd, ...props }
   }
 
   const updValues = (value: number) => {
-    console.log('upd collect', 'item', value);
     handleCollectionUpd(value);
   };
 

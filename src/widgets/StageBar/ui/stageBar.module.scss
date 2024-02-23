@@ -1,55 +1,66 @@
 @use 'styles/vars' as *;
 
 .stageBar {
-  display: flex;
-  align-items: center;
-  height: 40px;
+	display: flex;
+	align-items: center;
+	height: 40px;
 }
 
 .btn {
-  width: 24px;
-  height: 24px;
-  border-radius: 2px;
-  background-color: $bg_black;
-  color: $main_white;
-  &:hover {
-    background-color: $bg_black-hover;
-  }
-  svg {
-    width: 10px;
-    height: 10px;
-    fill: $grey_main;
-  }
+	width: 24px;
+	height: 24px;
+
+	color: $main_white;
+
+	background-color: $bg_black;
+	border-radius: 2px;
+
+	&:hover {
+		background-color: $bg_black-hover;
+	}
+
+	svg {
+		width: 10px;
+		height: 10px;
+		fill: $grey_main;
+	}
 }
 
 .bar {
-  position: relative;
-  visibility: hidden;
-  padding: 12px 12px 4px 12px;
-  height: 100%;
-  width: 0;
-  opacity: 0;
-  background-color: $bg_black;
-  border-radius: 2px;
-  margin-left: 20px;
-  // transform: scaleX(0);
-  transition: width .6s;
-  &.active {
-    visibility: visible;
-    width: auto;
-    opacity: 1;
-    transition: width .6s;
-    // transform: scaleX(1);
-  }
+	position: relative;
+
+	width: 0;
+	height: 100%;
+	margin-left: 20px;
+	padding: 12px 12px 4px;
+
+	visibility: hidden;
+	opacity: 0;
+	background-color: $bg_black;
+	border-radius: 2px;
+
+	// transform: scaleX(0);
+	transition: width .6s;
+
+	&.active {
+		width: auto;
+		visibility: visible;
+		opacity: 1;
+		transition: width .6s;
+
+		// transform: scaleX(1);
+	}
 }
 
 .barTail {
-  position: absolute;
-  left: -4px;
-  width: 10px;
-  height: 10px;
-  background-color: $bg_black;
-  border-radius: 1px;
-  top: 50%;
-  transform: translateY(-50%) rotate(45deg);
+	position: absolute;
+	top: 50%;
+	left: -4px;
+	transform: translateY(-50%) rotate(45deg);
+
+	width: 10px;
+	height: 10px;
+
+	background-color: $bg_black;
+	border-radius: 1px;
 }
