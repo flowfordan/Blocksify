@@ -11,7 +11,7 @@ services:
         MODE: prod
     restart: on-failure
     ports:
-      - 4005:3000
+      - 4001:3000
 
   blocksify-app-stage:
     image: blocksify-app
@@ -23,4 +23,4 @@ services:
         MODE: stage
     restart: on-failure
     ports:
-      - 4005:3000
+      - 4001:3000
