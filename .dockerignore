@@ -1,0 +1,5 @@
+Dockerfile
+docker-compose.yaml
+*.log
+.github/
+node_modules

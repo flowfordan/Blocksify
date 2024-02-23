@@ -4,7 +4,8 @@
   "private": false,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build-prod": "next build",
+    "build-stage": "next build",
     "start": "next start",
     "lint": "next lint",
     "stylelint": "stylelint \"**/*.{css,scss}\" --fix"
