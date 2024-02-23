@@ -197,8 +197,8 @@ class Edge {
   isDstEdge: boolean;
   isBridge: boolean;
   visited: boolean;
-  next: Edge;
-  prev: Edge;
+  next?: Edge;
+  prev?: Edge;
   constructor(public start: Point, public side: LineSide) {
     this.start = start;
     this.side = side;
@@ -214,7 +214,7 @@ class Edge {
 }
 
 export class Polygon {
-  side: LineSide;
+  side?: LineSide;
   points: Point[];
   constructor(points?: Point[]) {
     this.points = points || [];
@@ -545,22 +545,22 @@ function SplitPolygon(constrainToLine = false) {
     for (; !srcEdge && i < count; i++) {
       const curEdge = EdgesOnLine[i];
       const curSide = curEdge.side;
-      const prevSide = curEdge.prev.side;
-      const nextSide = curEdge.next.side;
+      const prevSide = curEdge.prev?.side;
+      const nextSide = curEdge.next?.side;
 
       console.assert(curSide === LineSide.On);
 
       if (
         (prevSide === LineSide.Left && nextSide === LineSide.Right) ||
-        (prevSide === LineSide.Left && nextSide === LineSide.On && curEdge.next.distOnLine < curEdge.distOnLine) ||
-        (prevSide === LineSide.On && nextSide === LineSide.Right && curEdge.prev.distOnLine < curEdge.distOnLine)
+        (prevSide === LineSide.Left && nextSide === LineSide.On && curEdge.next!.distOnLine < curEdge.distOnLine) ||
+        (prevSide === LineSide.On && nextSide === LineSide.Right && curEdge.prev!.distOnLine < curEdge.distOnLine)
       ) {
         srcEdge = curEdge;
         srcEdge.isSrcEdge = true;
       }
       // In special cases LOL or ROR can be considered sources if the edges formed by prev > cur > next are concave
       else if (constrainToLine) {
-        const isOutside = CalculateTriangleArea(curEdge.prev.start, curEdge.start, curEdge.next.start) < 0;
+        const isOutside = CalculateTriangleArea(curEdge.prev!.start, curEdge.start, curEdge.next!.start) < 0;
 
         if (
           (prevSide === LineSide.Left && nextSide === LineSide.Left && isOutside) ||
@@ -580,8 +580,8 @@ function SplitPolygon(constrainToLine = false) {
     for (; !dstEdge && i < count; ) {
       const curEdge = EdgesOnLine[i];
       const curSide = curEdge.side;
-      const prevSide = curEdge.prev.side;
-      const nextSide = curEdge.next.side;
+      const prevSide = curEdge.prev?.side;
+      const nextSide = curEdge.next?.side;
 
       console.assert(curSide === LineSide.On);
 
@@ -610,10 +610,10 @@ function SplitPolygon(constrainToLine = false) {
 
       // is it a configuration in which a vertex
       // needs to be reused as source vertex?
-      if (srcEdge.prev.prev.side === LineSide.Left) {
+      if (srcEdge.prev?.prev?.side === LineSide.Left) {
         useSrc = srcEdge.prev;
         useSrc.isSrcEdge = true;
-      } else if (dstEdge.next.side === LineSide.Right) {
+      } else if (dstEdge.next?.side === LineSide.Right) {
         useSrc = dstEdge;
         useSrc.isSrcEdge = true;
       }
@@ -651,9 +651,9 @@ function CreateBridge(srcEdge: Edge, dstEdge: Edge) {
   a.prev = srcEdge.prev;
   b.next = srcEdge;
   b.prev = dstEdge.prev;
-  srcEdge.prev.next = a;
+  srcEdge.prev!.next = a;
   srcEdge.prev = b;
-  dstEdge.prev.next = b;
+  dstEdge.prev!.next = b;
   dstEdge.prev = a;
 }
 
@@ -670,7 +670,7 @@ function VerifyCycles() {
       }
       // console.assert(count < splitPolyCount);
 
-      curSide = curSide.next;
+      curSide = curSide.next!;
       count++;
     } while (curSide !== edge);
   }
@@ -699,7 +699,7 @@ function CollectPolys(updateBounds = true, constrainToLine = false) {
           splitPoly.points.push(curSide.start);
         }
 
-        curSide = curSide.next;
+        curSide = curSide.next!;
       } while (curSide !== e);
 
       if (updateBounds) {

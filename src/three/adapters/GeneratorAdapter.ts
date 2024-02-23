@@ -27,6 +27,7 @@ export class GeneratorAdapter {
     switch (eventType) {
       case 'add':
         //CASE FOR SECONDARY PT OBJECTS
+        const config = layerData._creationObjsConfig.OBJ_SECOND_PT;
         if (!config) return;
         adaptersModel.generatorModel.setCurrentTask(config, objLayerId, obj);
         break;
