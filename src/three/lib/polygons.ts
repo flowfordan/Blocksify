@@ -426,7 +426,6 @@ function SplitEdges(poly: Polygon, line: Line, constrainToLine = false) {
 
   for (let i = 0; i < pointCount; i++) {
     const polyEdge = new Line(points[i], points[(i + 1) % pointCount]);
-    console.log('POLY EDGE', polyEdge);
     const edgeStartSide = GetSideOfLine(line, polyEdge.p1);
     const edgeEndSide = GetSideOfLine(line, polyEdge.p2);
     const newEdge = new Edge(points[i], edgeStartSide);

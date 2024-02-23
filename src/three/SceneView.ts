@@ -101,7 +101,6 @@ export class SceneView {
       this.groundPlane
     );
     this.initLayers();
-    console.log('scene constr');
   }
 
   initLayers() {

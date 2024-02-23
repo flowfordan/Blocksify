@@ -148,11 +148,9 @@ export class InstrumentsController {
     //LAYER SWAP REACTION
     reaction(
       () => {
-        console.log('layer swap reaction');
         return this.layersModel.layers.find((l) => l.active);
       },
       (layer, previousLayer, reaction) => {
-        console.log('layer changed - Instr controller', layer?._id);
         if (!layer) return;
         //DISABLE TOOLS DEPENDING ON LAYER PROPERTIES
         const disabledInstruments = layer._disabledInstruments;

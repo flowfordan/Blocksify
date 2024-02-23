@@ -35,7 +35,6 @@ export class GeneratorHandler {
 
   createBlocksFromAreaAndRoads(area: Array<THREE.Object3D>, roads: Array<THREE.Object3D>) {
     //TODO change only affected parts
-    console.log(area);
     const borderObj = area[0];
     if (!borderObj) throw new Error('Generator Handler: No border object found');
     const borderRawPoints = removeZeroesFrom3SizeCooords(getObjBasicPoints(borderObj));
@@ -49,10 +48,8 @@ export class GeneratorHandler {
     const borderPolygon = new Polygon(borderPoints);
     //get points from each road
     const points2d: Array<Array<number>> = [];
-    console.log('ROADS', roads);
     roads.forEach((road) => {
       const pointsSegments = getPtPointsObjects(road);
-      console.log('SEGMENTS', pointsSegments);
       //[[x, 0, y], [x, 0, y]]
       const points3d = pointsSegments.map((s) => {
         return getPointsSegmentPointsArray(s);
@@ -77,7 +74,6 @@ export class GeneratorHandler {
     //create Polygon from area
     //create array of lines from streets borders
     const result = recursivePolygonCut(borderPolygon, lines);
-    console.log(result);
     return result;
   }
 

@@ -182,7 +182,6 @@ export class SnapManager {
     const closestV3collection = this.helpersModel.anglesSnapV3s;
     if (!closestV3collection) throw new Error('Snap Manager error - couldnt get V3 collection');
     if (Object.keys(closestV3collection).length === 0) {
-      console.log('Angles for snapping werent chosen, angle snap is off');
       return;
     }
 
@@ -191,11 +190,6 @@ export class SnapManager {
 
     const currentAngleRad = this.baseVector.angleTo(basedV3);
     const currentAngleDeg = currentAngleRad * (180 / Math.PI);
-    //
-    // const currentAngleRad_2 = this.baseVector.angleTo(basedV3_2);
-    // const currentAngleDeg_2 = currentAngleRad_2 * (180 / Math.PI);
-    // console.log(`First, RAD: ${currentAngleRad}, DEG: ${currentAngleDeg}`);
-    // console.log(`Second, RAD: ${currentAngleRad_2}, DEG: ${currentAngleDeg_2}`);
 
     const isYDirectionPositive = pointerCoords.z > fixedCoords.z;
 

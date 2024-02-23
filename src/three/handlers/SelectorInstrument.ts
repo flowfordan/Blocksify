@@ -149,7 +149,6 @@ export class SelectorInstrument {
   };
 
   stop = () => {
-    console.log('SELECTOR END');
     this.objManagerFX.removeOverlayObj('all');
     this.selectedObj = null;
     this.intersectedObj = null;

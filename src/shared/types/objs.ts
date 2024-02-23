@@ -192,7 +192,6 @@ const getObjSecondaryPt = (obj: THREE.Object3D) => {
 
 export const getPtPointsObjects = (obj: THREE.Object3D) => {
   const secPt = getObjSecondaryPt(obj);
-  console.log('SEC PT', secPt);
   //point segment
   const pointSegments = secPt.children.filter((o) => {
     //TODO check userdata

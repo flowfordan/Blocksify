@@ -23,7 +23,6 @@ export class Disposer {
   //call sceneModifier
   //cleanup prop
   removeObjs = (scene: THREE.Scene) => {
-    console.log('DISPOSER ON');
     this.sceneGetter.getAllSceneObjs(scene);
   };
 

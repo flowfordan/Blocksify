@@ -53,7 +53,6 @@ export const addObjParallelLines = (
   const ptsPos = removeZeroesFrom3SizeCooords(
     Array.from((pointSegment as THREE.Points).geometry.attributes.position.array)
   );
-  console.log('PTS POS', ptsPos);
 
   //side 1 and 2
   //TODO automate

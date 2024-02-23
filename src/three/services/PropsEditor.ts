@@ -114,7 +114,6 @@ export class PropsEditor {
               }
 
               const area = Math.abs(ShapeUtils.area(shapeContour));
-              console.log(area);
               return area;
             }
           } else if (label === 'objLength') {

@@ -98,14 +98,12 @@ export function getLineEquidistant(line: Array<number>, dist: number, sideMob?: 
     );
     parallelLines.push(...parallel);
   }
-  console.log(parallelLines.toString());
 
   //find points
   const resultLine: Array<number> = [];
   resultLine.push(parallelLines[0], parallelLines[1]);
   // //push intersecting lines
   for (let j = 0; j < parallelLines.length - 6; j += 4) {
-    console.log('J', j, parallelLines.length);
     const x1 = parallelLines[j];
     const y1 = parallelLines[j + 1];
     const x2 = parallelLines[j + 2];

@@ -11,7 +11,6 @@ const ObjDataProp = ({ propName = '_', propValue, isEditable, controls, propId, 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     timer.current && clearTimeout(timer.current);
     setSlideVal(e.target.value);
-    console.log('change value', slideVal);
 
     timer.current = setTimeout(() => {
       console.log('change value throttle', e.target.value);
